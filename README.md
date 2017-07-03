@@ -124,7 +124,7 @@ let isVerbose = config => match (config) {
     else: false
 }
 ```
-The `true` above may be any pattern.
+The `true` in the pattern above may be any pattern (in this case it's a literal pattern).
 
 ### Nested Matching
 Because match is an expression, you can match further in the consequent of a match leg. Consider:
