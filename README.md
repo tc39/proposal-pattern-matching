@@ -234,3 +234,15 @@ In the proposal above, additional properties on the object are allowed whereas a
 ### Array pattern matches iterables
 
 In the proposal above, array patterns work only on array-like objects with a `length` property. It could be extended to work on any iterable, but care would have to be taken to avoid side effects and iterating through the iterable multiple times as you move through the match legs.
+
+### No parens around match value
+
+A cover grammar could be avoided (I think) by departing even further from `switch` syntax and omitting the parens around the `match` value:
+
+```js
+match val {
+    // ...
+}
+```
+
+This removes the ambiguity with a call to a function named `match`.
