@@ -1,6 +1,6 @@
 # ECMAScript Pattern Matching Syntax
 Stage 0 Proposal<br>
-Champions: Brian Terlson (Microsoft), Sebastian Markbåge (Facebook)
+Champions: Brian Terlson (Microsoft, [@bterlson](https://twitter.com/bterlson)), Sebastian Markbåge (Facebook, [@sebmarkbage](https://twitter.com/sebmarkbage))
 
 ```js
 let length = vector => match (vector) {
