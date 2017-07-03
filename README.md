@@ -198,17 +198,16 @@ match (obj.x) {
 ## Optional Extensions
 
 ### Object & Array Pattern Value Matching
-Array patterns could be extended to take a value allowing for matching properties or elements of a particular value. For example:
+Array patterns could be extended to take a value allowing for matching properties or elements of a particular value using any binary operator. For example:
 
 ```js
-let isDave = person => match (p) {
-    { name: 'dave' }: true,
-    [ first === 'dave' ]: true,
+// points can't have an x or y greater than 100
+let outOfBoundsPoint = p => match (p) {
+    { x > 100, y }: true,
+    { x, y > 100 }: true,
     else: false
 }
 ```
-
-You could also allow `===` syntax for object patterns but this is not necessary as the RHS of any object itself a pattern that can match any of the pattern forms.
 
 ### If predicates
 It is often handy to do some arbitrary tests on the value you are trying to match in the context of a match leg. For example:
