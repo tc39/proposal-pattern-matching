@@ -211,6 +211,7 @@ let outOfBoundsPoint = p => match (p) {
 
 ### If predicates
 It is often handy to do some arbitrary tests on the value you are trying to match in the context of a match leg. For example:
+
 ```js
 match (p) {
     {x, y} if x === y: true,
@@ -256,3 +257,7 @@ match val {
 ```
 
 This removes the ambiguity with a call to a function named `match`.
+
+### Built-in Symbol.matches implementations
+
+Symbol.matches could be implemented on a number of built-in types, e.g. Number and String, which match values of that type. Additionally, classes could create the Symbol.matches method that does an `instanceof` check for you.
