@@ -153,7 +153,7 @@ match (node) {
 Fall-through is often a bug. Fall-through can be requested via the `continue` keyword. Exhaustiveness-checking is an option (although in JS would amount to always requiring the else leg).
 
 ### Statement vs. Expression
-Having `match` be a statement would align very closely with `catch` clauses. However alignment with `catch` is a non-goal because the slight differences all add up to a very different feeling feature. Using `catch` as a mental model for `match` will help but will not tell the entire story.
+Having `match` be a statement would align very closely with `switch` clauses. However alignment with `switch` is a non-goal because the slight differences all add up to a very different feeling feature. Using `switch` as a mental model for `match` will help but will not tell the entire story.
 
 There is also no strong reason for this syntax to be statement-only. The difficulty of parsing exists in either context and statement-only `match` will limit its appeal. On the other hand, expression forms of `match` are handy everywhere, especially as the body of an arrow function.
 
