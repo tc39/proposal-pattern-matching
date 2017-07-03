@@ -60,7 +60,7 @@ LiteralMatchPattern :
 ```
 
 ## Object Patterns
-Object patterns match objects with certain properties. Additional properties are may be present on the matched object. Examples:
+Object patterns match objects with certain properties. Additional properties may be present on the matched object. Examples:
 
 ```js
 match (obj) {
@@ -90,7 +90,7 @@ Literal patterns are string, number, boolean, null, and undefined literals and m
 ```js
 match (val) {
     1: /* match the Number value 1 */,
-    "hello": /* match the String value "hello:" */,
+    "hello": /* match the String value "hello" */,
 }
 ```
 
