@@ -64,10 +64,10 @@ Object patterns match objects with certain properties. Additional properties are
 
 ```js
 match (obj) {
-    { x }: // match an object with x
-    { x, ... y }: // match an object with x, stuff any remaining properties in y
-    { x: [] }: // match an object with an x property that is an empty array
-    { x: 0, y: 0 }: // match an object with x and y properties of 0
+    { x }: /* match an object with x */,
+    { x, ... y }: /* match an object with x, stuff any remaining properties in y */,
+    { x: [] }: /* match an object with an x property that is an empty array */,
+    { x: 0, y: 0 }: /* match an object with x and y properties of 0 */
 }
 ```
 
@@ -76,11 +76,11 @@ Array patterns match array-like objects (objects with a `length` property). A (p
 
 ```js
 match (arr) {
-    []: // match an empty array
-    [...]: // match any array
-    [x]: // match an array of length 1, bind its first element as x
-    [x, ...]: // match an array of any length, bind its first element as x
-    [ { x: 0, y: 0}, ... ]: // match an array with the 2d origin as the first element
+    []: /* match an empty array */,
+    [...]: /* match any array */,
+    [x]: /* match an array of length 1, bind its first element as x */,
+    [x, ...]: /* match an array of any length, bind its first element as x */,
+    [ { x: 0, y: 0}, ... ]: /* match an array with the 2d origin as the first element */
 }
 ```
 
@@ -202,13 +202,22 @@ Array patterns could be extended to take a value allowing for matching propertie
 
 ```js
 let isDave = person => match (p) {
-    { name: 'dave' }: true
-    [ first === 'dave' ]: true
+    { name: 'dave' }: true,
+    [ first === 'dave' ]: true,
     else: false
 }
 ```
 
 You could also allow `===` syntax for object patterns but this is not necessary as the RHS of any object itself a pattern that can match any of the pattern forms.
+
+### If predicates
+It is often handy to do some arbitrary tests on the value you are trying to match in the context of a match leg. For example:
+```js
+match (p) {
+    {x, y} if x === y: true,
+    else: false
+};
+```
 
 ### Destructuring of Runtime Match
 It can be helpful to allow destructuring of runtime matching especially for RegExp matches. Consider:
@@ -218,10 +227,12 @@ let nums = /(\d)(\d)(\d)/;
 let lets = /(\w)(\w)(\w)/;
 let str = '123';
 match (str) {
-    nums -> [first, second, third]: first + second + third;
-    lets -> [first, second, third]: first + second + third;
+    nums -> [,first, second, third]: first + second + third,
+    lets -> [,first, second, third]: first + second + third
 }
 ```
+
+Symbol.matches of the RegExp objects are invoked and if the match succeeds, the match object is returned. The match object can be further destructured via the `->` clause.
 
 ### Multiple Patterns
 
