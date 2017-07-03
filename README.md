@@ -23,7 +23,7 @@ Expression :
   MatchExpression
   
 MatchExpression :
-  `match` [no |LineTerminator| here] `(` Expression `)` `{` MatchExpressionClauses `}`
+  `match` `(` Expression `)` [no |LineTerminator| here] `{` MatchExpressionClauses `}`
   // Note: this requires a cover grammar to handle ambiguity
   // between a call to a match function and the match expr.
 
