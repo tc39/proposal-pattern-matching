@@ -153,11 +153,9 @@ match (node) {
 Fall-through is often a bug. Fall-through can be requested via the `continue` keyword. Exhaustiveness-checking is an option (although in JS would amount to always requiring the else leg).
 
 ### Statement vs. Expression
-Having `match` be a statement would align very closely with `switch` clauses. However alignment with `switch` is a non-goal because the slight differences all add up to a very different feeling feature. Using `switch` as a mental model for `match` will help but will not tell the entire story.
+Having `match` be a statement would align very closely with `switch` clauses. However alignment with `switch` could be problematic as the legs will likely behave differently. Using `switch` as a mental model for `match` will help but will not tell the entire story.
 
-There is also no strong reason for this syntax to be statement-only. The difficulty of parsing exists in either context and statement-only `match` will limit its appeal. On the other hand, expression forms of `match` are handy everywhere, especially as the body of an arrow function.
-
-In general, this is often used as a functional programming power tool and users will expect to be able to use it in expression context without relying on the upcoming `do` expression for that.
+There is also no strong reason for this syntax to be statement-only. The difficulty of parsing exists in either context and statement-only `match` will limit its utility. On the other hand, expression forms of `match` are handy everywhere, especially as the body of an arrow function.
 
 ### Match Leg Statement Syntax
 There are many options for the syntax of the match body. Broadly they are: case-like, arrow-function-like, and expression-only.
