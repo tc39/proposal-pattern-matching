@@ -79,7 +79,7 @@ match (arr) {
     []: /* match an empty array */,
     [...]: /* match any array */,
     [x]: /* match an array of length 1, bind its first element as x */,
-    [x, ...]: /* match an array of any length, bind its first element as x */,
+    [x, ...]: /* match an array of at least length 1, bind its first element as x */,
     [ { x: 0, y: 0}, ... ]: /* match an array with the 2d origin as the first element */
 }
 ```
