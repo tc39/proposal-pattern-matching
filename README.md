@@ -56,7 +56,7 @@ IdentifierMatchPattern :
   // Any binding identifier
 
 LiteralMatchPattern :
-  // number or string literal
+  // number, string, boolean, null, or undefined literal
 ```
 
 ## Object Patterns
@@ -85,7 +85,7 @@ match (arr) {
 ```
 
 ## Literal Patterns
-Literal patterns are array and string literals and matches exactly that value. Examples:
+Literal patterns are string, number, boolean, null, and undefined literals and matches exactly that value. Examples:
 
 ```js
 match (val) {
