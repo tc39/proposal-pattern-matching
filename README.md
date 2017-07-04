@@ -149,8 +149,8 @@ match (node) {
 ```
 ## Design Goals &amp; Alternatives
 
-### No implicit fall-through
-Fall-through is often a bug. Fall-through can be requested via the `continue` keyword. Exhaustiveness-checking is an option (although in JS would amount to always requiring the else leg).
+### No fall-through
+Fall-through can be requested via the `continue` keyword. It is a runtime error if no patterns are matched.
 
 ### Statement vs. Expression
 Having `match` be a statement would align very closely with `switch` clauses. However alignment with `switch` could be problematic as the legs will likely behave differently. Using `switch` as a mental model for `match` will help but will not tell the entire story.
