@@ -86,6 +86,10 @@ match (arr) {
 }
 ```
 
+It is possible that array patterns could also match iterables, however it's not clear this design is desirable. First, it's not clear that users of pattern matching would expect array patterns to match any object with Symbol.iterable. Second, since pulling values out of an iterable is side-effecty, it introduces a lot of confusion around what the state of the iterable is in each match leg and it's not clear that side-effecty-by-default pattern matching is a good idea.
+
+That said, destructuring does work on iterables so there is a strong alignment argument here.
+
 ## Literal Patterns
 Literal patterns are string, number, boolean, null, and undefined literals and matches exactly that value. Examples:
 
