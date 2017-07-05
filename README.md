@@ -59,6 +59,8 @@ LiteralMatchPattern :
   // number, string, boolean, null, or undefined literal
 ```
 
+The syntax of object and array patterns deliberately hews closely to destructuring which is advantageous for a couple reasons. First, it aligns with existing syntax that developers are familiar with. Second, it allows pattern matching and destructuring to be used in similar contexts (for example, future proposals for multi-methods or the like). However, pattern matching JavaScript values requires in practice requires more expressive power than simple destructuring gives us. This proposal adds additional patterns to fill the gaps. It may be reasonable to depart further from destructuring to increase the utility and expressiveness of this proposal (e.g. something like #17).
+
 ## Object Patterns
 Object patterns match objects with certain properties. Additional properties may be present on the matched object. Examples:
 
