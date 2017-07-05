@@ -4,7 +4,7 @@ Champions: Brian Terlson (Microsoft, [@bterlson](https://twitter.com/bterlson)),
 
 ```js
 let length = vector => match (vector) {
-    { x, y, z}: Math.sqrt(x ** 2 + y ** 2 + z ** 2),
+    { x, y, z }: Math.sqrt(x ** 2 + y ** 2 + z ** 2),
     { x, y }:   Math.sqrt(x ** 2 + y ** 2),
     [...]:      vector.length,
     else: {
@@ -81,8 +81,8 @@ match (arr) {
     []: /* match an empty array */,
     [...]: /* match any array */,
     [x]: /* match an array of length 1, bind its first element as x */,
-    [x, ...]: /* match an array of at least length 1, bind its first element as x */,
-    [ { x: 0, y: 0}, ... ]: /* match an array with the 2d origin as the first element */
+    [ x, ... ]: /* match an array of at least length 1, bind its first element as x */,
+    [ { x: 0, y: 0 }, ... ]: /* match an array with the 2d origin as the first element */
 }
 ```
 
@@ -126,7 +126,7 @@ Patterns can nest. For example:
 
 ```js
 let isVerbose = config => match (config) {
-    {output: {verbose: true }}: true,
+    { output: { verbose: true } }: true,
     else: false
 }
 ```
@@ -138,7 +138,7 @@ Because match is an expression, you can match further in the consequent of a mat
 ```js
 let node = {
     name: 'If',
-    alternate: { name: 'Statement', value: ...},
+    alternate: { name: 'Statement', value: ... },
     consequent: { name: 'Statement', value: ... }
 }
 
@@ -218,7 +218,7 @@ It is often handy to do some arbitrary tests on the value you are trying to matc
 
 ```js
 match (p) {
-    {x, y} if x === y: true,
+    { x, y } if x === y: true,
     else: false
 };
 ```
@@ -231,8 +231,8 @@ let nums = /(\d)(\d)(\d)/;
 let lets = /(\w)(\w)(\w)/;
 let str = '123';
 match (str) {
-    nums -> [,first, second, third]: first + second + third,
-    lets -> [,first, second, third]: first + second + third
+    nums -> [, first, second, third]: first + second + third,
+    lets -> [, first, second, third]: first + second + third
 }
 ```
 
