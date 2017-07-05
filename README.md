@@ -7,7 +7,7 @@ let length = vector => match (vector) {
     { x, y, z }: Math.sqrt(x ** 2 + y ** 2 + z ** 2),
     { x, y }:   Math.sqrt(x ** 2 + y ** 2),
     [...]:      vector.length,
-    else: {
+    default: {
         throw new Error("Unknown vector type");
     }
 }
@@ -42,7 +42,7 @@ MatchExpressionPattern :
   ArrayMatchPattern
   IdentifierMatchPattern
   LiteralMatchPattern
-  `else`
+  `default`
 
   
 ObjectMatchPattern :
@@ -127,7 +127,7 @@ Patterns can nest. For example:
 ```js
 let isVerbose = config => match (config) {
     { output: { verbose: true } }: true,
-    else: false
+    default: false
 }
 ```
 The `true` in the pattern above may be any pattern (in this case it's a literal pattern).
@@ -181,8 +181,8 @@ Arrow functions allow either an expression or an optional block. Applying this t
 #### Expression-only legs
 You could allow only an expression in a leg and rely on `do` expressions to provide statements. This seems slightly less user friendly than arrow-function-like legs.
 
-### Else Leg Syntax
-I've gone with `else` as it aligns with other areas of JavaScript, but you might prefer something more terse like `_` (especially if you're used to F#). `_` also has the advantage of binding a value enabling you to reference a value in a guaranteed non-sideeffecty way. Consider:
+### Default Leg Syntax
+I've gone with `default` as it aligns with other areas of JavaScript, but you might prefer something more terse like `_` (especially if you're used to F#). `_` also has the advantage of binding a value enabling you to reference a value in a guaranteed non-sideeffecty way. Consider:
 
 ```js
 let obj = {
@@ -190,7 +190,7 @@ let obj = {
 }
 match (obj.x) {
     //...
-    else: obj.x // recalculates.
+    default: obj.x // recalculates.
 }
 
 match (obj.x) {
@@ -209,7 +209,7 @@ Array patterns could be extended to take a value allowing for matching propertie
 let outOfBoundsPoint = p => match (p) {
     { x > 100, y }: true,
     { x, y > 100 }: true,
-    else: false
+    default: false
 }
 ```
 
@@ -219,7 +219,7 @@ It is often handy to do some arbitrary tests on the value you are trying to matc
 ```js
 match (p) {
     { x, y } if x === y: true,
-    else: false
+    default: false
 };
 ```
 
