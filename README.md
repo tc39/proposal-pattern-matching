@@ -35,7 +35,7 @@ MatchExpressionClauses :
   // evaluates to a truthy value.
   
 MatchExpressionClause :
-  MatchExpressionPattern `:` Expression
+  MatchExpressionPattern `:` AssignmentExpression
   
 MatchExpressionPattern :
   ObjectMatchPattern
