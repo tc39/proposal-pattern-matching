@@ -3,10 +3,10 @@ Stage 0 Proposal<br>
 Champions: Brian Terlson (Microsoft, [@bterlson](https://twitter.com/bterlson)), Sebastian Markbåge (Facebook, [@sebmarkbage](https://twitter.com/sebmarkbage))
 
 ```js
-let length = vector => match (vector) {
+let getLength = vector => match (vector) {
     { x, y, z }: Math.sqrt(x ** 2 + y ** 2 + z ** 2),
-    { x, y }:   Math.sqrt(x ** 2 + y ** 2),
-    [...]:      vector.length,
+    { x, y }:    Math.sqrt(x ** 2 + y ** 2),
+    [...]:       vector.length,
     else: {
         throw new Error("Unknown vector type");
     }
@@ -140,7 +140,7 @@ let node = {
     name: 'If',
     alternate: { name: 'Statement', value: ... },
     consequent: { name: 'Statement', value: ... }
-}
+};
 
 match (node) {
     { name: 'If', alternate }: // if with no else
@@ -187,7 +187,8 @@ I've gone with `else` as it aligns with other areas of JavaScript, but you might
 ```js
 let obj = {
     get x() { /* calculate many things */ }
-}
+};
+
 match (obj.x) {
     //...
     else: obj.x // recalculates.
@@ -206,7 +207,7 @@ Array patterns could be extended to take a value allowing for matching propertie
 
 ```js
 // points can't have an x or y greater than 100
-let outOfBoundsPoint = p => match (p) {
+let isPointOutOfBounds = p => match (p) {
     { x > 100, y }: true,
     { x, y > 100 }: true,
     else: false
