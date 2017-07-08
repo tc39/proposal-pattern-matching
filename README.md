@@ -195,7 +195,7 @@ match (obj.x) {
 
 match (obj.x) {
     // ...
-    _: _ // the result of evaluluating obj.x is bound as _ and returned
+    _: _ // the result of evaluating obj.x is bound as _ and returned
 }
 ```
 
