@@ -3,10 +3,10 @@ Stage 0 Proposal<br>
 Champions: Brian Terlson (Microsoft, [@bterlson](https://twitter.com/bterlson)), Sebastian Markbåge (Facebook, [@sebmarkbage](https://twitter.com/sebmarkbage))
 
 ```js
-let length = vector => match (vector) {
+let getLength = vector => match (vector) {
     { x, y, z }: Math.sqrt(x ** 2 + y ** 2 + z ** 2),
-    { x, y }:   Math.sqrt(x ** 2 + y ** 2),
-    [...]:      vector.length,
+    { x, y }:    Math.sqrt(x ** 2 + y ** 2),
+    [...]:       vector.length,
     default: {
         throw new Error("Unknown vector type");
     }
@@ -35,7 +35,7 @@ MatchExpressionClauses :
   // evaluates to a truthy value.
   
 MatchExpressionClause :
-  MatchExpressionPattern `:` Expression
+  MatchExpressionPattern `:` AssignmentExpression
   
 MatchExpressionPattern :
   ObjectMatchPattern
@@ -59,7 +59,7 @@ LiteralMatchPattern :
   // number, string, boolean, null, or undefined literal
 ```
 
-The syntax of object and array patterns deliberately hews closely to destructuring which is advantageous for a couple reasons. First, it aligns with existing syntax that developers are familiar with. Second, it allows pattern matching and destructuring to be used in similar contexts (for example, future proposals for multi-methods or the like). However, pattern matching JavaScript values requires in practice requires more expressive power than simple destructuring gives us. This proposal adds additional patterns to fill the gaps. It may be reasonable to depart further from destructuring to increase the utility and expressiveness of this proposal (e.g. something like #17).
+The syntax of object and array patterns deliberately hews closely to destructuring which is advantageous for a couple reasons. First, it aligns with existing syntax that developers are familiar with. Second, it allows pattern matching and destructuring to be used in similar contexts (for example, future proposals for multi-methods or the like). However, pattern matching JavaScript values requires in practice requires more expressive power than simple destructuring gives us. This proposal adds additional patterns to fill the gaps. It may be reasonable to depart further from destructuring to increase the utility and expressiveness of this proposal (e.g. something like [#17](https://github.com/tc39/proposal-pattern-matching/issues/17)).
 
 ## Object Patterns
 Object patterns match objects with certain properties. Additional properties may be present on the matched object. Examples:
@@ -140,7 +140,7 @@ let node = {
     name: 'If',
     alternate: { name: 'Statement', value: ... },
     consequent: { name: 'Statement', value: ... }
-}
+};
 
 match (node) {
     { name: 'If', alternate }: // if with no else
@@ -187,7 +187,8 @@ I've gone with `default` as it aligns with other areas of JavaScript, but you mi
 ```js
 let obj = {
     get x() { /* calculate many things */ }
-}
+};
+
 match (obj.x) {
     //...
     default: obj.x // recalculates.
@@ -195,7 +196,7 @@ match (obj.x) {
 
 match (obj.x) {
     // ...
-    _: _ // the result of evaluluating obj.x is bound as _ and returned
+    _: _ // the result of evaluating obj.x is bound as _ and returned
 }
 ```
 
@@ -206,7 +207,7 @@ Array patterns could be extended to take a value allowing for matching propertie
 
 ```js
 // points can't have an x or y greater than 100
-let outOfBoundsPoint = p => match (p) {
+let isPointOutOfBounds = p => match (p) {
     { x > 100, y }: true,
     { x, y > 100 }: true,
     default: false
