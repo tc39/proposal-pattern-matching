@@ -217,10 +217,10 @@ The final clause in a match expression can optionally be followed by a trailing 
 
 ```js
 const getLength = vector => match (vector) {
-    { x, y, z } => Math.sqrt(x ** 2 + y ** 2 + z ** 2),
-    { x, y } => Math.sqrt(x ** 2 + y ** 2),
-    [...etc] => vector.length,
-    _: { throw new Error("Unknown vector type") }
+  { x, y, z } => Math.sqrt(x ** 2 + y ** 2 + z ** 2),
+  { x, y } => Math.sqrt(x ** 2 + y ** 2),
+  [...etc] => vector.length,
+  _: { throw new Error("Unknown vector type") }
 }
 getLength({x: 1, y: 2, z: 3}) // 3.74165
 ```
@@ -340,8 +340,16 @@ match (x) {
 
 #### <a name="compound-matcher"></a> > `&&` and `||`
 
-You can use `&&` and `||` between expressions at any level. Guards are not
-included in these expressions, as there must be only one.
+`&&` and `||` are special compound matchers that allow you to join multiple
+match clauses to express a range of possibilities in a match. They are analogous
+to the regular boolean operators `&&` and `||`, except their comparisons are
+whether matches succeeded or not -- rather than the actual value being matched
+in the expression. Both operators have the same short-circruiting semantics as
+their boolean counterparts.
+
+You can use `&&` and `||` between expressions at any level where matchers are
+accepted. Guards are not included in these expressions, as there must be only
+one.
 
 When multiple variable-binding clauses are present, all referenced variables
 will be declared in the clause body, with variables in later cases shadowing
@@ -913,8 +921,8 @@ function ByVal (obj) {
 }
 
 match (x) {
-  ByVal(FOO) x => 'got a FOO',
-  ByVal(BAR) x => 'got a BAR'
+  ByVal(FOO) {} => 'got a FOO',
+  ByVal(BAR) {} => 'got a BAR'
 }
 ```
 
@@ -974,8 +982,8 @@ The advantage of doing things this was is that you can extract `undefined`,
 or `undefined`-punning, which can be a footgun.
 
 ```js
-class Foo {
-  [Symbol.patternMatch] (val) {
+class Foo {}
+Foo[Symbol.patternMatch] = function (val) {
     if (val == null) {
       return {[Symbol.patternValue]: null} // `null` value extracted
     } else {
@@ -1003,8 +1011,8 @@ for users to do -- mostly reserved for library authors and such. But that's just
 a hunch.
 
 ```js
-class Foo {
-  [Symbol.patternMatch] (val) {
+class Foo {}
+Foo[Symbol.patternMatch] = function (val) {
     if (val === null) { return null } // null return treated as match success
     // undefined return prevents a match
   }
@@ -1018,8 +1026,8 @@ One way to possibly meet halfway is to pass a callback into
 "extracted" value.
 
 ```js
-class Foo {
-  [Symbol.patternMatch] (val, extract) {
+class Foo {}
+Foo[Symbol.patternMatch] = function (val, extract) {
     // Calling `extract` is the only way for matches to succeed
     if (val === null) { return extract(val) }
   }
@@ -1033,8 +1041,8 @@ Similarly to Option C, the "magic constructor" could be stored in
 returns an object crafted by that function:
 
 ```js
-class Foo {
-  [Symbol.patternMatch] (val) {
+class Foo {}
+Foo[Symbol.patternMatch] = function (val) {
     if (val == null) { return Symbol.patternMatch.match(val) }
   }
 }
@@ -1055,7 +1063,9 @@ of their falsiness as values).
 This is what the current spec describes. It has the advantage that it's a fairly
 straightforward logical mapping for a boolean operation developers are already
 used to. It has the disadvantage that it it a straightforward logical mapping
-for a boolean operation developers are already used to.
+for a boolean operation developers are already used to. Another advantage is
+that its short-circuiting semantics would be easier to understand because they
+work the same as the existing `||` and `&&` operators.
 
 The main conflict here is for matches such as `null || false || 0`, which can
 succeed if the matched value is any of those three -- whereas such an expression
@@ -1159,7 +1169,7 @@ enough to block shipping because it allows things like:
 ```js
 class Foo {}
 match (new Foo()) {
-  Foo x => 'got a Foo'
+  Foo {} => 'got a Foo'
 }
 ```
 
