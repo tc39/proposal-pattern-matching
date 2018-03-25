@@ -61,6 +61,7 @@ npm](https://npm.im/pattycake), with Babel and TypeScript support coming soon.
   * [Unbound array rest parameters](#unbound-array-rest)
   * [`patternMatch` protocol](#pattern-match-protocol)
   * [Compound matcher syntax](#compound-matcher-syntax)
+  * [`instanceof` default matching](#instanceof-is-bad)
 * [Beyond This Spec](#to-infinity-and-beyond)
   * [`catch` matching](#catch-match)
   * [`if match`](#if-match)
@@ -382,6 +383,9 @@ feature](https://docs.scala-lang.org/tour/extractor-objects.html), which uses an
 
 If a function is used in an extractor position and it has no
 `Symbol.patternMatch` method, an `instanceof` check will be done instead.
+
+(The `instanceof` check is currently [subject to a
+bikeshed](#instanceof-is-bad), but is the currently-defined behavior.)
 
 ##### Example
 
@@ -1123,6 +1127,32 @@ match (x) {
 ```
 
 Please no?
+
+#### <a name="insanceof-is-bad"></a> > `instanceof` extractor checks
+
+By default, extractors which are `typeof` `function` will run an `instanceof`
+test against the value to be matched. This "feature" is intended to support a
+massively common use case where extractors could be used to filter by class,
+without having to define a `Symbol.patternMatch` property every single time.
+
+This can cause issues, since `instanceof` is not domain-safe.
+
+Choosing this default now can also potentially impact future upgrades when more
+suitable checks, such as the `builtin.is` proposal, or something as yet unknown,
+become official -- effectively leaving us with crappy `instanceof` checks on
+`match` forever.
+
+It's unclear what the options actually are here, but I believe this is important
+enough to block shipping because it allows things like:
+
+```js
+class Foo {}
+match (new Foo()) {
+  Foo x => 'got a Foo'
+}
+```
+
+Any alternative mechanism that achieves this is acceptable and encouraged.
 
 ### <a name="to-infinity-and-beyond"></a> Beyond This Spec
 
