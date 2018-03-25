@@ -1128,6 +1128,17 @@ match (x) {
 
 Please no?
 
+##### Option F: Remove compound matchers
+
+A final alternative would be to remove compound matchers altogether, and expect
+users to define their own extractors for this sort of behavior, instead. This
+isn't such a big loss when it comes to AND, imo, but it would be a somewhat
+bigger loss to not be able to write things like `1 | 2 | 3`.
+
+The decision can also be deferred, and an initial version of `match` can ship
+without compound matchers, and some other sucker can deal with speccing it out.
+This is not worth blocking the proposal over.
+
 #### <a name="insanceof-is-bad"></a> > `instanceof` extractor checks
 
 By default, extractors which are `typeof` `function` will run an `instanceof`
