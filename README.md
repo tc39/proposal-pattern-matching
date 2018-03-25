@@ -778,7 +778,7 @@ match (undefined) {
 }
 ```
 
-Or, alternatively, using `|` if [`undefined` is
+Or, alternatively, using `||` if [`undefined` is
 special-cased](#undefined-matching).
 
 #### <a name="match-assignment"></a> > Assigning matches to variables
