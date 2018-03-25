@@ -60,6 +60,7 @@ npm](https://npm.im/pattycake), with Babel and TypeScript support coming soon.
   * [Variable pinning operator](#variable-pinning-operator)
   * [Unbound array rest parameters](#unbound-array-rest)
   * [`patternMatch` protocol](#pattern-match-protocol)
+  * [Compound matcher syntax](#compound-matcher-syntax)
 * [Beyond This Spec](#to-infinity-and-beyond)
   * [`catch` matching](#catch-match)
   * [`if match`](#if-match)
@@ -348,6 +349,9 @@ earlier ones when they overlap.
 In the case of `||`, variables that are only present in a failed or unreached
 match will be left `undefined`, and the successful clause will take precedent
 over other bindings, since it's the only one that will actually bind values.
+
+The actual operators for this matcher are [subject to a
+bikeshed](#compound-matcher-syntax), and so may change in the future.
 
 ##### Example
 
@@ -1031,6 +1035,94 @@ class Foo {
   }
 }
 ```
+
+#### <a name="compound-matcher-syntax"></a> > Compound Matcher Syntax
+
+There are some choices that can be made for supporting the OR and AND compound
+matchers. This spec currently uses Option A, which is to use `||` and `&&` for
+those operations. Note that any operators that have correspondence to existing
+semantics will necessarily have overloaded meaning in match expressions, because
+compound matchers always work based on match success, not actual value (so `null
+OR 0 OR false` succeeds if the value is either of those two values, regardless
+of their falsiness as values).
+
+##### Option A: `||` and `&&`
+
+This is what the current spec describes. It has the advantage that it's a fairly
+straightforward logical mapping for a boolean operation developers are already
+used to. It has the disadvantage that it it a straightforward logical mapping
+for a boolean operation developers are already used to.
+
+The main conflict here is for matches such as `null || false || 0`, which can
+succeed if the matched value is any of those three -- whereas such an expression
+would never succeed in its regular context.
+
+```js
+match (x) {
+  1 || 2 || null || 0 => ...,
+  {x: 1} && {y: 2} => ...
+}
+```
+
+##### Option B: `|` and `&`
+
+This is similar to Option A, but overloading bitwise operators, which are less
+commonly used and easily distinguished from the boolean ones. Rust itself uses `|`
+for its alternatives, and has no support (that I know of) for an equivalent of `&`.
+
+For this option, it's also reasonable and possible to pick a different operator
+for `&` and keep `|` as a "bar".
+
+```js
+match (x) {
+  1 | 2 | null | 0 => ...,
+  {x: 1} & {y: 2} => ...
+}
+```
+
+##### Option C: `:` and `,`
+
+This would revert things back to a previously-proposed possibility, where `:`
+would work as a fallthrough, and `,` as a joiner. This would not change usign `=>`
+as the body separator, though:
+
+```js
+match (x) {
+  1: 2: null: 0 => ...,
+  {x: 1}, {y: 2} => ...
+}
+```
+
+##### Option D: `and` and `or`
+
+This would add `and` and `or` keywords rather than use non-alpha characters:
+
+```js
+match (x) {
+  1 or 2 or null or 0 => ...,
+  {x: 1} and {y: 2} => ...
+}
+```
+
+This would involve adding `and` and `or` as reserved words for the language, and
+possibly confuse people who then try to use that instead of `||` and `&&`
+(essentially the reverse problem or using those booleans).
+
+##### Option E: Go Full Erlang! `;` and `,`
+
+As an honorary mention that oh no someone might actually take seriously: we
+could pick up [Erlang's syntax for multiple
+guards](https://en.wikibooks.org/wiki/Erlang_Programming/guards#Multiple_guards),
+where `;` acts as an OR and `,` as an AND.
+
+```js
+match (x) {
+  1; 2; null; 0 => ...,
+  {x: 1}, {y: 2} => ...
+}
+```
+
+Please no?
 
 ### <a name="to-infinity-and-beyond"></a> Beyond This Spec
 
