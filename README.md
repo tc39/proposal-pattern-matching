@@ -295,7 +295,7 @@ used (`[1, 2, ...etc]`), in which case the array must be at least as long as the
 number of entries before the rest param.
 
 Array destructuring supports using a custom matcher, just like Objects. When
-using custom matchers, the value is destructures as an `Array-like` object, so
+using custom matchers, the value is destructured as an `Array-like` object, so
 it doesn't need to be a subclass of `Array` -- the `length` property will be
 used for destructuring, along with any numerical keys.
 
@@ -901,8 +901,8 @@ function ByVal (obj) {
 }
 
 match (x) {
-  ByVal(c.FOO) x => 'got a FOO',
-  ByVal(c.BAR) x => 'got a BAR'
+  ByVal(FOO) x => 'got a FOO',
+  ByVal(BAR) x => 'got a BAR'
 }
 ```
 
@@ -916,7 +916,7 @@ would have limited utility.)
 
 #### <a name="unbound-array-rest"></a> > Binding-less array rest
 
-In ECMAScript, `var [a, b, ...rest] = arr` allows bindging of "the rest" of the
+In ECMAScript, `var [a, b, ...rest] = arr` allows binding of "the rest" of the
 array into a variable. This syntax, though, requires that the "rest" value be
 bound to a specific variable. That is, `[a, b, ...]` is invalid syntax.
 
