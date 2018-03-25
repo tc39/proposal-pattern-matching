@@ -16,7 +16,7 @@ make better and clearer for you!
 
 This document includes a [detailed description of the `match` API](#api), as
 well as conscious [design decisions](#design-decisions) that were made involving
-various details. Further down, you can also fine a section on
+various details. Further down, you can also find a section on
 [bikesheds](#bikesheds) to discuss -- that is, technical decisions that are yet
 to be made which have several different options where none of the options are
 clearly the best choice. There's even a section on [future ideas related to this
@@ -93,7 +93,7 @@ function todoApp (state = initialState, action) {
 
     {type: 'toggle-todo', index} => ({
       todos: state.todos.map((todo, idx) => idx === index
-        ? Object.assign({}, todo, {done: !todo.done})
+        ? {...todo, done: !todo.done}
         : todo
       )
     }),
@@ -101,7 +101,7 @@ function todoApp (state = initialState, action) {
     {type} => throw new UnknownActionError(type)
   })
 
-  return Object.assign({}, state, newState)
+  return {...state, ...newState}
 }
 ```
 
@@ -245,7 +245,7 @@ match (2) {
 
 #### <a name="primitive-matcher"></a> > Primitives
 
-Primitive types will be matched with `===`. The following literals can be
+Primitive types will be matched with `Object.is`. The following literals can be
 matched against: `Number`, `String`, `Boolean`, `Null`.
 
 ##### Example
@@ -262,9 +262,11 @@ match (x) {
 
 #### <a name="object-matcher"></a> > Objects
 
-Objects are destructured. Any variables mentioned in the match side MUST exist
-in the matched object, but additional properties on the object will be ignored.
-Matches within objects can be further nested with any other types.
+Objects are destructured. Any keys mentioned in the match side MUST exist in the
+matched object, but additional properties on the object will be ignored. Matches
+within objects can be further nested with any other types.
+
+As with regular object destructuring, computed properties and `Symbol`-based properties are both valid property names, but they do not support collapsed variable bindings (`{x}` vs `{['hello-there']}`)
 
 Object matchers support "rest params", that is, `{x, ...y}`. Unlike Array
 matchers, though, it is a `SyntaxError` to try to further destructure that rest
@@ -391,7 +393,7 @@ class Just extends Maybe {
 }
 Just[Symbol.patternMatch] = function (val) {
   if (val instanceof Just) {
-    return {[Symbol.patternMatch]: this.x}
+    return {[Symbol.patternValue]: this.x}
   }
 }
 
@@ -547,11 +549,11 @@ on how to allow variable-based matching.
 * Consistent behavior: No ambiguity when a variable is not assigned vs when it's suddenly assigned in the scope. Behavior will remain the same.
 * Eliminates the need for an `else`/`default` leg, because assignment to any variable will be sufficient. JS programmers are already used to assigning variables that are then ignored (in functions, in particular), and different people have different tastes in what that should be. `_`, `other`, etc, would all be perfectly cromulent alternatives.
 
-#### > Primitives compared with `===`
+#### > Primitives compared with `Object.is`
 
 This proposal special-cases Array, Object, and RegExp literal matches to make
 them more convenient and intuitive, but Numbers, Strings, Booleans, and Null are
-always compared using `===`:
+always compared using `Object.is`:
 
 ```js
 match (x) => {
@@ -806,6 +808,8 @@ This syntax seems to be by far the most common, and is used by
 [Scala](http://www.scala-lang.org/files/archive/spec/2.11/08-pattern-matching.html#pattern-binders).
 Its main differences from `as` are that the variable goes before the match and `@`
 is more terse -- specially since spaces aren't necessary.
+
+One disadvantage of this syntax is that it might conflict with `@decorator`s
 
 ```js
 match (x) {
