@@ -417,9 +417,7 @@ PrimaryExpression :
   MatchExpression
 
 MatchExpression :
-  // Note: this requires a cover grammar to handle ambiguity
-  // between a call to a match function and the match expr.
-  `match` [no |LineTerminator| here] `(` Expression `)` [no |LineTerminator| here] `{` MatchClauses `}`
+  `if` `match` `(` Expression `)` `{` MatchClauses `}`
 
 MatchClauses :
   MatchClause
