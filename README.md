@@ -72,7 +72,7 @@ Easily matching request responses:
 ```javascript
 const res = await fetch(jsonService)
 const val = match (res) {
-  {status: 200, headers: {'Content-Length': s}} => `size is ${s}`,
+  {status: 200, headers: Headers#{'content-length': s}} => `size is ${s}`,
   {status: 404} => 'JSON not found',
   {status} if (status >= 400) => throw new RequestError(res)
 }
@@ -291,7 +291,7 @@ match (x) {
   {x: {y: 1}} => ...,
   {x, ...y} => ..., // binds all-other-properties to `y`.
   {x, ...{y}} => ..., // SyntaxError
-  Foo {y} => ...,// matches an instance of `Foo` or, if
+  Foo#{y} => ...,// matches an instance of `Foo` or, if
                  // `Foo[Symbol.patternMatch]` is present, that method is called
                  // instead. y is destructured out of the `Foo` object if the
                  // property exists.
@@ -324,7 +324,7 @@ match (x) {
   [1, 2, null] => ...,
   [1, ...etc] => ...,
   [1, ...[2]] => ..., // Recursive matching on `rest` is allowed
-  Foo [1, 2] => ...,
+  Foo#[1, 2] => ...,
 }
 ```
 
@@ -339,10 +339,9 @@ matchers.
 ```js
 match (x) {
   /foo/ => ..., // x matched /foo/ just fine.
-  /foo(bar)/u [match, submatch] => ..., // array-destructuring for matches
-  /(?<yyyy>\d{4})-(?<mm>\d{2})-(?<dd>\d{2})/u {
-    groups: {yyyy, mm, dd}
-  } => ... // object-destructuring for matches, using named regexp groups!
+  /foo(bar)/u #[match, submatch] => ..., // array-destructuring for matches
+  /(?<yyyy>\d{4})-(?<mm>\d{2})-(?<dd>\d{2})/u
+  #{groups: {yyyy, mm, dd}} => ... // object-extraction with regexp groups
 }
 ```
 
@@ -367,6 +366,11 @@ If a function is used in an extractor position and it has no
 
 (The `instanceof` check is currently [subject to a bikeshed](#instanceof-is-bad)
 and unlikely to be the final decision, but is the currently-defined behavior.)
+
+**TODO**: The new extractor format will probably require multiple types of
+          extractor symbols for different request types.
+**NOTE**: a very big advantage of this protocol is that allows zero-consing
+          extractions (that is, purely through function calls based on reqs)
 
 ##### Example
 
@@ -398,9 +402,9 @@ const CustomerID = {
 }
 
 match (option) {
-  None {} => ..., // matches `new None()`
-  Just x => ..., // matches `new Just(1)` with x === 1 from extraction
-  CustomerID 'Alex' => ... // matches if `option` is like 'Alex--1234567'
+  Just#x => ..., // matches `new Just(1)` with x === 1 from extraction
+  None# => ..., // matches `new None()`
+  CustomerID#'Alex' => ... // matches if `option` is like 'Alex--1234567'
 }
 ```
 
@@ -430,11 +434,11 @@ MatchClause :
 
 MatchPattern :
   MatchBinding
-  MatchExtractorReference MatchBinding
+  MatchExtractorReference `#`
+  MatchExtractorReference `#` MatchBinding
 
 MatchExtractorReference :
-  BindingIdentifier
-  `(` AssignmentExpression `)`
+  LeftHandSideExpression
 
 MatchGuard :
   `if` `(` Expression `)`
@@ -798,11 +802,10 @@ or `undefined`-punning, which can be a footgun.
 ```js
 class Foo {}
 Foo[Symbol.patternMatch] = function (val) {
-    if (val == null) {
-      return {[Symbol.patternValue]: null} // `null` value extracted
-    } else {
-      false
-    }
+  if (val == null) {
+    return {[Symbol.patternValue]: null} // `null` value extracted
+  } else {
+    false
   }
 }
 ```
@@ -827,9 +830,8 @@ a hunch.
 ```js
 class Foo {}
 Foo[Symbol.patternMatch] = function (val) {
-    if (val === null) { return null } // null return treated as match success
-    // undefined return prevents a match
-  }
+  if (val === null) { return null } // null return treated as match success
+  // undefined return prevents a match
 }
 ```
 
@@ -842,9 +844,8 @@ One way to possibly meet halfway is to pass a callback into
 ```js
 class Foo {}
 Foo[Symbol.patternMatch] = function (val, extract) {
-    // Calling `extract` is the only way for matches to succeed
-    if (val === null) { return extract(val) }
-  }
+  // Calling `extract` is the only way for matches to succeed
+  if (val === null) { return extract(val) }
 }
 ```
 
@@ -857,8 +858,7 @@ returns an object crafted by that function:
 ```js
 class Foo {}
 Foo[Symbol.patternMatch] = function (val) {
-    if (val == null) { return Symbol.patternMatch.match(val) }
-  }
+  if (val == null) { return Symbol.patternMatch.match(val) }
 }
 ```
 
@@ -882,7 +882,7 @@ enough to block shipping because it allows things like:
 ```js
 class Foo {}
 match (new Foo()) {
-  Foo {} => 'got a Foo'
+  Foo#{} => 'got a Foo'
 }
 ```
 
@@ -941,15 +941,15 @@ could double-up as a matcher "tag":
 match (obj) {
   @Foo => 'Foo[Symbol.patternMatch](obj) executed!',
   _@Foo => '@Foo is a shorthand for this',
-  Foo {} => 'the way you would do it otherwise',
-  Foo _ => 'though this works, too'
+  Foo#{} => 'the way you would do it otherwise',
+  Foo#_ => 'though this works, too'
 }
 ```
 
 In more "real-world" context:
 ```js
 match (opt) {
-  Foo x => ...,
+  Foo#x => ...,
   @None => 'nope',
   None {} => 'nope' // how you would usually do it.
 }
@@ -998,8 +998,8 @@ has only a single non-trivial leg, usually with a fallthrough:
 
 ```js
 match (opt) {
-  Some x => console.log(`Got ${x}`),
-  None => {}
+  Some#x => console.log(`Got ${x}`),
+  _ => {}
 }
 ```
 
@@ -1027,14 +1027,14 @@ interesting to explore the idea of something like a "match arrow" function that
 provides a concise syntax for a single-leg `match` expression:
 
 ```js
-const unwrap = v => match (v) Some x => x
+const unwrap = v => match (v) Some#x => x
 ```
 
 Possibly taking it even further and making a shorthand that automatically
 creates an arrow:
 
 ```js
-const unwrap = match (Some x) => x
+const unwrap = match (Some#x) => x
 unwrap(new Some('hello')) // 'hello'
 unwrap(None) // MatchError
 ```
@@ -1212,8 +1212,8 @@ function ByVal (obj) {
 }
 
 match (x) {
-  ByVal(FOO) {} => 'got a FOO',
-  ByVal(BAR) {} => 'got a BAR'
+  ByVal(FOO)# => 'got a FOO',
+  ByVal(BAR)# => 'got a BAR'
 }
 ```
 
