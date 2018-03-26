@@ -418,54 +418,99 @@ PrimaryExpression :
 MatchExpression :
   // Note: this requires a cover grammar to handle ambiguity
   // between a call to a match function and the match expr.
-  `match` [no |LineTerminator| here] `(` Expression `)` [no |LineTerminator| here] `{` MatchExpressionClauses `}`
+  `match` [no |LineTerminator| here] `(` Expression `)` [no |LineTerminator| here] `{` MatchClauses `}`
 
-MatchExpressionClauses :
-  MatchExpressionClause
-  MatchExpressionsClauses `,` MatchExpressionsClause [`,`]
+MatchClauses :
+  MatchClause
+  MatchClauses `,` MatchClause
+  MatchClauses `,` MatchClause [`,`]
 
-MatchExpressionClause :
-  MatchExpressionClauseLHS [MatchGuardExpression] `=>` ArrowBody
+MatchClause :
+  MatchPattern [MatchGuard] `=>` ConciseBody
 
-MatchExpressionClauseLHS :
-  [MatchExtractorExpresson] MatchExpressionPattern
+MatchPattern :
+  MatchBinding
+  MatchExtractorReference MatchBinding
 
-MatchGuardExpression :
-  `if` [no |LineTerminator| here] `(` Expression `)`
+MatchExtractorReference :
+  BindingIdentifier
+  `(` AssignmentExpression `)`
 
-MatchExpressionPattern :
-  ObjectMatchPattern
-  ArrayMatchPattern
-  IdentifierMatchPattern
-  LiteralMatchPattern
+MatchGuard :
+  `if` `(` Expression `)`
 
-ObjectMatchPattern :
-  `{` ObjectMatchKeyVal [`,`, ObjectMatchKeyVal ]* `}`
+MatchBinding :
+  ObjectMatchBinding
+  ArrayMatchBinding
+  IdentifierMatchBinding
+  LiteralMatchBinding
 
-ObjectMatchKeyVal :
-  Variable
-  ObjectKey `:` MatchExressionClauseLHS
-  // Unlike Arrays, object destructuring can _only_ be a variable.
-  `...` Variable
+ObjectMatchBinding :
+  `{` `}`
+  `{` MatchRestProperty `}`
+  `{` MatchPropertyList `}`
+  `{` MatchPropertyList `,` `}`
+  `{` MatchPropertyList `,` MatchRestProperty `}`
 
-ArrayMatchPattern :
-  `[` ArrayMatchPatternElement [`,`, ArrayMatchPatternElement]* `]`
+MatchPropertyList :
+  MatchProperty
+  MatchPropertyList `,` MatchProperty
 
-ArrayMatchPatternElement :
-  MatchExpressionClauseLHS
-  // NOTE: I'm not sure what-all array destructuring is actually -able- to
-  //       destructure here.
-  `...` MatchExpressionClauseLHS
+MatchProperty
+  SingleNameBinding
+  PropertyName `:` MatchPattern
 
-IdentifierMatchPattern :
-  Variable
+MatchRestProperty :
+  `...` IdentifierMatchBinding
 
-LiteralMatchPattern :
-  LiteralNumber
-  LiteralString
-  LiteralBoolean
-  LiteralNull
-  LiteralRegExp
+ArrayMatchBinding :
+  `[` `]`
+  `[` MatchRestElement `]`
+  `[` Elision MatchRestElement `]`
+  `[` MatchElementList `]`
+  `[` MatchElementList `,`, `]`
+  `[` MatchElementList `,`, Elision `]`
+  `[` MatchElementList `,`, Elision MatchRestElement `]`
+
+MatchElementList :
+  MatchElisionElement
+  MatchElementList `,` MatchElisionElement
+
+MatchElisionElement :
+  MatchElement
+  Elision MatchElement
+
+MatchElement :
+  MatchPattern
+
+MatchRestElement :
+  `...` IdentifierMatchBinding
+  `...` MatchPattern
+
+IdentifierMatchBinding :
+  BindingIdentifier
+
+LiteralMatchBinding :
+  NullLiteral
+  BooleanLiteral
+  NumericLiteral
+  StringLiteral
+  RegularExpressionLiteral
+
+From Ecma-262 :
+  PrimaryExpression
+  LineTerminator
+  ConciseBody
+  Expression
+  AssignmentExpression
+  SingleNameBinding
+  Elision
+  BindingIdentifier
+  NullLiteral
+  BooleanLiteral
+  NumericLiteral
+  StringLiteral
+  RegularExpressionLiteral
 ```
 
 #### <a name="no-fallthrough"></a> > No Clause Fallthrough
