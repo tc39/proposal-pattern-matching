@@ -157,7 +157,6 @@ matcher"](#object-matcher) to run different code depending on the value of
 `response.status`.
 
 ```js
-const response = await fetch(someUrl)
 console.log(match (await fetch(someUrl)) {
   {status: 200} => 'request succeeded!',
   {status: 404} => 'no value at url!',
