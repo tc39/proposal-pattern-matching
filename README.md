@@ -72,7 +72,7 @@ Easily matching request responses:
 ```javascript
 const res = await fetch(jsonService)
 const val = match (res) {
-  {status: 200, {headers: {'Content-Length': s}}} => `Response size is ${s}`,
+  {status: 200, headers: {'Content-Length': s}} => `size is ${s}`,
   {status: 404} => 'JSON not found',
   {status} if (status >= 400) => throw new RequestError(res)
 }
