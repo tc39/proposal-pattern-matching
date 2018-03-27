@@ -496,6 +496,9 @@ LiteralMatchBinding :
   NumericLiteral
   StringLiteral
   RegularExpressionLiteral
+  StringNumbericLiteral
+  `NaN`
+  `undefined`
 
 From Ecma-262 :
   PrimaryExpression
