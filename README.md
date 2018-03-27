@@ -5,7 +5,7 @@
 Champions: Brian Terlson (Microsoft, [@bterlson](https://twitter.com/bterlson)), Sebastian Markbåge (Facebook, [@sebmarkbage](https://twitter.com/sebmarkbage)), Kat Marchán (npm, [@maybekatz](https://twitter.com/maybekatz))
 
 This proposal adds a new feature to ECMAScript, called "Pattern Matching",
-through a new expression statement named `match`. Pattern matching is a feature
+through a new expression statement named `case`. Pattern matching is a feature
 in some languages that allows different condition branches to run based on the
 "shape" of the value passed in, and provides a very concise syntax for picking
 out individual bits from data structures when they match.
@@ -14,7 +14,7 @@ Please refer to the [Introduction to Pattern Matching](#introduction) for a
 friendly intro to this feature, and to help understand all the things it can
 make better and clearer for you!
 
-This document includes a [detailed description of the `match` API](#api), as
+This document includes a [detailed description of the `case` API](#api), as
 well as conscious [design decisions](#design-decisions) that were made involving
 various details. Further down, you can also find a section on
 [bikesheds](#bikesheds) to discuss -- that is, technical decisions that are yet
@@ -37,7 +37,7 @@ npm](https://npm.im/pattycake), with Babel and TypeScript support coming soon.
 * [Motivating Examples](#examples)
 * [Introduction to Pattern Matching](#introduction)
 * [API](#api)
-  * [`match`](#match)
+  * [`case`](#case)
   * [variables](#variable-matcher)
   * [primitives](#primitive-matcher)
   * [objects](#object-matcher)
@@ -58,9 +58,9 @@ npm](https://npm.im/pattycake), with Babel and TypeScript support coming soon.
 * [Beyond This Spec](#to-infinity-and-beyond)
   * [Match value assignment](#match-assignment)
   * [`catch` matching](#catch-match)
-  * [`if match`](#if-match)
-  * [`async match`](#async-match)
-  * [Match Arrow functions](#match-arrow)
+  * [`if case`](#if-case)
+  * [`async case`](#async-case)
+  * [Match Arrow functions](#case-arrow)
   * [Compound Matchers](#compound-matcher)
   * [Variable pinning operator](#variable-pinning-operator)
   * [Unbound array rest parameters](#unbound-array-rest)
@@ -71,7 +71,7 @@ Easily matching request responses:
 
 ```javascript
 const res = await fetch(jsonService)
-const val = match (res) {
+const val = case (res) {
   {status: 200, headers: {'Content-Length': s}} => `size is ${s}`,
   {status: 404} => 'JSON not found',
   {status} if (status >= 400) => throw new RequestError(res)
@@ -84,7 +84,7 @@ documentation](https://redux.js.org/basics/reducers#splitting-reducers):
 
 ```js
 function todoApp (state = initialState, action) {
-  const newState = match (action) {
+  const newState = case (action) {
     {type: 'set-visibility-filter', filter: visFilter} => ({visFilter}),
 
     {type: 'add-todo', text} => ({
@@ -110,7 +110,7 @@ Or mixed in with JSX code for quick props handling:
 (via [Divjot Singh](https://twitter.com/bogas04/status/977499729557839873))
 ```js
 <Fetch url={API_URL}>{
-  props => match (props) {
+  props => case (props) {
     {loading} => <Loading />,
     {error} => <Error error={error} />,
     {data} => <Page data={data} />
@@ -127,11 +127,11 @@ and then use that same syntax to pick out the individual bits you want to use,
 then run some code specific to that match.
 
 You can think of pattern matching as a more advanced form of `if` or `switch`
-statements. In this example, `match` will return the value to the right of the `=>`
+statements. In this example, `case` will return the value to the right of the `=>`
 if the value on the left is equal to `num`:
 
 ```js
-match (num) {
+case (num) {
   1 => 'num is 1',
   2 => 'num is 2',
   'three' => 'num is "three"'
@@ -157,7 +157,7 @@ matcher"](#object-matcher) to run different code depending on the value of
 `response.status`.
 
 ```js
-console.log(match (await fetch(someUrl)) {
+console.log(case (await fetch(someUrl)) {
   {status: 200} => 'request succeeded!',
   {status: 404} => 'no value at url!',
   // `response.status` can be assigned to a variable easily:
@@ -178,7 +178,7 @@ if (response.status === 200) {
 }
 ```
 
-This `match` proposal doesn't just support [strings, number](#primitive-matcher)
+This `case` proposal doesn't just support [strings, number](#primitive-matcher)
 and [objects](#object-matcher) in its comparisons, but also
 [Arrays](#array-matcher), [other primitives like `null` and
 booleans](#primitive-matcher), and even [regular expressions](#regexp-matcher).
@@ -193,9 +193,9 @@ more clunky or verbose with plain `if` or `switch` comparisons.
 
 ### API
 
-#### <a name="match"></a> > `match (val) { [clauses]* }`
+#### <a name="case"></a> > `case (val) { [clauses]* }`
 
-The `match` expression compares `val` against a number of comma-separated
+The `case` expression compares `val` against a number of comma-separated
 clauses in the order they are defined, and executes the body to the right of the
 arrow for the clause that succeeds, returning its final value.
 
@@ -205,10 +205,10 @@ If all clauses fail to match, a `MatchError` is thrown. To prevent this, use a
 There are 5 types of clauses: primitives, RegExp, Object, Array, and variables.
 Each of these clauses can optionally include a [custom extractor](#extractors).
 
-The final clause in a match expression can optionally be followed by a trailing `,`.
+The final clause in a case expression can optionally be followed by a trailing `,`.
 
 ```js
-const getLength = vector => match (vector) {
+const getLength = vector => case (vector) {
   { x, y, z } => Math.sqrt(x ** 2 + y ** 2 + z ** 2),
   { x, y } => Math.sqrt(x ** 2 + y ** 2),
   [...etc] => vector.length,
@@ -219,7 +219,7 @@ getLength({x: 1, y: 2, z: 3}) // 3.74165
 
 #### <a name="variable-matcher"></a> > Variables
 
-Plain variables in a `match` will be bound to their associated value and made
+Plain variables in a `case` will be bound to their associated value and made
 available to the body of that clause. If the variable is already bound in the
 surrounding scope, it will be shadowed. Values inside variables are never
 matched against directly -- use a guard instead.
@@ -228,11 +228,11 @@ matched against directly -- use a guard instead.
 
 ```js
 const y = 2
-match (1) {
+case (1) {
   y => y === 1 // `const y` shadowed
 }
 
-match (2) {
+case (2) {
   x if (x === y) => x === y && x === 2 // guard comparison with variable
 }
 ```
@@ -247,7 +247,7 @@ matched against: `Number`, `String`, `Boolean`, `Null`. Additionally,
 ##### Example
 
 ```js
-match (x) {
+case (x) {
   1 => ...,
   'foo' => ...,
   true => ...,
@@ -286,7 +286,7 @@ type of their input.
 ##### Example
 
 ```js
-match (x) {
+case (x) {
   {x: 1, y} => ..., // the y property is required, and is locally bound to y
   {x: {y: 1}} => ...,
   {x, ...y} => ..., // binds all-other-properties to `y`.
@@ -319,7 +319,7 @@ See also: [array rest params](#unbound-array-rest).
 ##### Example
 
 ```js
-match (x) {
+case (x) {
   [a, b, 1] => ...,
   [1, 2, null] => ...,
   [1, ...etc] => ...,
@@ -337,7 +337,7 @@ matchers.
 ##### Example
 
 ```js
-match (x) {
+case (x) {
   /foo/ => ..., // x matched /foo/ just fine.
   /foo(bar)/u [match, submatch] => ..., // array-destructuring for matches
   /(?<yyyy>\d{4})-(?<mm>\d{2})-(?<dd>\d{2})/u {
@@ -397,7 +397,7 @@ const CustomerID = {
   }
 }
 
-match (option) {
+case (option) {
   None {} => ..., // matches `new None()`
   Just x => ..., // matches `new Just(1)` with x === 1 from extraction
   CustomerID 'Alex' => ... // matches if `option` is like 'Alex--1234567'
@@ -416,9 +416,7 @@ PrimaryExpression :
   MatchExpression
 
 MatchExpression :
-  // Note: this requires a cover grammar to handle ambiguity
-  // between a call to a match function and the match expr.
-  `match` [no |LineTerminator| here] `(` Expression `)` [no |LineTerminator| here] `{` MatchClauses `}`
+  `case` `(` Expression `)` `{` MatchClauses `}`
 
 MatchClauses :
   MatchClause
@@ -517,11 +515,11 @@ From Ecma-262 :
 
 As part of distancing this feature from `switch`, and focusing on semantics that
 work best for it, fallthrough is not possible between multiple legs. It is
-expected that match clause are complete enough for picking a single leg, and
-further skipping can be done using guards or nested `match`.
+expected that `case` clauses are complete enough for picking a single leg, and
+further skipping can be done using guards or nested `case`.
 
 ```js
-match (x) {
+case (x) {
   {x: 1, y} if (y <= 10) => ...
   {x: 1} => ...
 }
@@ -532,7 +530,7 @@ scoping so much, and prevents really complicated and footgun-y cases where
 previous scopes might suddenly inject variables into further-down bodies:
 
 ```js
-match (x) {
+case (x) {
   y if (y < 10) => {
     x = 10
     continue // from the previous version of this proposal
@@ -556,12 +554,12 @@ proposals might try to introduce it.
 
 When the match pattern is a variable, it should simply assign to that variable,
 instead of trying to compare the value somehow. No variable binding prefix is
-required or supported -- variables bound in a `match` behave just like function
+required or supported -- variables bound in a `case` behave just like function
 arguments.
 
 ```js
 const y = 2
-match (1) {
+case (1) {
   y => x === y // y is bound to 1
 }
 ```
@@ -570,7 +568,7 @@ Guards can be used instead, for comparisons:
 
 ```js
 const y = 2
-match (1) {
+case (1) {
   y if (y === 2) => 'does not match',
   x if (x === 1) => 'x is 1'
 }
@@ -592,7 +590,7 @@ them more convenient and intuitive, but Numbers, Strings, Booleans, and Null are
 always compared using `Object.is`:
 
 ```js
-match (x) => {
+case (x) => {
   1 => 'x is 1',
   'foo' => 'x is foo',
   null => 'x is null (not undefined)'
@@ -605,28 +603,28 @@ matcher](#undefined-match).
 
 #### > Only one parameter to match against
 
-`match` accepts only a single argument to match against. This is sufficient,
+`case` accepts only a single argument to match against. This is sufficient,
 since arrays can be used with minimal syntactic overhead to achieve this effect:
 
 ```js
-match ([x, y]) {
+case ([x, y]) {
   [1, 2] => ...
 }
 ```
 
-(versus `match (x, y) ...`)
+(versus `case (x, y) ...`)
 
 #### <a name="fat-arrow-bodies"></a> > `=>` for leg bodies
 
-The previous `match` proposal used `:` as the separator between matchers and
+The previous `case` proposal used `:` as the separator between matchers and
 bodies. I believe `=>` is a better choice here due to its correspondence to fat
 arrows, and how similar the scoping/`{}` rules would be. Bodies should be
 treated as expressions returning values, which is very different from how
-`switch` works. I believe this is enough reason to distance `match`'s leg syntax
+`switch` works. I believe this is enough reason to distance `case`'s leg syntax
 from `switch`'s.
 
 ```js
-match (x) {
+case (x) {
   foo => foo + 1,
   {y: 1} => x.y === y,
   bar => {
@@ -642,7 +640,7 @@ syntax. Without more concrete data on usability of these sorts of statements
 the factors that made me choose this syntax are strong enough to justify it:
 
 * It retains most of the terseness of `:`.
-* It distances `match` from `switch` and its very different semantics.
+* It distances `case` from `switch` and its very different semantics.
 * Makes it clearer that leg bodies have Arrow-style scoping and semantics.
 * Makes the match pattern look more like a destructured function parameter.
 * Avoids repetitive prefixing of `case` keywords.
@@ -656,7 +654,7 @@ mere "taste" and subjective experiences.
 
 #### <a name="performance"></a> > Performance considerations
 
-The general design of this `match` leans heavily towards hopefully allowing
+The general design of this `case` leans heavily towards hopefully allowing
 compiler-side optimizations. By minimizing runtime generation of matching logic,
 most match clauses can be filtered according to PIC status
 (monomorphic/polymorphic/etc), as well as by Map ("hidden classes"). A smart
@@ -666,7 +664,7 @@ certain simpler match expressions to what a low-level `switch` might be.
 The fact that variable matchers do not need to match against variables in
 surrounding scopes, and worry about their internal types, is probably also a big
 advantage -- variable bindings are simply typed the same as the corresponding
-value passed into `match` (again, optimized with PICs).
+value passed into `case` (again, optimized with PICs).
 
 The main showstoppers for this sort of analysis are, I think,
 [extractors](#extractors) and perhaps guard expressions. Neither of these
@@ -701,7 +699,7 @@ property of the global object that happens to *contain* the undefined primitive
 value (which is obtainable via `void 0`, etc). This means that `undefined` can
 be a regular variable, and can thus potentially be assigned by match
 expressions. There are thus two choices here that we could take as far as how
-`match` treats `undefined` matches:
+`case` treats `undefined` matches:
 
 The "consistent" solution would be to keep variable semantics for `undefined`
 and treat it like a regular variable. This means that using `undefined` in the
@@ -709,7 +707,7 @@ LHS of a match clause would bind _any value_ to that variable and make it
 available for that leg:
 
 ```js
-match (1) {
+case (1) {
   undefined => 'always matches',
   1 => 'unreachable code'
 }
@@ -723,7 +721,7 @@ always treated as referring to the undefined primitive value, and matches with
 an `===` comparison, as the other primitive literals do:
 
 ```js
-match (1) {
+case (1) {
   undefined => 'nope',
   1 => 'matches === 1'
 }
@@ -735,7 +733,7 @@ they can usually do without problem:
 
 ```js
 // If `undefined` is treated as a variable:
-match(1) {
+case (1) {
   undefined => 'always matches, and now undefined is bound to 1 in this body :('
 }
 ```
@@ -750,7 +748,7 @@ LHS of a match clause to cause a `==` check, instead of a `===` check, which
 would make `undefined` match, as well:
 
 ```js
-match (undefined) {
+case (undefined) {
   null => 'this matches'
 }
 ```
@@ -759,7 +757,7 @@ On the other hand, this would make it confusing for people expecting a `===`
 match for this sort of literal. The main alternative would be to use a guard:
 
 ```js
-match (undefined) {
+case (undefined) {
   x if (x == null) => 'this matches'
 }
 ```
@@ -783,7 +781,7 @@ there are questions about how to handle the values returned by `patternMatch`:
 
 ##### Option A (current impl)
 
-`match` looks for `Symbol.patternMatch` methods on the Extractor argument
+`case` looks for `Symbol.patternMatch` methods on the Extractor argument
 associated with a match, and the match succeeds iff the return value of
 `Symbol.patternMatch` is truthy. To do the equivalent of `Some(val)`, you would
 instead use the `Symbol.patternValue` symbol to tag a key in an object that you
@@ -874,14 +872,14 @@ This can cause issues, since `instanceof` is not domain-safe.
 Choosing this default now can also potentially impact future upgrades when more
 suitable checks, such as the `builtin.is` proposal, or something as yet unknown,
 become official -- effectively leaving us with crappy `instanceof` checks on
-`match` forever.
+`case` forever.
 
 It's unclear what the options actually are here, but I believe this is important
 enough to block shipping because it allows things like:
 
 ```js
 class Foo {}
-match (new Foo()) {
+case (new Foo()) {
   Foo {} => 'got a Foo'
 }
 ```
@@ -898,12 +896,12 @@ widely available.
 
 #### <a name="match-assignment"></a> > Assigning matches to variables
 
-If you have a nested match, particularly a nested one, it would be useful to be
+If you have a nested `case`, particularly a nested one, it would be useful to be
 able to bind those specific matches to a variable. There's a number of syntaxes
 that can be used for this. That said, this feature is considered "future work"
 because the authors believe this is something that should be done as part of
 extending the existing destructuring syntax, rather than having special syntax
-only for `match`.
+only for `case`.
 
 ##### Option A: `as`
 
@@ -911,7 +909,7 @@ This syntax is [used by
 F#](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/pattern-matching). It's also reminiscent of `as` syntax in `import` statements, so there's some precedent in the language for this sort of binding (`import * as bar from './x.js'`)
 
 ```js
-match (x) {
+case (x) {
   {x: {y: 1} as x} => x.y === 1
 }
 ```
@@ -928,7 +926,7 @@ is more terse -- specially since spaces aren't necessary.
 One disadvantage of this syntax is that it might conflict with `@decorator`s
 
 ```js
-match (x) {
+case (x) {
   {x: x@{y: 1}} => x.y === 1
 }
 ```
@@ -938,7 +936,7 @@ directly without needing to pair it with a matcher, because the `@` operator
 could double-up as a matcher "tag":
 
 ```js
-match (obj) {
+case (obj) {
   @Foo => 'Foo[Symbol.patternMatch](obj) executed!',
   _@Foo => '@Foo is a shorthand for this',
   Foo {} => 'the way you would do it otherwise',
@@ -948,7 +946,7 @@ match (obj) {
 
 In more "real-world" context:
 ```js
-match (opt) {
+case (opt) {
   Foo x => ...,
   @None => 'nope',
   None {} => 'nope' // how you would usually do it.
@@ -963,7 +961,7 @@ completeness, because it's [what Erlang uses for
 this](http://learnyousomeerlang.com/syntax-in-functions#highlighter_784541)
 
 ```js
-match (x) {
+case (x) {
   {x: x = {y: 1}} => x.y === 1
 }
 ```
@@ -971,7 +969,7 @@ match (x) {
 #### <a name="catch-match"></a> > Destructuring matches on `catch`
 
 Essentially, adding a special syntax to `catch` so it can use pattern matching
-to do conditional clauses. In this particular case, the `match` keyword and
+to do conditional clauses. In this particular case, the `case` keyword and
 parameter could be omitted altogether while retaining backwards-compat (I
 think):
 
@@ -990,23 +988,23 @@ try {
 }
 ```
 
-#### <a name="if-match"></a> > `if match` Convenience Sugar
+#### <a name="if-case"></a> > `if case` Convenience Sugar
 
-There are cases where `match` can be clunky or awkward, but the power of its
-pattern match is still desired. This happens primarily when a `match` expression
+There are cases where `case` can be clunky or awkward, but the power of its
+pattern match is still desired. This happens primarily when a `case` expression
 has only a single non-trivial leg, usually with a fallthrough:
 
 ```js
-match (opt) {
+case (opt) {
   Some x => console.log(`Got ${x}`),
   None => {}
 }
 ```
 
-In this case, one might use an `if match` form or similar:
+In this case, one might use an `if case` form or similar:
 
 ```js
-if match (opt: Some x) {
+if case (opt: Some x) {
   console.log(`Got ${x}`)
 }
 ```
@@ -1015,26 +1013,26 @@ I'm not even touching what the right syntax for this should be, but there's [a
 nice Rust RFC](https://github.com/rust-lang/rfcs/pull/160) that explains the
 feature, and it seems to be well-liked among Rust developers.
 
-#### <a name="async-match"></a> > `async match () {}`
+#### <a name="async-case"></a> > `async case () {}`
 
 I'm not sure whether this would ever be necessary, but it's probably worth
 mentioning anyway. It's probably a completely pointless idea.
 
-#### <a name="match-arrow"></a> > Match Arrow functions
+#### <a name="case-arrow"></a> > Match Arrow functions
 
 Because of the similarity between clause bodies and arrow functions, it might be
-interesting to explore the idea of something like a "match arrow" function that
-provides a concise syntax for a single-leg `match` expression:
+interesting to explore the idea of something like a "case arrow" function that
+provides a concise syntax for a single-leg `case` expression:
 
 ```js
-const unwrap = v => match (v) Some x => x
+const unwrap = v => case (v) Some x => x
 ```
 
 Possibly taking it even further and making a shorthand that automatically
 creates an arrow:
 
 ```js
-const unwrap = match (Some x) => x
+const unwrap = case (Some x) => x
 unwrap(new Some('hello')) // 'hello'
 unwrap(None) // MatchError
 ```
@@ -1042,11 +1040,11 @@ unwrap(None) // MatchError
 #### <a name="compound-matcher"></a> > `&&` and `||`
 
 `&&` and `||` are special compound matchers that allow you to join multiple
-match clauses to express a range of possibilities in a match. They are analogous
-to the regular boolean operators `&&` and `||`, except their comparisons are
-whether matches succeeded or not -- rather than the actual value being matched
-in the expression. Both operators have the same short-circruiting semantics as
-their boolean counterparts.
+match clauses to express a range of possibilities in a `case`. They are
+analogous to the regular boolean operators `&&` and `||`, except their
+comparisons are whether matches succeeded or not -- rather than the actual value
+being matched in the expression. Both operators have the same short-circruiting
+semantics as their boolean counterparts.
 
 You can use `&&` and `||` between expressions at any level where matchers are
 accepted. Guards are not included in these expressions, as there must be only
@@ -1063,7 +1061,7 @@ over other bindings, since it's the only one that will actually bind values.
 ##### Example
 
 ```js
-match (x) {
+case (x) {
   1 || 2 || 3 => ...,
   [1, y] && {x: y} => ..., // Both `x` and `y` are bound to their matches values
   {a: 1, x} || {a: 2, y} => // Both `x` and `y` are declared.
@@ -1074,10 +1072,10 @@ match (x) {
 There are some choices that can be made for supporting the OR and AND compound
 matchers. This spec currently uses Option A, which is to use `||` and `&&` for
 those operations. Note that any operators that have correspondence to existing
-semantics will necessarily have overloaded meaning in match expressions, because
-compound matchers always work based on match success, not actual value (so `null
-OR 0 OR false` succeeds if the value is either of those two values, regardless
-of their falsiness as values).
+semantics will necessarily have overloaded meaning in `case` expressions,
+because compound matchers always work based on match success, not actual value
+(so `null OR 0 OR false` succeeds if the value is either of those two values,
+regardless of their falsiness as values).
 
 ##### Option A: `||` and `&&`
 
@@ -1093,7 +1091,7 @@ succeed if the matched value is any of those three -- whereas such an expression
 would never succeed in its regular context.
 
 ```js
-match (x) {
+case (x) {
   1 || 2 || null || 0 => ...,
   {x: 1} && {y: 2} => ...
 }
@@ -1109,7 +1107,7 @@ For this option, it's also reasonable and possible to pick a different operator
 for `&` and keep `|` as a "bar".
 
 ```js
-match (x) {
+case (x) {
   1 | 2 | null | 0 => ...,
   {x: 1} & {y: 2} => ...
 }
@@ -1122,7 +1120,7 @@ would work as a fallthrough, and `,` as a joiner. This would not change usign `=
 as the body separator, though:
 
 ```js
-match (x) {
+case (x) {
   1: 2: null: 0 => ...,
   {x: 1}, {y: 2} => ...
 }
@@ -1133,7 +1131,7 @@ match (x) {
 This would add `and` and `or` keywords rather than use non-alpha characters:
 
 ```js
-match (x) {
+case (x) {
   1 or 2 or null or 0 => ...,
   {x: 1} and {y: 2} => ...
 }
@@ -1151,7 +1149,7 @@ guards](https://en.wikibooks.org/wiki/Erlang_Programming/guards#Multiple_guards)
 where `;` acts as an OR and `,` as an AND.
 
 ```js
-match (x) {
+case (x) {
   1; 2; null; 0 => ...,
   {x: 1}, {y: 2} => ...
 }
@@ -1176,7 +1174,7 @@ Using the operator directly from Elixir:
 
 ```js
 const y = 1
-match (x) {
+case (x) {
   ^y => 'x is 1',
   x if (x === y) => 'this is how you would do it otherwise'
 }
@@ -1188,7 +1186,7 @@ A more compelling reason to have this terseness might be to allow matches on
 ```js
 import {FOO, BAR} from './constants.js'
 
-match (x) {
+case (x) {
   ^FOO => 'x was the FOO constant',
   ^BAR => 'x was the BAR constant'
 }
@@ -1211,7 +1209,7 @@ function ByVal (obj) {
   return new ConstantMatcher(obj)
 }
 
-match (x) {
+case (x) {
   ByVal(FOO) {} => 'got a FOO',
   ByVal(BAR) {} => 'got a BAR'
 }
@@ -1227,7 +1225,7 @@ array into a variable. This syntax, though, requires that the "rest" value be
 bound to a specific variable. That is, `[a, b, ...]` is invalid syntax.
 
 The previous pattern matching proposal included syntax that allowed this to be
-the case, but only inside the LHS of `match`. It's possible the syntax could be
+the case, but only inside the LHS of `case`. It's possible the syntax could be
 added, but there's also a question of whether it's necessary, since variables in
 this proposal are always bound, rather than used for arbitrary matchin as in the
 previous proposal -- there's little use for allowing plain `...` params besides
