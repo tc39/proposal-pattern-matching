@@ -65,12 +65,12 @@ MatchGuard :
   `if` `(` Expression `)`
 
 MatchPattern :
-  ObjectMatchBinding
-  ArrayMatchBinding
-  IdentifierMatchBinding
-  LiteralMatchBinding
+  ObjectMatchPattern
+  ArrayMatchPattern
+  IdentifierMatchPattern
+  LiteralMatchPattern
 
-ObjectMatchBinding :
+ObjectMatchPattern :
   `{` `}`
   `{` MatchRestProperty `}`
   `{` MatchPropertyList `,` MatchRestProperty[opt] `}`
@@ -84,9 +84,9 @@ MatchProperty
   PropertyName `:` MatchElement
 
 MatchRestProperty :
-  `...` IdentifierMatchBinding
+  `...` IdentifierMatchPattern
 
-ArrayMatchBinding :
+ArrayMatchPattern :
   `[` `]`
   `[` Elision[opt] MatchRestElement `]`
   `[` MatchElementList `]`
@@ -103,13 +103,13 @@ MatchElement :
   MatchPattern
 
 MatchRestElement :
-  `...` IdentifierMatchBinding
+  `...` IdentifierMatchPattern
   `...` MatchElement
 
-IdentifierMatchBinding :
+IdentifierMatchPattern :
   BindingIdentifier
 
-LiteralMatchBinding :
+LiteralMatchPattern :
   NullLiteral
   BooleanLiteral
   NumericLiteral
@@ -216,10 +216,10 @@ match (input) {
 1. evaluate Expression and assign the value to `input`
 1. For each MatchClause in MatchClauses:
   1. if no MatchClause left, throw MatchError
-  1. if MatchPattern is ObjectMatchBinding, perform lret = ObjectMatchEvaluation(input, env)
-  1. if MatchPattern is ArrayMatchBinding, perform lret = ArrayMatchEvaluation(input, evn)
-  1. if MatchPattern is LiteralMatchBinding, perform lret = LiteralMatchEvaluation(input, env)
-  1. if MatchPattern is IdentifierMatchBinding, perform lret = IdentifierMatchBinding(input, env)
+  1. if MatchPattern is ObjectMatchPattern, perform lret = ObjectMatchEvaluation(input, env)
+  1. if MatchPattern is ArrayMatchPattern, perform lret = ArrayMatchEvaluation(input, evn)
+  1. if MatchPattern is LiteralMatchPattern, perform lret = LiteralMatchEvaluation(input, env)
+  1. if MatchPattern is IdentifierMatchPattern, perform lret = IdentifierMatchPattern(input, env)
   1. if lret is true:
     1. if MatchGuard exists, perform lret = MatchGuardExpr(env)
     1. if MatchGuard does not exist, or lret is true, exit loop
