@@ -100,6 +100,8 @@ how well they work together).
 * [Pipeline Operator](https://github.com/tc39/proposal-pipeline-operator)
 * [Block Params](https://github.com/samuelgoto/proposal-block-params)
 * [Slice Notation](https://github.com/gsathya/proposal-slice-notation)
+* [BigInt](https://github.com/tc39/proposal-bigint)
+* [`throw` Expressions](https://github.com/rbuckton/proposal-throw-expressions)
 
 ## <a name="match-operator"></a> 1 Match Operator
 
