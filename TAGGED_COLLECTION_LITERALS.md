@@ -149,18 +149,35 @@ When a user learns they can construct with one syntax, is becomes much easier to
 teach them how to destruct with it.
 
 While the standard `new`/`constructor` mechanism is what makes construction
-literals work, destructuring uses the standard iterator protocol:
+literals work, destructuring uses the standard iterator protocol through a
+`Symbol.entries` method. If `Symbol.entries` is not present, `.entries()` is
+tried instead. If specific keys are being requested, `.entries()` will receive
+an array of keys that are being requested from the object. Filtering entries
+based on these keys is optional.
 
 ```js
 const Map#{1: x, y} = Map#{1: 'x', y: 'y'}
 ===
 let x, y
-for (let entry of Map#{1: 'x', y: 'y'}.entries()) {
+for (let entry of Map#{1: 'x', y: 'y'}.entries([1, 'y'])) {
   match (entry) {
     [1, _x] => { x = _x },
     ['y', _y] => { y = _y }
   }
 }
+
+const Set#[a, b, c] = Set#[1,2,3,4]
+===
+let [a,b,c] = Array.from(Set#[1,2,3,4].entries()) // requests all entries
+
+class Some {
+  constructor (val) { this._val = val }
+  [Symbol.entries] () { return this._val }
+}
+const Some#x = Some#1
+===
+let x = (Some#1).entries()
+// x === 1
 ```
 
 When a destructuring sequence is used, the iterator will be used as-is to match
