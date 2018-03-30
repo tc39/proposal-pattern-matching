@@ -116,20 +116,21 @@ LiteralMatchPattern :
   StringLiteral
   RegularExpressionLiteral
 
-From Ecma-262 :
-  PrimaryExpression
-  LineTerminator
-  ConciseBody
-  Expression
-  AssignmentExpression
-  SingleNameBinding
-  Elision
-  BindingIdentifier
-  NullLiteral
-  BooleanLiteral
-  NumericLiteral
-  StringLiteral
-  RegularExpressionLiteral
+PrimaryExpression :
+LineTerminator :
+ConciseBody :
+Expression :
+AssignmentExpression :
+SingleNameBinding :
+Elision :
+BindingIdentifier :
+NullLiteral :
+BooleanLiteral :
+NumericLiteral :
+StringLiteral :
+RegularExpressionLiteral :
+Initializer :
+  As Described in Ecma-262
 ```
 
 ### <a name="match-ss-errors"></a> 1.1 Static Semantics: Early Errors
