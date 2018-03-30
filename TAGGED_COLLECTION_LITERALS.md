@@ -73,3 +73,100 @@ match (input) {
   None#{} => `option failed`
 }
 ```
+
+## Construction Literals
+
+For construction, literals are a thin layer of syntax sugar over `new`
+expressions. When a literal construction expression is found, the left hand side
+is evaluated for its value, and the right hand side is converted to an iterator
+or an atomic value:
+
+```js
+// Tagged Object Literals
+Map#{foo: 1, 'foo': 1, [Symbol('bar')]: 2, 3: 4, [{}]: 5}
+=== new Map({[Symbol.iterator]: function* () {
+  // IdentifierName interpreted as string
+  yield ['foo', 1]
+  // StringLiteral PropertyNames
+  yield ['foo', 1]
+  // Symbols preserved
+  yield [Symbol('bar'), 2]
+  // Numeric literals do not get ToString
+  yield [3, 4]
+  // Other kinds of computer property also do not get ToString
+  yield [{}, 5]
+}}
+
+// Tagged Array Literals
+Set#[1,2,3]
+=== new Set({[Symbol.iterator]: function* () {
+  // Nothing special here, except the argument is not an Array
+  yield 1; yield 2; yield 3
+}})
+
+// Tagged Value Literals
+Some#1
+=== new Some(1)
+```
+
+### Benefits
+
+For Objects, the benefits are more obvious: No conversion to `ToString`,
+parse-time early errors for invalid key/value syntax, and more appropriate
+syntax for key/value types, instead of having to write nested arrays.
+
+For Arrays and Values, the benefit on this end of things is smaller, and largely
+based on convenience, with the exception that it does help ease a common footgun
+with `new`:
+
+```js
+class Bar { constructor (iter) { this.val = [...iter] } }
+function foo () { return {Bar} }
+foo.Bar = Bar
+new foo().Bar()
+// TypeError: Class constructor Bar cannot be invoked without `new`
+new foo.Bar()
+// => Bar {}
+```
+
+While this behavior is consistent, it is something that does occasionally bite
+people. Literal syntax helps ease this a bit, specially in data structure-heavy
+code:
+
+```js
+foo().Bar#[1,2,3]
+Bar { val: [1,2,3] }
+foo.Bar#[1,2,3]
+Bar { val: [1,2,3] }
+```
+
+But, as implied before, the main benefit of extending tagged literal syntax to
+arrays and individual values is the correspondence to destructuring...
+
+## Destructuring Literals
+
+When a user learns they can construct with one syntax, is becomes much easier to
+teach them how to destruct with it.
+
+While the standard `new`/`constructor` mechanism is what makes construction
+literals work, destructuring uses the standard iterator protocol:
+
+```js
+const Map#{1: x, y} = Map#{1: 'x', y: 'y'}
+===
+let x, y
+for (let entry of Map#{1: 'x', y: 'y'}.entries()) {
+  match (entry) {
+    [1, _x] => { x = _x },
+    ['y', _y] => { y = _y }
+  }
+}
+```
+
+When a destructuring sequence is used, the iterator will be used as-is to match
+and fill entries in the destructured array. When a single value is requested,
+destructuring will use the first value from the iterator.
+
+If no iterator is returned, destructuring is considered to have failed. When
+using destructuring binding, this will just make all requested variables stay
+uninitialized. If matching, it will cause the match to fail.
