@@ -78,10 +78,7 @@ Operator](https://github.com/tc39/proposal-pipeline-operator), for example,
 would be able to use `match` expressions as a terse, rich branching mechanism,
 whereas right now it requires more restricted `?:` operators to do inline
 branching, or opt for much more verbose closures with `if`, using `return`
-heavily. On the downside, this expression might well make the smart operators
-subproposal [significantly more complex in
-practice](https://twitter.com/RReverser/status/975767900895219712), but that
-subproposal never claimed to be semantically simple anyway.
+heavily.
 
 In summary, I believe the `match` operator, specially with its proposed
 extensions, would fit well into the current apparent direction of the language,
