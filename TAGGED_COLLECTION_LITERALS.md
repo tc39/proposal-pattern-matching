@@ -74,6 +74,12 @@ match (input) {
 }
 ```
 
+## The Big Picture
+
+### Related Active Proposals
+
+* [Private accessors](https://github.com/tc39/proposal-private-methods) (due to `#` syntax)
+
 ## Construction Literals
 
 For construction, literals are a thin layer of syntax sugar over `new`

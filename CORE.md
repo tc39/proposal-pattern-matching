@@ -11,6 +11,7 @@
 ## Table of Contents
 
 * [Introduction](#introduction)
+* [The Big Picture](#big-picture)
 * [1 Match Operator](#match-operator)
   * [Syntax](#match-syntax)
   * [1.1 Static Semantics: Early Errors](#match-ss-errors)
@@ -30,15 +31,78 @@ This proposal adds a pattern matching expression to the language, based on the
 existing [Destructuring Binding
 Patterns](https://tc39.github.io/ecma262/#sec-destructuring-binding-patterns).
 Pattern matching is a widely-applicable feature that often becomes core to the
-way developers end up writing code logic, and JavaScript's reliance on
-structural similarities for its various operations make it a compelling use-case
-for such a feature.
-
+way developers end up writing code logic, and
 This proposal draws heavily from corresponding features in
 [Rust](https://doc.rust-lang.org/1.6.0/book/patterns.html),
 [F#](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/pattern-matching),
 [Scala](http://www.scala-lang.org/files/archive/spec/2.11/08-pattern-matching.html),
 and [Elixir](https://elixir-lang.org/getting-started/pattern-matching.html).
+
+## <a name="big-picture"></a> The Big Picture
+
+A significant point about this is that it adds a fourth, though complimentary,
+conditional syntax to the language, after `if`, `switch`, and `?:`. It is, in
+fact, a sort of combination of all three, and as far as its own capabilities go,
+covers almost all the features of those three operators, aside from the leg
+fallthrough feature of `switch`. As such, the particular combination of features
+and semantics has been taken into account and, largely, each of the four
+could/would continue being idiomatic for the use cases they're individually
+opimized for. For example, though `match` has guards, `if` is still the
+preferred idiomatic way of writing generalized conditional statements, specially
+multi-branch ones. For this reason, I do not believe there exists a conflict in
+adding this construct, even with the overlap.
+
+Going further, this proposal makes a point of closely mirroring the semantics of
+destructuring binding and destructuring assignment in most cases. Anyone who has
+learned to use destructuring binding in either assignment or function arguments
+should be able to apply that same understanding to match branches.
+
+This proposal is also a step towards improving the overall experiences of users
+writing `class`-heavy code -- with the [Tagged Collection
+Literals](TAGGED_COLLECTION_LITERALS.md) extension, which was written with the
+intention of benefitting from this proposal, users will have a much richer set
+of features to construct, destruct, and otherwise manipulate their instances.
+
+There are other proposals making similar efforts to improve manipulation and
+access of built-in data structures as well: [Optional
+Chaining](https://github.com/tc39/proposal-optional-chaining), for example, also
+makes this sort of access (and operations on those values) easier. Likewise, the
+proposed [Slice Notation](https://github.com/gsathya/proposal-slice-notation)
+does something similar for Arrays.
+
+This proposal doesn't just enrich the wealth of Object-orientation-related
+features the language currently has (and is currently adding), but also fits in
+nicely with proposals meant to develop JavaScript's capabilities as a
+function-oriented language: [the Pipeline
+Operator](https://github.com/tc39/proposal-pipeline-operator), for example,
+would be able to use `match` expressions as a terse, rich branching mechanism,
+whereas right now it requires more restricted `?:` operators to do inline
+branching, or opt for much more verbose closures with `if`, using `return`
+heavily. On the downside, this expression might well make the smart operators
+subproposal [significantly more complex in
+practice](https://twitter.com/RReverser/status/975767900895219712), but that
+subproposal never claimed to be semantically simple anyway.
+
+In summary, I believe the `match` operator, specially with its proposed
+extensions, would fit well into the current apparent direction of the language,
+and it will benefit users who use JavaScript as a heavily Object-oriented
+language as much as users who prefer to write it in a more Function-oriented
+style. And they would be able to do all of this with an addition to the language
+that requires relatively little additional overhead over skills and tools
+they've already learned.
+
+### <a name="related-proposals"></a> Related Active Proposals
+
+These are proposals with either some logical overlap, or which are likely to be
+used in conjunction with this proposal on a pretty regular basis (usually due to
+how well they work together).
+
+* [`as` patterns](AS_PATTERNS.md)
+* [Tagged Collection Literals](TAGGED_COLLECTION_LITERALS.md)
+* [Optional Chaining](https://github.com/tc39/proposal-optional-chaining)
+* [Pipeline Operator](https://github.com/tc39/proposal-pipeline-operator)
+* [Block Params](https://github.com/samuelgoto/proposal-block-params)
+* [Slice Notation](https://github.com/gsathya/proposal-slice-notation)
 
 ## <a name="match-operator"></a> 1 Match Operator
 
@@ -228,7 +292,7 @@ match (input) {
 1. Perform ret = ConciseBodyEval(env)
 1. return ret
 
-## Annex A
+## Annex A: Design Decisions
 
 These are key, intentional design desicions made by this proposal in particular
 which I believe should stay as they are, and why:
