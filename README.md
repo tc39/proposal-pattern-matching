@@ -61,7 +61,7 @@ function todoApp (state = initialState, action) {
         ? {...todo, done: !todo.done}
         : todo
       )
-    })
+    }),
 
     {} => null // ignore unknown actions
   })
