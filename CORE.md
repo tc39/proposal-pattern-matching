@@ -59,7 +59,7 @@ MatchClauses :
   MatchClauses `,` MatchClause
 
 MatchClause :
-  MatchPattern MatchGuard[opt] `=>` ConciseBody
+  MatchPattern Initializer[opt] MatchGuard[opt] `=>` ConciseBody
 
 MatchGuard :
   `if` `(` Expression `)`
