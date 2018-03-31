@@ -102,6 +102,7 @@ how well they work together).
 * [Slice Notation](https://github.com/gsathya/proposal-slice-notation)
 * [BigInt](https://github.com/tc39/proposal-bigint)
 * [`throw` Expressions](https://github.com/rbuckton/proposal-throw-expressions)
+* [Extensible numeric literals](https://github.com/tc39/proposal-extended-numeric-literals)
 
 ## <a name="match-operator"></a> 1 Match Operator
 

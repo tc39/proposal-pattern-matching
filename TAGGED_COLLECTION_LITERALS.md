@@ -79,6 +79,11 @@ match (input) {
 ### Related Active Proposals
 
 * [Private accessors](https://github.com/tc39/proposal-private-methods) (due to `#` syntax)
+* [Frozen/sealed object syntax](https://github.com/keithamus/object-freeze-seal-syntax)
+* [Richer Keys](https://docs.google.com/presentation/d/1q3CGeXqskL1gHTATH_VE9Dhj0VGTIAOzJ1cR0dYqDBk/edit#slide=id.p)
+* [`Object.fromEntries`](https://github.com/bakkot/object-from-entries)
+* [Smart Pipelines](https://github.com/js-choi/proposal-smart-pipelines/blob/master/readme.md)
+* [`of` and `from` constructors](https://github.com/tc39/proposal-setmap-offrom)
 
 ## Construction Literals
 
