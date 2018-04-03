@@ -59,7 +59,7 @@ should be able to apply that same understanding to match branches.
 
 This proposal is also a step towards improving the overall experiences of users
 writing `class`-heavy code -- with the [Tagged Collection
-Literals](TAGGED_COLLECTION_LITERALS.md) extension, which was written with the
+Literals](https://github.com/zkat/proposal-collection-literals) extension, which was written with the
 intention of benefitting from this proposal, users will have a much richer set
 of features to construct, destruct, and otherwise manipulate their instances.
 
@@ -94,8 +94,8 @@ These are proposals with either some logical overlap, or which are likely to be
 used in conjunction with this proposal on a pretty regular basis (usually due to
 how well they work together).
 
-* [`as` patterns](AS_PATTERNS.md)
-* [Tagged Collection Literals](TAGGED_COLLECTION_LITERALS.md)
+* [`as` patterns](https://github.com/zkat/proposal-as-pattrns)
+* [Tagged Collection Literals](https://github.com/zkat/proposal-collection-literals)
 * [Optional Chaining](https://github.com/tc39/proposal-optional-chaining)
 * [Pipeline Operator](https://github.com/tc39/proposal-pipeline-operator)
 * [Block Params](https://github.com/samuelgoto/proposal-block-params)
