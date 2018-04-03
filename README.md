@@ -18,9 +18,9 @@ It's structured into multiple parts:
 
 * The [core proposal for the `match` API](CORE.md), which is based directly on destructuring binding patterns.
 
-* A proposal extending both `match` and regular destructuring with [`as` patterns](AS_PATTERNS.md), so patterns can both be matched and be assigned to identifiers.
+* A proposal extending both `match` and regular destructuring with [`as` patterns](https://github.com/zkat/proposal-as-patterns), so patterns can both be matched and be assigned to identifiers.
 
-* A proposal to add [tagged collection literals](TAGGED_COLLECTION_LITERALS.md), both as construction literals, and as their corresponding destructuring patterns.
+* A proposal to add [tagged collection literals](https://github.com/zkat/proposal-collection-literals), both as construction literals, and as their corresponding destructuring patterns.
 
 * A document including suggestions for [other future proposals](TO_INFINITY_AND_BEYOND.md), which are dependent on `match`, but do not directly affect the main behavior of the feature.
 
