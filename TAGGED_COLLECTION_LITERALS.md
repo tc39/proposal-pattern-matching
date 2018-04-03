@@ -78,6 +78,7 @@ match (input) {
 
 ### Related Active Proposals
 
+* [Pattern matching](https://github.com/tc39/proposal-pattern-matching)
 * [Private accessors](https://github.com/tc39/proposal-private-methods) (due to `#` syntax)
 * [Frozen/sealed object syntax](https://github.com/keithamus/object-freeze-seal-syntax)
 * [Richer Keys](https://docs.google.com/presentation/d/1q3CGeXqskL1gHTATH_VE9Dhj0VGTIAOzJ1cR0dYqDBk/edit#slide=id.p)
