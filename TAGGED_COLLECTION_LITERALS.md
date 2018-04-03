@@ -87,15 +87,16 @@ match (input) {
 
 ## Construction Literals
 
-For construction, literals are a thin layer of syntax sugar over `new`
-expressions. When a literal construction expression is found, the left hand side
-is evaluated for its value, and the right hand side is converted to an iterator
-or an atomic value:
+For construction, literals are a thin layer of syntax sugar over
+`Constructor.from()` functions. When a literal construction expression is found,
+the left hand side is evaluated for its value, and the right hand side is
+converted to an iterator or an atomic value. The type of value passed to
+`.from()` depends on which of the three syntaxes is used:
 
 ```js
 // Tagged Object Literals
 Map#{foo: 1, 'foo': 1, [Symbol('bar')]: 2, 3: 4, [{}]: 5}
-=== new Map({[Symbol.iterator]: function* () {
+=== Map.from({[Symbol.iterator]: function* () {
   // IdentifierName interpreted as string
   yield ['foo', 1]
   // StringLiteral PropertyNames
@@ -110,14 +111,14 @@ Map#{foo: 1, 'foo': 1, [Symbol('bar')]: 2, 3: 4, [{}]: 5}
 
 // Tagged Array Literals
 Set#[1,2,3]
-=== new Set({[Symbol.iterator]: function* () {
+=== Set.from({[Symbol.iterator]: function* () {
   // Nothing special here, except the argument is not an Array
   yield 1; yield 2; yield 3
 }})
 
 // Tagged Value Literals
 Some#1
-=== new Some(1)
+=== Some.from(1)
 ```
 
 ### Benefits
@@ -159,18 +160,22 @@ arrays and individual values is the correspondence to destructuring...
 When a user learns they can construct with one syntax, is becomes much easier to
 teach them how to destruct with it.
 
-While the standard `new`/`constructor` mechanism is what makes construction
-literals work, destructuring uses the standard iterator protocol through a
-`Symbol.entries` method. If `Symbol.entries` is not present, `.entries()` is
-tried instead. If specific keys are being requested, `.entries()` will receive
-an array of keys that are being requested from the object. Filtering entries
-based on these keys is optional.
+While the common `.from()` method mechanism is what makes construction literals
+work, destructuring uses the standard iterator protocol through a
+`Symbol.valueOf` constructor method. If `Symbol.valueOf` is not present,
+`.valueOf()` is tried instead. If array or object-destructurng syntax is used
+without RestProperty/RestElement, `.valueOf()` will receive an array of keys
+that are being requested from the object. If an atomic destructure is requested,
+the second argument to `valueOf()` will be `undefined`. Filtering entries based
+on these keys is optional.
+
+The `valueOf` method should return an iterator
 
 ```js
 const Map#{1: x, y} = Map#{1: 'x', y: 'y'}
 ===
 let x, y
-for (let entry of Map#{1: 'x', y: 'y'}.entries([1, 'y'])) {
+for (let entry of Map.valueOf(Map#{1: 'x', y: 'y'}, [1, 'y'])) {
   match (entry) {
     [1, _x] => { x = _x },
     ['y', _y] => { y = _y }
@@ -179,22 +184,20 @@ for (let entry of Map#{1: 'x', y: 'y'}.entries([1, 'y'])) {
 
 const Set#[a, b, c] = Set#[1,2,3,4]
 ===
-let [a,b,c] = Array.from(Set#[1,2,3,4].entries()) // requests all entries
+let [a,b,c] = Array.from(Set.valueOf(Set#[1,2,3,4], [0,1,2]))
 
-class Some {
-  constructor (val) { this._val = val }
-  [Symbol.entries] () { return this._val }
-}
+class Some { constructor (val) { this._val = val } }
+Some.valueOf = (some) => some._val
+
 const Some#x = Some#1
 ===
-let x = (Some#1).entries()
+let x = Some.valueOf(new Some(1))
 // x === 1
 ```
 
 When a destructuring sequence is used, the iterator will be used as-is to match
-and fill entries in the destructured array. When a single value is requested,
-destructuring will use the first value from the iterator.
+and fill entries in the destructured array or object.
 
-If no iterator is returned, destructuring is considered to have failed. When
-using destructuring binding, this will just make all requested variables stay
-uninitialized. If matching, it will cause the match to fail.
+If `valueOf` returns `undefined`, the match is considered to have failed, and no
+values will match. When used with `match`, this will cause the match clause to
+fail.
