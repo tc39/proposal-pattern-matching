@@ -296,6 +296,10 @@ match (input) {
 1. Perform ret = ConciseBodyEval(env)
 1. return ret
 
+_ArrayMatchEvaluation_
+
+TODO: ...use iterables...
+
 ## Annex A: Design Decisions
 
 These are key, intentional design desicions made by this proposal in particular
