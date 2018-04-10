@@ -64,7 +64,7 @@ function todoApp (state = initialState, action) {
     }),
 
     {} => null // ignore unknown actions
-  })
+  }
 
   return {...state, ...newState}
 }
