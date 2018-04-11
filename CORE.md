@@ -63,6 +63,12 @@ Literals](https://github.com/zkat/proposal-collection-literals) extension, which
 intention of benefitting from this proposal, users will have a much richer set
 of features to construct, destruct, and otherwise manipulate their instances.
 
+`match` is closely related to the [`do` expression
+proposal](https://github.com/tc39/proposal-do-expressions), in the sense that
+its `MatchClauseBody`, when in `Block` form, is intended to have identical
+semantics to `do` expression bodies -- that is, the value of the `match` clause
+will be the `CompletionRecord` value of evaluating the block statement.
+
 There are other proposals making similar efforts to improve manipulation and
 access of built-in data structures as well: [Optional
 Chaining](https://github.com/tc39/proposal-optional-chaining), for example, also
@@ -99,6 +105,7 @@ how well they work together).
 * [Optional Chaining](https://github.com/tc39/proposal-optional-chaining)
 * [Pipeline Operator](https://github.com/tc39/proposal-pipeline-operator)
 * [Block Params](https://github.com/samuelgoto/proposal-block-params)
+* [`do` expressions](https://github.com/tc39/proposal-do-expressions)
 * [Slice Notation](https://github.com/gsathya/proposal-slice-notation)
 * [BigInt](https://github.com/tc39/proposal-bigint)
 * [`throw` Expressions](https://github.com/rbuckton/proposal-throw-expressions)
@@ -123,10 +130,14 @@ MatchClauses :
   MatchClauses `,` MatchClause
 
 MatchClause :
-  MatchPattern Initializer[opt] MatchGuard[opt] `=>` ConciseBody
+  MatchPattern Initializer[opt] MatchGuard[opt] `=>` MatchClauseBody
 
 MatchGuard :
   `if` `(` Expression `)`
+
+MatchClauseBody :
+  Block
+  Expression
 
 MatchPattern :
   ObjectMatchPattern
@@ -180,20 +191,20 @@ LiteralMatchPattern :
   StringLiteral
   RegularExpressionLiteral
 
-PrimaryExpression :
-LineTerminator :
-ConciseBody :
-Expression :
 AssignmentExpression :
-SingleNameBinding :
-Elision :
 BindingIdentifier :
-NullLiteral :
+Block :
 BooleanLiteral :
-NumericLiteral :
-StringLiteral :
-RegularExpressionLiteral :
+Elision :
+Expression :
 Initializer :
+LineTerminator :
+NullLiteral :
+NumericLiteral :
+PrimaryExpression :
+RegularExpressionLiteral :
+SingleNameBinding :
+StringLiteral :
   As Described in Ecma-262
 ```
 
@@ -239,7 +250,7 @@ match (input) {
 }
 ```
 
-Basic ConciseBody return:
+Basic body return:
 ```js
 const val2 = match (input) {
   {x} => x
@@ -247,13 +258,31 @@ const val2 = match (input) {
 // if `input` is {x: 1}, `val2` is 1
 ```
 
-Curly brace ConciseBody:
+CompletionValue for block-style bodies:
 ```js
 match (input) {
   {x} => {
     console.log(x)
-    return x // return required, just like arrows, to return a value
+    x // no need for `return`, unlike with arrow functions
   }
+}
+
+while (true) {
+  match (42) {
+    v => {
+      var hoistMe = v
+      const noHoist = v
+      function alsoMe () { return v }
+      break // breaks out of the `while` loop
+    }
+  }
+}
+console.log(hoistMe) // 42 -- variables are hoisted as in `if`
+console.log(alsoMe()) // 42 -- so are functions
+console.log(noHoist) // SyntaxError -- `const`/`let` are block-scoped
+
+match (10) {
+  v => var foo = v // SyntaxError. `{}` are required if you want statements
 }
 ```
 
@@ -266,7 +295,14 @@ match (input) {
   // matches if `input` is an object, whether or not it has an `x` property, and
   // sets `x` to `1` if `x` does not already exist on the object. Does NOT
   // match if `input` is undefined.
-  {x: x = 1} => ...
+  {x: x = 1} => ...,
+  // initializers only execute if a match succeeds.
+  // This example only matches if `status` was already 200 on input.
+  {status = 200} if (status === 200) => ...
+  // And this one always succeeds if a status property existed, with any value,
+  // and the initializer will never be executed (because the property was
+  // defined already)
+  {status = 400} => ...
 }
 ```
 
@@ -293,8 +329,13 @@ match (input) {
     1. if MatchGuard exists, perform lret = MatchGuardExpr(env)
     1. if MatchGuard does not exist, or lret is true, exit loop
   1. if lret is false: continue loop
-1. Perform ret = ConciseBodyEval(env)
+1. Perform ret = EvalClauseBody(ClauseBody, env)
 1. return ret
+
+#### EvalClauseBody
+
+1. if ClauseBody is an Expression, evaluate the expression and return its value
+1. if ClauseBody is a Block, evaluate it and return its CompletionValue
 
 _ArrayMatchEvaluation_
 
