@@ -24,6 +24,8 @@
   * [`Object.is` for non-collection literals](#object-is-comparison)
   * [Fat arrow-style bodies](#fat-arrow-bodies)
 * [Annex B: Performance Considerations](#annex-b)
+* [Annex C: Future Bikeshedding Concerns](#annex-c)
+  * [C.1 `undefined` and Other "Literals"](#fake-literals)
 
 ## Introduction
 
@@ -512,3 +514,36 @@ optimized if all clauses have identical-typed matchers (`1 || 2 || 3 => ...`).
 I'm not a browser engine implementer, though, so I'm probably way off base with
 what would actually have an impact on performance, but I figured I should write
 a bit about this anyway.
+
+## <a name="annex-c"></a> Annex C: Future Bikeshedding Concerns
+
+This section documents issues that have been raised against the design,
+and don't need to be resolved right now at this early stage,
+but will probably need to be resolved in order for this to progress to later stages.
+
+## <a name="fake-literals"></a> `undefined` and Other "Literals"
+
+(Documented in [Issue 76](https://github.com/tc39/proposal-pattern-matching/issues/76).)
+
+Earlier in this document there's an example of some pathological behavior 
+for things that aren't actually syntax literals,
+but which most authors treat as if they are:
+
+```
+match (input) {
+  Infinity => ..., // always matches, sets a local `Infinity` to `input`
+  -Infinity => ..., // SyntaxError: not a MatchPattern
+  undefined => ..., // always matches, assigns `input` to local `undefined` var
+  NaN => ... // ditto. rip 💀
+}
+```
+
+All of these cases should probably be special-cased in the matching syntax
+to refer to their global values,
+rather than treated as always-matching assignment clauses 
+(or syntax errors, in `-Infinity`'s case),
+or else they'll likely end up being footguns for authors.
+
+(They *can* still be matched regardless,
+using an `if` clause to manually test for the value.
+This is just concerning the ergonomics and expected behavior of using them directly as a matcher.)
