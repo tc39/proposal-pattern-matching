@@ -98,4 +98,5 @@ getLength({x: 1, y: 2, z: 3}) // 3.74165
 ## Implementations
 
 * [`pattycake`](https://npm.im/pattycake) (pure JS, no syntax sugar)
+* [`xmatch`](https://npm.im/xmatch) (another pure JS/ES6 implementation, structural matching closer to the syntax but no literals support)
 * [Babel Plugin](https://github.com/babel/babel/pull/7633)
