@@ -36,10 +36,10 @@ Matching `fetch()` responses:
 
 ```javascript
 const res = await fetch(jsonService)
-const val = match (res) {
-  {status: 200, headers: {'Content-Length': s}} => `size is ${s}`,
-  {status: 404} => 'JSON not found',
-  {status} if (status >= 400) => throw new RequestError(res)
+match (res) {
+  when {status: 200, headers: Headers~{'content-length': s}} ~> `size is ${s}`
+  when {status: 404} ~> 'JSON not found'
+  when {status} if (status >= 400) ~> throw new RequestError(res)
 }
 ```
 
@@ -49,24 +49,22 @@ documentation](https://redux.js.org/basics/reducers#splitting-reducers):
 
 ```js
 function todoApp (state = initialState, action) {
-  const newState = match (action) {
-    {type: 'set-visibility-filter', filter: visFilter} => ({visFilter}),
-
-    {type: 'add-todo', text} => ({
-      todos: [...state.todos, {text}]
-    }),
-
-    {type: 'toggle-todo', index} => ({
-      todos: state.todos.map((todo, idx) => idx === index
-        ? {...todo, done: !todo.done}
-        : todo
-      )
-    }),
-
-    {} => null // ignore unknown actions
+  match (action) {
+    when {type: 'set-visibility-filter', filter: visFilter} ~>
+      return {...state, visFilter}
+    when {type: 'add-todo', text} ~>
+      return {...state, todos: [...state.todos, {text}]}
+    when {type: 'toggle-todo', index} ~> {
+      return {
+        ...state,
+        todos: state.todos.map((todo, idx) => idx === index
+          ? {...todo, done: !todo.done}
+          : todo
+        )
+      }
+    }
+    when {} ~> {} // ignore unknown actions
   }
-
-  return {...state, ...newState}
 }
 ```
 
@@ -74,10 +72,12 @@ Or mixed in with JSX code for quick props handling:
 
 ```js
 <Fetch url={API_URL}>{
-  props => match (props) {
-    {loading} => <Loading />,
-    {error} => <Error error={error} />,
-    {data} => <Page data={data} />
+  props => {
+    match (props) {
+      when {loading} ~> return <Loading />
+      when {error} ~> return <Error error={error} />
+      when {data} ~> return <Page data={data} />
+    }
   }
 }
 </Fetch>
@@ -87,16 +87,17 @@ Or mixed in with JSX code for quick props handling:
 General structural duck-typing on an API for vector-likes:
 
 ```js
-const getLength = vector => match (vector) {
-  { x, y, z } => Math.sqrt(x ** 2 + y ** 2 + z ** 2),
-  { x, y } => Math.sqrt(x ** 2 + y ** 2),
-  [...etc] => vector.length
+const getLength = vector => {
+  match (vector) {
+    when { x, y, z } ~> return Math.sqrt(x ** 2 + y ** 2 + z ** 2)
+    when { x, y } ~> return Math.sqrt(x ** 2 + y ** 2)
+    when [...etc] ~> return vector.length
+  }
 }
 getLength({x: 1, y: 2, z: 3}) // 3.74165
 ```
 
 ## Implementations
 
-* [`pattycake`](https://npm.im/pattycake) (pure JS, no syntax sugar)
 * [Babel Plugin](https://github.com/babel/babel/pull/7633)
 * [Sweet.js macro](https://github.com/natefaubion/sparkler) (NOTE: this isn't based on the proposal, this proposal is partially based on it!)
