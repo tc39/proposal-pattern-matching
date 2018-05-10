@@ -190,7 +190,6 @@ LiteralMatchPattern :
   BooleanLiteral
   NumericLiteral
   StringLiteral
-  RegularExpressionLiteral
 
 AssignmentExpression :
 BindingIdentifier :
@@ -201,7 +200,6 @@ Initializer :
 LineTerminator :
 NullLiteral :
 NumericLiteral :
-RegularExpressionLiteral :
 SingleNameBinding :
 Statement :
 StringLiteral :
@@ -234,9 +232,10 @@ match (input) {
   when 'foo' ~> ... // matches if `input` is 'foo'
   when false ~> ... // matches if `input` is `false`
   when null ~> ... // matches if `input` is `null`
-  when /^foo/ ~> ... // matches if `input` is a string that starts with 'foo'
   when {x} if (myCheck(x)) ~> ... // matches if `input` can do ToObject, if `input.x` is not `undefined`, and if `myCheck(input.x)` is true
   when x ~> ... // always matches
+  when /^foo/ ~> ... // SyntaxError
+  when x if (x.match(/^foo/)) ~> ... // ok!
 }
 ```
 
@@ -401,9 +400,9 @@ on how to allow variable-based matching.
 
 ### <a name="object-is-comparison"></a> > Primitives compared with `Object.is`
 
-This proposal special-cases Array, Object, and RegExp literal matches to make
-them more convenient and intuitive, but Numbers, Strings, Booleans, and Null are
-always compared using `Object.is`:
+This proposal special-cases Array, and Object literal matches to make them more
+convenient and intuitive, but Numbers, Strings, Booleans, and Null are always
+compared using `Object.is`:
 
 ```js
 match (x) ~> {
