@@ -433,20 +433,15 @@ match ([x, y]) {
 
 The general design of this `match` leans heavily towards hopefully allowing
 compiler-side optimizations. By minimizing runtime generation of matching logic,
-most match clauses can be filtered according to PIC status
-(monomorphic/polymorphic/etc), as well as by Map ("hidden classes"). A smart
-enough compiler should be able to reorder and omit branches and possibly reduce
-certain simpler match expressions to what a low-level `switch` might be.
+many match clauses can potentially be filtered according to PIC status
+(monomorphic/polymorphic/etc), as well as by Map/type. A sufficiently smart
+compiler should be able to reorder and omit branches and possibly reduce certain
+simpler match expressions to what a low-level `switch` might be.
 
 The fact that variable matchers do not need to match against variables in
 surrounding scopes, and worry about their internal types, is probably also a big
 advantage -- variable bindings are simply typed the same as the corresponding
 value passed into `match` (again, optimized with PICs).
-
-The main showstoppers for this sort of analysis are, I think,
-[extractors](#extractors) and perhaps guard expressions. Neither of these
-features are optimized to be users' main code paths, and performance-sensitive
-code can be rewritten to remove these extensions as needed.
 
 Complex compounds might also cause issues (`&&`/`||`), but these can be
 optimized if all clauses have identical-typed matchers (`1 || 2 || 3 ~> ...`).
