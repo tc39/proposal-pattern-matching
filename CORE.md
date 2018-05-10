@@ -103,7 +103,7 @@ These are proposals with either some logical overlap, or which are likely to be
 used in conjunction with this proposal on a pretty regular basis (usually due to
 how well they work together).
 
-* [`as` patterns](https://github.com/zkat/proposal-as-pattrns)
+* [`as` patterns](https://github.com/zkat/proposal-as-patterns)
 * [Tagged Collection Literals](https://github.com/zkat/proposal-collection-literals)
 * [`do` expressions](https://github.com/tc39/proposal-do-expressions)
 * [Optional Chaining](https://github.com/tc39/proposal-optional-chaining)
