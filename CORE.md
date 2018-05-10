@@ -16,8 +16,10 @@
   * [Syntax](#match-syntax)
   * [1.1 Static Semantics: Early Errors](#match-ss-errors)
   * [1.2 Runtime Semantics: IsFunctionDefinition](#match-rs-fn-def)
-  * [1.3 Runtime Semantics: IsValidSimpleAssignmentTarget](#match-rs-valid-sat)
-  * [1.4 Runtime Semantics: Evaluation](#match-rs-eval)
+  * [1.3 Runtime Semantics: Evaluation](#match-rs-eval)
+    * [1.3.1 Runtime Semantics: MatchClauseMatches](#match-rs-match-clause-matches)
+    * [1.3.2 Runtime Semantics: MatchClauseEvaluation](#match-rs-match-clause-eval)
+    * [1.3.3 Runtime Semantics: By Example](#match-rs-by-example)
 * [Annex A: Design Decisions](#annex-a)
   * [No Clause Fallthrough](#no-fallthrough)
   * [Variables Always Assign](#variables-always-assign)
@@ -214,13 +216,44 @@ TKTK
 
 TKTK
 
-### <a name="match-rs-valid-sat"></a> 1.3 Runtime Semantics: IsValidSimpleAssignmentTarget
+### <a name="match-rs-eval"></a> 1.3 Runtime Semantics: Evaluation
 
-TKTK
+_MatchStatement_ `:` `match` `(` _Expression_ `)` `{` MatchClauses `}`
 
-### <a name="match-rs-eval"></a> 1.4 Runtime Semantics: Evaluation
+1. Let _exprRef_ be the result of evaluation _Expression_.
+1. Let _exprValue_ be ? GetValue(_exprRef_)
+1. For each element _MatchClause_ in _MatchClauses_:
+  1. If no _MatchClause_ left, throw _MatchError_
+  1. Let _matched_ be ? MatchClauseMatches(_exprValue_, _MatchClause_)
+  1. If _matched_ is true, then
+    1. Let _clauseCompletion_ be ? MatchClauseEvaluation(_exprValue_, _MatchClause_)
+    1. Return Completion(UpdateEmpty(_clauseCompletion_, `undefined`))
 
-##### MatchEval Code Summary
+#### <a name="match-rs-match-clause-matches"></a> 1.3.1 MatchClauseMatches(_exprValue_, _MatchClause_)
+
+_MatchClause_ `:` `when` _MatchPattern_ _Initializer_[opt] _MatchGuard_[opt] `~>` _MatchClauseBody_
+
+_MatchPattern_ `:` _ObjectMatchPattern_
+
+_ObjectMatchPattern_ `:` `{` `}`
+
+<!-- Note: I think this is the way to check if something's an object? -->
+1. Perform ? ToObject(_exprValue_)
+1. Return `true`
+
+_ObjectMatchPattern_ `:` `{` _MatchRestProperty_ `}`
+
+1. TODO
+
+_ObjectMatchPattern_ `:` `{` _MatchProperty_ `}`
+
+1. TODO
+
+#### <a name="match-rs-match-clause-eval"></a> 1.3.2 MatchClauseEvaluation(_exprValue_, _MatchClause_)
+
+1. TODO
+
+#### <a name="match-rs-by-example"></a> 1.3.3 Runtime Semantics: By Example
 
 Match logic:
 
@@ -297,28 +330,6 @@ match (input) {
   when NaN ~> ... // ditto. rip 💀
 }
 ```
-
-#### MatchEvaluation (initial sketch)
-
-1. evaluate argument Expression and assign the value to `input`
-1. For each MatchClause in MatchClauses:
-  1. if no MatchClause left, throw MatchError
-  1. if MatchPattern is ObjectMatchPattern, perform lret = ObjectMatchEvaluation(input, env)
-  1. if MatchPattern is ArrayMatchPattern, perform lret = ArrayMatchEvaluation(input, evn)
-  1. if MatchPattern is LiteralMatchPattern, perform lret = LiteralMatchEvaluation(input, env)
-  1. if MatchPattern is IdentifierMatchPattern, perform lret = IdentifierMatchPattern(input, env)
-  1. if lret is true:
-    1. if MatchGuard exists, perform lret = MatchGuardExpr(env)
-    1. if MatchGuard does not exist, or lret is true, exit loop
-  1. if lret is false: continue loop
-1. Perform ret = EvalStatement(ClauseBody, env)
-1. Perform CompletionValue = ret
-
-#### EvalClauseBody
-
-_ArrayMatchEvaluation_
-
-TODO: ...use iterables...
 
 ## Annex A: Design Decisions
 
