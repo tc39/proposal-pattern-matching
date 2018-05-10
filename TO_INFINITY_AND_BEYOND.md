@@ -46,15 +46,15 @@ has only a single non-trivial leg, usually with a fallthrough:
 
 ```js
 match (opt) {
-  Some#x => console.log(`Got ${x}`),
-  _ => {}
+  when Some~x ~> console.log(`Got ${x}`)
+  when _ ~> {}
 }
 ```
 
 In this case, one might use an `if match` form or similar:
 
 ```js
-if match (opt: Some x) {
+if match (opt when Some~x) {
   console.log(`Got ${x}`)
 }
 ```
@@ -72,14 +72,14 @@ mentioning anyway. It's probably a completely pointless idea.
 
 Because of the similarity between clause bodies and arrow functions, it might be
 interesting to explore the idea of something like a "match arrow" function that
-provides a concise syntax for a single-leg `match` expression:
+provides a concise syntax for a single-leg `match` statement:
 
 ```js
-const unwrap = v => match (v) Some#x => x
+const unwrap = v => { match (v) when Some#x ~> return x }
 ```
 
 Possibly taking it even further and making a shorthand that automatically
-creates an arrow:
+creates an arrow, taking the place of something like `async`:
 
 ```js
 const unwrap = match (Some#x) => x
@@ -112,10 +112,10 @@ over other bindings, since it's the only one that will actually bind values.
 
 ```js
 match (x) {
-  1 || 2 || 3 => ...,
-  [1, y] && {x: y} => ..., // Both `x` and `y` are bound to their matches values
-  {a: 1, x} || {a: 2, y} => // Both `x` and `y` are declared.
-                            // Only one of the two will be defined.
+  when 1 || 2 || 3 ~> ...
+  when [1, y] && {x: y} ~> ... // Both `x` and `y` are bound to their matches
+  when {a: 1, x} || {a: 2, y} ~> ... // Both `x` and `y` are declared.
+                                     // Only one of the two will be defined.
 }
 ```
 
@@ -142,8 +142,8 @@ would never succeed in its regular context.
 
 ```js
 match (x) {
-  1 || 2 || null || 0 => ...,
-  {x: 1} && {y: 2} => ...
+  when 1 || 2 || null || 0 ~> ...
+  when {x: 1} && {y: 2} ~> ...
 }
 ```
 
@@ -158,21 +158,21 @@ for `&` and keep `|` as a "bar".
 
 ```js
 match (x) {
-  1 | 2 | null | 0 => ...,
-  {x: 1} & {y: 2} => ...
+  when 1 | 2 | null | 0 ~> ...
+  when {x: 1} & {y: 2} ~> ...
 }
 ```
 
 ##### Option C: `:` and `,`
 
 This would revert things back to a previously-proposed possibility, where `:`
-would work as a fallthrough, and `,` as a joiner. This would not change usign `=>`
+would work as a fallthrough, and `,` as a joiner. This would not change usign `~>`
 as the body separator, though:
 
 ```js
 match (x) {
-  1: 2: null: 0 => ...,
-  {x: 1}, {y: 2} => ...
+  when 1: 2: null: 0 ~> ...
+  when {x: 1}, {y: 2} ~> ...
 }
 ```
 
@@ -182,8 +182,8 @@ This would add `and` and `or` keywords rather than use non-alpha characters:
 
 ```js
 match (x) {
-  1 or 2 or null or 0 => ...,
-  {x: 1} and {y: 2} => ...
+  when 1 or 2 or null or 0 ~> ...
+  when {x: 1} and {y: 2} ~> ...
 }
 ```
 
@@ -200,8 +200,8 @@ where `;` acts as an OR and `,` as an AND.
 
 ```js
 match (x) {
-  1; 2; null; 0 => ...,
-  {x: 1}, {y: 2} => ...
+  when 1; 2; null; 0 ~> ...
+  when {x: 1}, {y: 2} ~> ...
 }
 ```
 
@@ -225,8 +225,8 @@ Using the operator directly from Elixir:
 ```js
 const y = 1
 match (x) {
-  ^y => 'x is 1',
-  x if (x === y) => 'this is how you would do it otherwise'
+  when ^y ~> 'x is 1'
+  when x if (x === y) ~> 'this is how you would do it otherwise'
 }
 ```
 
@@ -237,8 +237,8 @@ A more compelling reason to have this terseness might be to allow matches on
 import {FOO, BAR} from './constants.js'
 
 match (x) {
-  ^FOO => 'x was the FOO constant',
-  ^BAR => 'x was the BAR constant'
+  when ^FOO => 'x was the FOO constant'
+  when ^BAR => 'x was the BAR constant'
 }
 ```
 
@@ -260,8 +260,8 @@ function ByVal (obj) {
 }
 
 match (x) {
-  ByVal(FOO)# => 'got a FOO',
-  ByVal(BAR)# => 'got a BAR'
+  when ByVal(FOO)~_ => 'got a FOO',
+  when ByVal(BAR)~_ => 'got a BAR'
 }
 ```
 

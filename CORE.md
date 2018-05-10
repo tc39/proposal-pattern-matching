@@ -12,7 +12,7 @@
 
 * [Introduction](#introduction)
 * [The Big Picture](#big-picture)
-* [1 Match Operator](#match-operator)
+* [1 Match Statement](#match-statement)
   * [Syntax](#match-syntax)
   * [1.1 Static Semantics: Early Errors](#match-ss-errors)
   * [1.2 Runtime Semantics: IsFunctionDefinition](#match-rs-fn-def)
@@ -22,19 +22,19 @@
   * [No Clause Fallthrough](#no-fallthrough)
   * [Variables Always Assign](#variables-always-assign)
   * [`Object.is` for non-collection literals](#object-is-comparison)
-  * [Fat arrow-style bodies](#fat-arrow-bodies)
+  * [Only one match param](#only-one-param)
 * [Annex B: Performance Considerations](#annex-b)
 * [Annex C: Future Bikeshedding Concerns](#annex-c)
   * [C.1 `undefined` and Other "Literals"](#fake-literals)
 
 ## Introduction
 
-This proposal adds a pattern matching expression to the language, based on the
+This proposal adds a pattern matching statement to the language, based on the
 existing [Destructuring Binding
 Patterns](https://tc39.github.io/ecma262/#sec-destructuring-binding-patterns).
 Pattern matching is a widely-applicable feature that often becomes core to the
-way developers end up writing code logic, and
-This proposal draws heavily from corresponding features in
+way developers end up writing code logic, and This proposal draws heavily from
+corresponding features in
 [Rust](https://doc.rust-lang.org/1.6.0/book/patterns.html),
 [F#](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/pattern-matching),
 [Scala](http://www.scala-lang.org/files/archive/spec/2.11/08-pattern-matching.html),
@@ -43,33 +43,19 @@ and [Elixir](https://elixir-lang.org/getting-started/pattern-matching.html).
 ## <a name="big-picture"></a> The Big Picture
 
 A significant point about this is that it adds a fourth, though complimentary,
-conditional syntax to the language, after `if`, `switch`, and `?:`. It is, in
-fact, a sort of combination of all three, and as far as its own capabilities go,
-covers almost all the features of those three operators, aside from the leg
-fallthrough feature of `switch`. As such, the particular combination of features
-and semantics has been taken into account and, largely, each of the four
-could/would continue being idiomatic for the use cases they're individually
-opimized for. For example, though `match` has guards, `if` is still the
-preferred idiomatic way of writing generalized conditional statements, specially
-multi-branch ones. For this reason, I do not believe there exists a conflict in
-adding this construct, even with the overlap.
+conditional syntax to the language, after `if`, `switch`, and `?:`.
 
-Going further, this proposal makes a point of closely mirroring the semantics of
+The big addition here is that this proposal closely mirrors the semantics of
 destructuring binding and destructuring assignment in most cases. Anyone who has
 learned to use destructuring binding in either assignment or function arguments
-should be able to apply that same understanding to match branches.
+should be able to apply that same understanding to match branches, and can
+benefit from much richer and semantically concise conditionals.
 
 This proposal is also a step towards improving the overall experiences of users
 writing `class`-heavy code -- with the [Tagged Collection
 Literals](https://github.com/zkat/proposal-collection-literals) extension, which was written with the
 intention of benefitting from this proposal, users will have a much richer set
 of features to construct, destruct, and otherwise manipulate their instances.
-
-`match` is closely related to the [`do` expression
-proposal](https://github.com/tc39/proposal-do-expressions), in the sense that
-its `MatchClauseBody`, when in `Block` form, is intended to have identical
-semantics to `do` expression bodies -- that is, the value of the `match` clause
-will be the `CompletionRecord` value of evaluating the block statement.
 
 There are other proposals making similar efforts to improve manipulation and
 access of built-in data structures as well: [Optional
@@ -83,12 +69,27 @@ features the language currently has (and is currently adding), but also fits in
 nicely with proposals meant to develop JavaScript's capabilities as a
 function-oriented language: [the Pipeline
 Operator](https://github.com/tc39/proposal-pipeline-operator), for example,
-would be able to use `match` expressions as a terse, rich branching mechanism,
-whereas right now it requires more restricted `?:` operators to do inline
-branching, or opt for much more verbose closures with `if`, using `return`
-heavily.
+would be able to use `match` statements as a terse, rich branching mechanism.
 
-In summary, I believe the `match` operator, specially with its proposed
+It's notable that this operator is specifically a statement, much like `if` and
+`switch`. That means that it cannot itself return a value that can be assigned
+into a variable. That makes it more procedural than a lot (most? all?) pattern
+matching constructs in other language. It is the position of this proposal's
+authors that the issue of treating such statements as expressions is best left
+to the [`do` expression
+proposal](https://github.com/tc39/proposal-do-expressions) and, more
+importantly, [implicit `do`
+expressions](https://github.com/tc39/proposal-do-expressions/issues/9), which
+will complete their integration. Trying to make _only_ the `match` operator act
+as an expression would introduce a lot of questions that are already being
+discussed in the `do` proposal, which would need to be answered either way, such
+as the behavior of `CompletionValue`s, the behavior of `continue`, `break`, and
+`return` inside them, the behavior of `var` and `function` hoisting, etc. So, it
+will benefit from a more focused discussion. In the meantime, a `match`
+statement would still bring great benefit to users through its conditional
+expressive ability.
+
+In summary, I believe the `match` statement, specially with its proposed
 extensions, would fit well into the current apparent direction of the language,
 and it will benefit users who use JavaScript as a heavily Object-oriented
 language as much as users who prefer to write it in a more Function-oriented
@@ -104,42 +105,40 @@ how well they work together).
 
 * [`as` patterns](https://github.com/zkat/proposal-as-pattrns)
 * [Tagged Collection Literals](https://github.com/zkat/proposal-collection-literals)
+* [`do` expressions](https://github.com/tc39/proposal-do-expressions)
 * [Optional Chaining](https://github.com/tc39/proposal-optional-chaining)
 * [Pipeline Operator](https://github.com/tc39/proposal-pipeline-operator)
 * [Block Params](https://github.com/samuelgoto/proposal-block-params)
-* [`do` expressions](https://github.com/tc39/proposal-do-expressions)
 * [Slice Notation](https://github.com/gsathya/proposal-slice-notation)
 * [BigInt](https://github.com/tc39/proposal-bigint)
 * [`throw` Expressions](https://github.com/rbuckton/proposal-throw-expressions)
 * [Extensible numeric literals](https://github.com/tc39/proposal-extended-numeric-literals)
 
-## <a name="match-operator"></a> 1 Match Operator
+## <a name="match-statement"></a> 1 Match Statement
 
 ### <a name="match-syntax"></a> Syntax
 
 ```
-PrimaryExpression :
-  MatchExpression
+Statement :
+  MatchStatement
 
-MatchExpression :
+MatchStatement :
   // Note: this requires a cover grammar to handle ambiguity
   // between a call to a match function and the match expr.
   `match` [no |LineTerminator| here] `(` Expression `)` [no |LineTerminator| here] `{` MatchClauses `}`
 
 MatchClauses :
   MatchClause
-  MatchClauses `,` MatchClause `,`[opt]
-  MatchClauses `,` MatchClause
+  MatchClauses MatchClause
 
 MatchClause :
-  MatchPattern Initializer[opt] MatchGuard[opt] `=>` MatchClauseBody
+  `when` MatchPattern Initializer[opt] MatchGuard[opt] `~>` MatchClauseBody
 
 MatchGuard :
   `if` `(` Expression `)`
 
 MatchClauseBody :
-  Block
-  Expression
+  Statement
 
 MatchPattern :
   ObjectMatchPattern
@@ -195,7 +194,6 @@ LiteralMatchPattern :
 
 AssignmentExpression :
 BindingIdentifier :
-Block :
 BooleanLiteral :
 Elision :
 Expression :
@@ -203,9 +201,9 @@ Initializer :
 LineTerminator :
 NullLiteral :
 NumericLiteral :
-PrimaryExpression :
 RegularExpressionLiteral :
 SingleNameBinding :
+Statement :
 StringLiteral :
   As Described in Ecma-262
 ```
@@ -229,63 +227,46 @@ TKTK
 Match logic:
 
 ```js
-const val = match (input) {
-  {x: 1} => ..., // matches if `input` can do ToObject and `input.x` is 1
-  [1,2] => ..., // matches if `input` can do ToObject, `input.length` is 2, `input[0]` is 1, and `input[1]` is 2
-  1 => ..., // matches if `input` is 1
-  'foo' => ..., // matches if `input` is 'foo'
-  false => ..., // matches if `input` is `false`
-  null => ..., // matches if `input` is `null`
-  /^foo/ => ..., // matches if `input` is a string that starts with 'foo'
-  {x} if (myCheck(x)) => ..., // matches if `input` can do ToObject, if `input.x` is not `undefined`, and if `myCheck(input.x)` is true
-  x => ..., // always matches
+match (input) {
+  when {x: 1} ~> ... // matches if `input` can do ToObject and `input.x` is 1
+  when [1,2] ~> ... // matches if `input` can do ToObject, `input.length` is 2, `input[0]` is 1, and `input[1]` is 2
+  when 1 ~> ... // matches if `input` is 1
+  when 'foo' ~> ... // matches if `input` is 'foo'
+  when false ~> ... // matches if `input` is `false`
+  when null ~> ... // matches if `input` is `null`
+  when /^foo/ ~> ... // matches if `input` is a string that starts with 'foo'
+  when {x} if (myCheck(x)) ~> ... // matches if `input` can do ToObject, if `input.x` is not `undefined`, and if `myCheck(input.x)` is true
+  when x ~> ... // always matches
 }
 ```
 
 Rest params:
 ```js
 match (input) {
-  {x, ...y} => ..., // binds all-other-properties to `y`.
-  {x, ...{y}} => ..., // SyntaxError
-  [1, ...etc] => ...,
-  [1, ...[2]] => ... // Recursive matching on `rest` is allowed
+  when {x, ...y} ~> ... // binds all-other-properties to `y`.
+  when {x, ...{y}} ~> ... // SyntaxError
+  when [1, ...etc] ~> ...
+  when [1, ...[2]] ~> ... // Recursive matching on `rest` is allowed
 }
 ```
 
-Basic body return:
 ```js
-const val2 = match (input) {
-  {x} => x
-}
-// if `input` is {x: 1}, `val2` is 1
-```
-
-CompletionValue for block-style bodies:
-```js
-match (input) {
-  {x} => {
-    console.log(x)
-    x // no need for `return`, unlike with arrow functions
-  }
-}
-
 while (true) {
   match (42) {
-    v => {
+    when v ~> {
       var hoistMe = v
       const noHoist = v
       function alsoMe () { return v }
+      if (v) { continue } // skips next line
       break // breaks out of the `while` loop
     }
+    when y ~> function foo () {} // function statement, not function expression
   }
 }
 console.log(hoistMe) // 42 -- variables are hoisted as in `if`
 console.log(alsoMe()) // 42 -- so are functions
+console.log(foo) // non-block function syntax treated as _statement_
 console.log(noHoist) // SyntaxError -- `const`/`let` are block-scoped
-
-match (10) {
-  v => var foo = v // SyntaxError. `{}` are required if you want statements
-}
 ```
 
 Initializers:
@@ -293,34 +274,34 @@ Initializers:
 match (input) {
   // matches `input` if it's an object. If `input` is `undefined`, match is set
   // to `{x: 1}`, and x is bound to 1.
-  {x} = {x: 1} => ...,
+  when {x} = {x: 1} ~> ...
   // matches if `input` is an object, whether or not it has an `x` property, and
   // sets `x` to `1` if `x` does not already exist on the object. Does NOT
   // match if `input` is undefined.
-  {x: x = 1} => ...,
+  when {x: x = 1} ~> ...
   // initializers only execute if a match succeeds.
   // This example only matches if `status` was already 200 on input.
-  {status = 200} if (status === 200) => ...
+  when {status = 200} if (status === 200) ~> ...
   // And this one always succeeds if a status property existed, with any value,
   // and the initializer will never be executed (because the property was
   // defined already)
-  {status = 400} => ...
+  when {status = 400} ~> ...
 }
 ```
 
 Pathological case: non-primitive built-in variables.
 ```js
 match (input) {
-  Infinity => ..., // always matches, sets a local `Infinity` to `input`
-  -Infinity => ..., // SyntaxError: not a MatchPattern
-  undefined => ..., // always matches, assigns `input` to local `undefined` var
-  NaN => ... // ditto. rip 💀
+  when Infinity ~> ... // always matches, sets a local `Infinity` to `input`
+  when -Infinity ~> ... // SyntaxError: not a MatchPattern
+  when undefined ~> ... // always matches, assigns `input` to local `undefined` var
+  when NaN ~> ... // ditto. rip 💀
 }
 ```
 
 #### MatchEvaluation (initial sketch)
 
-1. evaluate Expression and assign the value to `input`
+1. evaluate argument Expression and assign the value to `input`
 1. For each MatchClause in MatchClauses:
   1. if no MatchClause left, throw MatchError
   1. if MatchPattern is ObjectMatchPattern, perform lret = ObjectMatchEvaluation(input, env)
@@ -331,13 +312,10 @@ match (input) {
     1. if MatchGuard exists, perform lret = MatchGuardExpr(env)
     1. if MatchGuard does not exist, or lret is true, exit loop
   1. if lret is false: continue loop
-1. Perform ret = EvalClauseBody(ClauseBody, env)
-1. return ret
+1. Perform ret = EvalStatement(ClauseBody, env)
+1. Perform CompletionValue = ret
 
 #### EvalClauseBody
-
-1. if ClauseBody is an Expression, evaluate the expression and return its value
-1. if ClauseBody is a Block, evaluate it and return its CompletionValue
 
 _ArrayMatchEvaluation_
 
@@ -357,8 +335,8 @@ further skipping can be done using guards or nested `match`.
 
 ```js
 match (x) {
-  {x: 1, y} if (y <= 10) => ...
-  {x: 1} => ...
+  when {x: 1, y} if (y <= 10) ~> ...
+  when {x: 1} ~> ...
 }
 ```
 
@@ -368,11 +346,11 @@ previous scopes might suddenly inject variables into further-down bodies:
 
 ```js
 match (x) {
-  y if (y < 10) => {
+  when y if (y < 10) ~> {
     x = 10
-    continue // from the previous version of this proposal
+    continue // prev proposal version used `continue` for explicit fallthrough
   }
-  y if (y >= 10) => {
+  when y if (y >= 10) ~> {
     console.log(y, x) // what are x and y? Does this clause even run?
   }
 }
@@ -392,13 +370,14 @@ proposals might try to introduce it.
 When the match pattern is a variable, it should simply assign to that variable,
 instead of trying to compare the value somehow. No variable binding prefix is
 required or supported -- variables bound in a `match` behave just like function
-arguments.
+arguments, which essentially makes them work like `let`.
 
 ```js
 const y = 2
 match (1) {
-  y => x === y // y is bound to 1
+  when y ~> ... // y is 1, not 2
 }
+console.log(y) // 2
 ```
 
 Guards can be used instead, for comparisons:
@@ -406,8 +385,8 @@ Guards can be used instead, for comparisons:
 ```js
 const y = 2
 match (1) {
-  y if (y === 2) => 'does not match',
-  x if (x === 1) => 'x is 1'
+  when y if (y === 2) ~> 'does not match',
+  when x if (x === 1) ~> 'x is 1'
 }
 ```
 
@@ -427,10 +406,10 @@ them more convenient and intuitive, but Numbers, Strings, Booleans, and Null are
 always compared using `Object.is`:
 
 ```js
-match (x) => {
-  1 => 'x is 1',
-  'foo' => 'x is foo',
-  null => 'x is null (not undefined)'
+match (x) ~> {
+  when 1 ~> // x is 1
+  when 'foo' ~> // x is 'foo'
+  when null ~> // x is null (NOT undefined)
 }
 ```
 
@@ -438,56 +417,18 @@ See also [the bikeshed about special-casing the `null` matcher](#null-punning),
 as well as the one [about making `undefined` another "primitive"
 matcher](#undefined-match).
 
-#### > Only one parameter to match against
+#### <a name="only-one-param"></a> > Only one parameter to match against
 
 `match` accepts only a single argument to match against. This is sufficient,
 since arrays can be used with minimal syntactic overhead to achieve this effect:
 
 ```js
 match ([x, y]) {
-  [1, 2] => ...
+  when [1, 2] ~> ...
 }
 ```
 
 (versus `match (x, y) ...`)
-
-### <a name="fat-arrow-bodies"></a> > `=>` for leg bodies
-
-The previous `match` proposal used `:` as the separator between matchers and
-bodies. I believe `=>` is a better choice here due to its correspondence to fat
-arrows, and how similar the scoping/`{}` rules would be. Bodies should be
-treated as expressions returning values, which is very different from how
-`switch` works. I believe this is enough reason to distance `match`'s leg syntax
-from `switch`'s.
-
-```js
-match (x) {
-  foo => foo + 1,
-  {y: 1} => x.y === y,
-  bar => {
-    console.log(bar)
-    return bar + 2
-  }
-}
-```
-
-There are many possibilities when it comes to this particular aspect of the
-syntax. Without more concrete data on usability of these sorts of statements
-(surveys, interviews with educators, speed/accuracy research, etc), I believe
-the factors that made me choose this syntax are strong enough to justify it:
-
-* It retains most of the terseness of `:`.
-* It distances `match` from `switch` and its very different semantics.
-* Makes it clearer that leg bodies have Arrow-style scoping and semantics.
-* Makes the match pattern look more like a destructured function parameter.
-* Avoids repetitive prefixing of `case` keywords.
-* It's used by both Rust and Scala, the two implementations that imo are
-  semantically closest to this proposal (and both have clearly C-style syntax).
-  They are both fairly popular languages, so the familiarity might further help.
-
-If more decisions are to be made around this, I would rather do so with more
-data, as minor syntactic bikesheds can turn into joyless pits of despair over
-mere "taste" and subjective experiences.
 
 ## <a name="annex-b"></a> Annex B: Performance Considerations
 
@@ -509,7 +450,7 @@ features are optimized to be users' main code paths, and performance-sensitive
 code can be rewritten to remove these extensions as needed.
 
 Complex compounds might also cause issues (`&&`/`||`), but these can be
-optimized if all clauses have identical-typed matchers (`1 || 2 || 3 => ...`).
+optimized if all clauses have identical-typed matchers (`1 || 2 || 3 ~> ...`).
 
 I'm not a browser engine implementer, though, so I'm probably way off base with
 what would actually have an impact on performance, but I figured I should write
@@ -525,25 +466,25 @@ but will probably need to be resolved in order for this to progress to later sta
 
 (Documented in [Issue 76](https://github.com/tc39/proposal-pattern-matching/issues/76).)
 
-Earlier in this document there's an example of some pathological behavior 
+Earlier in this document there's an example of some pathological behavior
 for things that aren't actually syntax literals,
 but which most authors treat as if they are:
 
-```
+```js
 match (input) {
-  Infinity => ..., // always matches, sets a local `Infinity` to `input`
-  -Infinity => ..., // SyntaxError: not a MatchPattern
-  undefined => ..., // always matches, assigns `input` to local `undefined` var
-  NaN => ... // ditto. rip 💀
+  Infinity ~> ... // always matches, sets a local `Infinity` to `input`
+  -Infinity ~> ... // SyntaxError: not a MatchPattern
+  undefined ~> ... // always matches, assigns `input` to local `undefined` var
+  NaN ~> ... // ditto. rip 💀
 }
 ```
 
 All of these cases should probably be special-cased in the matching syntax
 to refer to their global values,
-rather than treated as always-matching assignment clauses 
+rather than treated as always-matching assignment clauses
 (or syntax errors, in `-Infinity`'s case),
 or else they'll likely end up being footguns for authors.
 
-(They *can* still be matched regardless,
-using an `if` clause to manually test for the value.
-This is just concerning the ergonomics and expected behavior of using them directly as a matcher.)
+(They *can* still be matched regardless, using an `if` clause to manually test
+for the value. This is just concerning the ergonomics and expected behavior of
+using them directly as a matcher.)
