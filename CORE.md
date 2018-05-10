@@ -229,7 +229,7 @@ Match logic:
 ```js
 match (input) {
   when {x: 1} ~> ... // matches if `input` can do ToObject and `input.x` is 1
-  when [1,2] ~> ... // matches if `input` can do ToObject, `input.length` is 2, `input[0]` is 1, and `input[1]` is 2
+  when [1,2] ~> ... // matches if `input` can do GetIterator, has exactly 2 items, and the items are 1, then 2.
   when 1 ~> ... // matches if `input` is 1
   when 'foo' ~> ... // matches if `input` is 'foo'
   when false ~> ... // matches if `input` is `false`
