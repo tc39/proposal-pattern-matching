@@ -46,8 +46,8 @@ has only a single non-trivial leg, usually with a fallthrough:
 
 ```js
 match (opt) {
-  when Some~x ~> console.log(`Got ${x}`)
-  when _ ~> {}
+  when Some~x -> console.log(`Got ${x}`)
+  when _ -> {}
 }
 ```
 
@@ -75,7 +75,7 @@ interesting to explore the idea of something like a "match arrow" function that
 provides a concise syntax for a single-leg `match` statement:
 
 ```js
-const unwrap = v => { match (v) when Some#x ~> return x }
+const unwrap = v => { match (v) when Some#x -> return x }
 ```
 
 Possibly taking it even further and making a shorthand that automatically
@@ -112,9 +112,9 @@ over other bindings, since it's the only one that will actually bind values.
 
 ```js
 match (x) {
-  when 1 || 2 || 3 ~> ...
-  when [1, y] && {x: y} ~> ... // Both `x` and `y` are bound to their matches
-  when {a: 1, x} || {a: 2, y} ~> ... // Both `x` and `y` are declared.
+  when 1 || 2 || 3 -> ...
+  when [1, y] && {x: y} -> ... // Both `x` and `y` are bound to their matches
+  when {a: 1, x} || {a: 2, y} -> ... // Both `x` and `y` are declared.
                                      // Only one of the two will be defined.
 }
 ```
@@ -142,8 +142,8 @@ would never succeed in its regular context.
 
 ```js
 match (x) {
-  when 1 || 2 || null || 0 ~> ...
-  when {x: 1} && {y: 2} ~> ...
+  when 1 || 2 || null || 0 -> ...
+  when {x: 1} && {y: 2} -> ...
 }
 ```
 
@@ -158,21 +158,21 @@ for `&` and keep `|` as a "bar".
 
 ```js
 match (x) {
-  when 1 | 2 | null | 0 ~> ...
-  when {x: 1} & {y: 2} ~> ...
+  when 1 | 2 | null | 0 -> ...
+  when {x: 1} & {y: 2} -> ...
 }
 ```
 
 ##### Option C: `:` and `,`
 
 This would revert things back to a previously-proposed possibility, where `:`
-would work as a fallthrough, and `,` as a joiner. This would not change usign `~>`
+would work as a fallthrough, and `,` as a joiner. This would not change usign `->`
 as the body separator, though:
 
 ```js
 match (x) {
-  when 1: 2: null: 0 ~> ...
-  when {x: 1}, {y: 2} ~> ...
+  when 1: 2: null: 0 -> ...
+  when {x: 1}, {y: 2} -> ...
 }
 ```
 
@@ -182,8 +182,8 @@ This would add `and` and `or` keywords rather than use non-alpha characters:
 
 ```js
 match (x) {
-  when 1 or 2 or null or 0 ~> ...
-  when {x: 1} and {y: 2} ~> ...
+  when 1 or 2 or null or 0 -> ...
+  when {x: 1} and {y: 2} -> ...
 }
 ```
 
@@ -200,8 +200,8 @@ where `;` acts as an OR and `,` as an AND.
 
 ```js
 match (x) {
-  when 1; 2; null; 0 ~> ...
-  when {x: 1}, {y: 2} ~> ...
+  when 1; 2; null; 0 -> ...
+  when {x: 1}, {y: 2} -> ...
 }
 ```
 
@@ -225,8 +225,8 @@ Using the operator directly from Elixir:
 ```js
 const y = 1
 match (x) {
-  when ^y ~> 'x is 1'
-  when x if (x === y) ~> 'this is how you would do it otherwise'
+  when ^y -> 'x is 1'
+  when x if (x === y) -> 'this is how you would do it otherwise'
 }
 ```
 
