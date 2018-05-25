@@ -245,28 +245,22 @@ case (x) {
 It's also possible to choose all sorts of different operators for this, but I'm
 just using whatever Elixir does for this bit.
 
-An alternative might also be to use custom matcher objects/functions to allow
-this sort of equality:
+A more idiomatic form of this that would make sense would be to replace `when`
+in pinning cases:
 
 ```js
 import {FOO, BAR} from './constants.js'
 
-class ConstantMatcher {
-  constructor (val) { this.val = val }
-  [Symbol.patternMatch] (val) { return this.val === val }
-}
-function ByVal (obj) {
-  return new ConstantMatcher(obj)
-}
-
 case (x) {
-  when ByVal(FOO)~_ => 'got a FOO',
-  when ByVal(BAR)~_ => 'got a BAR'
+  pin FOO => 'x was the FOO constant'
+  pin BAR => 'x was the BAR constant'
 }
 ```
 
-This might be enough, and might even be a reason to consider a built-in version
-of this extractor.
+In all of the above cases, the pin operator would **evaluate and remember** the
+original value in the pinned binding -- meaning lexical modification
+after-the-fact will not change the pinned value, allowing for significant
+optimization of these statements.
 
 ## <a name="unbound-array-rest"></a> > Binding-less array rest
 
