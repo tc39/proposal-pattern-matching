@@ -16,19 +16,19 @@ widely available.
 * [Variable pinning operator](#variable-pinning-operator)
 * [Unbound array rest parameters](#unbound-array-rest)
 
-## <a name="catch-case"></a> > Destructuring matches on `catch`
+## <a name="catch-match"></a> > Destructuring matches on `catch`
 
 Essentially, adding a special syntax to `catch` so it can use pattern matching
-to do conditional clauses. In this particular case, the `case` keyword and
-parameter could be omitted altogether while retaining backwards-compat (I
-think):
+to do conditional clauses. In this particular case, the `case` and `when`
+keywords and parameter could be omitted altogether while retaining
+backwards-compat (I think):
 
 ```js
 try {
   ...
 } catch ({code: 'ENOENT'}) {
   ...
-} catch (BadError err) {
+} catch (err if (err instanceof BadErr)) {
   ...
 } catch ({exitCode} if (exitCode > 1)) {
   ...
