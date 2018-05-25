@@ -2,7 +2,7 @@
 
 ## [Status](https://tc39.github.io/process-document/)
 
-**Stage**: 0
+**Stage**: 1
 
 **Author**: Kat Marchán (npm, [@maybekatz](https://twitter.com/maybekatz))
 
