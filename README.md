@@ -14,23 +14,26 @@ This proposal adds a pattern matching expression to the language, based on the
 existing [Destructuring Binding
 Patterns](https://tc39.github.io/ecma262/#sec-destructuring-binding-patterns).
 
-It's structured into multiple parts:
+There's many proposals potentially related to this one, and other proposals
+might mention interaction with this. This file includes casual, example-based
+discussion of the proposal, and there's also a document [describing the core
+semantics in more formal language](CORE.md), which will be iterated over into
+the final Spec-ese.
 
-* The [core proposal for the `match` API](CORE.md), which is based directly on destructuring binding patterns.
+There's also a document including suggestions for [other future
+proposals](TO_INFINITY_AND_BEYOND.md), which are dependent on this one, but do
+not directly affect the main behavior of the feature.
 
-* A proposal extending both `match` and regular destructuring with [`as` patterns](https://github.com/zkat/proposal-as-patterns), so patterns can both be matched and be assigned to identifiers.
-
-* A proposal to add [tagged collection literals](https://github.com/zkat/proposal-collection-literals), both as construction literals, and as their corresponding destructuring patterns.
-
-* A document including suggestions for [other future proposals](TO_INFINITY_AND_BEYOND.md), which are dependent on `match`, but do not directly affect the main behavior of the feature.
-
-* [Stage 1 slides](https://docs.google.com/presentation/d/1WPyAO4pHRsfwGoiIZupz_-tzAdv8mirw-aZfbxbAVcQ/edit?usp=sharing)
+This proposal was approved for Stage 1 in the May 2018 TC39 meeting, and [slides
+for that presentation are
+available](https://docs.google.com/presentation/d/1WPyAO4pHRsfwGoiIZupz_-tzAdv8mirw-aZfbxbAVcQ/edit?usp=sharing).
 
 This proposal draws heavily from corresponding features in
 [Rust](https://doc.rust-lang.org/1.6.0/book/patterns.html),
 [F#](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/pattern-matching),
 [Scala](http://www.scala-lang.org/files/archive/spec/2.11/08-pattern-matching.html),
-and [Elixir](https://elixir-lang.org/getting-started/pattern-matching.html).
+and
+[Elixir/Erlang](https://elixir-lang.org/getting-started/pattern-matching.html).
 
 ## Motivating Examples
 
@@ -39,7 +42,7 @@ Matching `fetch()` responses:
 ```javascript
 const res = await fetch(jsonService)
 match (res) {
-  when {status: 200, headers: Headers!{'content-length': s} as hdrs} -> {
+  when {status: 200, headers: {'Content-Length': s}} -> {
     console.log(`size is ${s}`)
   }
   when {status: 404} -> {
