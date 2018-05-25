@@ -134,7 +134,7 @@ MatchClauses :
   MatchClauses MatchClause
 
 MatchClause :
-  `when` MatchPattern Initializer[opt] MatchGuard[opt] `~>` MatchClauseBody
+  `when` MatchPattern Initializer[opt] MatchGuard[opt] `->` MatchClauseBody
 
 MatchGuard :
   `if` `(` Expression `)`
@@ -231,7 +231,7 @@ _MatchStatement_ `:` `match` `(` _Expression_ `)` `{` MatchClauses `}`
 
 #### <a name="match-rs-match-clause-matches"></a> 1.3.1 MatchClauseMatches(_exprValue_, _MatchClause_)
 
-_MatchClause_ `:` `when` _MatchPattern_ _Initializer_[opt] _MatchGuard_[opt] `~>` _MatchClauseBody_
+_MatchClause_ `:` `when` _MatchPattern_ _Initializer_[opt] _MatchGuard_[opt] `->` _MatchClauseBody_
 
 _MatchPattern_ `:` _ObjectMatchPattern_
 
@@ -264,40 +264,40 @@ Match logic:
 
 ```js
 match (input) {
-  when {x: 1} ~> ... // matches if `input` can do ToObject and `input.x` is 1
-  when [1,2] ~> ... // matches if `input` can do GetIterator, has exactly 2 items, and the items are 1, then 2.
-  when 1 ~> ... // matches if `input` is 1
-  when 'foo' ~> ... // matches if `input` is 'foo'
-  when false ~> ... // matches if `input` is `false`
-  when null ~> ... // matches if `input` is `null`
-  when {x} if (myCheck(x)) ~> ... // matches if `input` can do ToObject, if `input.x` is not `undefined`, and if `myCheck(input.x)` is true
-  when x ~> ... // always matches
-  when /^foo/ ~> ... // SyntaxError
-  when x if (x.match(/^foo/)) ~> ... // ok!
+  when {x: 1} -> ... // matches if `input` can do ToObject and `input.x` is 1
+  when [1,2] -> ... // matches if `input` can do GetIterator, has exactly 2 items, and the items are 1, then 2.
+  when 1 -> ... // matches if `input` is 1
+  when 'foo' -> ... // matches if `input` is 'foo'
+  when false -> ... // matches if `input` is `false`
+  when null -> ... // matches if `input` is `null`
+  when {x} if (myCheck(x)) -> ... // matches if `input` can do ToObject, if `input.x` is not `undefined`, and if `myCheck(input.x)` is true
+  when x -> ... // always matches
+  when /^foo/ -> ... // SyntaxError
+  when x if (x.match(/^foo/)) -> ... // ok!
 }
 ```
 
 Rest params:
 ```js
 match (input) {
-  when {x, ...y} ~> ... // binds all-other-properties to `y`.
-  when {x, ...{y}} ~> ... // SyntaxError
-  when [1, ...etc] ~> ...
-  when [1, ...[2]] ~> ... // Recursive matching on `rest` is allowed
+  when {x, ...y} -> ... // binds all-other-properties to `y`.
+  when {x, ...{y}} -> ... // SyntaxError
+  when [1, ...etc] -> ...
+  when [1, ...[2]] -> ... // Recursive matching on `rest` is allowed
 }
 ```
 
 ```js
 while (true) {
   match (42) {
-    when v ~> {
+    when v -> {
       var hoistMe = v
       const noHoist = v
       function alsoMe () { return v }
       if (v) { continue } // skips next line
       break // breaks out of the `while` loop
     }
-    when y ~> function foo () {} // function statement, not function expression
+    when y -> function foo () {} // function statement, not function expression
   }
 }
 console.log(hoistMe) // 42 -- variables are hoisted as in `if`
@@ -311,28 +311,28 @@ Initializers:
 match (input) {
   // matches `input` if it's an object. If `input` is `undefined`, match is set
   // to `{x: 1}`, and x is bound to 1.
-  when {x} = {x: 1} ~> ...
+  when {x} = {x: 1} -> ...
   // matches if `input` is an object, whether or not it has an `x` property, and
   // sets `x` to `1` if `x` does not already exist on the object. Does NOT
   // match if `input` is undefined.
-  when {x: x = 1} ~> ...
+  when {x: x = 1} -> ...
   // initializers only execute if a match succeeds.
   // This example only matches if `status` was already 200 on input.
-  when {status = 200} if (status === 200) ~> ...
+  when {status = 200} if (status === 200) -> ...
   // And this one always succeeds if a status property existed, with any value,
   // and the initializer will never be executed (because the property was
   // defined already)
-  when {status = 400} ~> ...
+  when {status = 400} -> ...
 }
 ```
 
 Pathological case: non-primitive built-in variables.
 ```js
 match (input) {
-  when Infinity ~> ... // always matches, sets a local `Infinity` to `input`
-  when -Infinity ~> ... // SyntaxError: not a MatchPattern
-  when undefined ~> ... // always matches, assigns `input` to local `undefined` var
-  when NaN ~> ... // ditto. rip 💀
+  when Infinity -> ... // always matches, sets a local `Infinity` to `input`
+  when -Infinity -> ... // SyntaxError: not a MatchPattern
+  when undefined -> ... // always matches, assigns `input` to local `undefined` var
+  when NaN -> ... // ditto. rip 💀
 }
 ```
 
@@ -350,8 +350,8 @@ further skipping can be done using guards or nested `match`.
 
 ```js
 match (x) {
-  when {x: 1, y} if (y <= 10) ~> ...
-  when {x: 1} ~> ...
+  when {x: 1, y} if (y <= 10) -> ...
+  when {x: 1} -> ...
 }
 ```
 
@@ -361,11 +361,11 @@ previous scopes might suddenly inject variables into further-down bodies:
 
 ```js
 match (x) {
-  when y if (y < 10) ~> {
+  when y if (y < 10) -> {
     x = 10
     continue // prev proposal version used `continue` for explicit fallthrough
   }
-  when y if (y >= 10) ~> {
+  when y if (y >= 10) -> {
     console.log(y, x) // what are x and y? Does this clause even run?
   }
 }
@@ -390,7 +390,7 @@ arguments, which essentially makes them work like `let`.
 ```js
 const y = 2
 match (1) {
-  when y ~> ... // y is 1, not 2
+  when y -> ... // y is 1, not 2
 }
 console.log(y) // 2
 ```
@@ -400,8 +400,8 @@ Guards can be used instead, for comparisons:
 ```js
 const y = 2
 match (1) {
-  when y if (y === 2) ~> 'does not match',
-  when x if (x === 1) ~> 'x is 1'
+  when y if (y === 2) -> 'does not match',
+  when x if (x === 1) -> 'x is 1'
 }
 ```
 
@@ -421,10 +421,10 @@ convenient and intuitive, but Numbers, Strings, Booleans, and Null are always
 compared using `Object.is`:
 
 ```js
-match (x) ~> {
-  when 1 ~> // x is 1
-  when 'foo' ~> // x is 'foo'
-  when null ~> // x is null (NOT undefined)
+match (x) -> {
+  when 1 -> // x is 1
+  when 'foo' -> // x is 'foo'
+  when null -> // x is null (NOT undefined)
 }
 ```
 
@@ -439,7 +439,7 @@ since arrays can be used with minimal syntactic overhead to achieve this effect:
 
 ```js
 match ([x, y]) {
-  when [1, 2] ~> ...
+  when [1, 2] -> ...
 }
 ```
 
@@ -460,7 +460,7 @@ advantage -- variable bindings are simply typed the same as the corresponding
 value passed into `match` (again, optimized with PICs).
 
 Complex compounds might also cause issues (`&&`/`||`), but these can be
-optimized if all clauses have identical-typed matchers (`1 || 2 || 3 ~> ...`).
+optimized if all clauses have identical-typed matchers (`1 || 2 || 3 -> ...`).
 
 I'm not a browser engine implementer, though, so I'm probably way off base with
 what would actually have an impact on performance, but I figured I should write
@@ -482,10 +482,10 @@ but which most authors treat as if they are:
 
 ```js
 match (input) {
-  Infinity ~> ... // always matches, sets a local `Infinity` to `input`
-  -Infinity ~> ... // SyntaxError: not a MatchPattern
-  undefined ~> ... // always matches, assigns `input` to local `undefined` var
-  NaN ~> ... // ditto. rip 💀
+  Infinity -> ... // always matches, sets a local `Infinity` to `input`
+  -Infinity -> ... // SyntaxError: not a MatchPattern
+  undefined -> ... // always matches, assigns `input` to local `undefined` var
+  NaN -> ... // ditto. rip 💀
 }
 ```
 

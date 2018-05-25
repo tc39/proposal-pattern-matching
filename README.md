@@ -37,9 +37,15 @@ Matching `fetch()` responses:
 ```javascript
 const res = await fetch(jsonService)
 match (res) {
-  when {status: 200, headers: Headers~{'content-length': s}} ~> `size is ${s}`
-  when {status: 404} ~> 'JSON not found'
-  when {status} if (status >= 400) ~> throw new RequestError(res)
+  when {status: 200, headers: Headers!{'content-length': s} as hdrs} -> {
+    console.log(`size is ${s}`)
+  }
+  when {status: 404} -> {
+    console.log('JSON not found')
+  }
+  when {status} if (status >= 400) -> {
+    throw new RequestError(res)
+  }
 }
 ```
 
@@ -50,11 +56,11 @@ documentation](https://redux.js.org/basics/reducers#splitting-reducers):
 ```js
 function todoApp (state = initialState, action) {
   match (action) {
-    when {type: 'set-visibility-filter', filter: visFilter} ~>
+    when {type: 'set-visibility-filter', filter: visFilter} ->
       return {...state, visFilter}
-    when {type: 'add-todo', text} ~>
+    when {type: 'add-todo', text} ->
       return {...state, todos: [...state.todos, {text}]}
-    when {type: 'toggle-todo', index} ~> {
+    when {type: 'toggle-todo', index} -> {
       return {
         ...state,
         todos: state.todos.map((todo, idx) => idx === index
@@ -63,35 +69,37 @@ function todoApp (state = initialState, action) {
         )
       }
     }
-    when {} ~> {} // ignore unknown actions
+    when {} -> {} // ignore unknown actions
   }
 }
 ```
 
-Or mixed in with JSX code for quick props handling:
+Or mixed in with JSX code for quick props handling, assuming implicit `do`:
 
 ```js
 <Fetch url={API_URL}>{
-  props => {
-    match (props) {
-      when {loading} ~> return <Loading />
-      when {error} ~> return <Error error={error} />
-      when {data} ~> return <Page data={data} />
-    }
+  props => match (props) {
+    when {loading} -> <Loading />
+    when {error} -> <Error error={error} />
+    when {data} -> <Page data={data} />
+    when _ -> throw new Error('badmatch')
   }
 }
 </Fetch>
 ```
 (via [Divjot Singh](https://twitter.com/bogas04/status/977499729557839873))
 
-General structural duck-typing on an API for vector-likes:
+General structural duck-typing on an API for vector-likes.
 
 ```js
 const getLength = vector => {
   match (vector) {
-    when { x, y, z } ~> return Math.sqrt(x ** 2 + y ** 2 + z ** 2)
-    when { x, y } ~> return Math.sqrt(x ** 2 + y ** 2)
-    when [...etc] ~> return vector.length
+    when { x, y, z } ->
+      return Math.sqrt(x ** 2 + y ** 2 + z ** 2)
+    when { x, y } ->
+      return Math.sqrt(x ** 2 + y ** 2)
+    when [...etc] ->
+      return vector.length
   }
 }
 getLength({x: 1, y: 2, z: 3}) // 3.74165
