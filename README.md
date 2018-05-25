@@ -24,6 +24,8 @@ It's structured into multiple parts:
 
 * A document including suggestions for [other future proposals](TO_INFINITY_AND_BEYOND.md), which are dependent on `match`, but do not directly affect the main behavior of the feature.
 
+* [Stage 1 slides](https://docs.google.com/presentation/d/1WPyAO4pHRsfwGoiIZupz_-tzAdv8mirw-aZfbxbAVcQ/edit?usp=sharing)
+
 This proposal draws heavily from corresponding features in
 [Rust](https://doc.rust-lang.org/1.6.0/book/patterns.html),
 [F#](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/pattern-matching),
