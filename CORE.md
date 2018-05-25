@@ -12,19 +12,19 @@
 
 * [Introduction](#introduction)
 * [The Big Picture](#big-picture)
-* [1 Match Statement](#match-statement)
-  * [Syntax](#match-syntax)
-  * [1.1 Static Semantics: Early Errors](#match-ss-errors)
-  * [1.2 Runtime Semantics: IsFunctionDefinition](#match-rs-fn-def)
-  * [1.3 Runtime Semantics: Evaluation](#match-rs-eval)
-    * [1.3.1 Runtime Semantics: MatchClauseMatches](#match-rs-match-clause-matches)
-    * [1.3.2 Runtime Semantics: MatchClauseEvaluation](#match-rs-match-clause-eval)
-    * [1.3.3 Runtime Semantics: By Example](#match-rs-by-example)
+* [1 Case Statement](#case-statement)
+  * [Syntax](#case-syntax)
+  * [1.1 Static Semantics: Early Errors](#case-ss-errors)
+  * [1.2 Runtime Semantics: IsFunctionDefinition](#case-rs-fn-def)
+  * [1.3 Runtime Semantics: Evaluation](#case-rs-eval)
+    * [1.3.1 Runtime Semantics: WhenClauseMatches](#case-rs-when-clause-matches)
+    * [1.3.2 Runtime Semantics: WhenClauseEvaluation](#case-rs-when-clause-eval)
+    * [1.3.3 Runtime Semantics: By Example](#case-rs-by-example)
 * [Annex A: Design Decisions](#annex-a)
   * [No Clause Fallthrough](#no-fallthrough)
   * [Variables Always Assign](#variables-always-assign)
   * [`Object.is` for non-collection literals](#object-is-comparison)
-  * [Only one match param](#only-one-param)
+  * [Only one case param](#only-one-param)
 * [Annex B: Performance Considerations](#annex-b)
 * [Annex C: Future Bikeshedding Concerns](#annex-c)
   * [C.1 `undefined` and Other "Literals"](#fake-literals)
@@ -71,7 +71,7 @@ features the language currently has (and is currently adding), but also fits in
 nicely with proposals meant to develop JavaScript's capabilities as a
 function-oriented language: [the Pipeline
 Operator](https://github.com/tc39/proposal-pipeline-operator), for example,
-would be able to use `match` statements as a terse, rich branching mechanism.
+would be able to use `case` statements as a terse, rich branching mechanism.
 
 It's notable that this operator is specifically a statement, much like `if` and
 `switch`. That means that it cannot itself return a value that can be assigned
@@ -82,16 +82,16 @@ to the [`do` expression
 proposal](https://github.com/tc39/proposal-do-expressions) and, more
 importantly, [implicit `do`
 expressions](https://github.com/tc39/proposal-do-expressions/issues/9), which
-will complete their integration. Trying to make _only_ the `match` operator act
+will complete their integration. Trying to make _only_ the `case` operator act
 as an expression would introduce a lot of questions that are already being
 discussed in the `do` proposal, which would need to be answered either way, such
 as the behavior of `CompletionValue`s, the behavior of `continue`, `break`, and
 `return` inside them, the behavior of `var` and `function` hoisting, etc. So, it
-will benefit from a more focused discussion. In the meantime, a `match`
+will benefit from a more focused discussion. In the meantime, a `case`
 statement would still bring great benefit to users through its conditional
 expressive ability.
 
-In summary, I believe the `match` statement, specially with its proposed
+In summary, I believe the `case` statement, specially with its proposed
 extensions, would fit well into the current apparent direction of the language,
 and it will benefit users who use JavaScript as a heavily Object-oriented
 language as much as users who prefer to write it in a more Function-oriented
@@ -116,30 +116,28 @@ how well they work together).
 * [`throw` Expressions](https://github.com/rbuckton/proposal-throw-expressions)
 * [Extensible numeric literals](https://github.com/tc39/proposal-extended-numeric-literals)
 
-## <a name="match-statement"></a> 1 Match Statement
+## <a name="case-statement"></a> 1 Case Statement
 
-### <a name="match-syntax"></a> Syntax
+### <a name="case-syntax"></a> Syntax
 
 ```
 Statement :
   MatchStatement
 
-MatchStatement :
-  // Note: this requires a cover grammar to handle ambiguity
-  // between a call to a match function and the match expr.
-  `match` [no |LineTerminator| here] `(` Expression `)` [no |LineTerminator| here] `{` MatchClauses `}`
+CaseStatement :
+  `case` `(` Expression `)` `{` WhenClauses `}`
 
-MatchClauses :
-  MatchClause
-  MatchClauses MatchClause
+WhenClauses :
+  WhenClause
+  WhenClauses WhenClause
 
-MatchClause :
-  `when` MatchPattern Initializer[opt] MatchGuard[opt] `->` MatchClauseBody
+WhenClause :
+  `when` MatchPattern Initializer[opt] MatchGuard[opt] `->` WhenClauseBody
 
 MatchGuard :
   `if` `(` Expression `)`
 
-MatchClauseBody :
+WhenClauseBody :
   Statement
 
 MatchPattern :
@@ -208,30 +206,30 @@ StringLiteral :
   As Described in Ecma-262
 ```
 
-### <a name="match-ss-errors"></a> 1.1 Static Semantics: Early Errors
+### <a name="case-ss-errors"></a> 1.1 Static Semantics: Early Errors
 
 TKTK
 
-### <a name="match-rs-fn-def"></a> 1.2 Runtime Semantics: IsFunctionDefinition
+### <a name="case-rs-fn-def"></a> 1.2 Runtime Semantics: IsFunctionDefinition
 
 TKTK
 
-### <a name="match-rs-eval"></a> 1.3 Runtime Semantics: Evaluation
+### <a name="case-rs-eval"></a> 1.3 Runtime Semantics: Evaluation
 
-_MatchStatement_ `:` `match` `(` _Expression_ `)` `{` MatchClauses `}`
+_MatchStatement_ `:` `case` `(` _Expression_ `)` `{` WhenClauses `}`
 
 1. Let _exprRef_ be the result of evaluation _Expression_.
 1. Let _exprValue_ be ? GetValue(_exprRef_)
-1. For each element _MatchClause_ in _MatchClauses_:
-  1. If no _MatchClause_ left, throw _MatchError_
-  1. Let _matched_ be ? MatchClauseMatches(_exprValue_, _MatchClause_)
+1. For each element _WhenClause_ in _WhenClauses_:
+  1. If no _WhenClause_ left, throw _MatchError_
+  1. Let _matched_ be ? WhenClauseMatches(_exprValue_, _WhenClause_)
   1. If _matched_ is true, then
-    1. Let _clauseCompletion_ be ? MatchClauseEvaluation(_exprValue_, _MatchClause_)
+    1. Let _clauseCompletion_ be ? WhenClauseEvaluation(_exprValue_, _WhenClause_)
     1. Return Completion(UpdateEmpty(_clauseCompletion_, `undefined`))
 
-#### <a name="match-rs-match-clause-matches"></a> 1.3.1 MatchClauseMatches(_exprValue_, _MatchClause_)
+#### <a name="case-rs-when-clause-matches"></a> 1.3.1 WhenClauseMatches(_exprValue_, _WhenClause_)
 
-_MatchClause_ `:` `when` _MatchPattern_ _Initializer_[opt] _MatchGuard_[opt] `->` _MatchClauseBody_
+_WhenClause_ `:` `when` _MatchPattern_ _Initializer_[opt] _MatchGuard_[opt] `->` _WhenClauseBody_
 
 _MatchPattern_ `:` _ObjectMatchPattern_
 
@@ -254,16 +252,16 @@ _ArrayMatchPattern_ `:` TKTK
 1. Let _iter_ be ? GetIterator(_exprValue_)
 2. ...only run GetIterator once per value-position in destructuring... (grouping together multiple check against the same ArrayMatchPattern such that info is shared across matches, but only for specific positions (that is, given patterns `[a, b]`, `[...foo]`, and `{x: [...foo]}`, GetIterator will be called once: once for the top-level arraypatterns and once for the nested one -- _even if_ the iterable in the third pattern is object-identical to the toplevel patterns). The results of going over the iterator in each position will be cached as it's processed, such that it's not iterated over multiple times)
 
-#### <a name="match-rs-match-clause-eval"></a> 1.3.2 MatchClauseEvaluation(_exprValue_, _MatchClause_)
+#### <a name="case-rs-when-clause-eval"></a> 1.3.2 WhenClauseEvaluation(_exprValue_, _WhenClause_)
 
 1. TODO
 
-#### <a name="match-rs-by-example"></a> 1.3.3 Runtime Semantics: By Example
+#### <a name="case-rs-by-example"></a> 1.3.3 Runtime Semantics: By Example
 
 Match logic:
 
 ```js
-match (input) {
+case (input) {
   when {x: 1} -> ... // matches if `input` can do ToObject and `input.x` is 1
   when [1,2] -> ... // matches if `input` can do GetIterator, has exactly 2 items, and the items are 1, then 2.
   when 1 -> ... // matches if `input` is 1
@@ -279,7 +277,7 @@ match (input) {
 
 Rest params:
 ```js
-match (input) {
+case (input) {
   when {x, ...y} -> ... // binds all-other-properties to `y`.
   when {x, ...{y}} -> ... // SyntaxError
   when [1, ...etc] -> ...
@@ -289,7 +287,7 @@ match (input) {
 
 ```js
 while (true) {
-  match (42) {
+  case (42) {
     when v -> {
       var hoistMe = v
       const noHoist = v
@@ -308,7 +306,7 @@ console.log(noHoist) // SyntaxError -- `const`/`let` are block-scoped
 
 Initializers:
 ```js
-match (input) {
+case (input) {
   // matches `input` if it's an object. If `input` is `undefined`, match is set
   // to `{x: 1}`, and x is bound to 1.
   when {x} = {x: 1} -> ...
@@ -328,7 +326,7 @@ match (input) {
 
 Pathological case: non-primitive built-in variables.
 ```js
-match (input) {
+case (input) {
   when Infinity -> ... // always matches, sets a local `Infinity` to `input`
   when -Infinity -> ... // SyntaxError: not a MatchPattern
   when undefined -> ... // always matches, assigns `input` to local `undefined` var
@@ -345,11 +343,11 @@ which I believe should stay as they are, and why:
 
 As part of distancing this feature from `switch`, and focusing on semantics that
 work best for it, fallthrough is not possible between multiple legs. It is
-expected that match clause are complete enough for picking a single leg, and
-further skipping can be done using guards or nested `match`.
+expected that when clause are complete enough for picking a single leg, and
+further skipping can be done using guards or nested `case`.
 
 ```js
-match (x) {
+case (x) {
   when {x: 1, y} if (y <= 10) -> ...
   when {x: 1} -> ...
 }
@@ -360,7 +358,7 @@ scoping so much, and prevents really complicated and footgun-y cases where
 previous scopes might suddenly inject variables into further-down bodies:
 
 ```js
-match (x) {
+case (x) {
   when y if (y < 10) -> {
     x = 10
     continue // prev proposal version used `continue` for explicit fallthrough
@@ -384,12 +382,12 @@ proposals might try to introduce it.
 
 When the match pattern is a variable, it should simply assign to that variable,
 instead of trying to compare the value somehow. No variable binding prefix is
-required or supported -- variables bound in a `match` behave just like function
+required or supported -- variables bound in a `case` behave just like function
 arguments, which essentially makes them work like `let`.
 
 ```js
 const y = 2
-match (1) {
+case (1) {
   when y -> ... // y is 1, not 2
 }
 console.log(y) // 2
@@ -399,7 +397,7 @@ Guards can be used instead, for comparisons:
 
 ```js
 const y = 2
-match (1) {
+case (1) {
   when y if (y === 2) -> 'does not match',
   when x if (x === 1) -> 'x is 1'
 }
@@ -421,7 +419,7 @@ convenient and intuitive, but Numbers, Strings, Booleans, and Null are always
 compared using `Object.is`:
 
 ```js
-match (x) -> {
+case (x) -> {
   when 1 -> // x is 1
   when 'foo' -> // x is 'foo'
   when null -> // x is null (NOT undefined)
@@ -434,22 +432,22 @@ matcher](#undefined-match).
 
 #### <a name="only-one-param"></a> > Only one parameter to match against
 
-`match` accepts only a single argument to match against. This is sufficient,
+`case` accepts only a single argument to match against. This is sufficient,
 since arrays can be used with minimal syntactic overhead to achieve this effect:
 
 ```js
-match ([x, y]) {
+case ([x, y]) {
   when [1, 2] -> ...
 }
 ```
 
-(versus `match (x, y) ...`)
+(versus `case (x, y) ...`)
 
 ## <a name="annex-b"></a> Annex B: Performance Considerations
 
-The general design of this `match` leans heavily towards hopefully allowing
+The general design of this `case` leans heavily towards hopefully allowing
 compiler-side optimizations. By minimizing runtime generation of matching logic,
-many match clauses can potentially be filtered according to PIC status
+many when clauses can potentially be filtered according to PIC status
 (monomorphic/polymorphic/etc), as well as by Map/type. A sufficiently smart
 compiler should be able to reorder and omit branches and possibly reduce certain
 simpler match expressions to what a low-level `switch` might be.
@@ -457,7 +455,7 @@ simpler match expressions to what a low-level `switch` might be.
 The fact that variable matchers do not need to match against variables in
 surrounding scopes, and worry about their internal types, is probably also a big
 advantage -- variable bindings are simply typed the same as the corresponding
-value passed into `match` (again, optimized with PICs).
+value passed into `case` (again, optimized with PICs).
 
 Complex compounds might also cause issues (`&&`/`||`), but these can be
 optimized if all clauses have identical-typed matchers (`1 || 2 || 3 -> ...`).
@@ -481,7 +479,7 @@ for things that aren't actually syntax literals,
 but which most authors treat as if they are:
 
 ```js
-match (input) {
+case (input) {
   Infinity -> ... // always matches, sets a local `Infinity` to `input`
   -Infinity -> ... // SyntaxError: not a MatchPattern
   undefined -> ... // always matches, assigns `input` to local `undefined` var

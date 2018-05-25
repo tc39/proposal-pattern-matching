@@ -41,7 +41,7 @@ Matching `fetch()` responses:
 
 ```javascript
 const res = await fetch(jsonService)
-match (res) {
+case (res) {
   when {status: 200, headers: {'Content-Length': s}} -> {
     console.log(`size is ${s}`)
   }
@@ -60,7 +60,7 @@ documentation](https://redux.js.org/basics/reducers#splitting-reducers):
 
 ```js
 function todoApp (state = initialState, action) {
-  match (action) {
+  case (action) {
     when {type: 'set-visibility-filter', filter: visFilter} ->
       return {...state, visFilter}
     when {type: 'add-todo', text} ->
@@ -83,7 +83,7 @@ Or mixed in with JSX code for quick props handling, assuming implicit `do`:
 
 ```js
 <Fetch url={API_URL}>{
-  props => match (props) {
+  props => case (props) {
     when {loading} -> <Loading />
     when {error} -> <Error error={error} />
     when {data} -> <Page data={data} />
@@ -98,7 +98,7 @@ General structural duck-typing on an API for vector-likes.
 
 ```js
 const getLength = vector => {
-  match (vector) {
+  case (vector) {
     when { x, y, z } ->
       return Math.sqrt(x ** 2 + y ** 2 + z ** 2)
     when { x, y } ->

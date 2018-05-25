@@ -9,17 +9,17 @@ widely available.
 ## Table of Contents
 
 * [`catch` matching](#catch-match)
-* [`if match`](#if-match)
-* [`async match`](#async-match)
-* [Match Arrow functions](#match-arrow)
+* [`if case`](#if-case)
+* [`async case`](#async-case)
+* [Match Arrow functions](#case-arrow)
 * [Compound Matchers](#compound-matcher)
 * [Variable pinning operator](#variable-pinning-operator)
 * [Unbound array rest parameters](#unbound-array-rest)
 
-## <a name="catch-match"></a> > Destructuring matches on `catch`
+## <a name="catch-case"></a> > Destructuring matches on `catch`
 
 Essentially, adding a special syntax to `catch` so it can use pattern matching
-to do conditional clauses. In this particular case, the `match` keyword and
+to do conditional clauses. In this particular case, the `case` keyword and
 parameter could be omitted altogether while retaining backwards-compat (I
 think):
 
@@ -38,23 +38,23 @@ try {
 }
 ```
 
-## <a name="if-match"></a> > `if match` Convenience Sugar
+## <a name="if-case"></a> > `if case` Convenience Sugar
 
-There are cases where `match` can be clunky or awkward, but the power of its
-pattern match is still desired. This happens primarily when a `match` expression
+There are cases where `case` can be clunky or awkward, but the power of its
+pattern match is still desired. This happens primarily when a `case` expression
 has only a single non-trivial leg, usually with a fallthrough:
 
 ```js
-match (opt) {
+case (opt) {
   when Some~x -> console.log(`Got ${x}`)
   when _ -> {}
 }
 ```
 
-In this case, one might use an `if match` form or similar:
+In this case, one might use an `if case` form or similar:
 
 ```js
-if match (opt when Some~x) {
+if case (opt when Some~x) {
   console.log(`Got ${x}`)
 }
 ```
@@ -63,26 +63,26 @@ I'm not even touching what the right syntax for this should be, but there's [a
 nice Rust RFC](https://github.com/rust-lang/rfcs/pull/160) that explains the
 feature, and it seems to be well-liked among Rust developers.
 
-## <a name="async-match"></a> > `async match () {}`
+## <a name="async-case"></a> > `async case () {}`
 
 I'm not sure whether this would ever be necessary, but it's probably worth
 mentioning anyway. It's probably a completely pointless idea.
 
-## <a name="match-arrow"></a> > Match Arrow functions
+## <a name="case-arrow"></a> > Match Arrow functions
 
 Because of the similarity between clause bodies and arrow functions, it might be
-interesting to explore the idea of something like a "match arrow" function that
-provides a concise syntax for a single-leg `match` statement:
+interesting to explore the idea of something like a "case arrow" function that
+provides a concise syntax for a single-leg `case` statement:
 
 ```js
-const unwrap = v => { match (v) when Some#x -> return x }
+const unwrap = v => { case (v) when Some#x -> return x }
 ```
 
 Possibly taking it even further and making a shorthand that automatically
 creates an arrow, taking the place of something like `async`:
 
 ```js
-const unwrap = match (Some#x) => x
+const unwrap = case (Some#x) => x
 unwrap(new Some('hello')) // 'hello'
 unwrap(None) // MatchError
 ```
@@ -111,7 +111,7 @@ over other bindings, since it's the only one that will actually bind values.
 ##### Example
 
 ```js
-match (x) {
+case (x) {
   when 1 || 2 || 3 -> ...
   when [1, y] && {x: y} -> ... // Both `x` and `y` are bound to their matches
   when {a: 1, x} || {a: 2, y} -> ... // Both `x` and `y` are declared.
@@ -122,7 +122,7 @@ match (x) {
 There are some choices that can be made for supporting the OR and AND compound
 matchers. This spec currently uses Option A, which is to use `||` and `&&` for
 those operations. Note that any operators that have correspondence to existing
-semantics will necessarily have overloaded meaning in match expressions, because
+semantics will necessarily have overloaded meaning in case expressions, because
 compound matchers always work based on match success, not actual value (so `null
 OR 0 OR false` succeeds if the value is either of those two values, regardless
 of their falsiness as values).
@@ -141,7 +141,7 @@ succeed if the matched value is any of those three -- whereas such an expression
 would never succeed in its regular context.
 
 ```js
-match (x) {
+case (x) {
   when 1 || 2 || null || 0 -> ...
   when {x: 1} && {y: 2} -> ...
 }
@@ -157,7 +157,7 @@ For this option, it's also reasonable and possible to pick a different operator
 for `&` and keep `|` as a "bar".
 
 ```js
-match (x) {
+case (x) {
   when 1 | 2 | null | 0 -> ...
   when {x: 1} & {y: 2} -> ...
 }
@@ -170,7 +170,7 @@ would work as a fallthrough, and `,` as a joiner. This would not change usign `-
 as the body separator, though:
 
 ```js
-match (x) {
+case (x) {
   when 1: 2: null: 0 -> ...
   when {x: 1}, {y: 2} -> ...
 }
@@ -181,7 +181,7 @@ match (x) {
 This would add `and` and `or` keywords rather than use non-alpha characters:
 
 ```js
-match (x) {
+case (x) {
   when 1 or 2 or null or 0 -> ...
   when {x: 1} and {y: 2} -> ...
 }
@@ -199,7 +199,7 @@ guards](https://en.wikibooks.org/wiki/Erlang_Programming/guards#Multiple_guards)
 where `;` acts as an OR and `,` as an AND.
 
 ```js
-match (x) {
+case (x) {
   when 1; 2; null; 0 -> ...
   when {x: 1}, {y: 2} -> ...
 }
@@ -224,7 +224,7 @@ Using the operator directly from Elixir:
 
 ```js
 const y = 1
-match (x) {
+case (x) {
   when ^y -> 'x is 1'
   when x if (x === y) -> 'this is how you would do it otherwise'
 }
@@ -236,7 +236,7 @@ A more compelling reason to have this terseness might be to allow matches on
 ```js
 import {FOO, BAR} from './constants.js'
 
-match (x) {
+case (x) {
   when ^FOO => 'x was the FOO constant'
   when ^BAR => 'x was the BAR constant'
 }
@@ -259,7 +259,7 @@ function ByVal (obj) {
   return new ConstantMatcher(obj)
 }
 
-match (x) {
+case (x) {
   when ByVal(FOO)~_ => 'got a FOO',
   when ByVal(BAR)~_ => 'got a BAR'
 }
@@ -275,7 +275,7 @@ array into a variable. This syntax, though, requires that the "rest" value be
 bound to a specific variable. That is, `[a, b, ...]` is invalid syntax.
 
 The previous pattern matching proposal included syntax that allowed this to be
-the case, but only inside the LHS of `match`. It's possible the syntax could be
+the case, but only inside the LHS of `case`. It's possible the syntax could be
 added, but there's also a question of whether it's necessary, since variables in
 this proposal are always bound, rather than used for arbitrary matchin as in the
 previous proposal -- there's little use for allowing plain `...` params besides
