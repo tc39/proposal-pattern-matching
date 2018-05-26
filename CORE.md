@@ -250,7 +250,7 @@ _ObjectMatchPattern_ `:` `{` _MatchProperty_ `}`
 _ArrayMatchPattern_ `:` TKTK
 
 1. Let _iter_ be ? GetIterator(_exprValue_)
-2. ...only run GetIterator once per value-position in destructuring... (grouping together multiple check against the same ArrayMatchPattern such that info is shared across matches, but only for specific positions (that is, given patterns `[a, b]`, `[...foo]`, and `{x: [...foo]}`, GetIterator will be called once: once for the top-level arraypatterns and once for the nested one -- _even if_ the iterable in the third pattern is object-identical to the toplevel patterns). The results of going over the iterator in each position will be cached as it's processed, such that it's not iterated over multiple times)
+2. ...only run GetIterator once per MatchStatement, and only call `.next()` once per position... (grouping together multiple checks against the same ArrayMatchPattern such that info is shared across matches, but only for specific positions (that is, given patterns `[a, b]`, `[...foo]`, and `{x: [...foo]}`, `.next()` will be called once: once for the top-level arraypatterns and once for the nested one -- _even if_ the iterable in the third pattern is object-identical to the toplevel patterns). The results of going over the iterator in each position will be cached as it's processed, such that it's not iterated over multiple times)
 
 #### <a name="case-rs-when-clause-eval"></a> 1.3.2 WhenClauseEvaluation(_exprValue_, _WhenClause_)
 
