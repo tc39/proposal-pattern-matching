@@ -114,4 +114,4 @@ getLength({x: 1, y: 2, z: 3}) // 3.74165
 
 * [Babel Plugin](https://github.com/babel/babel/pull/7633)
 * [Sweet.js macro](https://github.com/natefaubion/sparkler) (NOTE: this isn't based on the proposal, this proposal is partially based on it!)
-* [egna](https://github.com/kahole/egna)
+* [Egna](https://github.com/kahole/egna)
