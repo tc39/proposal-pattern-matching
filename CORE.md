@@ -403,6 +403,9 @@ case (1) {
 }
 ```
 
+See also [the bikeshed about pinning](TO_INFINITY_AND_BEYOND.md#variable-pinning-operator) for a proposal	
+on how to allow variable-based matching.
+
 ##### Benefits:
 
 * Follows the precedent of almost every other match implementation I could find. This is about as universal as I think this gets? Swift is the only exception, requiring a `let` before a variable that's intended to be bound.
