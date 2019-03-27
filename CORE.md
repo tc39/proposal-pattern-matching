@@ -403,8 +403,9 @@ case (1) {
 }
 ```
 
-See also [the bikeshed about pinning](#variable-pinning-operator) for a proposal
-on how to allow variable-based matching.
+See also [the bikeshed about
+pinning](TO_INFINITY_AND_BEYOND.md#variable-pinning-operator) for a proposal on
+how to allow variable-based matching.
 
 ##### Benefits:
 
