@@ -20,6 +20,8 @@
     * [1.3.1 Runtime Semantics: WhenClauseMatches](#case-rs-when-clause-matches)
     * [1.3.2 Runtime Semantics: WhenClauseEvaluation](#case-rs-when-clause-eval)
     * [1.3.3 Runtime Semantics: By Example](#case-rs-by-example)
+* [2 Case Expression](#case-expression)
+  * [Syntax](#case-xp-syntax)
 * [Annex A: Design Decisions](#annex-a)
   * [No Clause Fallthrough](#no-fallthrough)
   * [Variables Always Assign](#variables-always-assign)
@@ -112,7 +114,6 @@ how well they work together).
 * [Pipeline Operator](https://github.com/tc39/proposal-pipeline-operator)
 * [Block Params](https://github.com/samuelgoto/proposal-block-params)
 * [Slice Notation](https://github.com/gsathya/proposal-slice-notation)
-* [BigInt](https://github.com/tc39/proposal-bigint)
 * [`throw` Expressions](https://github.com/rbuckton/proposal-throw-expressions)
 * [Extensible numeric literals](https://github.com/tc39/proposal-extended-numeric-literals)
 
@@ -420,7 +421,7 @@ convenient and intuitive, but Numbers, Strings, Booleans, and Null are always
 compared using `Object.is`:
 
 ```js
-case (x) -> {
+case (x) {
   when 1 -> // x is 1
   when 'foo' -> // x is 'foo'
   when null -> // x is null (NOT undefined)

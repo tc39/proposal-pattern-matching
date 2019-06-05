@@ -42,15 +42,13 @@ Matching `fetch()` responses:
 ```javascript
 const res = await fetch(jsonService)
 case (res) {
-  when {status: 200, headers: {'Content-Length': s}} -> {
-    console.log(`size is ${s}`)
-  }
+  when {status: 200, headers: {'Content-Length': s}} ->
+    console.log(`size is ${s}`),
   when {status: 404} -> {
-    console.log('JSON not found')
-  }
+    console.log('JSON not found'),
   when {status} if (status >= 400) -> {
     throw new RequestError(res)
-  }
+  },
 }
 ```
 
@@ -60,26 +58,27 @@ documentation](https://redux.js.org/basics/reducers#splitting-reducers):
 
 ```js
 function todoApp (state = initialState, action) {
-  case (action) {
+  return case (action) {
     when {type: 'set-visibility-filter', filter: visFilter} ->
-      return {...state, visFilter}
+      ({...state, visFilter}),
     when {type: 'add-todo', text} ->
-      return {...state, todos: [...state.todos, {text}]}
-    when {type: 'toggle-todo', index} -> {
-      return {
+      ({...state, todos: [...state.todos, {text}]}),
+    when {type: 'toggle-todo', index} -> (
+      {
         ...state,
         todos: state.todos.map((todo, idx) => idx === index
           ? {...todo, done: !todo.done}
           : todo
         )
       }
-    }
-    when {} -> {} // ignore unknown actions
+    )
+    when _ -> state // ignore unknown actions
   }
 }
 ```
 
-Or mixed in with JSX code for quick props handling, assuming implicit `do`:
+Or mixed in with JSX code for quick props handling, using the expression
+version:
 
 ```js
 <Fetch url={API_URL}>{
@@ -87,7 +86,6 @@ Or mixed in with JSX code for quick props handling, assuming implicit `do`:
     when {loading} -> <Loading />
     when {error} -> <Error error={error} />
     when {data} -> <Page data={data} />
-    when _ -> throw new Error('badmatch')
   }
 }
 </Fetch>
@@ -97,15 +95,10 @@ Or mixed in with JSX code for quick props handling, assuming implicit `do`:
 General structural duck-typing on an API for vector-likes.
 
 ```js
-const getLength = vector => {
-  case (vector) {
-    when { x, y, z } ->
-      return Math.sqrt(x ** 2 + y ** 2 + z ** 2)
-    when { x, y } ->
-      return Math.sqrt(x ** 2 + y ** 2)
-    when [...etc] ->
-      return vector.length
-  }
+const getLength = vector => case (vector) {
+  when { x, y, z } -> Math.sqrt(x ** 2 + y ** 2 + z ** 2)
+  when { x, y } -> Math.sqrt(x ** 2 + y ** 2)
+  when [...etc] -> vector.length
 }
 getLength({x: 1, y: 2, z: 3}) // 3.74165
 ```
