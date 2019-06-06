@@ -42,11 +42,11 @@ Matching `fetch()` responses:
 ```javascript
 const res = await fetch(jsonService)
 case (res) {
-  when {status: 200, headers: {'Content-Length': s}} ->
+  let {status: 200, headers: {'Content-Length': s}} ->
     console.log(`size is ${s}`),
-  when {status: 404} -> {
+  let {status: 404} -> {
     console.log('JSON not found'),
-  when {status} if (status >= 400) -> {
+  let {status} if (status >= 400) -> {
     throw new RequestError(res)
   },
 }
@@ -59,11 +59,11 @@ documentation](https://redux.js.org/basics/reducers#splitting-reducers):
 ```js
 function todoApp (state = initialState, action) {
   return case (action) {
-    when {type: 'set-visibility-filter', filter: visFilter} ->
+    let {type: 'set-visibility-filter', filter: visFilter} ->
       ({...state, visFilter}),
-    when {type: 'add-todo', text} ->
+    let {type: 'add-todo', text} ->
       ({...state, todos: [...state.todos, {text}]}),
-    when {type: 'toggle-todo', index} -> (
+    let {type: 'toggle-todo', index} -> (
       {
         ...state,
         todos: state.todos.map((todo, idx) => idx === index
@@ -72,7 +72,7 @@ function todoApp (state = initialState, action) {
         )
       }
     )
-    when _ -> state // ignore unknown actions
+    let _ -> state // ignore unknown actions
   }
 }
 ```
@@ -83,9 +83,9 @@ version:
 ```js
 <Fetch url={API_URL}>{
   props => case (props) {
-    when {loading} -> <Loading />
-    when {error} -> <Error error={error} />
-    when {data} -> <Page data={data} />
+    let {loading} -> <Loading />
+    let {error} -> <Error error={error} />
+    let {data} -> <Page data={data} />
   }
 }
 </Fetch>
@@ -96,9 +96,9 @@ General structural duck-typing on an API for vector-likes.
 
 ```js
 const getLength = vector => case (vector) {
-  when { x, y, z } -> Math.sqrt(x ** 2 + y ** 2 + z ** 2)
-  when { x, y } -> Math.sqrt(x ** 2 + y ** 2)
-  when [...etc] -> vector.length
+  const { x, y, z } -> Math.sqrt(x ** 2 + y ** 2 + z ** 2)
+  const { x, y } -> Math.sqrt(x ** 2 + y ** 2)
+  const [...etc] -> vector.length
 }
 getLength({x: 1, y: 2, z: 3}) // 3.74165
 ```
