@@ -43,12 +43,11 @@ Matching `fetch()` responses:
 const res = await fetch(jsonService)
 case (res) {
   when {status: 200, headers: {'Content-Length': s}} ->
-    console.log(`size is ${s}`),
-  when {status: 404} -> {
-    console.log('JSON not found'),
-  when {status} if (status >= 400) -> {
+    console.log(`size is ${s}`)
+  when {status: 404} -> 
+    console.log('JSON not found')
+  when {status} if (status >= 400) -> 
     throw new RequestError(res)
-  },
 }
 ```
 
@@ -60,9 +59,9 @@ documentation](https://redux.js.org/basics/reducers#splitting-reducers):
 function todoApp (state = initialState, action) {
   return case (action) {
     when {type: 'set-visibility-filter', filter: visFilter} ->
-      ({...state, visFilter}),
+      ({...state, visFilter})
     when {type: 'add-todo', text} ->
-      ({...state, todos: [...state.todos, {text}]}),
+      ({...state, todos: [...state.todos, {text}]})
     when {type: 'toggle-todo', index} -> (
       {
         ...state,
