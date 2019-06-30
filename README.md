@@ -44,7 +44,7 @@ const res = await fetch(jsonService)
 case (res) {
   when {status: 200, headers: {'Content-Length': s}} ->
     console.log(`size is ${s}`),
-  when {status: 404} -> {
+  when {status: 404} ->
     console.log('JSON not found'),
   when {status} if (status >= 400) -> {
     throw new RequestError(res)
