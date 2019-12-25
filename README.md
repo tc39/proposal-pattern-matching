@@ -14,7 +14,7 @@ This proposal adds a pattern matching expression to the language, based on the
 existing [Destructuring Binding
 Patterns](https://tc39.github.io/ecma262/#sec-destructuring-binding-patterns).
 
-There's many proposals potentially related to this one, and other proposals
+There are many proposals potentially related to this one, and other proposals
 might mention interaction with this. This file includes casual, example-based
 discussion of the proposal, and there's also a document [describing the core
 semantics in more formal language](CORE.md), which will be iterated over into
