@@ -96,8 +96,8 @@ General structural duck-typing on an API for vector-likes.
 
 ```js
 const getLength = vector => case (vector) {
-  when { x, y, z } -> Math.sqrt(x ** 2 + y ** 2 + z ** 2)
-  when { x, y } -> Math.sqrt(x ** 2 + y ** 2)
+  when { x, y, z } -> Math.hypot(x, y, z)
+  when { x, y } -> Math.hypot(x, y)
   when [...etc] -> vector.length
 }
 getLength({x: 1, y: 2, z: 3}) // 3.74165
