@@ -1,0 +1,18 @@
+{
+    "private": true,
+    "name": "proposal-pattern-matching",
+    "description": "A repository for ECMAScript pattern matching proposals.",
+    "scripts": {
+        "start": "ecmarkup spec.emu index.html --watch",
+        "build": "ecmarkup spec.emu index.html"
+    },
+    "homepage": "https://github.com/tc39/proposal-pattern-matching#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/tc39/proposal-pattern-matching.git"
+    },
+    "license": "MIT",
+    "devDependencies": {
+        "ecmarkup": "^3.11.5"
+    }
+}
