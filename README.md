@@ -4,9 +4,9 @@
 
 **Stage**: 1
 
-**Author**: Kat Marchán (npm, [@maybekatz](https://twitter.com/maybekatz))
+**Author**: Kat Marchán (npm, [@zkat__](https://twitter.com/zkat__))
 
-**Champions**: Brian Terlson (Microsoft, [@bterlson](https://twitter.com/bterlson)), Sebastian Markbåge (Facebook, [@sebmarkbage](https://twitter.com/sebmarkbage)), Kat Marchán (npm, [@maybekatz](https://twitter.com/maybekatz))
+**Champions**: Brian Terlson (Microsoft, [@bterlson](https://twitter.com/bterlson)), Sebastian Markbåge (Facebook, [@sebmarkbage](https://twitter.com/sebmarkbage)), Kat Marchán (npm, [@zkat__](https://twitter.com/zkat__))
 
 ## Introduction
 
