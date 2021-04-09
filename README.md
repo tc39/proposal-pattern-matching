@@ -1,5 +1,7 @@
 # ECMAScript Pattern Matching
 
+![Stage 1](https://badges.aleen42.com/src/tc39_2.svg)
+
 ## [Status](https://tc39.github.io/process-document/)
 
 **Stage**: 1
