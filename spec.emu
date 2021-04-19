@@ -4,10 +4,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 <script src="./spec.js"></script>
 <pre class="metadata">
-title: Proposal Title Goes Here
+title: Pattern Matching
 stage: 1
-contributors: Your Name Goes Here
+contributors: Jordan Harband, Mark Cohen, Tab Atkins, Yulia Startsev, Daniel Rosenwasser, Jack Works, Ross Kirsling
 </pre>
+
+<emu-note type="editor">Spec text is under construction.</emu-note>
 
 <emu-clause id="sec-syntax">
   <h1>Syntax</h1>
@@ -16,21 +18,22 @@ contributors: Your Name Goes Here
       <ins>MatchStatement</ins>
 
     <ins class="block">
-    CaseStatement ::
-      `case` `(` Expression `)` `{` WhenClauses `}`
+    MatchStatement ::
+      `match` [no LineTerminator here] `(` Expression `)` `{` WhenClauses `}`
+      `match` [no LineTerminator here] `(` Expression `)` `as` LeftHandSideExpression `{` WhenClauses `}`
 
     WhenClauses :
       WhenClause
       WhenClauses WhenClause
 
     WhenClause :
-      `when` MatchPattern Initializer[opt] MatchGuard[opt] `->` WhenClauseBody
+      `when` MatchPattern Initializer[opt] MatchGuard[opt] `{` WhenClauseBody `}`
 
     MatchGuard :
       `if` `(` Expression `)`
 
     WhenClauseBody :
-      Statement
+      Block[?Yield, ?Await, ?Return]
 
     MatchPattern :
       ObjectMatchPattern
@@ -86,19 +89,19 @@ contributors: Your Name Goes Here
     </ins>
   </emu-grammar>
 </emu-clause>
-<emu-clause id="sec-case-statement">
-  <h1>Case Statement</h1>
-  <emu-clause id="sec-case-ss-errors">
+<emu-clause id="sec-match-expression">
+  <h1>Match Expression</h1>
+  <emu-clause id="sec-match-ss-errors">
     <h1>Static Semantics: Early Errors</h1>
     <p>To be done</p>
   </emu-clause>
-  <emu-clause id="sec-case-rs-fn-def">
+  <emu-clause id="sec-match-rs-fn-def">
     <h1>Runtime Semantics: IsFunctionDefinition</h1>
     <p>To be done</p>
   </emu-clause>
-  <emu-clause id="sec-case-rs-eval">
+  <emu-clause id="sec-match-rs-eval">
     <h1>Runtime Semantics: Evaluation</h1>
-    <emu-grammar>_MatchStatement_ `:` `case` `(` _Expression_ `)` `{` WhenClauses `}`</emu-grammar>
+    <emu-grammar>_MatchStatement_ `:` `match` `(` _Expression_ `)` `{` WhenClauses `}`</emu-grammar>
     <emu-alg>
       1. Let _exprRef_ be the result of evaluation _Expression_.
       1. Let _exprValue_ be ? GetValue(_exprRef_)
@@ -109,7 +112,7 @@ contributors: Your Name Goes Here
           1. Let _clauseCompletion_ be ? WhenClauseEvaluation(_exprValue_, _WhenClause_)
           1. Return Completion(UpdateEmpty(_clauseCompletion_, `undefined`))
     </emu-alg>
-    <emu-clause id="sec-case-rs-when-clause-matches">
+    <emu-clause id="sec-match-rs-when-clause-matches">
       <h1><dfn>WhenClauseMatches</dfn>(_exprValue_, _WhenClause_)</h1>
       <emu-grammar>
         _WhenClause_ `:` `when` _MatchPattern_ _Initializer_[opt] _MatchGuard_[opt] `->` _WhenClauseBody_
@@ -146,7 +149,7 @@ contributors: Your Name Goes Here
       </emu-alg>
     </emu-clause>
   </emu-clause>
-  <emu-clause id="sec-case-rs-when-clause-eval">
+  <emu-clause id="sec-match-rs-when-clause-eval">
     <h1><dfn>WhenClauseEvaluation</dfn>(_exprValue_, _WhenClause_)</h1>
     <p>To be done</p>
   </emu-clause>

@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="./spec.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 <script src="./spec.js"></script>
-<title>Proposal Title Goes Here</title><script>'use strict';
+<title>Pattern Matching</title><script>'use strict';
 let sdoBox = {
   init() {
     this.$alternativeId = null;
@@ -1064,7 +1064,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 let sdoMap = JSON.parse(`{}`);
-let biblio = JSON.parse(`{"refsByClause":{"sec-case-rs-eval":["_ref_0","_ref_1","_ref_2","_ref_3","_ref_4","_ref_39"],"sec-case-rs-when-clause-matches":["_ref_5","_ref_6","_ref_7"],"sec-syntax":["_ref_8","_ref_9","_ref_10","_ref_11","_ref_12","_ref_13","_ref_14","_ref_15","_ref_16","_ref_17","_ref_18","_ref_19","_ref_20","_ref_21","_ref_22","_ref_23","_ref_24","_ref_25","_ref_26","_ref_27","_ref_28","_ref_29","_ref_30","_ref_31","_ref_32","_ref_33","_ref_34","_ref_35","_ref_36","_ref_37","_ref_38"]},"entries":[{"type":"production","id":"prod-Statement","name":"Statement","referencingIds":["_ref_15"],"key":"Statement"},{"type":"production","id":"prod-CaseStatement","name":"CaseStatement","referencingIds":[],"key":"CaseStatement"},{"type":"production","id":"prod-WhenClauses","name":"WhenClauses","referencingIds":["_ref_8","_ref_10","_ref_39"],"key":"WhenClauses"},{"type":"production","id":"prod-WhenClause","name":"WhenClause","referencingIds":["_ref_9","_ref_11"],"key":"WhenClause"},{"type":"production","id":"prod-MatchGuard","name":"MatchGuard","referencingIds":["_ref_13"],"key":"MatchGuard"},{"type":"production","id":"prod-WhenClauseBody","name":"WhenClauseBody","referencingIds":["_ref_14"],"key":"WhenClauseBody"},{"type":"production","id":"prod-MatchPattern","name":"MatchPattern","referencingIds":["_ref_12","_ref_36"],"key":"MatchPattern"},{"type":"production","id":"prod-ObjectMatchPattern","name":"ObjectMatchPattern","referencingIds":["_ref_16"],"key":"ObjectMatchPattern"},{"type":"production","id":"prod-MatchPropertyList","name":"MatchPropertyList","referencingIds":["_ref_21","_ref_24"],"key":"MatchPropertyList"},{"type":"production","id":"prod-MatchProperty","name":"MatchProperty","referencingIds":["_ref_23","_ref_25"],"key":"MatchProperty"},{"type":"production","id":"prod-MatchRestProperty","name":"MatchRestProperty","referencingIds":["_ref_20","_ref_22"],"key":"MatchRestProperty"},{"type":"production","id":"prod-ArrayMatchPattern","name":"ArrayMatchPattern","referencingIds":["_ref_17"],"key":"ArrayMatchPattern"},{"type":"production","id":"prod-MatchElementList","name":"MatchElementList","referencingIds":["_ref_29","_ref_30","_ref_33"],"key":"MatchElementList"},{"type":"production","id":"prod-MatchElisionElement","name":"MatchElisionElement","referencingIds":["_ref_32","_ref_34"],"key":"MatchElisionElement"},{"type":"production","id":"prod-MatchElement","name":"MatchElement","referencingIds":["_ref_26","_ref_35","_ref_38"],"key":"MatchElement"},{"type":"production","id":"prod-MatchRestElement","name":"MatchRestElement","referencingIds":["_ref_28","_ref_31"],"key":"MatchRestElement"},{"type":"production","id":"prod-IdentifierMatchPattern","name":"IdentifierMatchPattern","referencingIds":["_ref_18","_ref_27","_ref_37"],"key":"IdentifierMatchPattern"},{"type":"production","id":"prod-LiteralMatchPattern","name":"LiteralMatchPattern","referencingIds":["_ref_19"],"key":"LiteralMatchPattern"},{"type":"clause","id":"sec-syntax","aoid":null,"titleHTML":"Syntax","number":"1","referencingIds":[],"key":"Syntax"},{"type":"clause","id":"sec-case-ss-errors","aoid":null,"titleHTML":"Static Semantics: Early Errors","number":"2.1","referencingIds":[],"key":"Static Semantics: Early Errors"},{"type":"clause","id":"sec-case-rs-fn-def","aoid":null,"titleHTML":"Runtime Semantics: IsFunctionDefinition","number":"2.2","referencingIds":[],"key":"Runtime Semantics: IsFunctionDefinition"},{"type":"term","term":"WhenClauseMatches","refId":"sec-case-rs-when-clause-matches","referencingIds":[],"key":"WhenClauseMatches"},{"type":"clause","id":"sec-case-rs-when-clause-matches","aoid":null,"titleHTML":"<dfn>WhenClauseMatches</dfn>(<var>exprValue</var>, <var>WhenClause</var>)","number":"2.3.1","referencingIds":["_ref_1"],"key":"WhenClauseMatches(exprValue, WhenClause)"},{"type":"clause","id":"sec-case-rs-eval","aoid":null,"titleHTML":"Runtime Semantics: Evaluation","number":"2.3","referencingIds":[],"key":"Runtime Semantics: Evaluation"},{"type":"term","term":"WhenClauseEvaluation","refId":"sec-case-rs-when-clause-eval","referencingIds":[],"key":"WhenClauseEvaluation"},{"type":"clause","id":"sec-case-rs-when-clause-eval","aoid":null,"titleHTML":"<dfn>WhenClauseEvaluation</dfn>(<var>exprValue</var>, <var>WhenClause</var>)","number":"2.4","referencingIds":["_ref_2"],"key":"WhenClauseEvaluation(exprValue, WhenClause)"},{"type":"clause","id":"sec-case-statement","aoid":null,"titleHTML":"Case Statement","number":"2","referencingIds":[],"key":"Case Statement"},{"type":"clause","id":"sec-copyright-and-software-license","aoid":null,"titleHTML":"Copyright &amp; Software License","number":"A","referencingIds":[],"key":"Copyright & Software License"}]}`);</script><style>body {
+let biblio = JSON.parse(`{"refsByClause":{"sec-match-rs-eval":["_ref_0","_ref_1","_ref_2","_ref_3","_ref_4","_ref_40"],"sec-match-rs-when-clause-matches":["_ref_5","_ref_6","_ref_7"],"sec-syntax":["_ref_8","_ref_9","_ref_10","_ref_11","_ref_12","_ref_13","_ref_14","_ref_15","_ref_16","_ref_17","_ref_18","_ref_19","_ref_20","_ref_21","_ref_22","_ref_23","_ref_24","_ref_25","_ref_26","_ref_27","_ref_28","_ref_29","_ref_30","_ref_31","_ref_32","_ref_33","_ref_34","_ref_35","_ref_36","_ref_37","_ref_38","_ref_39"]},"entries":[{"type":"production","id":"prod-Statement","name":"Statement","referencingIds":[],"key":"Statement"},{"type":"production","id":"prod-MatchStatement","name":"MatchStatement","referencingIds":["_ref_8"],"key":"MatchStatement"},{"type":"production","id":"prod-WhenClauses","name":"WhenClauses","referencingIds":["_ref_9","_ref_10","_ref_12","_ref_40"],"key":"WhenClauses"},{"type":"production","id":"prod-WhenClause","name":"WhenClause","referencingIds":["_ref_11","_ref_13"],"key":"WhenClause"},{"type":"production","id":"prod-MatchGuard","name":"MatchGuard","referencingIds":["_ref_15"],"key":"MatchGuard"},{"type":"production","id":"prod-WhenClauseBody","name":"WhenClauseBody","referencingIds":["_ref_16"],"key":"WhenClauseBody"},{"type":"production","id":"prod-MatchPattern","name":"MatchPattern","referencingIds":["_ref_14","_ref_37"],"key":"MatchPattern"},{"type":"production","id":"prod-ObjectMatchPattern","name":"ObjectMatchPattern","referencingIds":["_ref_17"],"key":"ObjectMatchPattern"},{"type":"production","id":"prod-MatchPropertyList","name":"MatchPropertyList","referencingIds":["_ref_22","_ref_25"],"key":"MatchPropertyList"},{"type":"production","id":"prod-MatchProperty","name":"MatchProperty","referencingIds":["_ref_24","_ref_26"],"key":"MatchProperty"},{"type":"production","id":"prod-MatchRestProperty","name":"MatchRestProperty","referencingIds":["_ref_21","_ref_23"],"key":"MatchRestProperty"},{"type":"production","id":"prod-ArrayMatchPattern","name":"ArrayMatchPattern","referencingIds":["_ref_18"],"key":"ArrayMatchPattern"},{"type":"production","id":"prod-MatchElementList","name":"MatchElementList","referencingIds":["_ref_30","_ref_31","_ref_34"],"key":"MatchElementList"},{"type":"production","id":"prod-MatchElisionElement","name":"MatchElisionElement","referencingIds":["_ref_33","_ref_35"],"key":"MatchElisionElement"},{"type":"production","id":"prod-MatchElement","name":"MatchElement","referencingIds":["_ref_27","_ref_36","_ref_39"],"key":"MatchElement"},{"type":"production","id":"prod-MatchRestElement","name":"MatchRestElement","referencingIds":["_ref_29","_ref_32"],"key":"MatchRestElement"},{"type":"production","id":"prod-IdentifierMatchPattern","name":"IdentifierMatchPattern","referencingIds":["_ref_19","_ref_28","_ref_38"],"key":"IdentifierMatchPattern"},{"type":"production","id":"prod-LiteralMatchPattern","name":"LiteralMatchPattern","referencingIds":["_ref_20"],"key":"LiteralMatchPattern"},{"type":"clause","id":"sec-syntax","aoid":null,"titleHTML":"Syntax","number":"1","referencingIds":[],"key":"Syntax"},{"type":"clause","id":"sec-match-ss-errors","aoid":null,"titleHTML":"Static Semantics: Early Errors","number":"2.1","referencingIds":[],"key":"Static Semantics: Early Errors"},{"type":"clause","id":"sec-match-rs-fn-def","aoid":null,"titleHTML":"Runtime Semantics: IsFunctionDefinition","number":"2.2","referencingIds":[],"key":"Runtime Semantics: IsFunctionDefinition"},{"type":"term","term":"WhenClauseMatches","refId":"sec-match-rs-when-clause-matches","referencingIds":[],"key":"WhenClauseMatches"},{"type":"clause","id":"sec-match-rs-when-clause-matches","aoid":null,"titleHTML":"<dfn>WhenClauseMatches</dfn>(<var>exprValue</var>, <var>WhenClause</var>)","number":"2.3.1","referencingIds":["_ref_1"],"key":"WhenClauseMatches(exprValue, WhenClause)"},{"type":"clause","id":"sec-match-rs-eval","aoid":null,"titleHTML":"Runtime Semantics: Evaluation","number":"2.3","referencingIds":[],"key":"Runtime Semantics: Evaluation"},{"type":"term","term":"WhenClauseEvaluation","refId":"sec-match-rs-when-clause-eval","referencingIds":[],"key":"WhenClauseEvaluation"},{"type":"clause","id":"sec-match-rs-when-clause-eval","aoid":null,"titleHTML":"<dfn>WhenClauseEvaluation</dfn>(<var>exprValue</var>, <var>WhenClause</var>)","number":"2.4","referencingIds":["_ref_2"],"key":"WhenClauseEvaluation(exprValue, WhenClause)"},{"type":"clause","id":"sec-match-expression","aoid":null,"titleHTML":"Match Expression","number":"2","referencingIds":[],"key":"Match Expression"},{"type":"clause","id":"sec-copyright-and-software-license","aoid":null,"titleHTML":"Copyright &amp; Software License","number":"A","referencingIds":[],"key":"Copyright & Software License"}]}`);</script><style>body {
   display: flex;
   font-size: 18px;
   line-height: 1.5;
@@ -2208,40 +2208,56 @@ li.menu-search-result-term:before {
 .normative-optional-tag a {
   color: #884400;
 }
-</style></head><body><div id="menu-toggle">☰</div><div id="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-syntax" title="Syntax"><span class="secnum">1</span> Syntax</a></li><li><span class="item-toggle">◢</span><a href="#sec-case-statement" title="Case Statement"><span class="secnum">2</span> Case Statement</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-case-ss-errors" title="Static Semantics: Early Errors"><span class="secnum">2.1</span> SS: Early Errors</a></li><li><span class="item-toggle-none"></span><a href="#sec-case-rs-fn-def" title="Runtime Semantics: IsFunctionDefinition"><span class="secnum">2.2</span> RS: IsFunctionDefinition</a></li><li><span class="item-toggle">◢</span><a href="#sec-case-rs-eval" title="Runtime Semantics: Evaluation"><span class="secnum">2.3</span> RS: Evaluation</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-case-rs-when-clause-matches" title="WhenClauseMatches(exprValue, WhenClause)"><span class="secnum">2.3.1</span> <dfn>WhenClauseMatches</dfn>(<var>exprValue</var>, <var>WhenClause</var>)</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-case-rs-when-clause-eval" title="WhenClauseEvaluation(exprValue, WhenClause)"><span class="secnum">2.4</span> <dfn>WhenClauseEvaluation</dfn>(<var>exprValue</var>, <var>WhenClause</var>)</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 1 Draft / April 20, 2021</h1><h1 class="title">Proposal Title Goes Here</h1>
+</style></head><body><div id="menu-toggle">☰</div><div id="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-syntax" title="Syntax"><span class="secnum">1</span> Syntax</a></li><li><span class="item-toggle">◢</span><a href="#sec-match-expression" title="Match Expression"><span class="secnum">2</span> Match Expression</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-match-ss-errors" title="Static Semantics: Early Errors"><span class="secnum">2.1</span> SS: Early Errors</a></li><li><span class="item-toggle-none"></span><a href="#sec-match-rs-fn-def" title="Runtime Semantics: IsFunctionDefinition"><span class="secnum">2.2</span> RS: IsFunctionDefinition</a></li><li><span class="item-toggle">◢</span><a href="#sec-match-rs-eval" title="Runtime Semantics: Evaluation"><span class="secnum">2.3</span> RS: Evaluation</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-match-rs-when-clause-matches" title="WhenClauseMatches(exprValue, WhenClause)"><span class="secnum">2.3.1</span> <dfn>WhenClauseMatches</dfn>(<var>exprValue</var>, <var>WhenClause</var>)</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-match-rs-when-clause-eval" title="WhenClauseEvaluation(exprValue, WhenClause)"><span class="secnum">2.4</span> <dfn>WhenClauseEvaluation</dfn>(<var>exprValue</var>, <var>WhenClause</var>)</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 1 Draft / April 20, 2021</h1><h1 class="title">Pattern Matching</h1>
+
+<emu-note type="editor">Spec text is under construction.</emu-note>
 
 <emu-clause id="sec-syntax">
   <h1><span class="secnum">1</span> Syntax</h1>
   <emu-grammar type="definition"><emu-production name="Statement" type="lexical" id="prod-Statement">
-    <emu-nt><a href="#prod-Statement">Statement</a></emu-nt> <emu-geq>::</emu-geq> <ins><emu-rhs a="s0umexx7"><emu-nt>MatchStatement</emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-Statement">Statement</a></emu-nt> <emu-geq>::</emu-geq> <ins><emu-rhs a="s0umexx7"><emu-nt id="_ref_8"><a href="#prod-MatchStatement">MatchStatement</a></emu-nt></emu-rhs>
     </ins>
 </emu-production>
-<ins class="block"><emu-production name="CaseStatement" type="lexical" id="prod-CaseStatement">
-    <emu-nt><a href="#prod-CaseStatement">CaseStatement</a></emu-nt> <emu-geq>::</emu-geq> <emu-rhs a="rowlwiyd">
-        <emu-t>case</emu-t>
+<ins class="block"><emu-production name="MatchStatement" type="lexical" id="prod-MatchStatement">
+    <emu-nt><a href="#prod-MatchStatement">MatchStatement</a></emu-nt> <emu-geq>::</emu-geq> <emu-rhs a="cbzhp6qa">
+        <emu-t>match</emu-t>
+        <emu-gann>[no <emu-nt><a href="https://tc39.es/ecma262/#prod-LineTerminator">LineTerminator</a></emu-nt> here]</emu-gann>
         <emu-t>(</emu-t>
         <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt>
         <emu-t>)</emu-t>
         <emu-t>{</emu-t>
-        <emu-nt id="_ref_8"><a href="#prod-WhenClauses">WhenClauses</a></emu-nt>
+        <emu-nt id="_ref_9"><a href="#prod-WhenClauses">WhenClauses</a></emu-nt>
+        <emu-t>}</emu-t>
+    </emu-rhs>
+    <emu-rhs a="mdzqcz-n">
+        <emu-t>match</emu-t>
+        <emu-gann>[no <emu-nt><a href="https://tc39.es/ecma262/#prod-LineTerminator">LineTerminator</a></emu-nt> here]</emu-gann>
+        <emu-t>(</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt>
+        <emu-t>)</emu-t>
+        <emu-t>as</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-LeftHandSideExpression">LeftHandSideExpression</a></emu-nt>
+        <emu-t>{</emu-t>
+        <emu-nt id="_ref_10"><a href="#prod-WhenClauses">WhenClauses</a></emu-nt>
         <emu-t>}</emu-t>
     </emu-rhs>
 </emu-production>
 <emu-production name="WhenClauses" id="prod-WhenClauses">
-    <emu-nt><a href="#prod-WhenClauses">WhenClauses</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="h1tagdvg"><emu-nt id="_ref_9"><a href="#prod-WhenClause">WhenClause</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-WhenClauses">WhenClauses</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="h1tagdvg"><emu-nt id="_ref_11"><a href="#prod-WhenClause">WhenClause</a></emu-nt></emu-rhs>
     <emu-rhs a="3wcj9n7z">
-        <emu-nt id="_ref_10"><a href="#prod-WhenClauses">WhenClauses</a></emu-nt>
-        <emu-nt id="_ref_11"><a href="#prod-WhenClause">WhenClause</a></emu-nt>
+        <emu-nt id="_ref_12"><a href="#prod-WhenClauses">WhenClauses</a></emu-nt>
+        <emu-nt id="_ref_13"><a href="#prod-WhenClause">WhenClause</a></emu-nt>
     </emu-rhs>
 </emu-production>
 <emu-production name="WhenClause" id="prod-WhenClause">
-    <emu-nt><a href="#prod-WhenClause">WhenClause</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="vt7-5dqr">
+    <emu-nt><a href="#prod-WhenClause">WhenClause</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="jsny7kmi">
         <emu-t>when</emu-t>
-        <emu-nt id="_ref_12"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt id="_ref_14"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
         <emu-nt params="opt"><a href="https://tc39.es/ecma262/#prod-Initializer">Initializer</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt>
-        <emu-nt params="opt" id="_ref_13"><a href="#prod-MatchGuard">MatchGuard</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt>
-        <emu-t>-&gt;</emu-t>
-        <emu-nt id="_ref_14"><a href="#prod-WhenClauseBody">WhenClauseBody</a></emu-nt>
+        <emu-nt params="opt" id="_ref_15"><a href="#prod-MatchGuard">MatchGuard</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt>
+        <emu-t>{</emu-t>
+        <emu-nt id="_ref_16"><a href="#prod-WhenClauseBody">WhenClauseBody</a></emu-nt>
+        <emu-t>}</emu-t>
     </emu-rhs>
 </emu-production>
 <emu-production name="MatchGuard" id="prod-MatchGuard">
@@ -2253,13 +2269,13 @@ li.menu-search-result-term:before {
     </emu-rhs>
 </emu-production>
 <emu-production name="WhenClauseBody" id="prod-WhenClauseBody">
-    <emu-nt><a href="#prod-WhenClauseBody">WhenClauseBody</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="pyyivtxj"><emu-nt id="_ref_15"><a href="#prod-Statement">Statement</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-WhenClauseBody">WhenClauseBody</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="zwpfwt4j"><emu-nt params="?Yield, ?Await, ?Return"><a href="https://tc39.es/ecma262/#prod-annexB-Block">Block</a><emu-mods><emu-params>[?Yield, ?Await, ?Return]</emu-params></emu-mods></emu-nt></emu-rhs>
 </emu-production>
 <emu-production name="MatchPattern" id="prod-MatchPattern">
-    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="8rwi5pil"><emu-nt id="_ref_16"><a href="#prod-ObjectMatchPattern">ObjectMatchPattern</a></emu-nt></emu-rhs>
-    <emu-rhs a="wffg_mnt"><emu-nt id="_ref_17"><a href="#prod-ArrayMatchPattern">ArrayMatchPattern</a></emu-nt></emu-rhs>
-    <emu-rhs a="40clqo3r"><emu-nt id="_ref_18"><a href="#prod-IdentifierMatchPattern">IdentifierMatchPattern</a></emu-nt></emu-rhs>
-    <emu-rhs a="b2qlfu-p"><emu-nt id="_ref_19"><a href="#prod-LiteralMatchPattern">LiteralMatchPattern</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="8rwi5pil"><emu-nt id="_ref_17"><a href="#prod-ObjectMatchPattern">ObjectMatchPattern</a></emu-nt></emu-rhs>
+    <emu-rhs a="wffg_mnt"><emu-nt id="_ref_18"><a href="#prod-ArrayMatchPattern">ArrayMatchPattern</a></emu-nt></emu-rhs>
+    <emu-rhs a="40clqo3r"><emu-nt id="_ref_19"><a href="#prod-IdentifierMatchPattern">IdentifierMatchPattern</a></emu-nt></emu-rhs>
+    <emu-rhs a="b2qlfu-p"><emu-nt id="_ref_20"><a href="#prod-LiteralMatchPattern">LiteralMatchPattern</a></emu-nt></emu-rhs>
 </emu-production>
 <emu-production name="ObjectMatchPattern" id="prod-ObjectMatchPattern">
     <emu-nt><a href="#prod-ObjectMatchPattern">ObjectMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="gbpaspne">
@@ -2268,23 +2284,23 @@ li.menu-search-result-term:before {
     </emu-rhs>
     <emu-rhs a="o1dsndx3">
         <emu-t>{</emu-t>
-        <emu-nt id="_ref_20"><a href="#prod-MatchRestProperty">MatchRestProperty</a></emu-nt>
+        <emu-nt id="_ref_21"><a href="#prod-MatchRestProperty">MatchRestProperty</a></emu-nt>
         <emu-t>}</emu-t>
     </emu-rhs>
     <emu-rhs a="qilivc4s">
         <emu-t>{</emu-t>
-        <emu-nt id="_ref_21"><a href="#prod-MatchPropertyList">MatchPropertyList</a></emu-nt>
+        <emu-nt id="_ref_22"><a href="#prod-MatchPropertyList">MatchPropertyList</a></emu-nt>
         <emu-t>,</emu-t>
-        <emu-nt params="opt" id="_ref_22"><a href="#prod-MatchRestProperty">MatchRestProperty</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt>
+        <emu-nt params="opt" id="_ref_23"><a href="#prod-MatchRestProperty">MatchRestProperty</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt>
         <emu-t>}</emu-t>
     </emu-rhs>
 </emu-production>
 <emu-production name="MatchPropertyList" id="prod-MatchPropertyList">
-    <emu-nt><a href="#prod-MatchPropertyList">MatchPropertyList</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="itbva-y6"><emu-nt id="_ref_23"><a href="#prod-MatchProperty">MatchProperty</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-MatchPropertyList">MatchPropertyList</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="itbva-y6"><emu-nt id="_ref_24"><a href="#prod-MatchProperty">MatchProperty</a></emu-nt></emu-rhs>
     <emu-rhs a="q97kd0i8">
-        <emu-nt id="_ref_24"><a href="#prod-MatchPropertyList">MatchPropertyList</a></emu-nt>
+        <emu-nt id="_ref_25"><a href="#prod-MatchPropertyList">MatchPropertyList</a></emu-nt>
         <emu-t>,</emu-t>
-        <emu-nt id="_ref_25"><a href="#prod-MatchProperty">MatchProperty</a></emu-nt>
+        <emu-nt id="_ref_26"><a href="#prod-MatchProperty">MatchProperty</a></emu-nt>
     </emu-rhs>
 </emu-production>
 <emu-production name="MatchProperty" id="prod-MatchProperty">
@@ -2295,13 +2311,13 @@ li.menu-search-result-term:before {
     <emu-rhs a="tft5cuso">
         <emu-nt><a href="https://tc39.es/ecma262/#prod-PropertyName">PropertyName</a></emu-nt>
         <emu-t>:</emu-t>
-        <emu-nt id="_ref_26"><a href="#prod-MatchElement">MatchElement</a></emu-nt>
+        <emu-nt id="_ref_27"><a href="#prod-MatchElement">MatchElement</a></emu-nt>
     </emu-rhs>
 </emu-production>
 <emu-production name="MatchRestProperty" id="prod-MatchRestProperty">
     <emu-nt><a href="#prod-MatchRestProperty">MatchRestProperty</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="_fzrac9_">
         <emu-t>...</emu-t>
-        <emu-nt id="_ref_27"><a href="#prod-IdentifierMatchPattern">IdentifierMatchPattern</a></emu-nt>
+        <emu-nt id="_ref_28"><a href="#prod-IdentifierMatchPattern">IdentifierMatchPattern</a></emu-nt>
     </emu-rhs>
 </emu-production>
 <emu-production name="ArrayMatchPattern" id="prod-ArrayMatchPattern">
@@ -2312,49 +2328,49 @@ li.menu-search-result-term:before {
     <emu-rhs a="yobpblwc">
         <emu-t>[</emu-t>
         <emu-nt params="opt"><a href="https://tc39.es/ecma262/#prod-Elision">Elision</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt>
-        <emu-nt id="_ref_28"><a href="#prod-MatchRestElement">MatchRestElement</a></emu-nt>
+        <emu-nt id="_ref_29"><a href="#prod-MatchRestElement">MatchRestElement</a></emu-nt>
         <emu-t>]</emu-t>
     </emu-rhs>
     <emu-rhs a="1jarqwxx">
         <emu-t>[</emu-t>
-        <emu-nt id="_ref_29"><a href="#prod-MatchElementList">MatchElementList</a></emu-nt>
+        <emu-nt id="_ref_30"><a href="#prod-MatchElementList">MatchElementList</a></emu-nt>
         <emu-t>]</emu-t>
     </emu-rhs>
     <emu-rhs a="qf3bycv_">
         <emu-t>[</emu-t>
-        <emu-nt id="_ref_30"><a href="#prod-MatchElementList">MatchElementList</a></emu-nt>
+        <emu-nt id="_ref_31"><a href="#prod-MatchElementList">MatchElementList</a></emu-nt>
         <emu-t>,</emu-t>
         <emu-nt params="opts"><a href="https://tc39.es/ecma262/#prod-Elision">Elision</a><emu-mods><emu-params>[opts]</emu-params></emu-mods></emu-nt>
-        <emu-nt params="opt" id="_ref_31"><a href="#prod-MatchRestElement">MatchRestElement</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt>
+        <emu-nt params="opt" id="_ref_32"><a href="#prod-MatchRestElement">MatchRestElement</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt>
         <emu-t>]</emu-t>
     </emu-rhs>
 </emu-production>
 <emu-production name="MatchElementList" id="prod-MatchElementList">
-    <emu-nt><a href="#prod-MatchElementList">MatchElementList</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="dlv9v-6j"><emu-nt id="_ref_32"><a href="#prod-MatchElisionElement">MatchElisionElement</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-MatchElementList">MatchElementList</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="dlv9v-6j"><emu-nt id="_ref_33"><a href="#prod-MatchElisionElement">MatchElisionElement</a></emu-nt></emu-rhs>
     <emu-rhs a="eheyxnr4">
-        <emu-nt id="_ref_33"><a href="#prod-MatchElementList">MatchElementList</a></emu-nt>
+        <emu-nt id="_ref_34"><a href="#prod-MatchElementList">MatchElementList</a></emu-nt>
         <emu-t>,</emu-t>
-        <emu-nt id="_ref_34"><a href="#prod-MatchElisionElement">MatchElisionElement</a></emu-nt>
+        <emu-nt id="_ref_35"><a href="#prod-MatchElisionElement">MatchElisionElement</a></emu-nt>
     </emu-rhs>
 </emu-production>
 <emu-production name="MatchElisionElement" id="prod-MatchElisionElement">
     <emu-nt><a href="#prod-MatchElisionElement">MatchElisionElement</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="ehnfehxk">
         <emu-nt params="opt"><a href="https://tc39.es/ecma262/#prod-Elision">Elision</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt>
-        <emu-nt id="_ref_35"><a href="#prod-MatchElement">MatchElement</a></emu-nt>
+        <emu-nt id="_ref_36"><a href="#prod-MatchElement">MatchElement</a></emu-nt>
         <emu-nt params="opt"><a href="https://tc39.es/ecma262/#prod-Initializer">Initializer</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt>
     </emu-rhs>
 </emu-production>
 <emu-production name="MatchElement" id="prod-MatchElement">
-    <emu-nt><a href="#prod-MatchElement">MatchElement</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="l1e-0x1i"><emu-nt id="_ref_36"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-MatchElement">MatchElement</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="l1e-0x1i"><emu-nt id="_ref_37"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt></emu-rhs>
 </emu-production>
 <emu-production name="MatchRestElement" id="prod-MatchRestElement">
     <emu-nt><a href="#prod-MatchRestElement">MatchRestElement</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="_fzrac9_">
         <emu-t>...</emu-t>
-        <emu-nt id="_ref_37"><a href="#prod-IdentifierMatchPattern">IdentifierMatchPattern</a></emu-nt>
+        <emu-nt id="_ref_38"><a href="#prod-IdentifierMatchPattern">IdentifierMatchPattern</a></emu-nt>
     </emu-rhs>
     <emu-rhs a="eryxyfbj">
         <emu-t>...</emu-t>
-        <emu-nt id="_ref_38"><a href="#prod-MatchElement">MatchElement</a></emu-nt>
+        <emu-nt id="_ref_39"><a href="#prod-MatchElement">MatchElement</a></emu-nt>
     </emu-rhs>
 </emu-production>
 <emu-production name="IdentifierMatchPattern" id="prod-IdentifierMatchPattern">
@@ -2368,33 +2384,33 @@ li.menu-search-result-term:before {
 </emu-production></ins>
 </emu-grammar>
 </emu-clause>
-<emu-clause id="sec-case-statement">
-  <h1><span class="secnum">2</span> Case Statement</h1>
-  <emu-clause id="sec-case-ss-errors">
+<emu-clause id="sec-match-expression">
+  <h1><span class="secnum">2</span> Match Expression</h1>
+  <emu-clause id="sec-match-ss-errors">
     <h1><span class="secnum">2.1</span> Static Semantics: Early Errors</h1>
     <p>To be done</p>
   </emu-clause>
-  <emu-clause id="sec-case-rs-fn-def">
+  <emu-clause id="sec-match-rs-fn-def">
     <h1><span class="secnum">2.2</span> Runtime Semantics: IsFunctionDefinition</h1>
     <p>To be done</p>
   </emu-clause>
-  <emu-clause id="sec-case-rs-eval">
+  <emu-clause id="sec-match-rs-eval">
     <h1><span class="secnum">2.3</span> Runtime Semantics: Evaluation</h1>
     <emu-grammar><emu-production name="_MatchStatement_" collapsed="">
-    <emu-nt>_MatchStatement_</emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="nqug1vut">
+    <emu-nt>_MatchStatement_</emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="hns45fa8">
         <emu-t>:</emu-t>
-        <emu-t>case</emu-t>
+        <emu-t>match</emu-t>
         <emu-t>(</emu-t>
         <emu-nt>_Expression_</emu-nt>
         <emu-t>)</emu-t>
         <emu-t>{</emu-t>
-        <emu-nt id="_ref_39"><a href="#prod-WhenClauses">WhenClauses</a></emu-nt>
+        <emu-nt id="_ref_40"><a href="#prod-WhenClauses">WhenClauses</a></emu-nt>
         <emu-t>}</emu-t>
     </emu-rhs>
 </emu-production>
 </emu-grammar>
-    <emu-alg><ol><li>Let <var>exprRef</var> be the result of evaluation <var>Expression</var>.</li><li>Let <var>exprValue</var> be ?&nbsp;<emu-xref aoid="GetValue" id="_ref_0"><a href="https://tc39.es/ecma262/#sec-getvalue">GetValue</a></emu-xref>(<var>exprRef</var>)</li><li>For each element <var>WhenClause</var> in <var>WhenClauses</var>:</li><li>If no <var>WhenClause</var> left, throw <var>MatchError</var></li><li>Let <var>matched</var> be ?&nbsp;<emu-xref href="#sec-case-rs-when-clause-matches" id="_ref_1"><a href="#sec-case-rs-when-clause-matches">WhenClauseMatches</a></emu-xref>(<var>exprValue</var>, <var>WhenClause</var>)</li><li>If <var>matched</var> is true, then<ol><li>Let <var>clauseCompletion</var> be ?&nbsp;<emu-xref href="#sec-case-rs-when-clause-eval" id="_ref_2"><a href="#sec-case-rs-when-clause-eval">WhenClauseEvaluation</a></emu-xref>(<var>exprValue</var>, <var>WhenClause</var>)</li><li>Return <emu-xref aoid="Completion" id="_ref_3"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">Completion</a></emu-xref>(<emu-xref aoid="UpdateEmpty" id="_ref_4"><a href="https://tc39.es/ecma262/#sec-updateempty">UpdateEmpty</a></emu-xref>(<var>clauseCompletion</var>, <code>undefined</code>))</li></ol></li></ol></emu-alg>
-    <emu-clause id="sec-case-rs-when-clause-matches">
+    <emu-alg><ol><li>Let <var>exprRef</var> be the result of evaluation <var>Expression</var>.</li><li>Let <var>exprValue</var> be ?&nbsp;<emu-xref aoid="GetValue" id="_ref_0"><a href="https://tc39.es/ecma262/#sec-getvalue">GetValue</a></emu-xref>(<var>exprRef</var>)</li><li>For each element <var>WhenClause</var> in <var>WhenClauses</var>:</li><li>If no <var>WhenClause</var> left, throw <var>MatchError</var></li><li>Let <var>matched</var> be ?&nbsp;<emu-xref href="#sec-match-rs-when-clause-matches" id="_ref_1"><a href="#sec-match-rs-when-clause-matches">WhenClauseMatches</a></emu-xref>(<var>exprValue</var>, <var>WhenClause</var>)</li><li>If <var>matched</var> is true, then<ol><li>Let <var>clauseCompletion</var> be ?&nbsp;<emu-xref href="#sec-match-rs-when-clause-eval" id="_ref_2"><a href="#sec-match-rs-when-clause-eval">WhenClauseEvaluation</a></emu-xref>(<var>exprValue</var>, <var>WhenClause</var>)</li><li>Return <emu-xref aoid="Completion" id="_ref_3"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">Completion</a></emu-xref>(<emu-xref aoid="UpdateEmpty" id="_ref_4"><a href="https://tc39.es/ecma262/#sec-updateempty">UpdateEmpty</a></emu-xref>(<var>clauseCompletion</var>, <code>undefined</code>))</li></ol></li></ol></emu-alg>
+    <emu-clause id="sec-match-rs-when-clause-matches">
       <h1><span class="secnum">2.3.1</span> <dfn>WhenClauseMatches</dfn>(<var>exprValue</var>, <var>WhenClause</var>)</h1>
       <emu-grammar><emu-production name="_WhenClause_" collapsed="">
     <emu-nt>_WhenClause_</emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="x2ghd7kx">
@@ -2455,7 +2471,7 @@ li.menu-search-result-term:before {
         </div></emu-note></li></ol></emu-alg>
     </emu-clause>
   </emu-clause>
-  <emu-clause id="sec-case-rs-when-clause-eval">
+  <emu-clause id="sec-match-rs-when-clause-eval">
     <h1><span class="secnum">2.4</span> <dfn>WhenClauseEvaluation</dfn>(<var>exprValue</var>, <var>WhenClause</var>)</h1>
     <p>To be done</p>
   </emu-clause>
@@ -2463,7 +2479,7 @@ li.menu-search-result-term:before {
       <h1><span class="secnum">A</span> Copyright &amp; Software License</h1>
       
       <h2>Copyright Notice</h2>
-      <p>© 2021 Your Name Goes Here</p>
+      <p>© 2021 Jordan Harband, Mark Cohen, Tab Atkins, Yulia Startsev, Daniel Rosenwasser, Jack Works, Ross Kirsling</p>
 
       <h2>Software License</h2>
       <p>All Software contained in this document ("Software") is protected by copyright and is being made available under the "BSD License", included below. This Software may be subject to third party rights (rights from parties other than Ecma International), including patent rights, and no licenses under such third party rights are granted under this license even if the third party concerned is a member of Ecma International. SEE THE ECMA CODE OF CONDUCT IN PATENT MATTERS AVAILABLE AT https://ecma-international.org/memento/codeofconduct.htm FOR INFORMATION REGARDING THE LICENSING OF PATENT CLAIMS THAT ARE REQUIRED TO IMPLEMENT ECMA INTERNATIONAL STANDARDS.</p>
