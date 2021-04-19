@@ -3,8 +3,90 @@
 <link rel="stylesheet" href="./spec.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 <script src="./spec.js"></script>
-<title>Proposal Title Goes Here</title><script type="application/json" id="menu-search-biblio">[{"type":"production","id":"prod-Statement","name":"Statement","referencingIds":["_ref_15"],"namespace":"<no location>","location":"","key":"Statement"},{"type":"production","id":"prod-CaseStatement","name":"CaseStatement","referencingIds":[],"namespace":"<no location>","location":"","key":"CaseStatement"},{"type":"production","id":"prod-WhenClauses","name":"WhenClauses","referencingIds":["_ref_8","_ref_10"],"namespace":"<no location>","location":"","key":"WhenClauses"},{"type":"production","id":"prod-WhenClause","name":"WhenClause","referencingIds":["_ref_9","_ref_11"],"namespace":"<no location>","location":"","key":"WhenClause"},{"type":"production","id":"prod-MatchGuard","name":"MatchGuard","referencingIds":["_ref_13"],"namespace":"<no location>","location":"","key":"MatchGuard"},{"type":"production","id":"prod-WhenClauseBody","name":"WhenClauseBody","referencingIds":["_ref_14"],"namespace":"<no location>","location":"","key":"WhenClauseBody"},{"type":"production","id":"prod-MatchPattern","name":"MatchPattern","referencingIds":["_ref_12","_ref_36"],"namespace":"<no location>","location":"","key":"MatchPattern"},{"type":"production","id":"prod-ObjectMatchPattern","name":"ObjectMatchPattern","referencingIds":["_ref_16"],"namespace":"<no location>","location":"","key":"ObjectMatchPattern"},{"type":"production","id":"prod-MatchPropertyList","name":"MatchPropertyList","referencingIds":["_ref_21","_ref_24"],"namespace":"<no location>","location":"","key":"MatchPropertyList"},{"type":"production","id":"prod-MatchProperty","name":"MatchProperty","referencingIds":["_ref_23","_ref_25"],"namespace":"<no location>","location":"","key":"MatchProperty"},{"type":"production","id":"prod-MatchRestProperty","name":"MatchRestProperty","referencingIds":["_ref_20","_ref_22"],"namespace":"<no location>","location":"","key":"MatchRestProperty"},{"type":"production","id":"prod-ArrayMatchPattern","name":"ArrayMatchPattern","referencingIds":["_ref_17"],"namespace":"<no location>","location":"","key":"ArrayMatchPattern"},{"type":"production","id":"prod-MatchElementList","name":"MatchElementList","referencingIds":["_ref_29","_ref_30","_ref_33"],"namespace":"<no location>","location":"","key":"MatchElementList"},{"type":"production","id":"prod-MatchElisionElement","name":"MatchElisionElement","referencingIds":["_ref_32","_ref_34"],"namespace":"<no location>","location":"","key":"MatchElisionElement"},{"type":"production","id":"prod-MatchElement","name":"MatchElement","referencingIds":["_ref_26","_ref_35","_ref_38"],"namespace":"<no location>","location":"","key":"MatchElement"},{"type":"production","id":"prod-MatchRestElement","name":"MatchRestElement","referencingIds":["_ref_28","_ref_31"],"namespace":"<no location>","location":"","key":"MatchRestElement"},{"type":"production","id":"prod-IdentifierMatchPattern","name":"IdentifierMatchPattern","referencingIds":["_ref_18","_ref_27","_ref_37"],"namespace":"<no location>","location":"","key":"IdentifierMatchPattern"},{"type":"production","id":"prod-LiteralMatchPattern","name":"LiteralMatchPattern","referencingIds":["_ref_19"],"namespace":"<no location>","location":"","key":"LiteralMatchPattern"},{"type":"clause","id":"sec-syntax","aoid":null,"title":"Syntax","titleHTML":"Syntax","number":"1","namespace":"<no location>","location":"","referencingIds":[],"key":"Syntax"},{"type":"clause","id":"sec-case-ss-errors","aoid":null,"title":"Static Semantics: Early Errors","titleHTML":"Static Semantics: Early Errors","number":"2.1","namespace":"<no location>","location":"","referencingIds":[],"key":"Static Semantics: Early Errors"},{"type":"clause","id":"sec-case-rs-fn-def","aoid":null,"title":"Runtime Semantics: IsFunctionDefinition","titleHTML":"Runtime Semantics: IsFunctionDefinition","number":"2.2","namespace":"<no location>","location":"","referencingIds":[],"key":"Runtime Semantics: IsFunctionDefinition"},{"type":"term","term":"WhenClauseMatches","refId":"sec-case-rs-when-clause-matches","referencingIds":[],"namespace":"<no location>","location":"","key":"WhenClauseMatches"},{"type":"clause","id":"sec-case-rs-when-clause-matches","aoid":null,"title":"WhenClauseMatches(exprValue, WhenClause)","titleHTML":"<dfn>WhenClauseMatches</dfn>(<var>exprValue</var>, <var>WhenClause</var>)","number":"2.3.1","namespace":"<no location>","location":"","referencingIds":["_ref_1"],"key":"WhenClauseMatches(exprValue, WhenClause)"},{"type":"clause","id":"sec-case-rs-eval","aoid":null,"title":"Runtime Semantics: Evaluation","titleHTML":"Runtime Semantics: Evaluation","number":"2.3","namespace":"<no location>","location":"","referencingIds":[],"key":"Runtime Semantics: Evaluation"},{"type":"term","term":"WhenClauseEvaluation","refId":"sec-case-rs-when-clause-eval","referencingIds":[],"namespace":"<no location>","location":"","key":"WhenClauseEvaluation"},{"type":"clause","id":"sec-case-rs-when-clause-eval","aoid":null,"title":"WhenClauseEvaluation(exprValue, WhenClause)","titleHTML":"<dfn>WhenClauseEvaluation</dfn>(<var>exprValue</var>, <var>WhenClause</var>)","number":"2.4","namespace":"<no location>","location":"","referencingIds":["_ref_2"],"key":"WhenClauseEvaluation(exprValue, WhenClause)"},{"type":"clause","id":"sec-case-statement","aoid":null,"title":"Case Statement","titleHTML":"Case Statement","number":"2","namespace":"<no location>","location":"","referencingIds":[],"key":"Case Statement"},{"type":"clause","id":"sec-copyright-and-software-license","aoid":null,"title":"Copyright & Software License","titleHTML":"Copyright &amp; Software License","number":"A","namespace":"<no location>","location":"","referencingIds":[],"key":"Copyright & Software License"}]</script><script>"use strict";
+<title>Proposal Title Goes Here</title><script>'use strict';
+let sdoBox = {
+  init() {
+    this.$alternativeId = null;
+    this.$outer = document.createElement('div');
+    this.$outer.classList.add('toolbox-container');
+    this.$container = document.createElement('div');
+    this.$container.classList.add('toolbox');
+    this.$displayLink = document.createElement('a');
+    this.$displayLink.setAttribute('href', '#');
+    this.$displayLink.textContent = 'Syntax-Directed Operations';
+    this.$displayLink.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      referencePane.showSDOs(sdoMap[this.$alternativeId] || {}, this.$alternativeId);
+    });
+    this.$container.appendChild(this.$displayLink);
+    this.$outer.appendChild(this.$container);
+    document.body.appendChild(this.$outer);
+  },
 
+  activate(el) {
+    clearTimeout(this.deactiveTimeout);
+    Toolbox.deactivate();
+    this.$alternativeId = el.id;
+    let numSdos = Object.keys(sdoMap[this.$alternativeId] || {}).length;
+    this.$displayLink.textContent = 'Syntax-Directed Operations (' + numSdos + ')';
+    this.$outer.classList.add('active');
+    let top = el.offsetTop - this.$outer.offsetHeight;
+    let left = el.offsetLeft + 50 - 10; // 50px = padding-left(=75px) + text-indent(=-25px)
+    this.$outer.setAttribute('style', 'left: ' + left + 'px; top: ' + top + 'px');
+    if (top < document.body.scrollTop) {
+      this.$container.scrollIntoView();
+    }
+  },
+
+  deactivate() {
+    clearTimeout(this.deactiveTimeout);
+    this.$outer.classList.remove('active');
+  },
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof sdoMap == 'undefined') {
+    console.error('could not find sdo map');
+    return;
+  }
+  sdoBox.init();
+
+  let insideTooltip = false;
+  sdoBox.$outer.addEventListener('pointerenter', () => {
+    insideTooltip = true;
+  });
+  sdoBox.$outer.addEventListener('pointerleave', () => {
+    insideTooltip = false;
+    sdoBox.deactivate();
+  });
+
+  sdoBox.deactiveTimeout = null;
+  [].forEach.call(document.querySelectorAll('emu-grammar[type=definition] emu-rhs'), node => {
+    node.addEventListener('pointerenter', function () {
+      sdoBox.activate(this);
+    });
+
+    node.addEventListener('pointerleave', () => {
+      sdoBox.deactiveTimeout = setTimeout(() => {
+        if (!insideTooltip) {
+          sdoBox.deactivate();
+        }
+      }, 500);
+    });
+  });
+
+  document.addEventListener(
+    'keydown',
+    debounce(e => {
+      if (e.code === 'Escape') {
+        sdoBox.deactivate();
+      }
+    })
+  );
+});
+
+'use strict';
 function Search(menu) {
   this.menu = menu;
   this.$search = document.getElementById('menu-search');
@@ -15,8 +97,14 @@ function Search(menu) {
 
   document.addEventListener('keydown', this.documentKeydown.bind(this));
 
-  this.$searchBox.addEventListener('keydown', debounce(this.searchBoxKeydown.bind(this), { stopPropagation: true }));
-  this.$searchBox.addEventListener('keyup', debounce(this.searchBoxKeyup.bind(this), { stopPropagation: true }));
+  this.$searchBox.addEventListener(
+    'keydown',
+    debounce(this.searchBoxKeydown.bind(this), { stopPropagation: true })
+  );
+  this.$searchBox.addEventListener(
+    'keyup',
+    debounce(this.searchBoxKeyup.bind(this), { stopPropagation: true })
+  );
 
   // Perform an initial search if the box is not empty.
   if (this.$searchBox.value) {
@@ -25,18 +113,26 @@ function Search(menu) {
 }
 
 Search.prototype.loadBiblio = function () {
-  var $biblio = document.getElementById('menu-search-biblio');
-  if (!$biblio) {
-    this.biblio = [];
+  if (typeof biblio === 'undefined') {
+    console.error('could not find biblio');
+    this.biblio = { refToClause: {}, entries: [] };
   } else {
-    this.biblio = JSON.parse($biblio.textContent);
-    this.biblio.clauses = this.biblio.filter(function (e) { return e.type === 'clause' });
-    this.biblio.byId = this.biblio.reduce(function (map, entry) {
+    this.biblio = biblio;
+    this.biblio.clauses = this.biblio.entries.filter(e => e.type === 'clause');
+    this.biblio.byId = this.biblio.entries.reduce((map, entry) => {
       map[entry.id] = entry;
       return map;
     }, {});
+    let refParentClause = Object.create(null);
+    this.biblio.refParentClause = refParentClause;
+    let refsByClause = this.biblio.refsByClause;
+    Object.keys(refsByClause).forEach(clause => {
+      refsByClause[clause].forEach(ref => {
+        refParentClause[ref] = clause;
+      });
+    });
   }
-}
+};
 
 Search.prototype.documentKeydown = function (e) {
   if (e.keyCode === 191) {
@@ -44,7 +140,7 @@ Search.prototype.documentKeydown = function (e) {
     e.stopPropagation();
     this.triggerSearch();
   }
-}
+};
 
 Search.prototype.searchBoxKeydown = function (e) {
   e.stopPropagation();
@@ -55,7 +151,7 @@ Search.prototype.searchBoxKeydown = function (e) {
     e.preventDefault();
     this.selectResult();
   }
-}
+};
 
 Search.prototype.searchBoxKeyup = function (e) {
   if (e.keyCode === 13 || e.keyCode === 9) {
@@ -63,10 +159,9 @@ Search.prototype.searchBoxKeyup = function (e) {
   }
 
   this.search(e.target.value);
-}
+};
 
-
-Search.prototype.triggerSearch = function (e) {
+Search.prototype.triggerSearch = function () {
   if (this.menu.isVisible()) {
     this._closeAfterSearch = false;
   } else {
@@ -76,14 +171,14 @@ Search.prototype.triggerSearch = function (e) {
 
   this.$searchBox.focus();
   this.$searchBox.select();
-}
+};
 // bit 12 - Set if the result starts with searchString
 // bits 8-11: 8 - number of chunks multiplied by 2 if cases match, otherwise 1.
 // bits 1-7: 127 - length of the entry
 // General scheme: prefer case sensitive matches with fewer chunks, and otherwise
 // prefer shorter matches.
-function relevance(result, searchString) {
-  var relevance = 0;
+function relevance(result) {
+  let relevance = 0;
 
   relevance = Math.max(0, 8 - result.match.chunks) << 7;
 
@@ -92,7 +187,7 @@ function relevance(result, searchString) {
   }
 
   if (result.match.prefix) {
-    relevance += 2048
+    relevance += 2048;
   }
 
   relevance += Math.max(0, 255 - result.entry.key.length);
@@ -114,36 +209,33 @@ Search.prototype.search = function (searchString) {
     return;
   }
 
-  var results;
+  let results;
 
-  if (/^[\d\.]*$/.test(searchString)) {
-    results = this.biblio.clauses.filter(function (clause) {
-      return clause.number.substring(0, searchString.length) === searchString;
-    }).map(function (clause) {
-      return { entry: clause };
-    });
+  if (/^[\d.]*$/.test(searchString)) {
+    results = this.biblio.clauses
+      .filter(clause => clause.number.substring(0, searchString.length) === searchString)
+      .map(clause => ({ entry: clause }));
   } else {
     results = [];
 
-    for (var i = 0; i < this.biblio.length; i++) {
-      var entry = this.biblio[i];
+    for (let i = 0; i < this.biblio.entries.length; i++) {
+      let entry = this.biblio.entries[i];
       if (!entry.key) {
         // biblio entries without a key aren't searchable
         continue;
       }
 
-      var match = fuzzysearch(searchString, entry.key);
+      let match = fuzzysearch(searchString, entry.key);
       if (match) {
-        results.push({ entry: entry, match: match });
+        results.push({ entry, match });
       }
     }
 
-    results.forEach(function (result) {
+    results.forEach(result => {
       result.relevance = relevance(result, searchString);
     });
 
-    results = results.sort(function (a, b) { return b.relevance - a.relevance });
-
+    results = results.sort((a, b) => b.relevance - a.relevance);
   }
 
   if (results.length > 50) {
@@ -151,17 +243,17 @@ Search.prototype.search = function (searchString) {
   }
 
   this.displayResults(results);
-}
+};
 Search.prototype.hideSearch = function () {
   this.$search.classList.remove('active');
-}
+};
 
 Search.prototype.showSearch = function () {
   this.$search.classList.add('active');
-}
+};
 
 Search.prototype.selectResult = function () {
-  var $first = this.$searchResults.querySelector('li:first-child a');
+  let $first = this.$searchResults.querySelector('li:first-child a');
 
   if ($first) {
     document.location = $first.getAttribute('href');
@@ -175,22 +267,22 @@ Search.prototype.selectResult = function () {
   if (this._closeAfterSearch) {
     this.menu.hide();
   }
-}
+};
 
 Search.prototype.displayResults = function (results) {
   if (results.length > 0) {
     this.$searchResults.classList.remove('no-results');
 
-    var html = '<ul>';
+    let html = '<ul>';
 
-    results.forEach(function (result) {
-      var entry = result.entry;
-      var id = entry.id;
-      var cssClass = '';
-      var text = '';
+    results.forEach(result => {
+      let entry = result.entry;
+      let id = entry.id;
+      let cssClass = '';
+      let text = '';
 
       if (entry.type === 'clause') {
-        var number = entry.number ? entry.number + ' ' : '';
+        let number = entry.number ? entry.number + ' ' : '';
         text = number + entry.key;
         cssClass = 'clause';
         id = entry.id;
@@ -209,19 +301,19 @@ Search.prototype.displayResults = function (results) {
       }
 
       if (text) {
-        html += '<li class=menu-search-result-' + cssClass + '><a href="#' + id + '">' + text + '</a></li>';
+        // prettier-ignore
+        html += `<li class=menu-search-result-${cssClass}><a href="${makeLinkToId(id)}">${text}</a></li>`;
       }
     });
 
-    html += '</ul>'
+    html += '</ul>';
 
     this.$searchResults.innerHTML = html;
   } else {
     this.$searchResults.innerHTML = '';
     this.$searchResults.classList.add('no-results');
   }
-}
-
+};
 
 function Menu() {
   this.$toggle = document.getElementById('menu-toggle');
@@ -233,7 +325,7 @@ function Menu() {
   this.$specContainer = document.getElementById('spec-container');
   this.search = new Search(this);
 
-  this._pinnedIds = {}; 
+  this._pinnedIds = {};
   this.loadPinEntries();
 
   // toggle menu
@@ -243,23 +335,23 @@ function Menu() {
   document.addEventListener('keydown', this.documentKeydown.bind(this));
 
   // toc expansion
-  var tocItems = this.$menu.querySelectorAll('#menu-toc li');
-  for (var i = 0; i < tocItems.length; i++) {
-    var $item = tocItems[i];
-    $item.addEventListener('click', function($item, event) {
+  let tocItems = this.$menu.querySelectorAll('#menu-toc li');
+  for (let i = 0; i < tocItems.length; i++) {
+    let $item = tocItems[i];
+    $item.addEventListener('click', event => {
       $item.classList.toggle('active');
       event.stopPropagation();
-    }.bind(null, $item));
+    });
   }
 
   // close toc on toc item selection
-  var tocLinks = this.$menu.querySelectorAll('#menu-toc li > a');
-  for (var i = 0; i < tocLinks.length; i++) {
-    var $link = tocLinks[i];
-    $link.addEventListener('click', function(event) {
+  let tocLinks = this.$menu.querySelectorAll('#menu-toc li > a');
+  for (let i = 0; i < tocLinks.length; i++) {
+    let $link = tocLinks[i];
+    $link.addEventListener('click', event => {
       this.toggle();
       event.stopPropagation();
-    }.bind(this));
+    });
   }
 
   // update active clause on scroll
@@ -267,14 +359,13 @@ function Menu() {
   this.updateActiveClause();
 
   // prevent menu scrolling from scrolling the body
-  this.$toc.addEventListener('wheel', function (e) {
-    var target = e.currentTarget;
-    var offTop = e.deltaY < 0 && target.scrollTop === 0;
+  this.$toc.addEventListener('wheel', e => {
+    let target = e.currentTarget;
+    let offTop = e.deltaY < 0 && target.scrollTop === 0;
     if (offTop) {
       e.preventDefault();
     }
-    var offBottom = e.deltaY > 0
-                    && target.offsetHeight + target.scrollTop >= target.scrollHeight;
+    let offBottom = e.deltaY > 0 && target.offsetHeight + target.scrollTop >= target.scrollHeight;
 
     if (offBottom) {
       e.preventDefault();
@@ -289,62 +380,66 @@ Menu.prototype.documentKeydown = function (e) {
   } else if (e.keyCode > 48 && e.keyCode < 58) {
     this.selectPin(e.keyCode - 49);
   }
-}
+};
 
 Menu.prototype.updateActiveClause = function () {
-  this.setActiveClause(findActiveClause(this.$specContainer))
-}
+  this.setActiveClause(findActiveClause(this.$specContainer));
+};
 
 Menu.prototype.setActiveClause = function (clause) {
   this.$activeClause = clause;
   this.revealInToc(this.$activeClause);
-}
+};
 
 Menu.prototype.revealInToc = function (path) {
-  var current = this.$toc.querySelectorAll('li.revealed');
-  for (var i = 0; i < current.length; i++) {
+  let current = this.$toc.querySelectorAll('li.revealed');
+  for (let i = 0; i < current.length; i++) {
     current[i].classList.remove('revealed');
     current[i].classList.remove('revealed-leaf');
   }
 
-  var current = this.$toc;
-  var index = 0;
-  while (index < path.length) {
-    var children = current.children;
-    for (var i = 0; i < children.length; i++) {
-      if ('#' + path[index].id === children[i].children[1].getAttribute('href') ) {
+  current = this.$toc;
+  let index = 0;
+  outer: while (index < path.length) {
+    let children = current.children;
+    for (let i = 0; i < children.length; i++) {
+      if ('#' + path[index].id === children[i].children[1].hash) {
         children[i].classList.add('revealed');
         if (index === path.length - 1) {
           children[i].classList.add('revealed-leaf');
-          var rect = children[i].getBoundingClientRect();
+          let rect = children[i].getBoundingClientRect();
           // this.$toc.getBoundingClientRect().top;
-          var tocRect = this.$toc.getBoundingClientRect();
+          let tocRect = this.$toc.getBoundingClientRect();
           if (rect.top + 10 > tocRect.bottom) {
-            this.$toc.scrollTop = this.$toc.scrollTop + (rect.top - tocRect.bottom) + (rect.bottom - rect.top);
+            this.$toc.scrollTop =
+              this.$toc.scrollTop + (rect.top - tocRect.bottom) + (rect.bottom - rect.top);
           } else if (rect.top < tocRect.top) {
             this.$toc.scrollTop = this.$toc.scrollTop - (tocRect.top - rect.top);
           }
         }
         current = children[i].querySelector('ol');
         index++;
-        break;
+        continue outer;
       }
     }
-
+    console.log('could not find location in table of contents', path);
+    break;
   }
-}
+};
 
 function findActiveClause(root, path) {
-  var clauses = new ClauseWalker(root);
-  var $clause;
-  var path = path || [];
+  let clauses = getChildClauses(root);
+  path = path || [];
 
-  while ($clause = clauses.nextNode()) {
-    var rect = $clause.getBoundingClientRect();
-    var $header = $clause.children[0];
-    var marginTop = parseInt(getComputedStyle($header)["margin-top"]);
+  for (let $clause of clauses) {
+    let rect = $clause.getBoundingClientRect();
+    let $header = $clause.querySelector('h1');
+    let marginTop = Math.max(
+      parseInt(getComputedStyle($clause)['margin-top']),
+      parseInt(getComputedStyle($header)['margin-top'])
+    );
 
-    if ((rect.top - marginTop) <= 0 && rect.bottom > 0) {
+    if (rect.top - marginTop <= 1 && rect.bottom > 0) {
       return findActiveClause($clause, path.concat($clause)) || path;
     }
   }
@@ -352,57 +447,49 @@ function findActiveClause(root, path) {
   return path;
 }
 
-function ClauseWalker(root) {
-  var previous;
-  var treeWalker = document.createTreeWalker(
-    root,
-    NodeFilter.SHOW_ELEMENT,
-    {
-      acceptNode: function (node) {
-        if (previous === node.parentNode) {
-          return NodeFilter.FILTER_REJECT;
-        } else {
-          previous = node;
-        }
-        if (node.nodeName === 'EMU-CLAUSE' || node.nodeName === 'EMU-INTRO' || node.nodeName === 'EMU-ANNEX') {
-          return NodeFilter.FILTER_ACCEPT;
-        } else {
-          return NodeFilter.FILTER_SKIP;
-        }
-      }
-    },
-    false
-    );
+function* getChildClauses(root) {
+  for (let el of root.children) {
+    switch (el.nodeName) {
+      // descend into <emu-import>
+      case 'EMU-IMPORT':
+        yield* getChildClauses(el);
+        break;
 
-  return treeWalker;
+      // accept <emu-clause>, <emu-intro>, and <emu-annex>
+      case 'EMU-CLAUSE':
+      case 'EMU-INTRO':
+      case 'EMU-ANNEX':
+        yield el;
+    }
+  }
 }
 
 Menu.prototype.toggle = function () {
   this.$menu.classList.toggle('active');
-}
+};
 
 Menu.prototype.show = function () {
   this.$menu.classList.add('active');
-}
+};
 
 Menu.prototype.hide = function () {
   this.$menu.classList.remove('active');
-}
+};
 
-Menu.prototype.isVisible = function() {
+Menu.prototype.isVisible = function () {
   return this.$menu.classList.contains('active');
-}
+};
 
 Menu.prototype.showPins = function () {
   this.$pins.classList.add('active');
-}
+};
 
 Menu.prototype.hidePins = function () {
   this.$pins.classList.remove('active');
-}
+};
 
 Menu.prototype.addPinEntry = function (id) {
-  var entry = this.search.biblio.byId[id];
+  let entry = this.search.biblio.byId[id];
   if (!entry) {
     // id was deleted after pin (or something) so remove it
     delete this._pinnedIds[id];
@@ -411,15 +498,16 @@ Menu.prototype.addPinEntry = function (id) {
   }
 
   if (entry.type === 'clause') {
-    var prefix;
+    let prefix;
     if (entry.number) {
       prefix = entry.number + ' ';
     } else {
       prefix = '';
     }
-    this.$pinList.innerHTML += '<li><a href="#' + entry.id + '">' + prefix + entry.titleHTML + '</a></li>';
+    // prettier-ignore
+    this.$pinList.innerHTML += `<li><a href="${makeLinkToId(entry.id)}">${prefix}${entry.titleHTML}</a></li>`;
   } else {
-    this.$pinList.innerHTML += '<li><a href="#' + entry.id + '">' + entry.key + '</a></li>';
+    this.$pinList.innerHTML += `<li><a href="${makeLinkToId(entry.id)}">${entry.key}</a></li>`;
   }
 
   if (Object.keys(this._pinnedIds).length === 0) {
@@ -427,10 +515,10 @@ Menu.prototype.addPinEntry = function (id) {
   }
   this._pinnedIds[id] = true;
   this.persistPinEntries();
-}
+};
 
 Menu.prototype.removePinEntry = function (id) {
-  var item = this.$pinList.querySelector('a[href="#' + id + '"]').parentNode;
+  let item = this.$pinList.querySelector(`a[href="${makeLinkToId(id)}"]`).parentNode;
   this.$pinList.removeChild(item);
   delete this._pinnedIds[id];
   if (Object.keys(this._pinnedIds).length === 0) {
@@ -438,7 +526,7 @@ Menu.prototype.removePinEntry = function (id) {
   }
 
   this.persistPinEntries();
-}
+};
 
 Menu.prototype.persistPinEntries = function () {
   try {
@@ -448,7 +536,7 @@ Menu.prototype.persistPinEntries = function () {
   }
 
   localStorage.pinEntries = JSON.stringify(Object.keys(this._pinnedIds));
-}
+};
 
 Menu.prototype.loadPinEntries = function () {
   try {
@@ -457,13 +545,13 @@ Menu.prototype.loadPinEntries = function () {
     return;
   }
 
-  var pinsString = window.localStorage.pinEntries;
+  let pinsString = window.localStorage.pinEntries;
   if (!pinsString) return;
-  var pins = JSON.parse(pinsString);
-  for(var i = 0; i < pins.length; i++) {
+  let pins = JSON.parse(pinsString);
+  for (let i = 0; i < pins.length; i++) {
     this.addPinEntry(pins[i]);
   }
-}
+};
 
 Menu.prototype.togglePinEntry = function (id) {
   if (!id) {
@@ -475,62 +563,68 @@ Menu.prototype.togglePinEntry = function (id) {
   } else {
     this.addPinEntry(id);
   }
-}
+};
 
 Menu.prototype.selectPin = function (num) {
   document.location = this.$pinList.children[num].children[0].href;
-}
+};
 
-var menu;
+let menu;
 function init() {
   menu = new Menu();
-  var $container = document.getElementById('spec-container');
-  $container.addEventListener('mouseover', debounce(function (e) {
-    Toolbox.activateIfMouseOver(e);
-  }));
-  document.addEventListener('keydown', debounce(function (e) {
-    if (e.code === "Escape" && Toolbox.active) {
-      Toolbox.deactivate();
-    }
-  }));
+  let $container = document.getElementById('spec-container');
+  $container.addEventListener(
+    'mouseover',
+    debounce(e => {
+      Toolbox.activateIfMouseOver(e);
+    })
+  );
+  document.addEventListener(
+    'keydown',
+    debounce(e => {
+      if (e.code === 'Escape' && Toolbox.active) {
+        Toolbox.deactivate();
+      }
+    })
+  );
 }
 
 document.addEventListener('DOMContentLoaded', init);
 
 function debounce(fn, opts) {
   opts = opts || {};
-  var timeout;
-  return function(e) {
+  let timeout;
+  return function (e) {
     if (opts.stopPropagation) {
       e.stopPropagation();
     }
-    var args = arguments;
+    let args = arguments;
     if (timeout) {
       clearTimeout(timeout);
     }
-    timeout = setTimeout(function() {
+    timeout = setTimeout(() => {
       timeout = null;
       fn.apply(this, args);
-    }.bind(this), 150);
-  }
+    }, 150);
+  };
 }
 
-var CLAUSE_NODES = ['EMU-CLAUSE', 'EMU-INTRO', 'EMU-ANNEX'];
-function findLocalReferences ($elem) {
-  var name = $elem.innerHTML;
-  var references = [];
+let CLAUSE_NODES = ['EMU-CLAUSE', 'EMU-INTRO', 'EMU-ANNEX'];
+function findLocalReferences($elem) {
+  let name = $elem.innerHTML;
+  let references = [];
 
-  var parentClause = $elem.parentNode;
+  let parentClause = $elem.parentNode;
   while (parentClause && CLAUSE_NODES.indexOf(parentClause.nodeName) === -1) {
     parentClause = parentClause.parentNode;
   }
 
-  if(!parentClause) return;
+  if (!parentClause) return;
 
-  var vars = parentClause.querySelectorAll('var');
+  let vars = parentClause.querySelectorAll('var');
 
-  for (var i = 0; i < vars.length; i++) {
-    var $var = vars[i];
+  for (let i = 0; i < vars.length; i++) {
+    let $var = vars[i];
 
     if ($var.innerHTML === name) {
       references.push($var);
@@ -541,20 +635,20 @@ function findLocalReferences ($elem) {
 }
 
 function toggleFindLocalReferences($elem) {
-  var references = findLocalReferences($elem);
+  let references = findLocalReferences($elem);
   if ($elem.classList.contains('referenced')) {
-    references.forEach(function ($reference) {
+    references.forEach($reference => {
       $reference.classList.remove('referenced');
     });
   } else {
-    references.forEach(function ($reference) {
+    references.forEach($reference => {
       $reference.classList.add('referenced');
     });
   }
 }
 
-function installFindLocalReferences () {
-  document.addEventListener('click', function (e) {
+function installFindLocalReferences() {
+  document.addEventListener('click', e => {
     if (e.target.nodeName === 'VAR') {
       toggleFindLocalReferences(e.target);
     }
@@ -562,9 +656,6 @@ function installFindLocalReferences () {
 }
 
 document.addEventListener('DOMContentLoaded', installFindLocalReferences);
-
-
-
 
 // The following license applies to the fuzzysearch function
 // The MIT License (MIT)
@@ -586,11 +677,11 @@ document.addEventListener('DOMContentLoaded', installFindLocalReferences);
 // COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-function fuzzysearch (searchString, haystack, caseInsensitive) {
-  var tlen = haystack.length;
-  var qlen = searchString.length;
-  var chunks = 1;
-  var finding = false;
+function fuzzysearch(searchString, haystack, caseInsensitive) {
+  let tlen = haystack.length;
+  let qlen = searchString.length;
+  let chunks = 1;
+  let finding = false;
 
   if (qlen > tlen) {
     return false;
@@ -606,10 +697,11 @@ function fuzzysearch (searchString, haystack, caseInsensitive) {
     }
   }
 
-  outer: for (var i = 0, j = 0; i < qlen; i++) {
-    var nch = searchString[i];
+  let j = 0;
+  outer: for (let i = 0; i < qlen; i++) {
+    let nch = searchString[i];
     while (j < tlen) {
-      var targetChar = haystack[j++];
+      let targetChar = haystack[j++];
       if (targetChar === nch) {
         finding = true;
         continue outer;
@@ -620,90 +712,121 @@ function fuzzysearch (searchString, haystack, caseInsensitive) {
       }
     }
 
-    if (caseInsensitive) { return false; }
+    if (caseInsensitive) {
+      return false;
+    }
 
     return fuzzysearch(searchString.toLowerCase(), haystack.toLowerCase(), true);
   }
 
-  return { caseMatch: !caseInsensitive, chunks: chunks, prefix: j <= qlen };
+  return { caseMatch: !caseInsensitive, chunks, prefix: j <= qlen };
 }
 
-var Toolbox = {
-  init: function () {
+let Toolbox = {
+  init() {
+    this.$outer = document.createElement('div');
+    this.$outer.classList.add('toolbox-container');
     this.$container = document.createElement('div');
     this.$container.classList.add('toolbox');
+    this.$outer.appendChild(this.$container);
     this.$permalink = document.createElement('a');
     this.$permalink.textContent = 'Permalink';
     this.$pinLink = document.createElement('a');
     this.$pinLink.textContent = 'Pin';
     this.$pinLink.setAttribute('href', '#');
-    this.$pinLink.addEventListener('click', function (e) {
+    this.$pinLink.addEventListener('click', e => {
       e.preventDefault();
       e.stopPropagation();
       menu.togglePinEntry(this.entry.id);
-    }.bind(this));
+    });
 
     this.$refsLink = document.createElement('a');
     this.$refsLink.setAttribute('href', '#');
-    this.$refsLink.addEventListener('click', function (e) {
+    this.$refsLink.addEventListener('click', e => {
       e.preventDefault();
       e.stopPropagation();
       referencePane.showReferencesFor(this.entry);
-    }.bind(this));
+    });
     this.$container.appendChild(this.$permalink);
     this.$container.appendChild(this.$pinLink);
     this.$container.appendChild(this.$refsLink);
-    document.body.appendChild(this.$container);
+    document.body.appendChild(this.$outer);
   },
 
-  activate: function (el, entry, target) {
+  activate(el, entry, target) {
     if (el === this._activeEl) return;
+    sdoBox.deactivate();
     this.active = true;
     this.entry = entry;
-    this.$container.classList.add('active');
-    this.top = el.offsetTop - this.$container.offsetHeight - 10;
-    this.left = el.offsetLeft;
-    this.$container.setAttribute('style', 'left: ' + this.left + 'px; top: ' + this.top + 'px');
+    this.$outer.classList.add('active');
+    this.top = el.offsetTop - this.$outer.offsetHeight;
+    this.left = el.offsetLeft - 10;
+    this.$outer.setAttribute('style', 'left: ' + this.left + 'px; top: ' + this.top + 'px');
     this.updatePermalink();
     this.updateReferences();
     this._activeEl = el;
     if (this.top < document.body.scrollTop && el === target) {
       // don't scroll unless it's a small thing (< 200px)
-      this.$container.scrollIntoView();
+      this.$outer.scrollIntoView();
     }
   },
 
-  updatePermalink: function () {
-    this.$permalink.setAttribute('href', '#' + this.entry.id);
+  updatePermalink() {
+    this.$permalink.setAttribute('href', makeLinkToId(this.entry.id));
   },
 
-  updateReferences: function () {
-    this.$refsLink.textContent = 'References (' + this.entry.referencingIds.length + ')';
+  updateReferences() {
+    this.$refsLink.textContent = `References (${this.entry.referencingIds.length})`;
   },
 
-  activateIfMouseOver: function (e) {
-    var ref = this.findReferenceUnder(e.target);
+  activateIfMouseOver(e) {
+    let ref = this.findReferenceUnder(e.target);
     if (ref && (!this.active || e.pageY > this._activeEl.offsetTop)) {
-      var entry = menu.search.biblio.byId[ref.id];
+      let entry = menu.search.biblio.byId[ref.id];
       this.activate(ref.element, entry, e.target);
-    } else if (this.active && ((e.pageY < this.top) || e.pageY > (this._activeEl.offsetTop + this._activeEl.offsetHeight))) {
+    } else if (
+      this.active &&
+      (e.pageY < this.top || e.pageY > this._activeEl.offsetTop + this._activeEl.offsetHeight)
+    ) {
       this.deactivate();
     }
   },
 
-  findReferenceUnder: function (el) {
+  findReferenceUnder(el) {
     while (el) {
-      var parent = el.parentNode;
-      if (el.nodeName === 'H1' && parent.nodeName.match(/EMU-CLAUSE|EMU-ANNEX|EMU-INTRO/) && parent.id) {
+      let parent = el.parentNode;
+      if (el.nodeName === 'EMU-RHS' || el.nodeName === 'EMU-PRODUCTION') {
+        return null;
+      }
+      if (
+        el.nodeName === 'H1' &&
+        parent.nodeName.match(/EMU-CLAUSE|EMU-ANNEX|EMU-INTRO/) &&
+        parent.id
+      ) {
         return { element: el, id: parent.id };
-      } else if (el.nodeName.match(/EMU-(?!CLAUSE|XREF|ANNEX|INTRO)|DFN/) &&
-                el.id && el.id[0] !== '_') {
-        if (el.nodeName === 'EMU-FIGURE' || el.nodeName === 'EMU-TABLE' || el.nodeName === 'EMU-EXAMPLE') {
+      } else if (el.nodeName === 'EMU-NT') {
+        if (
+          parent.nodeName === 'EMU-PRODUCTION' &&
+          parent.id &&
+          parent.id[0] !== '_' &&
+          parent.firstElementChild === el
+        ) {
+          // return the LHS non-terminal element
+          return { element: el, id: parent.id };
+        }
+        return null;
+      } else if (
+        el.nodeName.match(/EMU-(?!CLAUSE|XREF|ANNEX|INTRO)|DFN/) &&
+        el.id &&
+        el.id[0] !== '_'
+      ) {
+        if (
+          el.nodeName === 'EMU-FIGURE' ||
+          el.nodeName === 'EMU-TABLE' ||
+          el.nodeName === 'EMU-EXAMPLE'
+        ) {
           // return the figcaption element
           return { element: el.children[0].children[0], id: el.id };
-        } else if (el.nodeName === 'EMU-PRODUCTION') {
-          // return the LHS non-terminal element
-          return { element: el.children[0], id: el.id };
         } else {
           return { element: el, id: el.id };
         }
@@ -712,20 +835,19 @@ var Toolbox = {
     }
   },
 
-  deactivate: function () {
-    this.$container.classList.remove('active');
+  deactivate() {
+    this.$outer.classList.remove('active');
     this._activeEl = null;
-    this.activeElBounds = null;
     this.active = false;
-  }
-}
+  },
+};
 
-var referencePane = {
-  init: function() {
+let referencePane = {
+  init() {
     this.$container = document.createElement('div');
     this.$container.setAttribute('id', 'references-pane-container');
 
-    var $spacer = document.createElement('div');
+    let $spacer = document.createElement('div');
     $spacer.setAttribute('id', 'references-pane-spacer');
 
     this.$pane = document.createElement('div');
@@ -736,18 +858,19 @@ var referencePane = {
 
     this.$header = document.createElement('div');
     this.$header.classList.add('menu-pane-header');
-    this.$header.textContent = 'References to ';
+    this.$headerText = document.createElement('span');
+    this.$header.appendChild(this.$headerText);
     this.$headerRefId = document.createElement('a');
     this.$header.appendChild(this.$headerRefId);
     this.$closeButton = document.createElement('span');
     this.$closeButton.setAttribute('id', 'references-pane-close');
-    this.$closeButton.addEventListener('click', function (e) {
+    this.$closeButton.addEventListener('click', () => {
       this.deactivate();
-    }.bind(this));
+    });
     this.$header.appendChild(this.$closeButton);
 
     this.$pane.appendChild(this.$header);
-    var tableContainer = document.createElement('div');
+    let tableContainer = document.createElement('div');
     tableContainer.setAttribute('id', 'references-pane-table-container');
 
     this.$table = document.createElement('table');
@@ -761,70 +884,116 @@ var referencePane = {
     menu.$specContainer.appendChild(this.$container);
   },
 
-  activate: function () {
+  activate() {
     this.$container.classList.add('active');
   },
 
-  deactivate: function () {
+  deactivate() {
     this.$container.classList.remove('active');
+    this.state = null;
   },
 
   showReferencesFor(entry) {
     this.activate();
-    var newBody = document.createElement('tbody');
-    var previousId;
-    var previousCell;
-    var dupCount = 0;
+    this.state = { type: 'ref', id: entry.id };
+    this.$headerText.textContent = 'References to ';
+    let newBody = document.createElement('tbody');
+    let previousId;
+    let previousCell;
+    let dupCount = 0;
     this.$headerRefId.textContent = '#' + entry.id;
-    this.$headerRefId.setAttribute('href', '#' + entry.id);
-    entry.referencingIds.map(function (id) {
-      var target = document.getElementById(id);
-      var cid = findParentClauseId(target);
-      var clause = menu.search.biblio.byId[cid];
-      return { id: id, clause: clause }
-    }).sort(function (a, b) {
-      return sortByClauseNumber(a.clause, b.clause);
-    }).forEach(function (record, i) {
-      if (previousId === record.clause.id) {
-        previousCell.innerHTML += ' (<a href="#' + record.id + '">' + (dupCount + 2) + '</a>)';
-        dupCount++;
-      } else {
-        var row = newBody.insertRow();
-        var cell = row.insertCell();
-        cell.innerHTML = record.clause.number;
-        cell = row.insertCell();
-        cell.innerHTML = '<a href="#' + record.id + '">' + record.clause.titleHTML + '</a>';
-        previousCell = cell;
-        previousId = record.clause.id;
-        dupCount = 0;
-      }
-    }, this);
+    this.$headerRefId.setAttribute('href', makeLinkToId(entry.id));
+    this.$headerRefId.style.display = 'inline';
+    entry.referencingIds
+      .map(id => {
+        let cid = menu.search.biblio.refParentClause[id];
+        let clause = menu.search.biblio.byId[cid];
+        if (clause == null) {
+          throw new Error('could not find clause for id ' + cid);
+        }
+        return { id, clause };
+      })
+      .sort((a, b) => sortByClauseNumber(a.clause, b.clause))
+      .forEach(record => {
+        if (previousId === record.clause.id) {
+          previousCell.innerHTML += ` (<a href="${makeLinkToId(record.id)}">${dupCount + 2}</a>)`;
+          dupCount++;
+        } else {
+          let row = newBody.insertRow();
+          let cell = row.insertCell();
+          cell.innerHTML = record.clause.number;
+          cell = row.insertCell();
+          cell.innerHTML = `<a href="${makeLinkToId(record.id)}">${record.clause.titleHTML}</a>`;
+          previousCell = cell;
+          previousId = record.clause.id;
+          dupCount = 0;
+        }
+      }, this);
     this.$table.removeChild(this.$tableBody);
     this.$tableBody = newBody;
     this.$table.appendChild(this.$tableBody);
-  }
-}
-function findParentClauseId(node) {
-  while (node && node.nodeName !== 'EMU-CLAUSE' && node.nodeName !== 'EMU-INTRO' && node.nodeName !== 'EMU-ANNEX') {
-    node = node.parentNode;
-  }
-  if (!node) return null;
-  return node.getAttribute('id');
-}
+  },
 
-function sortByClauseNumber(c1, c2) {
-  var c1c = c1.number.split('.');
-  var c2c = c2.number.split('.');
+  showSDOs(sdos, alternativeId) {
+    let rhs = document.getElementById(alternativeId);
+    let parentName = rhs.parentNode.getAttribute('name');
+    let colons = rhs.parentNode.querySelector('emu-geq');
+    rhs = rhs.cloneNode(true);
+    rhs.querySelectorAll('emu-params,emu-constraints').forEach(e => {
+      e.remove();
+    });
+    rhs.querySelectorAll('[id]').forEach(e => {
+      e.removeAttribute('id');
+    });
+    rhs.querySelectorAll('a').forEach(e => {
+      e.parentNode.replaceChild(document.createTextNode(e.textContent), e);
+    });
 
-  for (var i = 0; i < c1c.length; i++) {
+    // prettier-ignore
+    this.$headerText.innerHTML = `Syntax-Directed Operations for<br><a href="${makeLinkToId(alternativeId)}" class="menu-pane-header-production"><emu-nt>${parentName}</emu-nt> ${colons.outerHTML} </a>`;
+    this.$headerText.querySelector('a').append(rhs);
+    this.showSDOsBody(sdos, alternativeId);
+  },
+
+  showSDOsBody(sdos, alternativeId) {
+    this.activate();
+    this.state = { type: 'sdo', id: alternativeId, html: this.$headerText.innerHTML };
+    this.$headerRefId.style.display = 'none';
+    let newBody = document.createElement('tbody');
+    Object.keys(sdos).forEach(sdoName => {
+      let pair = sdos[sdoName];
+      let clause = pair.clause;
+      let ids = pair.ids;
+      let first = ids[0];
+      let row = newBody.insertRow();
+      let cell = row.insertCell();
+      cell.innerHTML = clause;
+      cell = row.insertCell();
+      let html = '<a href="' + makeLinkToId(first) + '">' + sdoName + '</a>';
+      for (let i = 1; i < ids.length; ++i) {
+        html += ' (<a href="' + makeLinkToId(ids[i]) + '">' + (i + 1) + '</a>)';
+      }
+      cell.innerHTML = html;
+    });
+    this.$table.removeChild(this.$tableBody);
+    this.$tableBody = newBody;
+    this.$table.appendChild(this.$tableBody);
+  },
+};
+
+function sortByClauseNumber(clause1, clause2) {
+  let c1c = clause1.number.split('.');
+  let c2c = clause2.number.split('.');
+
+  for (let i = 0; i < c1c.length; i++) {
     if (i >= c2c.length) {
       return 1;
     }
 
-    var c1 = c1c[i];
-    var c2 = c2c[i];
-    var c1cn = Number(c1);
-    var c2cn = Number(c2);
+    let c1 = c1c[i];
+    let c2 = c2c[i];
+    let c1cn = Number(c1);
+    let c2cn = Number(c2);
 
     if (Number.isNaN(c1cn) && Number.isNaN(c2cn)) {
       if (c1 > c2) {
@@ -836,7 +1005,7 @@ function sortByClauseNumber(c1, c2) {
       return -1;
     } else if (Number.isNaN(c1cn) && !Number.isNaN(c2cn)) {
       return 1;
-    } else if(c1cn > c2cn) {
+    } else if (c1cn > c2cn) {
       return 1;
     } else if (c1cn < c2cn) {
       return -1;
@@ -849,58 +1018,53 @@ function sortByClauseNumber(c1, c2) {
   return -1;
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+function makeLinkToId(id) {
+  let hash = '#' + id;
+  if (typeof idToSection === 'undefined' || !idToSection[id]) {
+    return hash;
+  }
+  let targetSec = idToSection[id];
+  return (targetSec === 'index' ? './' : targetSec + '.html') + hash;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
   Toolbox.init();
   referencePane.init();
-})
-var CLAUSE_NODES = ['EMU-CLAUSE', 'EMU-INTRO', 'EMU-ANNEX'];
-function findLocalReferences ($elem) {
-  var name = $elem.innerHTML;
-  var references = [];
+});
 
-  var parentClause = $elem.parentNode;
-  while (parentClause && CLAUSE_NODES.indexOf(parentClause.nodeName) === -1) {
-    parentClause = parentClause.parentNode;
-  }
+'use strict';
+let decimalBullet = Array.from({ length: 100 }, (a, i) => '' + (i + 1));
+let alphaBullet = Array.from({ length: 26 }, (a, i) => String.fromCharCode('a'.charCodeAt(0) + i));
 
-  if(!parentClause) return;
+// prettier-ignore
+let romanBullet = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x', 'xi', 'xii', 'xiii', 'xiv', 'xv', 'xvi', 'xvii', 'xviii', 'xix', 'xx', 'xxi', 'xxii', 'xxiii', 'xxiv', 'xxv'];
+// prettier-ignore
+let bullets = [decimalBullet, alphaBullet, romanBullet, decimalBullet, alphaBullet, romanBullet];
 
-  var vars = parentClause.querySelectorAll('var');
-
-  for (var i = 0; i < vars.length; i++) {
-    var $var = vars[i];
-
-    if ($var.innerHTML === name) {
-      references.push($var);
+function addStepNumberText(ol, parentIndex) {
+  for (let i = 0; i < ol.children.length; ++i) {
+    let child = ol.children[i];
+    let index = parentIndex.concat([i]);
+    let applicable = bullets[Math.min(index.length - 1, 5)];
+    let span = document.createElement('span');
+    span.textContent = (applicable[i] || '?') + '. ';
+    span.style.fontSize = '0';
+    span.setAttribute('aria-hidden', 'true');
+    child.prepend(span);
+    let sublist = child.querySelector('ol');
+    if (sublist != null) {
+      addStepNumberText(sublist, index);
     }
   }
-
-  return references;
 }
-
-function toggleFindLocalReferences($elem) {
-  var references = findLocalReferences($elem);
-  if ($elem.classList.contains('referenced')) {
-    references.forEach(function ($reference) {
-      $reference.classList.remove('referenced');
-    });
-  } else {
-    references.forEach(function ($reference) {
-      $reference.classList.add('referenced');
-    });
-  }
-}
-
-function installFindLocalReferences () {
-  document.addEventListener('click', function (e) {
-    if (e.target.nodeName === 'VAR') {
-      toggleFindLocalReferences(e.target);
-    }
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('emu-alg > ol').forEach(ol => {
+    addStepNumberText(ol, []);
   });
-}
+});
 
-document.addEventListener('DOMContentLoaded', installFindLocalReferences);
-</script><style>body {
+let sdoMap = JSON.parse(`{}`);
+let biblio = JSON.parse(`{"refsByClause":{"sec-case-rs-eval":["_ref_0","_ref_1","_ref_2","_ref_3","_ref_4","_ref_39"],"sec-case-rs-when-clause-matches":["_ref_5","_ref_6","_ref_7"],"sec-syntax":["_ref_8","_ref_9","_ref_10","_ref_11","_ref_12","_ref_13","_ref_14","_ref_15","_ref_16","_ref_17","_ref_18","_ref_19","_ref_20","_ref_21","_ref_22","_ref_23","_ref_24","_ref_25","_ref_26","_ref_27","_ref_28","_ref_29","_ref_30","_ref_31","_ref_32","_ref_33","_ref_34","_ref_35","_ref_36","_ref_37","_ref_38"]},"entries":[{"type":"production","id":"prod-Statement","name":"Statement","referencingIds":["_ref_15"],"key":"Statement"},{"type":"production","id":"prod-CaseStatement","name":"CaseStatement","referencingIds":[],"key":"CaseStatement"},{"type":"production","id":"prod-WhenClauses","name":"WhenClauses","referencingIds":["_ref_8","_ref_10","_ref_39"],"key":"WhenClauses"},{"type":"production","id":"prod-WhenClause","name":"WhenClause","referencingIds":["_ref_9","_ref_11"],"key":"WhenClause"},{"type":"production","id":"prod-MatchGuard","name":"MatchGuard","referencingIds":["_ref_13"],"key":"MatchGuard"},{"type":"production","id":"prod-WhenClauseBody","name":"WhenClauseBody","referencingIds":["_ref_14"],"key":"WhenClauseBody"},{"type":"production","id":"prod-MatchPattern","name":"MatchPattern","referencingIds":["_ref_12","_ref_36"],"key":"MatchPattern"},{"type":"production","id":"prod-ObjectMatchPattern","name":"ObjectMatchPattern","referencingIds":["_ref_16"],"key":"ObjectMatchPattern"},{"type":"production","id":"prod-MatchPropertyList","name":"MatchPropertyList","referencingIds":["_ref_21","_ref_24"],"key":"MatchPropertyList"},{"type":"production","id":"prod-MatchProperty","name":"MatchProperty","referencingIds":["_ref_23","_ref_25"],"key":"MatchProperty"},{"type":"production","id":"prod-MatchRestProperty","name":"MatchRestProperty","referencingIds":["_ref_20","_ref_22"],"key":"MatchRestProperty"},{"type":"production","id":"prod-ArrayMatchPattern","name":"ArrayMatchPattern","referencingIds":["_ref_17"],"key":"ArrayMatchPattern"},{"type":"production","id":"prod-MatchElementList","name":"MatchElementList","referencingIds":["_ref_29","_ref_30","_ref_33"],"key":"MatchElementList"},{"type":"production","id":"prod-MatchElisionElement","name":"MatchElisionElement","referencingIds":["_ref_32","_ref_34"],"key":"MatchElisionElement"},{"type":"production","id":"prod-MatchElement","name":"MatchElement","referencingIds":["_ref_26","_ref_35","_ref_38"],"key":"MatchElement"},{"type":"production","id":"prod-MatchRestElement","name":"MatchRestElement","referencingIds":["_ref_28","_ref_31"],"key":"MatchRestElement"},{"type":"production","id":"prod-IdentifierMatchPattern","name":"IdentifierMatchPattern","referencingIds":["_ref_18","_ref_27","_ref_37"],"key":"IdentifierMatchPattern"},{"type":"production","id":"prod-LiteralMatchPattern","name":"LiteralMatchPattern","referencingIds":["_ref_19"],"key":"LiteralMatchPattern"},{"type":"clause","id":"sec-syntax","aoid":null,"titleHTML":"Syntax","number":"1","referencingIds":[],"key":"Syntax"},{"type":"clause","id":"sec-case-ss-errors","aoid":null,"titleHTML":"Static Semantics: Early Errors","number":"2.1","referencingIds":[],"key":"Static Semantics: Early Errors"},{"type":"clause","id":"sec-case-rs-fn-def","aoid":null,"titleHTML":"Runtime Semantics: IsFunctionDefinition","number":"2.2","referencingIds":[],"key":"Runtime Semantics: IsFunctionDefinition"},{"type":"term","term":"WhenClauseMatches","refId":"sec-case-rs-when-clause-matches","referencingIds":[],"key":"WhenClauseMatches"},{"type":"clause","id":"sec-case-rs-when-clause-matches","aoid":null,"titleHTML":"<dfn>WhenClauseMatches</dfn>(<var>exprValue</var>, <var>WhenClause</var>)","number":"2.3.1","referencingIds":["_ref_1"],"key":"WhenClauseMatches(exprValue, WhenClause)"},{"type":"clause","id":"sec-case-rs-eval","aoid":null,"titleHTML":"Runtime Semantics: Evaluation","number":"2.3","referencingIds":[],"key":"Runtime Semantics: Evaluation"},{"type":"term","term":"WhenClauseEvaluation","refId":"sec-case-rs-when-clause-eval","referencingIds":[],"key":"WhenClauseEvaluation"},{"type":"clause","id":"sec-case-rs-when-clause-eval","aoid":null,"titleHTML":"<dfn>WhenClauseEvaluation</dfn>(<var>exprValue</var>, <var>WhenClause</var>)","number":"2.4","referencingIds":["_ref_2"],"key":"WhenClauseEvaluation(exprValue, WhenClause)"},{"type":"clause","id":"sec-case-statement","aoid":null,"titleHTML":"Case Statement","number":"2","referencingIds":[],"key":"Case Statement"},{"type":"clause","id":"sec-copyright-and-software-license","aoid":null,"titleHTML":"Copyright &amp; Software License","number":"A","referencingIds":[],"key":"Copyright & Software License"}]}`);</script><style>body {
   display: flex;
   font-size: 18px;
   line-height: 1.5;
@@ -916,6 +1080,7 @@ document.addEventListener('DOMContentLoaded', installFindLocalReferences);
   flex-basis: 66%;
   box-sizing: border-box;
   overflow: hidden;
+  padding-bottom: 1em;
 }
 
 body.oldtoc {
@@ -923,8 +1088,8 @@ body.oldtoc {
 }
 
 a {
-    text-decoration: none;
-    color: #206ca7;
+  text-decoration: none;
+  color: #206ca7;
 }
 
 a:visited {
@@ -932,15 +1097,14 @@ a:visited {
 }
 
 a:hover {
-    text-decoration: underline;
-    color: #239dee;
+  text-decoration: underline;
+  color: #239dee;
 }
 
-
 code {
-    font-weight: bold;
-    font-family: Consolas, Monaco, monospace;
-    white-space: pre;
+  font-weight: bold;
+  font-family: Consolas, Monaco, monospace;
+  white-space: pre;
 }
 
 pre code {
@@ -954,13 +1118,13 @@ pre code.hljs {
 }
 
 ol.toc {
-    list-style: none;
-    padding-left: 0;
+  list-style: none;
+  padding-left: 0;
 }
 
 ol.toc ol.toc {
-    padding-left: 2ex;
-    list-style: none;
+  padding-left: 2ex;
+  list-style: none;
 }
 
 var {
@@ -980,16 +1144,43 @@ emu-const {
 emu-val {
   font-weight: bold;
 }
-emu-alg ol, emu-alg ol ol ol ol {
-    list-style-type: decimal;
+
+/* depth 1 */
+emu-alg ol,
+/* depth 4 */
+emu-alg ol ol ol ol,
+emu-alg ol.nested-thrice,
+emu-alg ol.nested-twice ol,
+emu-alg ol.nested-once ol ol {
+  list-style-type: decimal;
 }
 
-emu-alg ol ol, emu-alg ol ol ol ol ol {
-    list-style-type: lower-alpha;
+/* depth 2 */
+emu-alg ol ol,
+emu-alg ol.nested-once,
+/* depth 5 */
+emu-alg ol ol ol ol ol,
+emu-alg ol.nested-four-times,
+emu-alg ol.nested-thrice ol,
+emu-alg ol.nested-twice ol ol,
+emu-alg ol.nested-once ol ol ol {
+  list-style-type: lower-alpha;
 }
 
-emu-alg ol ol ol, ol ol ol ol ol ol {
-    list-style-type: lower-roman;
+/* depth 3 */
+emu-alg ol ol ol,
+emu-alg ol.nested-twice,
+emu-alg ol.nested-once ol,
+/* depth 6 */
+emu-alg ol ol ol ol ol ol,
+emu-alg ol.nested-lots,
+emu-alg ol.nested-four-times ol,
+emu-alg ol.nested-thrice ol ol,
+emu-alg ol.nested-twice ol ol ol,
+emu-alg ol.nested-once ol ol ol ol,
+/* depth 7+ */
+emu-alg ol.nested-lots ol {
+  list-style-type: lower-roman;
 }
 
 emu-eqn {
@@ -1007,29 +1198,32 @@ emu-eqn div:first-child {
 }
 
 emu-note {
-    margin: 1em 0;
-    color: #666;
-    border-left: 5px solid #ccc;
-    display: flex;
-    flex-direction: row;
+  margin: 1em 0;
+  display: flex;
+  flex-direction: row;
+  color: inherit;
+  border-left: 5px solid #52e052;
+  background: #e9fbe9;
+  padding: 10px 10px 10px 0;
 }
 
 emu-note > span.note {
-    flex-basis: 100px;
-    min-width: 100px;
-    flex-grow: 0;
-    flex-shrink: 1;
-    text-transform: uppercase;
-    padding-left: 5px;
+  flex-basis: 100px;
+  min-width: 100px;
+  flex-grow: 0;
+  flex-shrink: 1;
+  text-transform: uppercase;
+  padding-left: 5px;
 }
 
-emu-note[type=editor] {
+emu-note[type='editor'] {
   border-left-color: #faa;
 }
 
 emu-note > div.note-contents {
   flex-grow: 1;
   flex-shrink: 1;
+  overflow: auto;
 }
 
 emu-note > div.note-contents > p:first-of-type {
@@ -1038,6 +1232,10 @@ emu-note > div.note-contents > p:first-of-type {
 
 emu-note > div.note-contents > p:last-of-type {
   margin-bottom: 0;
+}
+
+emu-table td code {
+  white-space: normal;
 }
 
 emu-figure {
@@ -1063,99 +1261,120 @@ emu-table figure {
 }
 
 emu-production {
-    display: block;
+  display: block;
 }
 
-emu-grammar[type="example"] emu-production,
-emu-grammar[type="definition"] emu-production {
-    margin-top: 1em;
-    margin-bottom: 1em;
-    margin-left: 5ex;
+emu-grammar[type='example'] emu-production,
+emu-grammar[type='definition'] emu-production {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 5ex;
 }
 
-emu-grammar.inline, emu-production.inline,
-emu-grammar.inline emu-production emu-rhs, emu-production.inline emu-rhs,
-emu-grammar[collapsed] emu-production emu-rhs, emu-production[collapsed] emu-rhs {
-    display: inline;
-    padding-left: 1ex;
-    margin-left: 0;
+emu-grammar.inline,
+emu-production.inline,
+emu-grammar.inline emu-production emu-rhs,
+emu-production.inline emu-rhs,
+emu-grammar[collapsed] emu-production emu-rhs {
+  display: inline;
+  padding-left: 1ex;
+  margin-left: 0;
 }
 
-emu-grammar[collapsed] emu-production, emu-production[collapsed] {
-    margin: 0;
+emu-production[collapsed] emu-rhs {
+  display: inline;
+  padding-left: 0.5ex;
+  margin-left: 0;
+}
+
+emu-grammar[collapsed] emu-production,
+emu-production[collapsed] {
+  margin: 0;
 }
 
 emu-constraints {
-    font-size: .75em;
-    margin-right: 1ex;
+  font-size: 0.75em;
+  margin-right: 0.5ex;
 }
 
 emu-gann {
-    margin-right: 1ex;
+  margin-right: 0.5ex;
 }
 
 emu-gann emu-t:last-child,
 emu-gann emu-gprose:last-child,
 emu-gann emu-nt:last-child {
-    margin-right: 0;
+  margin-right: 0;
 }
 
 emu-geq {
-    margin-left: 1ex;
-    font-weight: bold;
+  margin-left: 0.5ex;
+  font-weight: bold;
 }
 
 emu-oneof {
-    font-weight: bold;
-    margin-left: 1ex;
+  font-weight: bold;
+  margin-left: 0.5ex;
 }
 
 emu-nt {
-    display: inline-block;
-    font-style: italic;
-    white-space: nowrap;
-    text-indent: 0;
+  display: inline-block;
+  font-style: italic;
+  white-space: nowrap;
+  text-indent: 0;
 }
 
-emu-nt a, emu-nt a:visited {
+emu-nt a,
+emu-nt a:visited {
   color: #333;
 }
 
 emu-rhs emu-nt {
-    margin-right: 1ex;
+  margin-right: 0.5ex;
 }
 
 emu-t {
-    display: inline-block;
-    font-family: monospace;
-    font-weight: bold;
-    white-space: nowrap;
-    text-indent: 0;
+  display: inline-block;
+  font-family: monospace;
+  font-weight: bold;
+  white-space: nowrap;
+  text-indent: 0;
 }
 
 emu-production emu-t {
-    margin-right: 1ex;
+  margin-right: 0.5ex;
 }
 
 emu-rhs {
-    display: block;
-    padding-left: 75px;
-    text-indent: -25px;
+  display: block;
+  padding-left: 75px;
+  text-indent: -25px;
+}
+
+emu-production:not([collapsed]) emu-rhs {
+  border: 0.2ex dashed transparent;
+}
+
+emu-production:not([collapsed]) emu-rhs:hover {
+  border-color: #888;
+  background-color: #f0f0f0;
 }
 
 emu-mods {
-    font-size: .85em;
-    vertical-align: sub;
-    font-style: normal;
-    font-weight: normal;
+  font-size: 0.85em;
+  vertical-align: sub;
+  font-style: normal;
+  font-weight: normal;
 }
 
-emu-params, emu-opt {
+emu-params,
+emu-opt {
   margin-right: 1ex;
   font-family: monospace;
 }
 
-emu-params, emu-constraints {
+emu-params,
+emu-constraints {
   color: #2aa198;
 }
 
@@ -1164,12 +1383,12 @@ emu-opt {
 }
 
 emu-gprose {
-    font-size: 0.9em;
-    font-family: Helvetica, Arial, sans-serif;
+  font-size: 0.9em;
+  font-family: Helvetica, Arial, sans-serif;
 }
 
 emu-production emu-gprose {
-    margin-right: 1ex;
+  margin-right: 1ex;
 }
 
 h1.shortname {
@@ -1181,20 +1400,19 @@ h1.shortname {
 h1.version {
   color: #f60;
   font-size: 1.5em;
-  margin: 0;
 }
 
 h1.title {
-  margin-top: 0;
   color: #f60;
 }
 
-h1.first {
-  margin-top: 0;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    position: relative;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  position: relative;
 }
 
 h1 .secnum {
@@ -1206,142 +1424,267 @@ h1 span.title {
   order: 2;
 }
 
+h1 {
+  font-size: 2.67em;
+  margin-bottom: 0;
+  line-height: 1em;
+}
+h2 {
+  font-size: 2em;
+}
+h3 {
+  font-size: 1.56em;
+}
+h4 {
+  font-size: 1.25em;
+}
+h5 {
+  font-size: 1.11em;
+}
+h6 {
+  font-size: 1em;
+}
 
-h1 { font-size: 2.67em; margin-top: 2em; margin-bottom: 0; line-height: 1em;}
-h2 { font-size: 2em; }
-h3 { font-size: 1.56em; }
-h4 { font-size: 1.25em; }
-h5 { font-size: 1.11em; }
-h6 { font-size: 1em; }
+pre code.hljs {
+  background: transparent;
+}
 
-h1:hover span.utils {
+emu-clause[id],
+emu-annex[id],
+emu-intro[id] {
+  scroll-margin-top: 2ex;
+}
+
+emu-intro h1,
+emu-clause h1,
+emu-annex h1 {
+  font-size: 2em;
+}
+emu-intro h2,
+emu-clause h2,
+emu-annex h2 {
+  font-size: 1.56em;
+}
+emu-intro h3,
+emu-clause h3,
+emu-annex h3 {
+  font-size: 1.25em;
+}
+emu-intro h4,
+emu-clause h4,
+emu-annex h4 {
+  font-size: 1.11em;
+}
+emu-intro h5,
+emu-clause h5,
+emu-annex h5 {
+  font-size: 1em;
+}
+emu-intro h6,
+emu-clause h6,
+emu-annex h6 {
+  font-size: 0.9em;
+}
+emu-intro emu-intro h1,
+emu-clause emu-clause h1,
+emu-annex emu-annex h1 {
+  font-size: 1.56em;
+}
+emu-intro emu-intro h2,
+emu-clause emu-clause h2,
+emu-annex emu-annex h2 {
+  font-size: 1.25em;
+}
+emu-intro emu-intro h3,
+emu-clause emu-clause h3,
+emu-annex emu-annex h3 {
+  font-size: 1.11em;
+}
+emu-intro emu-intro h4,
+emu-clause emu-clause h4,
+emu-annex emu-annex h4 {
+  font-size: 1em;
+}
+emu-intro emu-intro h5,
+emu-clause emu-clause h5,
+emu-annex emu-annex h5 {
+  font-size: 0.9em;
+}
+emu-intro emu-intro emu-intro h1,
+emu-clause emu-clause emu-clause h1,
+emu-annex emu-annex emu-annex h1 {
+  font-size: 1.25em;
+}
+emu-intro emu-intro emu-intro h2,
+emu-clause emu-clause emu-clause h2,
+emu-annex emu-annex emu-annex h2 {
+  font-size: 1.11em;
+}
+emu-intro emu-intro emu-intro h3,
+emu-clause emu-clause emu-clause h3,
+emu-annex emu-annex emu-annex h3 {
+  font-size: 1em;
+}
+emu-intro emu-intro emu-intro h4,
+emu-clause emu-clause emu-clause h4,
+emu-annex emu-annex emu-annex h4 {
+  font-size: 0.9em;
+}
+emu-intro emu-intro emu-intro emu-intro h1,
+emu-clause emu-clause emu-clause emu-clause h1,
+emu-annex emu-annex emu-annex emu-annex h1 {
+  font-size: 1.11em;
+}
+emu-intro emu-intro emu-intro emu-intro h2,
+emu-clause emu-clause emu-clause emu-clause h2,
+emu-annex emu-annex emu-annex emu-annex h2 {
+  font-size: 1em;
+}
+emu-intro emu-intro emu-intro emu-intro h3,
+emu-clause emu-clause emu-clause emu-clause h3,
+emu-annex emu-annex emu-annex emu-annex h3 {
+  font-size: 0.9em;
+}
+emu-intro emu-intro emu-intro emu-intro emu-intro h1,
+emu-clause emu-clause emu-clause emu-clause emu-clause h1,
+emu-annex emu-annex emu-annex emu-annex emu-annex h1 {
+  font-size: 1em;
+}
+emu-intro emu-intro emu-intro emu-intro emu-intro h2,
+emu-clause emu-clause emu-clause emu-clause emu-clause h2,
+emu-annex emu-annex emu-annex emu-annex emu-annex h2 {
+  font-size: 0.9em;
+}
+emu-intro emu-intro emu-intro emu-intro emu-intro emu-intro h1,
+emu-clause emu-clause emu-clause emu-clause emu-clause emu-clause h1,
+emu-annex emu-annex emu-annex emu-annex emu-annex emu-annex h1 {
+  font-size: 0.9em;
+}
+
+emu-clause,
+emu-intro,
+emu-annex {
   display: block;
 }
 
-span.utils {
-  font-size: 18px;
-  line-height: 18px;
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  font-weight: normal;
+/* these values are twice the font-size for the <h1> titles for clauses */
+emu-intro,
+emu-clause,
+emu-annex {
+  margin-top: 4em;
+}
+emu-intro emu-intro,
+emu-clause emu-clause,
+emu-annex emu-annex {
+  margin-top: 3.12em;
+}
+emu-intro emu-intro emu-intro,
+emu-clause emu-clause emu-clause,
+emu-annex emu-annex emu-annex {
+  margin-top: 2.5em;
+}
+emu-intro emu-intro emu-intro emu-intro,
+emu-clause emu-clause emu-clause emu-clause,
+emu-annex emu-annex emu-annex emu-annex {
+  margin-top: 2.22em;
+}
+emu-intro emu-intro emu-intro emu-intro emu-intro,
+emu-clause emu-clause emu-clause emu-clause emu-clause,
+emu-annex emu-annex emu-annex emu-annex emu-annex {
+  margin-top: 2em;
+}
+emu-intro emu-intro emu-intro emu-intro emu-intro emu-intro,
+emu-clause emu-clause emu-clause emu-clause emu-clause emu-clause,
+emu-annex emu-annex emu-annex emu-annex emu-annex emu-annex {
+  margin-top: 1.8em;
 }
 
-span.utils:before {
-    content: "⤷";
-    display: inline-block;
-    padding: 0 5px;
-}
-
-span.utils > * {
-  display: inline-block;
-  margin-right: 20px;
-}
-
-h1 span.utils span.anchor a,
-h2 span.utils span.anchor a,
-h3 span.utils span.anchor a,
-h4 span.utils span.anchor a,
-h5 span.utils span.anchor a,
-h6 span.utils span.anchor a {
-  text-decoration: none;
-  font-variant: small-caps;
-}
-
-h1 span.utils span.anchor a:hover,
-h2 span.utils span.anchor a:hover,
-h3 span.utils span.anchor a:hover,
-h4 span.utils span.anchor a:hover,
-h5 span.utils span.anchor a:hover,
-h6 span.utils span.anchor a:hover {
-  color: #333;
-}
-
-emu-intro h1, emu-clause h1, emu-annex h1 { font-size: 2em; }
-emu-intro h2, emu-clause h2, emu-annex h2 { font-size: 1.56em; }
-emu-intro h3, emu-clause h3, emu-annex h3 { font-size: 1.25em; }
-emu-intro h4, emu-clause h4, emu-annex h4 { font-size: 1.11em; }
-emu-intro h5, emu-clause h5, emu-annex h5 { font-size: 1em; }
-emu-intro h6, emu-clause h6, emu-annex h6 { font-size: 0.9em; }
-emu-intro emu-intro h1, emu-clause emu-clause h1, emu-annex emu-annex h1 { font-size: 1.56em; }
-emu-intro emu-intro h2, emu-clause emu-clause h2, emu-annex emu-annex h2 { font-size: 1.25em; }
-emu-intro emu-intro h3, emu-clause emu-clause h3, emu-annex emu-annex h3 { font-size: 1.11em; }
-emu-intro emu-intro h4, emu-clause emu-clause h4, emu-annex emu-annex h4 { font-size: 1em; }
-emu-intro emu-intro h5, emu-clause emu-clause h5, emu-annex emu-annex h5 { font-size: 0.9em; }
-emu-intro emu-intro emu-intro h1, emu-clause emu-clause emu-clause h1, emu-annex emu-annex emu-annex h1 { font-size: 1.25em; }
-emu-intro emu-intro emu-intro h2, emu-clause emu-clause emu-clause h2, emu-annex emu-annex emu-annex h2 { font-size: 1.11em; }
-emu-intro emu-intro emu-intro h3, emu-clause emu-clause emu-clause h3, emu-annex emu-annex emu-annex h3 { font-size: 1em; }
-emu-intro emu-intro emu-intro h4, emu-clause emu-clause emu-clause h4, emu-annex emu-annex emu-annex h4 { font-size: 0.9em; }
-emu-intro emu-intro emu-intro emu-intro h1, emu-clause emu-clause emu-clause emu-clause h1, emu-annex emu-annex emu-annex emu-annex h1 { font-size: 1.11em; }
-emu-intro emu-intro emu-intro emu-intro h2, emu-clause emu-clause emu-clause emu-clause h2, emu-annex emu-annex emu-annex emu-annex h2 { font-size: 1em; }
-emu-intro emu-intro emu-intro emu-intro h3, emu-clause emu-clause emu-clause emu-clause h3, emu-annex emu-annex emu-annex emu-annex h3 { font-size: 0.9em; }
-emu-intro emu-intro emu-intro emu-intro emu-intro h1, emu-clause emu-clause emu-clause emu-clause emu-clause h1, emu-annex emu-annex emu-annex emu-annex emu-annex h1 { font-size: 1em; }
-emu-intro emu-intro emu-intro emu-intro emu-intro h2, emu-clause emu-clause emu-clause emu-clause emu-clause h2, emu-annex emu-annex emu-annex emu-annex emu-annex h2 { font-size: 0.9em; }
-emu-intro emu-intro emu-intro emu-intro emu-intro emu-intro h1, emu-clause emu-clause emu-clause emu-clause emu-clause emu-clause h1, emu-annex emu-annex emu-annex emu-annex emu-annex emu-annex h1 { font-size: 0.9em }
-
-emu-clause, emu-intro, emu-annex {
-    display: block;
+#spec-container > emu-intro:first-of-type,
+#spec-container > emu-clause:first-of-type,
+#spec-container > emu-annex:first-of-type {
+  margin-top: 0;
 }
 
 /* Figures and tables */
-figure { display: block; margin: 1em 0 3em 0; }
-figure object { display: block; margin: 0 auto; }
-figure table.real-table { margin: 0 auto; }
+figure {
+  display: block;
+  margin: 1em 0 3em 0;
+}
+figure object {
+  display: block;
+  margin: 0 auto;
+}
+figure table.real-table {
+  margin: 0 auto;
+}
 figure figcaption {
-    display: block;
-    color: #555555;
-    font-weight: bold;
-    text-align: center;
+  display: block;
+  color: #555555;
+  font-weight: bold;
+  text-align: center;
 }
 
 emu-table table {
   margin: 0 auto;
 }
 
-emu-table table, table.real-table {
-    border-collapse: collapse;
+emu-table table,
+table.real-table {
+  border-collapse: collapse;
 }
 
-emu-table td, emu-table th, table.real-table td, table.real-table th {
-    border: 1px solid black;
-    padding: 0.4em;
-    vertical-align: baseline;
+emu-table td,
+emu-table th,
+table.real-table td,
+table.real-table th {
+  border: 1px solid black;
+  padding: 0.4em;
+  vertical-align: baseline;
 }
-emu-table th, emu-table thead td, table.real-table th {
-    background-color: #eeeeee;
+emu-table th,
+emu-table thead td,
+table.real-table th {
+  background-color: #eeeeee;
+}
+
+emu-table td {
+  background: #fff;
 }
 
 /* Note: the left content edges of table.lightweight-table >tbody >tr >td
    and div.display line up. */
 table.lightweight-table {
-    border-collapse: collapse;
-    margin: 0 0 0 1.5em;
+  border-collapse: collapse;
+  margin: 0 0 0 1.5em;
 }
-table.lightweight-table td, table.lightweight-table th {
-    border: none;
-    padding: 0 0.5em;
-    vertical-align: baseline;
+table.lightweight-table td,
+table.lightweight-table th {
+  border: none;
+  padding: 0 0.5em;
+  vertical-align: baseline;
 }
 
 /* diff styles */
 ins {
-    background-color: #e0f8e0;
-    text-decoration: none;
-    border-bottom: 1px solid #396;
+  background-color: #e0f8e0;
+  text-decoration: none;
+  border-bottom: 1px solid #396;
 }
 
 del {
-    background-color: #fee;
+  background-color: #fee;
 }
 
-ins.block, del.block,
-emu-production > ins, emu-production > del,
-emu-grammar > ins, emu-grammar > del {
+ins.block,
+del.block,
+emu-production > ins,
+emu-production > del,
+emu-grammar > ins,
+emu-grammar > del {
   display: block;
 }
-emu-rhs > ins, emu-rhs > del { 
+emu-rhs > ins,
+emu-rhs > del {
   display: inline;
 }
 
@@ -1378,7 +1721,7 @@ tr.del > td {
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  user-select: none;;
+  user-select: none;
 
   cursor: pointer;
 }
@@ -1386,7 +1729,8 @@ tr.del > td {
 #menu {
   display: flex;
   flex-direction: column;
-  width: 33%; height: 100vh;
+  width: 33%;
+  height: 100vh;
   max-width: 500px;
   box-sizing: border-box;
   background-color: #ddd;
@@ -1394,7 +1738,8 @@ tr.del > td {
   transition: opacity 0.1s linear;
   padding: 0 5px;
   position: fixed;
-  left: 0; top: 0;
+  left: 0;
+  top: 0;
   border-right: 2px solid #bbb;
 
   z-index: 2;
@@ -1455,7 +1800,8 @@ tr.del > td {
   padding: 0;
 }
 
-#menu-toc > ol , #menu-toc > ol ol {
+#menu-toc > ol,
+#menu-toc > ol ol {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -1485,7 +1831,7 @@ tr.del > td {
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  user-select: none;;
+  user-select: none;
 
   cursor: pointer;
 }
@@ -1516,7 +1862,7 @@ tr.del > td {
   */
 }
 
-#menu-toc li.revealed-leaf> a {
+#menu-toc li.revealed-leaf > a {
   color: #206ca7;
   /*
   background-color: #222;
@@ -1552,6 +1898,34 @@ tr.del > td {
   font-size: 0.8em;
 }
 
+.menu-pane-header emu-opt,
+.menu-pane-header emu-t,
+.menu-pane-header emu-nt {
+  margin-right: 0px;
+  display: inline;
+  color: inherit;
+}
+
+.menu-pane-header emu-rhs {
+  display: inline;
+  padding-left: 0px;
+  text-indent: 0px;
+}
+
+.menu-pane-header emu-geq {
+  margin-left: 0px;
+}
+
+a.menu-pane-header-production {
+  color: inherit;
+}
+
+.menu-pane-header-production {
+  text-transform: none;
+  letter-spacing: 1.5px;
+  padding-left: 0.5em;
+}
+
 #menu-toc {
   display: flex;
   flex-direction: column;
@@ -1570,10 +1944,10 @@ tr.del > td {
   flex-grow: 0;
   flex-shrink: 0;
   width: 100%;
-  
+
   display: flex;
   flex-direction: column;
-  
+
   max-height: 300px;
 }
 
@@ -1598,43 +1972,42 @@ tr.del > td {
 }
 
 li.menu-search-result-clause:before {
-    content: 'clause';
-    width: 40px;
-    display: inline-block;
-    text-align: right;
-    padding-right: 1ex;
-    color: #666;
-    font-size: 75%;
+  content: 'clause';
+  width: 40px;
+  display: inline-block;
+  text-align: right;
+  padding-right: 1ex;
+  color: #666;
+  font-size: 75%;
 }
 li.menu-search-result-op:before {
-    content: 'op';
-    width: 40px;
-    display: inline-block;
-    text-align: right;
-    padding-right: 1ex;
-    color: #666;
-    font-size: 75%;
+  content: 'op';
+  width: 40px;
+  display: inline-block;
+  text-align: right;
+  padding-right: 1ex;
+  color: #666;
+  font-size: 75%;
 }
 
 li.menu-search-result-prod:before {
-    content: 'prod';
-    width: 40px;
-    display: inline-block;
-    text-align: right;
-    padding-right: 1ex;
-    color: #666;
-    font-size: 75%
+  content: 'prod';
+  width: 40px;
+  display: inline-block;
+  text-align: right;
+  padding-right: 1ex;
+  color: #666;
+  font-size: 75%;
 }
 
-
 li.menu-search-result-term:before {
-    content: 'term';
-    width: 40px;
-    display: inline-block;
-    text-align: right;
-    padding-right: 1ex;
-    color: #666;
-    font-size: 75%
+  content: 'term';
+  width: 40px;
+  display: inline-block;
+  text-align: right;
+  padding-right: 1ex;
+  color: #666;
+  font-size: 75%;
 }
 
 #menu-search-results ul {
@@ -1647,7 +2020,6 @@ li.menu-search-result-term:before {
   text-overflow: ellipsis;
 }
 
-
 #menu-trace-list {
   counter-reset: item;
   margin: 0 0 0 20px;
@@ -1659,19 +2031,19 @@ li.menu-search-result-term:before {
 }
 
 #menu-trace-list li .secnum:after {
-  content: " ";
+  content: ' ';
 }
 #menu-trace-list li:before {
-    content: counter(item) " ";
-    background-color: #222;
-    counter-increment: item;
-    color: #999;
-    width: 20px;
-    height: 20px;
-    line-height: 20px;
-    display: inline-block;
-    text-align: center;
-    margin: 2px 4px 2px 0;
+  content: counter(item) ' ';
+  background-color: #222;
+  counter-increment: item;
+  color: #999;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  display: inline-block;
+  text-align: center;
+  margin: 2px 4px 2px 0;
 }
 
 @media (max-width: 1000px) {
@@ -1713,24 +2085,29 @@ li.menu-search-result-term:before {
   }
 
   h1 .secnum:empty {
-    margin: 0; padding: 0;
+    margin: 0;
+    padding: 0;
   }
 }
 
-
 /* Toolbox */
-.toolbox {
-	position: absolute;
-	background: #ddd;
-	border: 1px solid #aaa;
+.toolbox-container {
+  position: absolute;
   display: none;
+  padding-bottom: 7px;
+}
+
+.toolbox-container.active {
+  display: inline-block;
+}
+
+.toolbox {
+  position: relative;
+  background: #ddd;
+  border: 1px solid #aaa;
   color: #eee;
   padding: 5px;
   border-radius: 3px;
-}
-
-.toolbox.active {
-  display: inline-block;
 }
 
 .toolbox a {
@@ -1742,28 +2119,29 @@ li.menu-search-result-term:before {
   text-decoration: underline;
 }
 
-.toolbox:after, .toolbox:before {
-	top: 100%;
-	left: 15px;
-	border: solid transparent;
-	content: " ";
-	height: 0;
-	width: 0;
-	position: absolute;
-	pointer-events: none;
+.toolbox:after,
+.toolbox:before {
+  top: 100%;
+  left: 15px;
+  border: solid transparent;
+  content: ' ';
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
 }
 
 .toolbox:after {
-	border-color: rgba(0, 0, 0, 0);
-	border-top-color: #ddd;
-	border-width: 10px;
-	margin-left: -10px;
+  border-color: rgba(0, 0, 0, 0);
+  border-top-color: #ddd;
+  border-width: 10px;
+  margin-left: -10px;
 }
 .toolbox:before {
-	border-color: rgba(204, 204, 204, 0);
-	border-top-color: #aaa;
-	border-width: 12px;
-	margin-left: -12px;
+  border-color: rgba(204, 204, 204, 0);
+  border-top-color: #aaa;
+  border-width: 12px;
+  margin-left: -12px;
 }
 
 #references-pane-container {
@@ -1811,84 +2189,184 @@ li.menu-search-result-term:before {
 
 @media print {
   #menu-toggle {
-    display: none; 
+    display: none;
   }
 }
-</style></head><body><div id="menu-toggle">☰</div><div id="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-syntax" title="Syntax"><span class="secnum">1</span> Syntax</a></li><li><span class="item-toggle">◢</span><a href="#sec-case-statement" title="Case Statement"><span class="secnum">2</span> Case Statement</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-case-ss-errors" title="Static Semantics: Early Errors"><span class="secnum">2.1</span> SS: Early Errors</a></li><li><span class="item-toggle-none"></span><a href="#sec-case-rs-fn-def" title="Runtime Semantics: IsFunctionDefinition"><span class="secnum">2.2</span> RS: IsFunctionDefinition</a></li><li><span class="item-toggle">◢</span><a href="#sec-case-rs-eval" title="Runtime Semantics: Evaluation"><span class="secnum">2.3</span> RS: Evaluation</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-case-rs-when-clause-matches" title="WhenClauseMatches(exprValue, WhenClause)"><span class="secnum">2.3.1</span> <dfn>WhenClauseMatches</dfn>(<var>exprValue</var>, <var>WhenClause</var>)</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-case-rs-when-clause-eval" title="WhenClauseEvaluation(exprValue, WhenClause)"><span class="secnum">2.4</span> <dfn>WhenClauseEvaluation</dfn>(<var>exprValue</var>, <var>WhenClause</var>)</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version first">Stage 1 Draft / April 9, 2020</h1><h1 class="title">Proposal Title Goes Here</h1>
+
+[normative-optional] {
+  border-left: 5px solid #ff6600;
+  padding: 0.5em;
+  display: block;
+  background: #ffeedd;
+}
+
+.normative-optional-tag {
+  text-transform: uppercase;
+  color: #884400;
+}
+
+.normative-optional-tag a {
+  color: #884400;
+}
+</style></head><body><div id="menu-toggle">☰</div><div id="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-syntax" title="Syntax"><span class="secnum">1</span> Syntax</a></li><li><span class="item-toggle">◢</span><a href="#sec-case-statement" title="Case Statement"><span class="secnum">2</span> Case Statement</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-case-ss-errors" title="Static Semantics: Early Errors"><span class="secnum">2.1</span> SS: Early Errors</a></li><li><span class="item-toggle-none"></span><a href="#sec-case-rs-fn-def" title="Runtime Semantics: IsFunctionDefinition"><span class="secnum">2.2</span> RS: IsFunctionDefinition</a></li><li><span class="item-toggle">◢</span><a href="#sec-case-rs-eval" title="Runtime Semantics: Evaluation"><span class="secnum">2.3</span> RS: Evaluation</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-case-rs-when-clause-matches" title="WhenClauseMatches(exprValue, WhenClause)"><span class="secnum">2.3.1</span> <dfn>WhenClauseMatches</dfn>(<var>exprValue</var>, <var>WhenClause</var>)</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-case-rs-when-clause-eval" title="WhenClauseEvaluation(exprValue, WhenClause)"><span class="secnum">2.4</span> <dfn>WhenClauseEvaluation</dfn>(<var>exprValue</var>, <var>WhenClause</var>)</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 1 Draft / April 20, 2021</h1><h1 class="title">Proposal Title Goes Here</h1>
 
 <emu-clause id="sec-syntax">
   <h1><span class="secnum">1</span> Syntax</h1>
   <emu-grammar type="definition"><emu-production name="Statement" type="lexical" id="prod-Statement">
-    <emu-nt><a href="#prod-Statement">Statement</a></emu-nt><emu-geq>::</emu-geq><ins><emu-rhs a="4b452611"><emu-nt>MatchStatement</emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-Statement">Statement</a></emu-nt> <emu-geq>::</emu-geq> <ins><emu-rhs a="s0umexx7"><emu-nt>MatchStatement</emu-nt></emu-rhs>
     </ins>
 </emu-production>
 <ins class="block"><emu-production name="CaseStatement" type="lexical" id="prod-CaseStatement">
-    <emu-nt><a href="#prod-CaseStatement">CaseStatement</a></emu-nt><emu-geq>::</emu-geq><emu-rhs a="ace58bc2"><emu-t>case</emu-t><emu-t>(</emu-t><emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt><emu-t>)</emu-t><emu-t>{</emu-t><emu-nt id="_ref_8"><a href="#prod-WhenClauses">WhenClauses</a></emu-nt><emu-t>}</emu-t></emu-rhs>
+    <emu-nt><a href="#prod-CaseStatement">CaseStatement</a></emu-nt> <emu-geq>::</emu-geq> <emu-rhs a="rowlwiyd">
+        <emu-t>case</emu-t>
+        <emu-t>(</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt>
+        <emu-t>)</emu-t>
+        <emu-t>{</emu-t>
+        <emu-nt id="_ref_8"><a href="#prod-WhenClauses">WhenClauses</a></emu-nt>
+        <emu-t>}</emu-t>
+    </emu-rhs>
 </emu-production>
 <emu-production name="WhenClauses" id="prod-WhenClauses">
-    <emu-nt><a href="#prod-WhenClauses">WhenClauses</a></emu-nt><emu-geq>:</emu-geq><emu-rhs a="875b5a80"><emu-nt id="_ref_9"><a href="#prod-WhenClause">WhenClause</a></emu-nt></emu-rhs>
-    <emu-rhs a="df0089f4"><emu-nt id="_ref_10"><a href="#prod-WhenClauses">WhenClauses</a></emu-nt><emu-nt id="_ref_11"><a href="#prod-WhenClause">WhenClause</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-WhenClauses">WhenClauses</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="h1tagdvg"><emu-nt id="_ref_9"><a href="#prod-WhenClause">WhenClause</a></emu-nt></emu-rhs>
+    <emu-rhs a="3wcj9n7z">
+        <emu-nt id="_ref_10"><a href="#prod-WhenClauses">WhenClauses</a></emu-nt>
+        <emu-nt id="_ref_11"><a href="#prod-WhenClause">WhenClause</a></emu-nt>
+    </emu-rhs>
 </emu-production>
 <emu-production name="WhenClause" id="prod-WhenClause">
-    <emu-nt><a href="#prod-WhenClause">WhenClause</a></emu-nt><emu-geq>:</emu-geq><emu-rhs a="bedefee4"><emu-t>when</emu-t><emu-nt id="_ref_12"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt><emu-nt params="opt"><a href="https://tc39.es/ecma262/#prod-Initializer">Initializer</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt><emu-nt params="opt" id="_ref_13"><a href="#prod-MatchGuard">MatchGuard</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt><emu-t>-&gt;</emu-t><emu-nt id="_ref_14"><a href="#prod-WhenClauseBody">WhenClauseBody</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-WhenClause">WhenClause</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="vt7-5dqr">
+        <emu-t>when</emu-t>
+        <emu-nt id="_ref_12"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt params="opt"><a href="https://tc39.es/ecma262/#prod-Initializer">Initializer</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt>
+        <emu-nt params="opt" id="_ref_13"><a href="#prod-MatchGuard">MatchGuard</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt>
+        <emu-t>-&gt;</emu-t>
+        <emu-nt id="_ref_14"><a href="#prod-WhenClauseBody">WhenClauseBody</a></emu-nt>
+    </emu-rhs>
 </emu-production>
 <emu-production name="MatchGuard" id="prod-MatchGuard">
-    <emu-nt><a href="#prod-MatchGuard">MatchGuard</a></emu-nt><emu-geq>:</emu-geq><emu-rhs a="e6c3a2e9"><emu-t>if</emu-t><emu-t>(</emu-t><emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt><emu-t>)</emu-t></emu-rhs>
+    <emu-nt><a href="#prod-MatchGuard">MatchGuard</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="5soi6w1x">
+        <emu-t>if</emu-t>
+        <emu-t>(</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt>
+        <emu-t>)</emu-t>
+    </emu-rhs>
 </emu-production>
 <emu-production name="WhenClauseBody" id="prod-WhenClauseBody">
-    <emu-nt><a href="#prod-WhenClauseBody">WhenClauseBody</a></emu-nt><emu-geq>:</emu-geq><emu-rhs a="a72ca256"><emu-nt id="_ref_15"><a href="#prod-Statement">Statement</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-WhenClauseBody">WhenClauseBody</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="pyyivtxj"><emu-nt id="_ref_15"><a href="#prod-Statement">Statement</a></emu-nt></emu-rhs>
 </emu-production>
 <emu-production name="MatchPattern" id="prod-MatchPattern">
-    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt><emu-geq>:</emu-geq><emu-rhs a="f2bc08e6"><emu-nt id="_ref_16"><a href="#prod-ObjectMatchPattern">ObjectMatchPattern</a></emu-nt></emu-rhs>
-    <emu-rhs a="59f146fe"><emu-nt id="_ref_17"><a href="#prod-ArrayMatchPattern">ArrayMatchPattern</a></emu-nt></emu-rhs>
-    <emu-rhs a="e3408b42"><emu-nt id="_ref_18"><a href="#prod-IdentifierMatchPattern">IdentifierMatchPattern</a></emu-nt></emu-rhs>
-    <emu-rhs a="6f6a8b16"><emu-nt id="_ref_19"><a href="#prod-LiteralMatchPattern">LiteralMatchPattern</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="8rwi5pil"><emu-nt id="_ref_16"><a href="#prod-ObjectMatchPattern">ObjectMatchPattern</a></emu-nt></emu-rhs>
+    <emu-rhs a="wffg_mnt"><emu-nt id="_ref_17"><a href="#prod-ArrayMatchPattern">ArrayMatchPattern</a></emu-nt></emu-rhs>
+    <emu-rhs a="40clqo3r"><emu-nt id="_ref_18"><a href="#prod-IdentifierMatchPattern">IdentifierMatchPattern</a></emu-nt></emu-rhs>
+    <emu-rhs a="b2qlfu-p"><emu-nt id="_ref_19"><a href="#prod-LiteralMatchPattern">LiteralMatchPattern</a></emu-nt></emu-rhs>
 </emu-production>
 <emu-production name="ObjectMatchPattern" id="prod-ObjectMatchPattern">
-    <emu-nt><a href="#prod-ObjectMatchPattern">ObjectMatchPattern</a></emu-nt><emu-geq>:</emu-geq><emu-rhs a="81ba5a4a"><emu-t>{</emu-t><emu-t>}</emu-t></emu-rhs>
-    <emu-rhs a="a350ec34"><emu-t>{</emu-t><emu-nt id="_ref_20"><a href="#prod-MatchRestProperty">MatchRestProperty</a></emu-nt><emu-t>}</emu-t></emu-rhs>
-    <emu-rhs a="a88962bd"><emu-t>{</emu-t><emu-nt id="_ref_21"><a href="#prod-MatchPropertyList">MatchPropertyList</a></emu-nt><emu-t>,</emu-t><emu-nt params="opt" id="_ref_22"><a href="#prod-MatchRestProperty">MatchRestProperty</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt><emu-t>}</emu-t></emu-rhs>
+    <emu-nt><a href="#prod-ObjectMatchPattern">ObjectMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="gbpaspne">
+        <emu-t>{</emu-t>
+        <emu-t>}</emu-t>
+    </emu-rhs>
+    <emu-rhs a="o1dsndx3">
+        <emu-t>{</emu-t>
+        <emu-nt id="_ref_20"><a href="#prod-MatchRestProperty">MatchRestProperty</a></emu-nt>
+        <emu-t>}</emu-t>
+    </emu-rhs>
+    <emu-rhs a="qilivc4s">
+        <emu-t>{</emu-t>
+        <emu-nt id="_ref_21"><a href="#prod-MatchPropertyList">MatchPropertyList</a></emu-nt>
+        <emu-t>,</emu-t>
+        <emu-nt params="opt" id="_ref_22"><a href="#prod-MatchRestProperty">MatchRestProperty</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt>
+        <emu-t>}</emu-t>
+    </emu-rhs>
 </emu-production>
 <emu-production name="MatchPropertyList" id="prod-MatchPropertyList">
-    <emu-nt><a href="#prod-MatchPropertyList">MatchPropertyList</a></emu-nt><emu-geq>:</emu-geq><emu-rhs a="22d06f03"><emu-nt id="_ref_23"><a href="#prod-MatchProperty">MatchProperty</a></emu-nt></emu-rhs>
-    <emu-rhs a="43deca0f"><emu-nt id="_ref_24"><a href="#prod-MatchPropertyList">MatchPropertyList</a></emu-nt><emu-t>,</emu-t><emu-nt id="_ref_25"><a href="#prod-MatchProperty">MatchProperty</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-MatchPropertyList">MatchPropertyList</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="itbva-y6"><emu-nt id="_ref_23"><a href="#prod-MatchProperty">MatchProperty</a></emu-nt></emu-rhs>
+    <emu-rhs a="q97kd0i8">
+        <emu-nt id="_ref_24"><a href="#prod-MatchPropertyList">MatchPropertyList</a></emu-nt>
+        <emu-t>,</emu-t>
+        <emu-nt id="_ref_25"><a href="#prod-MatchProperty">MatchProperty</a></emu-nt>
+    </emu-rhs>
 </emu-production>
 <emu-production name="MatchProperty" id="prod-MatchProperty">
-    <emu-nt><a href="#prod-MatchProperty">MatchProperty</a></emu-nt><emu-geq>:</emu-geq><emu-rhs a="319d8048"><emu-nt><a href="https://tc39.es/ecma262/#prod-SingleNameBinding">SingleNameBinding</a></emu-nt><emu-nt params="opt"><a href="https://tc39.es/ecma262/#prod-Initializer">Initializer</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt></emu-rhs>
-    <emu-rhs a="b5fb7971"><emu-nt><a href="https://tc39.es/ecma262/#prod-PropertyName">PropertyName</a></emu-nt><emu-t>:</emu-t><emu-nt id="_ref_26"><a href="#prod-MatchElement">MatchElement</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-MatchProperty">MatchProperty</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="mz2asiue">
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-SingleNameBinding">SingleNameBinding</a></emu-nt>
+        <emu-nt params="opt"><a href="https://tc39.es/ecma262/#prod-Initializer">Initializer</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt>
+    </emu-rhs>
+    <emu-rhs a="tft5cuso">
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-PropertyName">PropertyName</a></emu-nt>
+        <emu-t>:</emu-t>
+        <emu-nt id="_ref_26"><a href="#prod-MatchElement">MatchElement</a></emu-nt>
+    </emu-rhs>
 </emu-production>
 <emu-production name="MatchRestProperty" id="prod-MatchRestProperty">
-    <emu-nt><a href="#prod-MatchRestProperty">MatchRestProperty</a></emu-nt><emu-geq>:</emu-geq><emu-rhs a="fc5ceb69"><emu-t>...</emu-t><emu-nt id="_ref_27"><a href="#prod-IdentifierMatchPattern">IdentifierMatchPattern</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-MatchRestProperty">MatchRestProperty</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="_fzrac9_">
+        <emu-t>...</emu-t>
+        <emu-nt id="_ref_27"><a href="#prod-IdentifierMatchPattern">IdentifierMatchPattern</a></emu-nt>
+    </emu-rhs>
 </emu-production>
 <emu-production name="ArrayMatchPattern" id="prod-ArrayMatchPattern">
-    <emu-nt><a href="#prod-ArrayMatchPattern">ArrayMatchPattern</a></emu-nt><emu-geq>:</emu-geq><emu-rhs a="99d85234"><emu-t>[</emu-t><emu-t>]</emu-t></emu-rhs>
-    <emu-rhs a="6286cf6c"><emu-t>[</emu-t><emu-nt params="opt"><a href="https://tc39.es/ecma262/#prod-Elision">Elision</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt><emu-nt id="_ref_28"><a href="#prod-MatchRestElement">MatchRestElement</a></emu-nt><emu-t>]</emu-t></emu-rhs>
-    <emu-rhs a="d4969143"><emu-t>[</emu-t><emu-nt id="_ref_29"><a href="#prod-MatchElementList">MatchElementList</a></emu-nt><emu-t>]</emu-t></emu-rhs>
-    <emu-rhs a="405dc1c8"><emu-t>[</emu-t><emu-nt id="_ref_30"><a href="#prod-MatchElementList">MatchElementList</a></emu-nt><emu-t>,</emu-t><emu-nt params="opts"><a href="https://tc39.es/ecma262/#prod-Elision">Elision</a><emu-mods><emu-params>[opts]</emu-params></emu-mods></emu-nt><emu-nt params="opt" id="_ref_31"><a href="#prod-MatchRestElement">MatchRestElement</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt><emu-t>]</emu-t></emu-rhs>
+    <emu-nt><a href="#prod-ArrayMatchPattern">ArrayMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="mdhsnk3i">
+        <emu-t>[</emu-t>
+        <emu-t>]</emu-t>
+    </emu-rhs>
+    <emu-rhs a="yobpblwc">
+        <emu-t>[</emu-t>
+        <emu-nt params="opt"><a href="https://tc39.es/ecma262/#prod-Elision">Elision</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt>
+        <emu-nt id="_ref_28"><a href="#prod-MatchRestElement">MatchRestElement</a></emu-nt>
+        <emu-t>]</emu-t>
+    </emu-rhs>
+    <emu-rhs a="1jarqwxx">
+        <emu-t>[</emu-t>
+        <emu-nt id="_ref_29"><a href="#prod-MatchElementList">MatchElementList</a></emu-nt>
+        <emu-t>]</emu-t>
+    </emu-rhs>
+    <emu-rhs a="qf3bycv_">
+        <emu-t>[</emu-t>
+        <emu-nt id="_ref_30"><a href="#prod-MatchElementList">MatchElementList</a></emu-nt>
+        <emu-t>,</emu-t>
+        <emu-nt params="opts"><a href="https://tc39.es/ecma262/#prod-Elision">Elision</a><emu-mods><emu-params>[opts]</emu-params></emu-mods></emu-nt>
+        <emu-nt params="opt" id="_ref_31"><a href="#prod-MatchRestElement">MatchRestElement</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt>
+        <emu-t>]</emu-t>
+    </emu-rhs>
 </emu-production>
 <emu-production name="MatchElementList" id="prod-MatchElementList">
-    <emu-nt><a href="#prod-MatchElementList">MatchElementList</a></emu-nt><emu-geq>:</emu-geq><emu-rhs a="0e5bfd57"><emu-nt id="_ref_32"><a href="#prod-MatchElisionElement">MatchElisionElement</a></emu-nt></emu-rhs>
-    <emu-rhs a="7877b25e"><emu-nt id="_ref_33"><a href="#prod-MatchElementList">MatchElementList</a></emu-nt><emu-t>,</emu-t><emu-nt id="_ref_34"><a href="#prod-MatchElisionElement">MatchElisionElement</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-MatchElementList">MatchElementList</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="dlv9v-6j"><emu-nt id="_ref_32"><a href="#prod-MatchElisionElement">MatchElisionElement</a></emu-nt></emu-rhs>
+    <emu-rhs a="eheyxnr4">
+        <emu-nt id="_ref_33"><a href="#prod-MatchElementList">MatchElementList</a></emu-nt>
+        <emu-t>,</emu-t>
+        <emu-nt id="_ref_34"><a href="#prod-MatchElisionElement">MatchElisionElement</a></emu-nt>
+    </emu-rhs>
 </emu-production>
 <emu-production name="MatchElisionElement" id="prod-MatchElisionElement">
-    <emu-nt><a href="#prod-MatchElisionElement">MatchElisionElement</a></emu-nt><emu-geq>:</emu-geq><emu-rhs a="1079df12"><emu-nt params="opt"><a href="https://tc39.es/ecma262/#prod-Elision">Elision</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt><emu-nt id="_ref_35"><a href="#prod-MatchElement">MatchElement</a></emu-nt><emu-nt params="opt"><a href="https://tc39.es/ecma262/#prod-Initializer">Initializer</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-MatchElisionElement">MatchElisionElement</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="ehnfehxk">
+        <emu-nt params="opt"><a href="https://tc39.es/ecma262/#prod-Elision">Elision</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt>
+        <emu-nt id="_ref_35"><a href="#prod-MatchElement">MatchElement</a></emu-nt>
+        <emu-nt params="opt"><a href="https://tc39.es/ecma262/#prod-Initializer">Initializer</a><emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt>
+    </emu-rhs>
 </emu-production>
 <emu-production name="MatchElement" id="prod-MatchElement">
-    <emu-nt><a href="#prod-MatchElement">MatchElement</a></emu-nt><emu-geq>:</emu-geq><emu-rhs a="2f513ed1"><emu-nt id="_ref_36"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-MatchElement">MatchElement</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="l1e-0x1i"><emu-nt id="_ref_36"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt></emu-rhs>
 </emu-production>
 <emu-production name="MatchRestElement" id="prod-MatchRestElement">
-    <emu-nt><a href="#prod-MatchRestElement">MatchRestElement</a></emu-nt><emu-geq>:</emu-geq><emu-rhs a="fc5ceb69"><emu-t>...</emu-t><emu-nt id="_ref_37"><a href="#prod-IdentifierMatchPattern">IdentifierMatchPattern</a></emu-nt></emu-rhs>
-    <emu-rhs a="12b63161"><emu-t>...</emu-t><emu-nt id="_ref_38"><a href="#prod-MatchElement">MatchElement</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-MatchRestElement">MatchRestElement</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="_fzrac9_">
+        <emu-t>...</emu-t>
+        <emu-nt id="_ref_37"><a href="#prod-IdentifierMatchPattern">IdentifierMatchPattern</a></emu-nt>
+    </emu-rhs>
+    <emu-rhs a="eryxyfbj">
+        <emu-t>...</emu-t>
+        <emu-nt id="_ref_38"><a href="#prod-MatchElement">MatchElement</a></emu-nt>
+    </emu-rhs>
 </emu-production>
 <emu-production name="IdentifierMatchPattern" id="prod-IdentifierMatchPattern">
-    <emu-nt><a href="#prod-IdentifierMatchPattern">IdentifierMatchPattern</a></emu-nt><emu-geq>:</emu-geq><emu-rhs a="50e97238"><emu-nt><a href="https://tc39.es/ecma262/#prod-annexB-BindingIdentifier">BindingIdentifier</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-IdentifierMatchPattern">IdentifierMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="uolyom43"><emu-nt><a href="https://tc39.es/ecma262/#prod-annexB-BindingIdentifier">BindingIdentifier</a></emu-nt></emu-rhs>
 </emu-production>
 <emu-production name="LiteralMatchPattern" id="prod-LiteralMatchPattern">
-    <emu-nt><a href="#prod-LiteralMatchPattern">LiteralMatchPattern</a></emu-nt><emu-geq>:</emu-geq><emu-rhs a="54f84188"><emu-nt><a href="https://tc39.es/ecma262/#prod-NullLiteral">NullLiteral</a></emu-nt></emu-rhs>
-    <emu-rhs a="3508e1fd"><emu-nt><a href="https://tc39.es/ecma262/#prod-BooleanLiteral">BooleanLiteral</a></emu-nt></emu-rhs>
-    <emu-rhs a="a548b407"><emu-nt><a href="https://tc39.es/ecma262/#prod-annexB-NumericLiteral">NumericLiteral</a></emu-nt></emu-rhs>
-    <emu-rhs a="5c74e54d"><emu-nt><a href="https://tc39.es/ecma262/#prod-StringLiteral">StringLiteral</a></emu-nt></emu-rhs>
-</emu-production></ins></emu-grammar>
+    <emu-nt><a href="#prod-LiteralMatchPattern">LiteralMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="vphbieby"><emu-nt><a href="https://tc39.es/ecma262/#prod-NullLiteral">NullLiteral</a></emu-nt></emu-rhs>
+    <emu-rhs a="nqjh_sxl"><emu-nt><a href="https://tc39.es/ecma262/#prod-BooleanLiteral">BooleanLiteral</a></emu-nt></emu-rhs>
+    <emu-rhs a="pui0b1rt"><emu-nt><a href="https://tc39.es/ecma262/#prod-annexB-NumericLiteral">NumericLiteral</a></emu-nt></emu-rhs>
+    <emu-rhs a="xhtltz00"><emu-nt><a href="https://tc39.es/ecma262/#prod-StringLiteral">StringLiteral</a></emu-nt></emu-rhs>
+</emu-production></ins>
+</emu-grammar>
 </emu-clause>
 <emu-clause id="sec-case-statement">
   <h1><span class="secnum">2</span> Case Statement</h1>
@@ -1902,15 +2380,79 @@ li.menu-search-result-term:before {
   </emu-clause>
   <emu-clause id="sec-case-rs-eval">
     <h1><span class="secnum">2.3</span> Runtime Semantics: Evaluation</h1>
-    <emu-alg><p><var>MatchStatement</var> <code>:</code> <code>case</code> <code>(</code> <var>Expression</var> <code>)</code> <code>{</code> WhenClauses <code>}</code></p><ol><li>Let <var>exprRef</var> be the result of evaluation <var>Expression</var>.</li><li>Let <var>exprValue</var> be ?&nbsp;<emu-xref aoid="GetValue" id="_ref_0"><a href="https://tc39.es/ecma262/#sec-getvalue">GetValue</a></emu-xref>(<var>exprRef</var>)</li><li>For each element <var>WhenClause</var> in <var>WhenClauses</var>:</li><li>If no <var>WhenClause</var> left, throw <var>MatchError</var></li><li>Let <var>matched</var> be ?&nbsp;<emu-xref href="#sec-case-rs-when-clause-matches" id="_ref_1"><a href="#sec-case-rs-when-clause-matches">WhenClauseMatches</a></emu-xref>(<var>exprValue</var>, <var>WhenClause</var>)</li><li>If <var>matched</var> is true, then<ol><li>Let <var>clauseCompletion</var> be ?&nbsp;<emu-xref href="#sec-case-rs-when-clause-eval" id="_ref_2"><a href="#sec-case-rs-when-clause-eval">WhenClauseEvaluation</a></emu-xref>(<var>exprValue</var>, <var>WhenClause</var>)</li><li>Return <emu-xref aoid="Completion" id="_ref_3"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">Completion</a></emu-xref>(<emu-xref aoid="UpdateEmpty" id="_ref_4"><a href="https://tc39.es/ecma262/#sec-updateempty">UpdateEmpty</a></emu-xref>(<var>clauseCompletion</var>, <code>undefined</code>))
-    </li></ol></li></ol></emu-alg>
+    <emu-grammar><emu-production name="_MatchStatement_" collapsed="">
+    <emu-nt>_MatchStatement_</emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="nqug1vut">
+        <emu-t>:</emu-t>
+        <emu-t>case</emu-t>
+        <emu-t>(</emu-t>
+        <emu-nt>_Expression_</emu-nt>
+        <emu-t>)</emu-t>
+        <emu-t>{</emu-t>
+        <emu-nt id="_ref_39"><a href="#prod-WhenClauses">WhenClauses</a></emu-nt>
+        <emu-t>}</emu-t>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Let <var>exprRef</var> be the result of evaluation <var>Expression</var>.</li><li>Let <var>exprValue</var> be ?&nbsp;<emu-xref aoid="GetValue" id="_ref_0"><a href="https://tc39.es/ecma262/#sec-getvalue">GetValue</a></emu-xref>(<var>exprRef</var>)</li><li>For each element <var>WhenClause</var> in <var>WhenClauses</var>:</li><li>If no <var>WhenClause</var> left, throw <var>MatchError</var></li><li>Let <var>matched</var> be ?&nbsp;<emu-xref href="#sec-case-rs-when-clause-matches" id="_ref_1"><a href="#sec-case-rs-when-clause-matches">WhenClauseMatches</a></emu-xref>(<var>exprValue</var>, <var>WhenClause</var>)</li><li>If <var>matched</var> is true, then<ol><li>Let <var>clauseCompletion</var> be ?&nbsp;<emu-xref href="#sec-case-rs-when-clause-eval" id="_ref_2"><a href="#sec-case-rs-when-clause-eval">WhenClauseEvaluation</a></emu-xref>(<var>exprValue</var>, <var>WhenClause</var>)</li><li>Return <emu-xref aoid="Completion" id="_ref_3"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">Completion</a></emu-xref>(<emu-xref aoid="UpdateEmpty" id="_ref_4"><a href="https://tc39.es/ecma262/#sec-updateempty">UpdateEmpty</a></emu-xref>(<var>clauseCompletion</var>, <code>undefined</code>))</li></ol></li></ol></emu-alg>
     <emu-clause id="sec-case-rs-when-clause-matches">
       <h1><span class="secnum">2.3.1</span> <dfn>WhenClauseMatches</dfn>(<var>exprValue</var>, <var>WhenClause</var>)</h1>
-      <emu-alg><p><var>WhenClause</var> <code>:</code> <code>when</code> <var>MatchPattern</var> <var>Initializer</var>[opt] <var>MatchGuard</var>[opt] <code>-&gt;</code> <var>WhenClauseBody</var></p><p><var>MatchPattern</var> <code>:</code> <var>ObjectMatchPattern</var></p><p><var>ObjectMatchPattern</var> <code>:</code> <code>{</code> <code>}</code></p><p><emu-note type="editor"><span class="note">Editor's Note</span><div class="note-contents">I think this is the way to check if something's an object?</div></emu-note></p><ol><li>Perform ?&nbsp;<emu-xref aoid="ToObject" id="_ref_5"><a href="https://tc39.es/ecma262/#sec-toobject">ToObject</a></emu-xref>(<var>exprValue</var>)</li><li>Return <code>true</code></li></ol><p><var>ObjectMatchPattern</var> <code>:</code> <code>{</code> <var>MatchRestProperty</var> <code>}</code></p><ol><li>TODO</li></ol><p><var>ObjectMatchPattern</var> <code>:</code> <code>{</code> <var>MatchProperty</var> <code>}</code></p><ol><li>TODO</li></ol><p><var>ArrayMatchPattern</var> <code>:</code> TKTK</p><ol><li>Let <var>iter</var> be ?&nbsp;<emu-xref aoid="GetIterator" id="_ref_6"><a href="https://tc39.es/ecma262/#sec-getiterator">GetIterator</a></emu-xref>(<var>exprValue</var>)</li><li>Note:
+      <emu-grammar><emu-production name="_WhenClause_" collapsed="">
+    <emu-nt>_WhenClause_</emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="x2ghd7kx">
+        <emu-t>:</emu-t>
+        <emu-t>when</emu-t>
+        <emu-nt>_MatchPattern_</emu-nt>
+        <emu-nt params="opt">_Initializer_<emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt>
+        <emu-nt params="opt">_MatchGuard_<emu-mods><emu-params>[opt]</emu-params></emu-mods></emu-nt>
+        <emu-t>-&gt;</emu-t>
+        <emu-nt>_WhenClauseBody_</emu-nt>
+    </emu-rhs>
+</emu-production>
+<emu-production name="_MatchPattern_" collapsed="">
+    <emu-nt>_MatchPattern_</emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="cojorljl">
+        <emu-t>:</emu-t>
+        <emu-nt>_ObjectMatchPattern_</emu-nt>
+    </emu-rhs>
+</emu-production>
+<emu-production name="_ObjectMatchPattern_" collapsed="">
+    <emu-nt>_ObjectMatchPattern_</emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="xuuqkaei">
+        <emu-t>:</emu-t>
+        <emu-t>{</emu-t>
+        <emu-t>}</emu-t>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+      <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ToObject" id="_ref_5"><a href="https://tc39.es/ecma262/#sec-toobject">ToObject</a></emu-xref>(<var>exprValue</var>)</li><li>Return <code>true</code></li></ol></emu-alg>
+      <emu-grammar><emu-production name="_ObjectMatchPattern_" collapsed="">
+    <emu-nt>_ObjectMatchPattern_</emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="xbj-jli5">
+        <emu-t>:</emu-t>
+        <emu-t>{</emu-t>
+        <emu-nt>_MatchRestProperty_</emu-nt>
+        <emu-t>}</emu-t>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+      <emu-alg><ol><li>TODO</li></ol></emu-alg>
+      <emu-grammar><emu-production name="_ObjectMatchPattern_" collapsed="">
+    <emu-nt>_ObjectMatchPattern_</emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="zm1hsocl">
+        <emu-t>:</emu-t>
+        <emu-t>{</emu-t>
+        <emu-nt>_MatchProperty_</emu-nt>
+        <emu-t>}</emu-t>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+      <emu-alg><ol><li>TODO</li></ol></emu-alg>
+      <emu-grammar><emu-production name="_ArrayMatchPattern_" collapsed="">
+    <emu-nt>_ArrayMatchPattern_</emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="og9q_3hx">
+        <emu-t>:</emu-t>
+        <emu-nt>TKTK</emu-nt>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+      <emu-alg><ol><li>Let <var>iter</var> be ?&nbsp;<emu-xref aoid="GetIterator" id="_ref_6"><a href="https://tc39.es/ecma262/#sec-getiterator">GetIterator</a></emu-xref>(<var>exprValue</var>)</li><li>Note:
         <emu-note type="editor"><span class="note">Editor's Note</span><div class="note-contents">
           ...only run <emu-xref aoid="GetIterator" id="_ref_7"><a href="https://tc39.es/ecma262/#sec-getiterator">GetIterator</a></emu-xref> once per MatchStatement, and only call <code>.next()</code> once per position... (grouping together multiple checks against the same ArrayMatchPattern such that info is shared across matches, but only for specific positions (that is, given patterns <code>[a, b]</code>, <code>[...foo]</code>, and <code>{x: [...foo]}</code>, <code>.next()</code> will be called once: once for the top-level arraypatterns and once for the nested one -- _even if_ the iterable in the third pattern is object-identical to the toplevel patterns). The results of going over the iterator in each position will be cached as it's processed, such that it's not iterated over multiple times)
-        </div></emu-note>
-      </li></ol></emu-alg>
+        </div></emu-note></li></ol></emu-alg>
     </emu-clause>
   </emu-clause>
   <emu-clause id="sec-case-rs-when-clause-eval">
@@ -1921,7 +2463,7 @@ li.menu-search-result-term:before {
       <h1><span class="secnum">A</span> Copyright &amp; Software License</h1>
       
       <h2>Copyright Notice</h2>
-      <p>© 2020 Your Name Goes Here</p>
+      <p>© 2021 Your Name Goes Here</p>
 
       <h2>Software License</h2>
       <p>All Software contained in this document ("Software") is protected by copyright and is being made available under the "BSD License", included below. This Software may be subject to third party rights (rights from parties other than Ecma International), including patent rights, and no licenses under such third party rights are granted under this license even if the third party concerned is a member of Ecma International. SEE THE ECMA CODE OF CONDUCT IN PATENT MATTERS AVAILABLE AT https://ecma-international.org/memento/codeofconduct.htm FOR INFORMATION REGARDING THE LICENSING OF PATENT CLAIMS THAT ARE REQUIRED TO IMPLEMENT ECMA INTERNATIONAL STANDARDS.</p>
@@ -1936,4 +2478,5 @@ li.menu-search-result-term:before {
 
 <p>THIS SOFTWARE IS PROVIDED BY THE ECMA INTERNATIONAL "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL ECMA INTERNATIONAL BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
 
-    </emu-annex></div></body>
+    </emu-annex>
+</div></body>

@@ -1,0 +1,19 @@
+name: Deploy spec
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - run: npm install
+    - run: npm run build
+    - name: commit changes
+      uses: elstudio/actions-js-build/commit@v3
+      with:
+        commitMessage: "fixup: [spec] `npm run build`"

@@ -22,7 +22,7 @@ contributors: Your Name Goes Here
     WhenClauses :
       WhenClause
       WhenClauses WhenClause
-      
+
     WhenClause :
       `when` MatchPattern Initializer[opt] MatchGuard[opt] `->` WhenClauseBody
 
@@ -98,9 +98,8 @@ contributors: Your Name Goes Here
   </emu-clause>
   <emu-clause id="sec-case-rs-eval">
     <h1>Runtime Semantics: Evaluation</h1>
+    <emu-grammar>_MatchStatement_ `:` `case` `(` _Expression_ `)` `{` WhenClauses `}`</emu-grammar>
     <emu-alg>
-      _MatchStatement_ `:` `case` `(` _Expression_ `)` `{` WhenClauses `}`
-
       1. Let _exprRef_ be the result of evaluation _Expression_.
       1. Let _exprValue_ be ? GetValue(_exprRef_)
       1. For each element _WhenClause_ in _WhenClauses_:
@@ -112,28 +111,33 @@ contributors: Your Name Goes Here
     </emu-alg>
     <emu-clause id="sec-case-rs-when-clause-matches">
       <h1><dfn>WhenClauseMatches</dfn>(_exprValue_, _WhenClause_)</h1>
-      <emu-alg>
+      <emu-grammar>
         _WhenClause_ `:` `when` _MatchPattern_ _Initializer_[opt] _MatchGuard_[opt] `->` _WhenClauseBody_
 
         _MatchPattern_ `:` _ObjectMatchPattern_
 
         _ObjectMatchPattern_ `:` `{` `}`
-
-        <emu-note type="editor">I think this is the way to check if something's an object?</emu-note>
-
+      </emu-grammar>
+      <emu-alg>
         1. Perform ? ToObject(_exprValue_)
         1. Return `true`
-
+      </emu-alg>
+      <emu-grammar>
         _ObjectMatchPattern_ `:` `{` _MatchRestProperty_ `}`
-
+      </emu-grammar>
+      <emu-alg>
         1. TODO
-
+      </emu-alg>
+      <emu-grammar>
         _ObjectMatchPattern_ `:` `{` _MatchProperty_ `}`
-
+      </emu-grammar>
+      <emu-alg>
         1. TODO
-
+      </emu-alg>
+      <emu-grammar>
         _ArrayMatchPattern_ `:` TKTK
-
+      </emu-grammar>
+      <emu-alg>
         1. Let _iter_ be ? GetIterator(_exprValue_)
         2. Note:
         <emu-note type="editor">
