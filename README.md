@@ -232,15 +232,20 @@ More concise, more functional handling of Redux reducers. Compare with [this sam
 ```jsx
 function todoApp(state = initialState, action) {
   return match (action) {
-    when ({ type: 'set-visibility-filter', filter: visFilter }) {
+    when ({ type: 'set-visibility-filter', payload: visFilter }) {
       ({ ...state, visFilter });
     }
-    when ({ type: 'add-todo', text }) {
-      ({ ...state, todos: [...state.todos, { text }] });
+    when ({ type: 'add-todo', payload: text }) {
+      ({ ...state, todos: [...state.todos, { text, completed: false }] });
     }
-    when ({ type: 'toggle-todo', index }) {
-      let newTodos = state.todos;
-      newTodos[index].done = !newTodos[index].done;
+    when ({ type: 'toggle-todo', payload: index }) {
+      const newTodos = state.todos.map((todo, i) => {
+        return i !== index ? todo : {
+          ...todo,
+          completed: !todo.completed
+        };
+      });
+
       ({
         ...state,
         todos: newTodos,
