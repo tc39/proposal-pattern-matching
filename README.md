@@ -145,7 +145,7 @@ Note that for this to work properly, iterator results will need to be cached unt
 
 ```jsx
 match (arithmeticStr) {
-  when (/(?<left>\d+) \+ (?<right>\d+)/) as { groups: { left, right } } { process(left, right); }
+  when (/(?<left>\d+) \+ (?<right>\d+)/) with { groups: { left, right } } { process(left, right); }
   when (/(?<left>\d+) \+ (?<right>\d+)/) { process(left, right); } // maybe?
   else { ... }
 }
