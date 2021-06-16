@@ -27,7 +27,7 @@ contributors: Jordan Harband, Mark Cohen, Tab Atkins, Yulia Startsev, Daniel Ros
       WhenClauses WhenClause
 
     WhenClause :
-      `when` MatchPattern Initializer[opt] MatchGuard[opt] `{` WhenClauseBody `}`
+      `when` MatchPattern Initializer[opt] MatchGuard[opt] WhenClauseBody
 
     MatchGuard :
       `if` `(` Expression `)`
