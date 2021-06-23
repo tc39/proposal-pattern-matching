@@ -19,8 +19,8 @@ contributors: Jordan Harband, Mark Cohen, Tab Atkins, Yulia Startsev, Daniel Ros
 
     <ins class="block">
     MatchStatement ::
-      `match` [no LineTerminator here] `(` Expression `)` `{` WhenClauses `}`
-      `match` [no LineTerminator here] `(` Expression `)` `as` LeftHandSideExpression `{` WhenClauses `}`
+      `match` [no LineTerminator here] `(` Expression `)` [no LineTerminator here] `{` WhenClauses `}`
+      `match` [no LineTerminator here] `(` Expression `)` [no LineTerminator here] `as` LeftHandSideExpression `{` WhenClauses `}`
 
     WhenClauses :
       WhenClause
