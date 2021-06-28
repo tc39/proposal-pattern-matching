@@ -77,8 +77,6 @@ This proposal draws from, and partially overlaps with, corresponding features in
 //          LHS        RHS (sugar for do-expression)
 //    ───────────↓──────────
 //            clause
-
-      when ({ status: 200, body, ...rest }) {
         handleData(body, rest);
       }
 
