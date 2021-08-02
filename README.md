@@ -162,8 +162,8 @@ Additionally, it would be nice for regex literals to be able to introduce bindin
 const LF = 0x0a;
 const CR = 0x0d;
 match (token) {
-  when ^LF { ... }
-  when ^CR { ... }
+  when (^LF) { ... }
+  when (^CR) { ... }
   else { ... }
 }
 ```
@@ -193,8 +193,8 @@ class Name {
 }
 
 match ('Tab Atkins-Bittner') {
-  when ^Name with [first, last] if (last.includes('-')) { … }
-  when ^Name with [first, last] { … }
+  when (^Name) with [first, last] if (last.includes('-')) { … }
+  when (^Name) with [first, last] { … }
   else { ... }
 }
 ```
