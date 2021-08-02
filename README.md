@@ -152,7 +152,7 @@ This sample is a contrived arithmetic expression parser. Regexes are patterns, w
 
 Named capture groups motivate the [user-extensible protocol](#user-extensibility). It would be intuitive for named capture groups to introduce bindings to the right-hand side. And surely, if regexes can do this, then userland objects should be able to do this as well.
 
-Note the use of the `with` keyword to pattern-match the result of this matching protocol (read on for a few more code samples for further detail on this protocol).
+Note the use of the `as` keyword to pattern-match the result of this matching protocol (read on for a few more code samples for further detail on this protocol).
 
 Additionally, it would be nice for regex literals to be able to introduce bindings *without* the `with` keyword. This would be a magic special case, but we find it acceptable since it’s still possible to statically analyze the source of all bindings.
 
