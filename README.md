@@ -109,7 +109,7 @@ match (command) {
   else { … }
 }
 ```
-This sample is a contrived parser for a text-based adventure game. Note the `as` keyword, which can introduce intermediary bindings. In this case, the first clause will match on any of the four compass directions, binding whatever is passed in to `dir` for the right-hand side.
+This sample is a contrived parser for a text-based adventure game. Note the `as` keyword, which introduces bindings. In this case, the first clause will match on any of the four compass directions, binding whatever is passed in to `dir` for the right-hand side.
 
 ---
 
