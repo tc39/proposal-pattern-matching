@@ -143,7 +143,7 @@ Note that for this to work properly, iterator results will need to be cached unt
 
 ```jsx
 match (arithmeticStr) {
-  when (/(?<left>\d+) \+ (?<right>\d+)/) as { groups: { left, right } } { process(left, right); }
+  when (/(?<left>\d+) \+ (?<right>\d+)/) as ({ groups: { left, right } }) { process(left, right); }
   when (/(?<left>\d+) \+ (?<right>\d+)/) { process(left, right); } // maybe?
   else { ... }
 }
@@ -193,8 +193,8 @@ class Name {
 }
 
 match ('Tab Atkins-Bittner') {
-  when (^Name) with [first, last] if (last.includes('-')) { … }
-  when (^Name) with [first, last] { … }
+  when (^Name) with ([first, last]) if (last.includes('-')) { … }
+  when (^Name) with ([first, last]) { … }
   else { ... }
 }
 ```
@@ -387,7 +387,7 @@ const hasMatcher = {
   }
 };
 match (3) {
-  when (^hasMatcher) as { a, b: { c } } {
+  when (^hasMatcher) as ({ a, b: { c } }) {
     assert(a === 1);
     assert(c === 2);
   }
