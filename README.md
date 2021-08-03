@@ -143,7 +143,7 @@ Note that for this to work properly, iterator results will need to be cached unt
 
 ```jsx
 match (arithmeticStr) {
-  when (/(?<left>\d+) \+ (?<right>\d+)/) as ({ groups: { left, right } }) { process(left, right); }
+  when (/(?<left>\d+) \+ (?<right>\d+)/ as { groups: { left, right } }) { process(left, right); }
   when (/(?<left>\d+) \+ (?<right>\d+)/) { process(left, right); } // maybe?
   else { ... }
 }
@@ -162,8 +162,8 @@ Additionally, it would be nice for regex literals to be able to introduce bindin
 const LF = 0x0a;
 const CR = 0x0d;
 match (token) {
-  when ^LF { ... }
-  when ^CR { ... }
+  when (^LF) { ... }
+  when (^CR) { ... }
   else { ... }
 }
 ```
@@ -195,7 +195,7 @@ class Name {
 match ('Tab Atkins-Bittner') {
   when (^Name with [first, last]) if (last.includes('-')) { … }
   when (^Name with [first, last]) { … }
-  else { ... }
+  else { … }
 }
 ```
 This sample has two significant parts. First is a contrived name parser, which simply tries to split a string into exactly two space-separated pieces. This parser is contained in a special static `[Symbol.matcher]()` method. Next is a `match` construct with three clauses: the first matches hyphenated last names, the second matches all names, and the third (the `else`) matches anything.
@@ -290,7 +290,7 @@ There is no precedence relationship between `|` and `&`, so they cannot be mixed
 ### Nil pattern
 ```jsx
 match (someArr) {
-  when [_, _, someVal] { … }
+  when ([_, _, someVal]) { … }
 }
 ```
 
@@ -387,7 +387,7 @@ const hasMatcher = {
   }
 };
 match (3) {
-  when ^hasMatcher as { a, b: { c } } {
+  when (^hasMatcher as { a, b: { c } }) {
     assert(a === 1);
     assert(c === 2);
   }
