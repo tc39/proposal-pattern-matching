@@ -87,7 +87,7 @@ This proposal draws from, and partially overlaps with, corresponding features in
       }
 
       when ^retryable { retry(req); }
-//      ↳ parentheses are not required around “pin” patterns
+//      ↳ parentheses are not required around simple “pin” patterns
 
       else { throwSomething(); }
 //      ↳ cannot coexist with top-level irrefutable match, e.g. `when (foo)`
