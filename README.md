@@ -86,11 +86,11 @@ This proposal draws from, and partially overlaps with, corresponding features in
         handleRedirect(url);
       }
 
-      when { status: 404 } { retry(req); }
-//      ↳ parentheses are not required after `when`
+      when ^retryable { retry(req); }
+//      ↳ parentheses are not required around “pin” patterns
 
       else { throwSomething(); }
-//    ↳ cannot coexist with top-level irrefutable match, e.g. `when (foo)`
+//      ↳ cannot coexist with top-level irrefutable match, e.g. `when (foo)`
     }
 ```
  - `res` is the “matchable”. This can be any expression.
@@ -175,6 +175,8 @@ Without `^`, `LF` would be an **irrefutable match**, which would always match re
 With `^`, `LF` is evaluated as an expression, which results in the primitive value `0x0a`. This is then matched against `token`, and the clause matches only if `token` is `0x0a`. The right-hand side sees no new bindings.
 
 `^` can only be followed by an identifier, a chain (`^foo.bar.baz`), a function call (`^foo()`), or a parenthesized expression.
+
+Parentheses are not required around a pin pattern.
 
 *Note: the champions group is not settled on `^`, and is very open to different sigils, a keyword, or any other ideas to distinguish expressions from irrefutable matches.*
 
