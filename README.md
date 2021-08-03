@@ -109,7 +109,7 @@ match (command) {
   else { … }
 }
 ```
-This sample is a contrived parser for a text-based adventure game. Note the `as` keyword, which can introduce intermediary bindings. In this case, the first clause will match on any of the four compass directions, binding whatever is passed in to `dir` for the right-hand side.
+This sample is a contrived parser for a text-based adventure game. Note the `as` keyword, which introduces bindings. In this case, the first clause will match on any of the four compass directions, binding whatever is passed in to `dir` for the right-hand side.
 
 ---
 
@@ -143,7 +143,7 @@ Note that for this to work properly, iterator results will need to be cached unt
 
 ```jsx
 match (arithmeticStr) {
-  when (/(?<left>\d+) \+ (?<right>\d+)/) as { groups: { left, right } } { process(left, right); }
+  when (/(?<left>\d+) \+ (?<right>\d+)/) as ({ groups: { left, right } }) { process(left, right); }
   when (/(?<left>\d+) \+ (?<right>\d+)/) { process(left, right); } // maybe?
   else { ... }
 }
@@ -152,7 +152,7 @@ This sample is a contrived arithmetic expression parser. Regexes are patterns, w
 
 Named capture groups motivate the [user-extensible protocol](#user-extensibility). It would be intuitive for named capture groups to introduce bindings to the right-hand side. And surely, if regexes can do this, then userland objects should be able to do this as well.
 
-Note the use of the `with` keyword to pattern-match the result of this matching protocol (read on for a few more code samples for further detail on this protocol).
+Note the use of the `as` keyword to pattern-match the result of this matching protocol (read on for a few more code samples for further detail on this protocol).
 
 Additionally, it would be nice for regex literals to be able to introduce bindings *without* the `with` keyword. This would be a magic special case, but we find it acceptable since it’s still possible to statically analyze the source of all bindings.
 
@@ -162,8 +162,8 @@ Additionally, it would be nice for regex literals to be able to introduce bindin
 const LF = 0x0a;
 const CR = 0x0d;
 match (token) {
-  when ^LF { ... }
-  when ^CR { ... }
+  when (^LF) { ... }
+  when (^CR) { ... }
   else { ... }
 }
 ```
@@ -193,8 +193,8 @@ class Name {
 }
 
 match ('Tab Atkins-Bittner') {
-  when ^Name with [first, last] if (last.includes('-')) { … }
-  when ^Name with [first, last] { … }
+  when (^Name) with ([first, last]) if (last.includes('-')) { … }
+  when (^Name) with ([first, last]) { … }
   else { ... }
 }
 ```
@@ -387,7 +387,7 @@ const hasMatcher = {
   }
 };
 match (3) {
-  when (^hasMatcher) as { a, b: { c } } {
+  when (^hasMatcher) as ({ a, b: { c } }) {
     assert(a === 1);
     assert(c === 2);
   }
