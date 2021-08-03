@@ -86,14 +86,15 @@ This proposal draws from, and partially overlaps with, corresponding features in
         handleRedirect(url);
       }
 
-      when({ status: 404 }) { retry(req); }
+      when { status: 404 } { retry(req); }
+//      ↳ parentheses are not required after `when`
 
       else { throwSomething(); }
 //    ↳ cannot coexist with top-level irrefutable match, e.g. `when (foo)`
     }
 ```
  - `res` is the “matchable”. This can be any expression.
- - `when (…) { … }` is the “[clause](#clause)”.
+ - `when … { … }` is the “[clause](#clause)”.
  - the `…` in `when (…)` is the “pattern”.
  - Everything after the pattern is the “right-hand side” (RHS), and is sugar for a [`do` expression](https://github.com/tc39/proposal-do-expressions).
  - `301 | 304` uses `|` to indicate “or” semantics for multiple patterns
@@ -162,8 +163,8 @@ Additionally, it would be nice for regex literals to be able to introduce bindin
 const LF = 0x0a;
 const CR = 0x0d;
 match (token) {
-  when (^LF) { ... }
-  when (^CR) { ... }
+  when ^LF { ... }
+  when ^CR { ... }
   else { ... }
 }
 ```
