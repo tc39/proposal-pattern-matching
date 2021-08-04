@@ -168,7 +168,7 @@ match (token) {
   else { ... }
 }
 ```
-Here we see the [**pin operator**](#pin-operator) (`^`), which is the escape-hatch from irrefutable matches.
+Here we see the [**pin operator**](#pin-operator-) (`^`), which is the escape-hatch from irrefutable matches.
 
 Without `^`, `LF` would be an **irrefutable match**, which would always match regardless of the value of the matchable (`token`, here). Then, in the right-hand side, `LF` would be bound to the value of `token`, shadowing the outer `const LF = 0x0a` binding at the top.
 
@@ -371,7 +371,7 @@ Like array destructuring patterns, the object destructuring pattern can also con
 
 ### Custom expression matchers
 
-The expression following a [`^`](#pin-operator) in a match pattern is evaluated. If the result is an Object with a `[Symbol.matcher]` key, then the engine fetches that key, throws if it’s present and not a function, and calls it on the matchable. The result, like `IterationResult`s, must return an Object with a truthy `matched` property for the match to be considered successful.
+The expression following a [`^`](#pin-operator-) in a match pattern is evaluated. If the result is an Object with a `[Symbol.matcher]` key, then the engine fetches that key, throws if it’s present and not a function, and calls it on the matchable. The result, like `IterationResult`s, must return an Object with a truthy `matched` property for the match to be considered successful.
 
 Otherwise, a `SameValueZero` test is performed against the matchable.
 
