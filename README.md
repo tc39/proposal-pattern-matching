@@ -373,9 +373,7 @@ Like array destructuring patterns, the object destructuring pattern can also con
 
 ### Custom expression matchers
 
-Any identifier, dotted or bracketed expressions, and/or function calls can be immediately prefixed with [`^`](#pin-operator). Anything more complex must be wrapped in parentheses such as `^(foo + 1)`.
-
-The expression following `^` is then evaluated. If the result is an Object with a `[Symbol.matcher]` key, then the engine fetches that key, throws if it’s present and not a function, and calls it on the matchable. The result, like `IterationResult`s, must return an `Object`, with a truthy `matched` property, for the match to be considered successful.
+The expression following a [`^`](#pin-operator) in a match pattern is evaluated. If the result is an Object with a `[Symbol.matcher]` key, then the engine fetches that key, throws if it’s present and not a function, and calls it on the matchable. The result, like `IterationResult`s, must return an Object with a truthy `matched` property for the match to be considered successful.
 
 Otherwise, a `SameValueZero` test is performed against the matchable.
 
@@ -408,7 +406,7 @@ TODO: bare guards, `with`, `as`, etc; “intuitive” definition
 The statement list (surrounded with curly braces, with `do` expression semantics), or possibly expression, that evaluates when a [clause](#clause) matches successfully, and produces the value that the surrounding `match` construct evaluates to.
 
 ### Pin operator (`^`)
-May appear inside any [pattern](#pattern), immediately preceding an identifier (`^Foo`), a chained expression (`^foo?.bar.Class`), a function call (`^foo()` or `^foo.bar()`), or a parenthesized expression (`^(<any expression>)`). Used to escape from “pattern mode” and enter “expression mode”.
+May appear inside any [pattern](#pattern), immediately preceding an identifier (`^Foo`), a chained expression (`^foo?.bar.Class`), a function call (`^foo()` or `^foo.bar()`), or a parenthesized expression (`^(foo + 1)`). Used to escape from “pattern mode” and enter “expression mode”.
 
 
 <!--
