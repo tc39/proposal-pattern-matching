@@ -155,7 +155,7 @@ Named capture groups motivate the [user-extensible protocol](#user-extensibility
 
 Note the use of the `as` keyword to pattern-match the result of this matching protocol (read on for a few more code samples for further detail on this protocol).
 
-Additionally, it would be nice for regex literals to be able to introduce bindings *without* the `with` keyword. This would be a magic special case, but we find it acceptable since it’s still possible to statically analyze the source of all bindings.
+Additionally, it would be nice for regex literals to be able to introduce bindings *without* a keyword. This would be a magic special case, but we find it acceptable since it’s still possible to statically analyze the source of all bindings.
 
 ---
 
