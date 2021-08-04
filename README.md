@@ -168,15 +168,13 @@ match (token) {
   else { ... }
 }
 ```
-Here we see the **pin operator** (`^`), which is the escape-hatch from irrefutable matches.
+Here we see the [**pin operator**](#pin-operator) (`^`), which is the escape-hatch from irrefutable matches.
 
 Without `^`, `LF` would be an **irrefutable match**, which would always match regardless of the value of the matchable (`token`, here). Then, in the right-hand side, `LF` would be bound to the value of `token`, shadowing the outer `const LF = 0x0a` binding at the top.
 
 With `^`, `LF` is evaluated as an expression, which results in the primitive value `0x0a`. This is then matched against `token`, and the clause matches only if `token` is `0x0a`. The right-hand side sees no new bindings.
 
-`^` can only be followed by an identifier (`^foo`), a function call (`^foo()`), a chain with or without a final function call (`^foo.bar?.baz` or `^foo[bar].baz("qux")`), or a parenthesized expression.
-
-Parentheses are not required around a simple pin pattern (a pin pattern consisting of an identifier or function call or chain with optional final function call).
+This example uses simple pin patterns and omits wrapping parentheses.
 
 *Note: the champions group is not settled on `^`, and is very open to different sigils, a keyword, or any other ideas to distinguish expressions from irrefutable matches.*
 
@@ -406,7 +404,9 @@ TODO: bare guards, `with`, `as`, etc; “intuitive” definition
 The statement list (surrounded with curly braces, with `do` expression semantics), or possibly expression, that evaluates when a [clause](#clause) matches successfully, and produces the value that the surrounding `match` construct evaluates to.
 
 ### Pin operator (`^`)
-May appear inside any [pattern](#pattern), immediately preceding an identifier (`^Foo`), a chained expression (`^foo?.bar.Class`), a function call (`^foo()` or `^foo.bar()`), or a parenthesized expression (`^(foo + 1)`). Used to escape from “pattern mode” and enter “expression mode”.
+May appear inside any [pattern](#pattern), immediately preceding an identifier (`^foo`), a function call (`^foo()`), a chain with or without a final function call (`^foo.bar?.baz` or `^foo[bar].baz("qux")`), or a parenthesized expression (`^(foo + 1)`). Used to escape from “pattern mode” and enter “expression mode”.
+
+Parentheses are not required around a simple pin pattern (a pin pattern consisting of an identifier or function call or chain with optional final function call).
 
 
 <!--
