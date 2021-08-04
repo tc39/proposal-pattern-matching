@@ -174,7 +174,7 @@ Without `^`, `LF` would be an **irrefutable match**, which would always match re
 
 With `^`, `LF` is evaluated as an expression, which results in the primitive value `0x0a`. This is then matched against `token`, and the clause matches only if `token` is `0x0a`. The right-hand side sees no new bindings.
 
-`^` can only be followed by an identifier (`^foo`), a function call (`^foo()`), a chain with optional final function call (`^foo.bar?.baz` or `^foo[bar].baz("qux")`), or a parenthesized expression.
+`^` can only be followed by an identifier (`^foo`), a function call (`^foo()`), a chain with or without a final function call (`^foo.bar?.baz` or `^foo[bar].baz("qux")`), or a parenthesized expression.
 
 Parentheses are not required around a simple pin pattern (a pin pattern consisting of an identifier or function call or chain with optional final function call).
 
