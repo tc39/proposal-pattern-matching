@@ -144,7 +144,7 @@ Note that for this to work properly, iterator results will need to be cached unt
 
 ```jsx
 match (arithmeticStr) {
-  when (/(?<left>\d+) \+ (?<right>\d+)/ as { groups: { left, right } }) { process(left, right); }
+  when (/(?<left>\d+) \+ (?<right>\d+)/) as ({ groups: { left, right } }) { process(left, right); }
   when (/(?<left>\d+) \+ (?<right>\d+)/) { process(left, right); } // maybe?
   else { ... }
 }
@@ -153,7 +153,7 @@ This sample is a contrived arithmetic expression parser. Regexes are patterns, w
 
 Named capture groups motivate the [user-extensible protocol](#user-extensibility). It would be intuitive for named capture groups to introduce bindings to the right-hand side. And surely, if regexes can do this, then userland objects should be able to do this as well.
 
-Note the use of the `as` keyword to pattern-match the result of this matching protocol (read on for a few more code samples for further detail on this protocol).
+Note the use of the `as` keyword (appearing here _after_ the `when` parentheses) to pattern-match the result of this matching protocol (read on for a few more code samples for further detail on this protocol).
 
 Additionally, it would be nice for regex literals to be able to introduce bindings *without* a keyword. This would be a magic special case, but we find it acceptable since it’s still possible to statically analyze the source of all bindings.
 
@@ -291,7 +291,7 @@ There is no precedence relationship between `|` and `&`, so they cannot be mixed
 ### Nil pattern
 ```jsx
 match (someArr) {
-  when ([_, _, someVal]) { … }
+  when [_, _, someVal] { … }
 }
 ```
 
@@ -300,6 +300,8 @@ Most languages that have structural pattern matching have the concept of a “ni
 In JS, the primary use-case would be skipping spaces in arrays. This is already covered in destructuring by simply omitting an identifier of any kind in between the commas.
 
 With that in mind, and also with the extremely contentious nature, we would only pursue this if we saw strong support for it.
+
+The same may also be true of omitting `when` parentheses around a destructuring match pattern as shown above.
 
 ### Destructuring enhancements
 
@@ -375,7 +377,7 @@ The expression following a [`^`](#pin-operator-) in a match pattern is evaluated
 
 Otherwise, a `SameValueZero` test is performed against the matchable.
 
-If the match is successful and the custom matcher has an `as` binding declared, the `value` property on the MatchResult object will be used for that binding. Example:
+If the match is successful and the custom matcher has an `as` binding declared (shown below with no wrapping parentheses), the `value` property on the MatchResult object will be used for that binding. Example:
 ```jsx
 const hasMatcher = {
   [Symbol.matcher](matchable) {
@@ -386,7 +388,7 @@ const hasMatcher = {
   }
 };
 match (3) {
-  when (^hasMatcher as { a, b: { c } }) {
+  when ^hasMatcher as { a, b: { c } } {
     assert(a === 1);
     assert(c === 2);
   }
