@@ -71,6 +71,7 @@ This proposal draws from, and partially overlaps with, corresponding features in
 A list of community libraries that provide similar matching functionality:
 
 - [Optionals](https://github.com/OliverBrotchie/optionals) — Rust-like error handling, options and exhaustive pattern matching for TypeScript and Deno
+- [ts-pattern](https://github.com/gvergnaud/ts-pattern) — Exhaustive Pattern Matching library for TypeScript, with smart type inference.
 
 ## Code samples
 
