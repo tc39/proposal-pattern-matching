@@ -66,6 +66,12 @@ This proposal draws from, and partially overlaps with, corresponding features in
 [Elixir/Erlang](https://elixir-lang.org/getting-started/pattern-matching.html), and
 [C++](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p1371r2.pdf).
 
+### Userland matching
+
+A list of community libraries that provide similar matching functionality:
+
+- [Optionals](https://github.com/OliverBrotchie/optionals) — Rust-like error handling, options and exhaustive pattern matching for TypeScript and Deno
+
 ## Code samples
 
 ```jsx
