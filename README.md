@@ -225,9 +225,9 @@ class Name {
 }
 
 match ('Tab Atkins-Bittner') {
-  when (${Name} with [first, last]) if (last.includes('-')) { … }
-  when (${Name} with [first, last]) { … }
-  else { ... }
+  when (${Name} with [first, last]) if (last.includes('-')) …
+  when (${Name} with [first, last]) …
+  else …
 }
 ```
 
