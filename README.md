@@ -78,53 +78,67 @@ A list of community libraries that provide similar matching functionality:
 ```jsx
     match (res) {
 //  match (matchable) {
-      when ({ status: 200, body, ...rest }) {
-//    when (pattern) { … }
-//    ───────↓────── ───↓───
-//          LHS        RHS (sugar for do-expression)
-//    ───────────↓──────────
+      when ({ status: 200, body, ...rest })
+//    when (pattern)  …
+//    ───────↓────── ─↓─
+//          LHS      RHS (expression)
+//    ───────────↓──────
 //            clause
         handleData(body, rest);
-      }
 
-      when ({ status: 301 | 304, destination: url }) {
+      when ({ status: 301 | 304, destination: url })
 //      ↳ `|` (pipe) is the “or” combinator
 //      ↳ `url` is an irrefutable match, effectively a new name for `destination`
         handleRedirect(url);
-      }
 
-      when({ status: 404 }) { retry(req); }
+      when({ status: 404 }) retry(req);
 
-      else { throwSomething(); }
+      else throwSomething();
 //    ↳ cannot coexist with top-level irrefutable match, e.g. `when (foo)`
     }
 ```
  - `res` is the “matchable”. This can be any expression.
  - `when (…) { … }` is the “[clause](#clause)”.
  - the `…` in `when (…)` is the “pattern”.
- - Everything after the pattern is the “right-hand side” (RHS), and is sugar for a [`do` expression](https://github.com/tc39/proposal-do-expressions).
+ - Everything after the pattern is the “right-hand side” (RHS), and is an expression that will be evaluated if the pattern matches
+
+    (We assume that [`do` expressions](https://github.com/tc39/proposal-do-expressions) will mature soon,
+    to allow for RHSes with statements in them easily;
+    today they require an IIFE).
  - `301 | 304` uses `|` to indicate “or” semantics for multiple patterns
- - Any valid object or array destructuring is a valid pattern
+ - Most valid object or array destructurings are valid patterns.
+    (Default values aren't supported yet.)
  - An explicit `else` [clause](#clause) handles the “no match” scenario by always matching. It must always appear last when present, as any [clauses](#clause) after an `else` are unreachable.
 
 ---
 
 ```jsx
 match (command) {
-  when ([ 'go', ('north' | 'east' | 'south' | 'west') as dir ]) { … }
-  when ([ 'take', item ]) { … }
-  else { … }
+  when ([ 'go', dir & ('north' | 'east' | 'south' | 'west')]) …
+  when ([ 'take', item ]) …
+  else …
 }
 ```
-This sample is a contrived parser for a text-based adventure game. Note the `as` keyword, which introduces bindings. In this case, the first clause will match on any of the four compass directions, binding whatever is passed in to `dir` for the right-hand side.
+This sample is a contrived parser for a text-based adventure game.
+Note the use of `&`, to indicate "and" semantics,
+here being used to bind the second array item to `dir` with an ident pattern
+*and* verify that it's one of the supported values.
+The second [clause](#clause) doesn't need to verify its argument
+(at least, not here in the matcher clause),
+so it just uses an ident pattern to bind the value to `item`.
+
+(Note that there is intentionally no precedence relationship
+between the pattern operators, such as `&`, `|`, or `with`;
+parentheses must be used to group patterns
+using different operators at the same level.)
 
 ---
 
 ```jsx
 match (res) {
   if (isEmpty(res)) { … }
-  when ({ pages, data }) if (pages > 1) { … }
-  when ({ pages, data }) if (pages === 1) { … }
+  when ({ numPages, data }) if (numPages > 1) …
+  when ({ numPages, data }) if (numPages === 1) …
   else { … }
 }
 ```
@@ -134,9 +148,9 @@ This sample is fetching from a paginated endpoint. Note the use of **guards** (t
 
 ```jsx
 match (res) {
-  if (isEmpty(res)) { … }
-  when ({ data: [page] }) { … }
-  when ({ data: [frontPage, ...pages] }) { … }
+  if (isEmpty(res)) …
+  when ({ data: [page] }) …
+  when ({ data: [frontPage, ...pages] }) …
   else { … }
 }
 ```
@@ -150,39 +164,50 @@ Note that for this to work properly, iterator results will need to be cached unt
 
 ```jsx
 match (arithmeticStr) {
-  when (/(?<left>\d+) \+ (?<right>\d+)/) as ({ groups: { left, right } }) { process(left, right); }
-  when (/(?<left>\d+) \+ (?<right>\d+)/) { process(left, right); } // maybe?
-  else { ... }
+  when (/(?<left>\d+) \+ (?<right>\d+)/) process(left, right);
+  when (/(\d+) \+ (\d+)/) with ([_, left, right])
+    process(left, right);
+  else …
 }
 ```
-This sample is a contrived arithmetic expression parser. Regexes are patterns, with the expected semantics.
+This sample is a contrived arithmetic expression parser. Regexes are patterns, with the expected matching semantics. Named capture groups automatically introduce bindings for the RHS.
 
-Named capture groups motivate the [user-extensible protocol](#user-extensibility). It would be intuitive for named capture groups to introduce bindings to the right-hand side. And surely, if regexes can do this, then userland objects should be able to do this as well.
+Additionally, regexes follow the [user-extensible protocol](#user-extensibility),
+returning their match object for further pattern-matching using the `with (pattern)` suffix.
+In this example, since a match object is an array-like,
+it can be further matched with an array matcher
+to extract the capture groups instead.
 
-Note the use of the `as` keyword to pattern-match the result of this matching protocol (read on for a few more code samples for further detail on this protocol).
-
-Additionally, it would be nice for regex literals to be able to introduce bindings *without* the `with` keyword. This would be a magic special case, but we find it acceptable since it’s still possible to statically analyze the source of all bindings.
+(Regexes are a major motivator for the [user-extensible protocol](#user-extensibility) ―
+while they are technically a built-in, with their own syntax,
+they're ordinary objects in every other way.
+If they can be used as a pattern,
+and introduce their own chosen bindings,
+then userland objects should be able to do this as well.)
 
 ---
 
 ```jsx
 const LF = 0x0a;
 const CR = 0x0d;
-match (token) {
-  when ^LF { ... }
-  when ^CR { ... }
-  else { ... }
+match (nextChar()) {
+  when (${LF}) …
+  when (${CR}) …
+  else …
 }
 ```
-Here we see the **pin operator** (`^`), which is the escape-hatch from irrefutable matches.
+Here we see the **pattern-interpolation operator** (`${}`),
+which allows arbitrary values to be matched,
+rather than just literals.
+It is similar to using `${}` in template strings,
+letting you "escape" a specialized syntax
+and evaluate an arbitrary JS expression,
+then convert it appropriately into the outer context
+(a pattern).
 
-Without `^`, `LF` would be an **irrefutable match**, which would always match regardless of the value of the matchable (`token`, here). Then, in the right-hand side, `LF` would be bound to the value of `token`, shadowing the outer `const LF = 0x0a` binding at the top.
+Without `${}`, `when (LF)` would be an **ident matcher**, which would always match regardless of the value of the matchable (`nextChar()`) and bind the matched value to the given name (`LF`), shadowing the outer `const LF = 0x0a` binding at the top.
 
-With `^`, `LF` is evaluated as an expression, which results in the primitive value `0x0a`. This is then matched against `token`, and the clause matches only if `token` is `0x0a`. The right-hand side sees no new bindings.
-
-`^` can only be followed by an identifier, a chain (`^foo.bar.baz`), a function call (`^foo()`), or a parenthesized expression.
-
-*Note: the champions group is not settled on `^`, and is very open to different sigils, a keyword, or any other ideas to distinguish expressions from irrefutable matches.*
+With `${LF}`, `LF` is evaluated as an expression, which results in the primitive Number value `0x0a`. This is then treated like a literal Number matcher, and the clause matches only if the matchable is `0x0a`. The right-hand side sees no new bindings.
 
 ---
 
@@ -200,18 +225,49 @@ class Name {
 }
 
 match ('Tab Atkins-Bittner') {
-  when (^Name with [first, last]) if (last.includes('-')) { … }
-  when (^Name with [first, last]) { … }
+  when (${Name} with [first, last]) if (last.includes('-')) { … }
+  when (${Name} with [first, last]) { … }
   else { ... }
 }
 ```
-This sample has two significant parts. First is a contrived name parser, which simply tries to split a string into exactly two space-separated pieces. This parser is contained in a special static `[Symbol.matcher]()` method. Next is a `match` construct with three clauses: the first matches hyphenated last names, the second matches all names, and the third (the `else`) matches anything.
 
-In this case, the pin operator functions a little differently. `Name` is still evaluated as an expression, but this time, the result is a class. The engine would then check if that class has a static `[Symbol.matcher]()` method, and if so, calls that method on the matchable.
+While the previous example showed off `${}` evaluating to a primitive,
+the expression can also evaluate to a user-defined object,
+invoking the [user-extensible matcher protocol](#user-extensibility)
+on the object.
 
-We also see the `with` keyword, which is used to destructure and match against the value returned by the matcher protocol.
+When the expression (`Name`, here) evaluates to a non-primitive object,
+it's first checked for a `Symbol.matcher` method;
+if it has one, the method is invoked with the matchable,
+and needs to return a match result object,
+similar to the iterator protocol.
 
-This operator is probably the thing we’re least happy with, as a champions group. This turns out to be a hard problem to solve. Prior art is a bit of a mixed bag; this is Elixir’s approach. We’re very open to other spellings and other ideas.
+The `matched` key of the match result determines whether the pattern is considered to have matched or not. If `true`, then the `value` key of the match result can be further pattern-matched using the `with (pattern)` suffix.
+
+If the object doesn't have a `Symbol.matcher` method,
+then it's just compared with the matchable using `===` semantics.
+
+---
+
+```js
+match(value) {
+  when (${Number}) ...
+  when (${BigNum}) ...
+  when (${String}) ...
+  when (${Array}) ...
+  else ...
+}
+```
+
+All the built-in classes
+come with a predefined `[Symbol.matcher]` method
+which matches if the value is of that type,
+using brand-checking semantics
+(so, for example, Arrays from other windows
+will still successfully match,
+similar to `Array.isArray()`),
+and returning the matchable as their match value.
+
 
 ## Motivating Examples
 
@@ -219,13 +275,11 @@ Matching `fetch()` responses:
 ```jsx
 const res = await fetch(jsonService)
 match (res) {
-  when ({ status: 200, headers: { 'Content-Length': s } }) {
+  when ({ status: 200, headers: { 'Content-Length': s } })
     console.log(`size is ${s}`);
-  }
-  when ({ status: 404 }) {
+  when ({ status: 404 })
     console.log('JSON not found');
-  }
-  when ({ status }) if (status >= 400) {
+  when ({ status }) if (status >= 400) do {
     throw new RequestError(res);
   }
 };
@@ -237,13 +291,11 @@ More concise, more functional handling of Redux reducers. Compare with [this sam
 ```jsx
 function todoApp(state = initialState, action) {
   return match (action) {
-    when ({ type: 'set-visibility-filter', payload: visFilter }) {
-      ({ ...state, visFilter });
-    }
-    when ({ type: 'add-todo', payload: text }) {
-      ({ ...state, todos: [...state.todos, { text, completed: false }] });
-    }
-    when ({ type: 'toggle-todo', payload: index }) {
+    when ({ type: 'set-visibility-filter', payload: visFilter })
+      { ...state, visFilter }
+    when ({ type: 'add-todo', payload: text })
+      { ...state, todos: [...state.todos, { text, completed: false }] }
+    when ({ type: 'toggle-todo', payload: index }) do {
       const newTodos = state.todos.map((todo, i) => {
         return i !== index ? todo : {
           ...todo,
@@ -256,7 +308,7 @@ function todoApp(state = initialState, action) {
         todos: newTodos,
       });
     }
-    else { state } // ignore unknown actions
+    else state // ignore unknown actions
   }
 }
 ```
@@ -267,9 +319,9 @@ Concise props handling inlined with JSX (via [Divjot Singh](https://twitter.com/
 ```jsx
 <Fetch url={API_URL}>
   {props => match (props) {
-    when ({ loading }) { <Loading />; }
-    when ({ error }) { <Error error={error} />; }
-    when ({ data }) { <Page data={data} />; }
+    when ({ loading }) <Loading />
+    when ({ error }) <Error error={error} />
+    when ({ data }) <Page data={data} />
   }}
 </Fetch>
 ```
@@ -288,12 +340,6 @@ async match (await matchable) {
 } // produces a Promise
 ```
 
-### AND combinator (`&`)
-
-The OR combinator (`|`) that we saw earlier tries patterns until one succeeds; this tries patterns until one fails. It allows for more expressive match clauses without having to reach for guards.
-
-There is no precedence relationship between `|` and `&`, so they cannot be mixed at the same expression level; parentheses are required to avoid the early syntax error.
-
 ### Nil pattern
 ```jsx
 match (someArr) {
@@ -306,6 +352,25 @@ Most languages that have structural pattern matching have the concept of a “ni
 In JS, the primary use-case would be skipping spaces in arrays. This is already covered in destructuring by simply omitting an identifier of any kind in between the commas.
 
 With that in mind, and also with the extremely contentious nature, we would only pursue this if we saw strong support for it.
+
+### Dedicated renaming syntax
+
+Right now, to bind a value in the middle of a pattern
+but continue to match on it,
+you use `&` to run both an ident matcher
+and a further pattern
+on the same value,
+like `when (arr & [item]) ...`.
+
+Langs like Haskell and Rust have a dedicated syntax for this,
+spelled `@`;
+if we adopted this, the above could be written as
+`when (arr @ [item]) ...`.
+
+Since this would introduce no new functionality,
+just a dedicated semantic for a common operation
+and syntactic concordance with other languages,
+we're not pursuing this as part of the base proposal.
 
 ### Destructuring enhancements
 
@@ -323,19 +388,6 @@ try {
   when (/^abc$/) { … }
   else { throw e; } // default behavior
 }
-```
-
-### Sugar for clause RHS as single expression
-
-To avoid the extra boilerplate of `{ }`. This would require an explicit separator, to allow for object literals in the bare expression form versus a statement list in the `do` expression form.
-
-Using an above example:
-```jsx
-const getLength = vector => match (vector) {
-  when ({ x, y, z }) Math.hypot(x, y, z);
-  when ({ x, y }) Math.hypot(x, y);
-  when ([...etc]) vector.length;
-};
 ```
 
 ## Terminology
