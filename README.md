@@ -6,7 +6,15 @@
 
 **Authors**: Originally Kat Marchán (Microsoft, [@zkat__](https://twitter.com/zkat__)); now, the below champions.
 
-**Champions**: Jordan Harband (Coinbase, [@ljharb](https://twitter.com/ljharb)), Mark Cohen ([@mpcsh_](https://twitter.com/mpcsh_)), Tab Atkins-Bittner (Google, [@tabatkins](https://twitter.com/tabatkins)), Yulia Startsev (Mozilla, [@ioctaptceb](https://twitter.com/ioctaptceb)), Daniel Rosenwasser (Microsoft, [@drosenwasser](https://twitter.com/drosenwasser)), Jack Works (Sujitech, [@Jack-Works](https://github.com/Jack-Works)), Ross Kirsling (Sony, [@rkirsling](https://twitter.com/rkirsling))
+**Champions**:
+(in alphabetical order)
+* Daniel Rosenwasser (Microsoft, [@drosenwasser](https://twitter.com/drosenwasser))
+* Jack Works (Sujitech, [@Jack-Works](https://github.com/Jack-Works))
+* Jordan Harband (Coinbase, [@ljharb](https://twitter.com/ljharb))
+* Mark Cohen ([@mpcsh_](https://twitter.com/mpcsh_))
+* Ross Kirsling (Sony, [@rkirsling](https://twitter.com/rkirsling))
+* Tab Atkins-Bittner (Google, [@tabatkins](https://twitter.com/tabatkins))
+* Yulia Startsev (Mozilla, [@ioctaptceb](https://twitter.com/ioctaptceb))
 
 ## Problem
 
