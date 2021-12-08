@@ -398,81 +398,283 @@ try {
 }
 ```
 
-## Terminology
+## Proposal
+
 Terms we use when discussing this proposal:
 
 ### Match construct
 Refers to the entire `match (…) { … }` expression.
+
 ### Matchable
-The expression to match against; shows up in `match (matchable) { … }`.
-TODO: non-top-level matchables
+The value a pattern is matched against.
+The initial matchable shows up in `match (matchable) { … }`,
+and is used for each match clause as the initial matchable.
+
+Destructuring patterns can pull values out of a matchable,
+using these sub-values as matchables for their own nested patterns.
+For example, matching against `["foo"]`
+will confirm the matchable itself is an array-like with one item,
+then match the first item against the `"foo"` pattern.
+
+### Match Clause
+One "arm" of the match construct's contents,
+consisting of an LHS (left-hand side) and an RHS (right-hand side).
+
+The LHS looks like `when (<pattern>)`,
+which matches its pattern against the matchable,
+`if(<expr>)`,
+which matches if the `<expr>` is truthy,
+`when(<pattern>) if(<expr>)`,
+which does both,
+or `else`, which always succeeds but must be the final match clause.
+
+(There is an open issue on how if/else should be spelled.)
+
+The RHS is an arbitrary JS expression,
+which the match construct resolves to if the LHS successfully matches.
+
+### Guard
+
+The `if(<expr>)` part of a match clause.
+The `<expr>` sees bindings present at the start of the match construct;
+if the match clause began with a `when(<pattern>)`,
+it additionally sees all the bindings introduced by the pattern.
 
 ### Pattern
 There are several types of patterns:
 
-#### “Leaf” patterns
-- Primitives, and near-primitives: such as `1`, `false`, `undefined`, `-Infinity`, `"foo"`. These match if the matched value is SameValueZero with them. They do not introduce a binding. The set of near-primitive matchers is predefined. It’s not an arbitrary expression: `-Infinity` is allowed, but `-1 * Infinity` is not.
-- Irrefutable match / identifier pattern: any identifier, such as `foo`. These always match, and bind the matched value to the given binding name.
-- Regex literal pattern: the pattern can be any regular expression literal. The matchable is stringified, and this [clause](#clause) matches if the regex matches. If the regex defines named capture groups, the names are automatically bound to the matched substrings.
+#### Primitive Pattern
 
-#### Destructuring patterns
+Primitive literals, such as `1`, `NaN`, `false`, or `"foo"`.
+Also some near-literal patterns,
+such as `undefined` (technically just a variable, not a literal),
+`-1` (technically the number 1 and the unary minus operator),
+and `` `foo${bar}` `` (untagged template literals).
 
-##### Array/iterable destructuring
+These match if the matchable is SameValueZero with them.
+(Open issue: or SameValue semantics?)
 
-These contain a comma-separated list of zero or more [patterns](#patterns), possibly ending in rest syntax (like `...rest`).
+They do not introduce a binding.
+The set of near-primitive matchers is predefined, not an arbitrary expression:
+`-Infinity` is allowed, but `-1 * Infinity` is not.
+Interpolation in untagged template literals
+sees the bindings present at the start of the match construct only.
 
-This pattern first verifies that the matched value is iterable, then obtains and consumes the entire iterator. If the result doesn’t have enough values for the provided patterns, the match fails. If the matcher doesn’t end with rest syntax, and the iterator has leftover values after the provided [patterns](#patterns), the match fails (so `[a, b]` only matches things with exactly two items). It then recursively applies the [patterns](#patterns) to the corresponding items from the iterator, matching only if all of the child [clauses](#clause) match. It accumulates the bindings from each child [pattern](#patterns), and if it ends in rest syntax (like `...someIdentifier`), binds the remainder of the iterator’s values in a fresh Array to that identifier as well.
+#### Ident Pattern
 
-Iteration results for the matchable are cached for the lifetime of the overarching match construct, so that successive iterations are not required.
+Any identifier, such as `foo`.
+These always match, and bind the matchable to the given binding name.
 
-##### Object destructuring
+#### Regex Pattern
 
-Contains a comma-separated list of `<ident>` or `<key>`: `<pattern>` entries. A key is either an ident, like `{ foo: … }`, or a computed-key expression, like `{ [Symbol.foo]: … }`.
+A regular expression literal.
 
-An `<ident>` by itself (not followed by a `: <pattern>`), is treated as if it was followed by an ident pattern of the same name: `{ foo }` and `{ foo: foo }` are equivalent (just like in destructuring).
+The matchable is stringified, and the pattern matches if the regex matches the string.
+If the regex defines named capture groups,
+the names are automatically bound to the matched substrings;
+in all cases, the match object is available for `with`-chaining
+(as if it were a [custom matcher](#custom-matcher-protocol))
 
-The [pattern](#patterns) requires the key to exist on the matched value; if it’s missing, the match fails. The value of the key is then matched against the pattern provided after the key; if that fails, the match fails.
 
-Like array destructuring patterns, the object destructuring pattern can also contain rest syntax (like `...someIdentifier`), which creates a fresh `Object` containing all the keys of the matched value that weren’t explicitly matched, and binds it to the provided identifier (just like in object destructuring).
+#### Interpolation pattern
 
-### Custom expression matchers
+An arbitrary JS expression
+wrapped in `${}`,
+just like in template literals.
+For example, `${myVariable}`,
+`${"foo-" + restOfString}`,
+or `${getValue()}`.
 
-Any identifier, dotted or bracketed expressions, and/or function calls can be immediately prefixed with [`^`](#pin-operator). Anything more complex must be wrapped in parentheses such as `^(foo + 1)`.
+The expression is evaluated;
+if it resolves to a primitive value,
+a Symbol,
+or an object that *does not* implement the custom matcher protocol (see below),
+the pattern matches if the matchable is SameValueZero with the result.
+(Again, open issue if SameValue semantics should be used instead.)
 
-The expression following `^` is then evaluated. If the result is an Object with a `[Symbol.matcher]` key, then the engine fetches that key, throws if it’s present and not a function, and calls it on the matchable. The result, like `IterationResult`s, must return an `Object`, with a truthy `matched` property, for the match to be considered successful.
+If the result is an object that *does* implement the custom matcher protocol,
+see below for matching rules.
 
-Otherwise, a `SameValueZero` test is performed against the matchable.
+If the interpolation pattern uses `with`-chaining,
+it introduces the bindings introduced by the chained pattern;
+otherwise it adds no bindings.
 
-If the match is successful and the custom matcher has an `as` binding declared, the `value` property on the MatchResult object will be used for that binding. Example:
+#### Array Pattern
+
+A comma-separated list of zero or more patterns,
+wrapped in square brackets,
+like `["foo", a, {bar}]`.
+The final item can be an "rest pattern",
+looking like `...<ident>`.
+(Aka, it looks like array destructuring.)
+
+First, an iterator is obtained from the matchable:
+if the matchable is itself iterable
+(exposed a `[Symbol.iterator]` method)
+that is used;
+if it's array-like,
+an array iterator is used.
+
+Then, items are pulled from the iterator,
+and matched against the array pattern's corresponding nested patterns.
+If any of these matches fail,
+the entire array pattern fails to match.
+
+If the array pattern ends in a rest pattern,
+the remainder of the iterator is pulled into an Array,
+and bound to the ident from the array rest pattern,
+just like in array destructuring.
+
+If the array pattern does *not* end in a rest pattern,
+the iterator must match the array pattern's length:
+one final item is pulled from the iterator,
+and if it succeeds (rather than closing the iterator),
+the array pattern fails to match.
+
+Iteration results for the matchable are cached for the lifetime of the match construct,
+so that later clauses can reuse the results of an earlier iteration.
+(This does mean that an earlier, longer array pattern that fails
+can cause the iterator to have more items pulled from it
+than the final matching clause might indicate.)
+
+The array pattern introduces all the bindings introduced by its nested patterns,
+plus the binding introduced by its rest pattern, if present.
+
+#### Object Pattern
+
+A comma-separated list of zero or more "object pattern clauses",
+wrapped in curly braces,
+like `{x: "foo", y, z: {bar}}`.
+Each "object pattern clause" is either an `<ident>`,
+or a `<key>: <pattern>` pair,
+wher `<key>` is an `<ident>` or a computed-key expression like `[Symbol.foo]`.
+The final item can be a "rest pattern",
+looking like `...<ident>`.
+(Aka, it looks like object destructuring.)
+
+For each object pattern clause,
+the matchable must contain a property matching the key,
+and the value of that property must match the corresponding pattern;
+if either of these fail for any object pattern clause,
+the entire object pattern fails to match.
+
+Plain `<ident>` object pattern clauses
+are treated as if they were written `<ident>: <ident>`
+(just like destructuring);
+that is, the matchable must have the named property,
+and the property's value is then bound to that name
+due to being matched against an **ident matcher**.
+
+If the object pattern ends in a rest pattern,
+all of the matchables own keys that weren't explicitly matched by an object pattern clause
+are bound into a fresh Object,
+just like destructuring
+or array patterns.
+
+Unlike array patterns,
+the lack of a final rest pattern imposes no additional constraints;
+`{foo}` will match the object `{foo: 1, bar:2}`,
+binding `foo` to `1` and ignoring the other key.
+
+The object pattern introduces all the bindings introduced by its nested patterns,
+plus the binding introduced by its rest pattern, if present.
+
+#### Custom Matcher Protocol
+
+When an [interpolation pattern](#interpolation-pattern)
+results in an object,
+if it has a `Symbol.matcher` property,
+the value of that property is used to determine whether the pattern matches.
+
+If the `Symbol.matcher` property is a function,
+it's called with the matchable as its sole argument.
+If the function successfully returns an object with a truthy `matched` property,
+the pattern matches;
+in any other case, the pattern fails.
+
+#### `with`-chaining
+
+An [interpolation pattern](#interpolation-pattern)
+or a [regex pattern](#regex-pattern)
+*may* also have a `with <pattern>` suffix,
+allowing you to provide further patterns
+to match against the first pattern's result.
+
+The "custom matcher result" used as the matchable for the nested pattern
+differs based on the parent pattern:
+if the interpolation pattern invoked the custom match protocol,
+the "custom matcher result" is the value of the `value` property on the result object;
+if it didn't invoke the custom match protocol,
+the "custom matcher result" is the original matchable itself;
+if it's a regex pattern instead,
+the "custom matcher result" is the regex's resulting match object.
+
+For example:
+
 ```jsx
-const hasMatcher = {
-  [Symbol.matcher](matchable) {
+class MyClass = {
+  static [Symbol.matcher](matchable) {
     return {
       matched: matchable === 3,
       value: { a: 1, b: { c: 2 } },
     };
   }
 };
+
 match (3) {
-  when ^hasMatcher as { a, b: { c } } {
+  when (${MyClass}) true; // matches, doesn't use the result
+  when (${MyClass} with {a, b: {c}}) do {
+    // passes the custom matcher,
+    // then further applies an object pattern to the result's value
     assert(a === 1);
     assert(c === 2);
   }
 }
 ```
 
-### Combinators
-Patterns can be joined together with a combinator - like `|` which has short-circuiting “or” semantics, or perhaps `&` which has short-circuting “and” semantics. Patterns can also be followed by `with <pattern>`, which for a custom matcher will match against the matcher protocol’’s returned value.
+#### Combining Patterns
 
-### Clause
-This refers to either a `when` and its associated pattern or an `else`, and the expression representing the RHS
-TODO: bare guards, `with`, `as`, etc; “intuitive” definition
+Two or more patterns can be combined with `|` or `&` to form a single larger pattern.
 
-### Right-hand side (RHS)
-The statement list (surrounded with curly braces, with `do` expression semantics), or possibly expression, that evaluates when a [clause](#clause) matches successfully, and produces the value that the surrounding `match` construct evaluates to.
+A sequence of `|`-separated patterns have short-circuiting "or" semantics:
+the **or pattern** matches if any of the nested patterns match,
+and stops executing as soon as one of its nested patterns matches.
+It introduces all the bindings introduced by its nested patterns,
+but only the *values* from its first successfully matched pattern;
+bindings introduced by other patterns
+(either failed matches,
+or patterns past the first successful match)
+are bound to `undefined`.
 
-### Pin operator (`^`)
-May appear inside any [pattern](#pattern), immediately preceding an identifier (`^Foo`), a chained expression (`^foo?.bar.Class`), a function call (`^foo()` or `^foo.bar()`), or a parenthesized expression (`^(<any expression>)`). Used to escape from “pattern mode” and enter “expression mode”.
+A sequence of `&`-separated patterns have short-circuiting "and" semantics:
+the **and pattern** matches if all of the nested patterns match,
+and stops executing as soon as one of its nested patterns fails to match.
+It introduces all the bindings introduced by its nested patterns,
+with later patterns providing the value for a given binding
+if multiple patterns would introduce that binding.
+
+Note that `&` can idiomatically be used to bind a matchable
+and still allow it to be further matched against additional patterns.
+For examle, `when (foo & [bar, baz]) ...` matches the matchable against both the `foo` ident matcher
+(binding it to `foo` for the RHS)
+*and* matches it against the `[bar, baz]` array matcher.
+
+#### Parenthesizing Patterns
+
+The pattern syntaxes do not have a precedence relationship with each other.
+Any multi-token patterns
+(`&`, `|`, `${...} with ...`)
+appearing at the same "nesting level" are a syntax error;
+parentheses must be used to to specify their relationship to each other instead.
+
+For example, `when ("foo" | "bar" & val) ...` is a syntax error;
+it must be written as `when ("foo" | ("bar" & val)) ...`
+or `when (("foo" | "bar") & val)` instead.
+Similarly, `when (${Foo} with bar & baz) ...` is a syntax error;
+it must be written as `when (${Foo} with (bar & baz)) ...`
+(binding the custom match result to both `bar` and `baz`)
+or `when ((${Foo} with bar) & baz) ...`
+(binding the custom match result to `bar`, and the *original* matchable to `baz`).
 
 
 <!--
