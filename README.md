@@ -16,6 +16,16 @@
 * Tab Atkins-Bittner (Google, [@tabatkins](https://twitter.com/tabatkins))
 * Yulia Startsev (Mozilla, [@ioctaptceb](https://twitter.com/ioctaptceb))
 
+
+* [Problem](#problem)
+* [Priorities](#priorities-for-a-solution)
+* [Prior Art](#priorities-for-a-solution)
+* [<s>P</s>Code Samples](#code-samples)
+* [Motivating Examples](#motivating-examples)
+* [Possible Future Enhancements](#possible-future-enhancements)
+* [Terminology/Proposal](#proposal)
+
+
 ## Problem
 
 There are many ways to match values in the language, but there are no ways to match patterns beyond regular expressions for strings. `switch` is severely limited: it may not appear in expression position; an explicit `break` is required in each `case` to avoid accidental fallthrough; scoping is ambiguous (block-scoped variables inside one `case` are available in the scope of the others, unless curly braces are used); the only comparison it can do is `===`; etc.
