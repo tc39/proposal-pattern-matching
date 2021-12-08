@@ -16,6 +16,7 @@
 * Tab Atkins-Bittner (Google, [@tabatkins](https://twitter.com/tabatkins))
 * Yulia Startsev (Mozilla, [@ioctaptceb](https://twitter.com/ioctaptceb))
 
+## Table of Contents
 
 * [Problem](#problem)
 * [Priorities](#priorities-for-a-solution)
