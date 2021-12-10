@@ -426,10 +426,11 @@ A regular expression literal.
 
 The matchable is stringified, and the pattern matches if the regex matches the string.
 If the regex defines named capture groups,
-the names are automatically bound to the matched substrings;
-in all cases, the match object is available for `with`-chaining
-(as if it were a [custom matcher](#custom-matcher-protocol))
+the names are automatically bound to the matched substrings.
 
+Regex patterns can use [`with`-chaining](#with-chaining)
+to further match a pattern against the regex's match result.
+See that section for further details.
 
 #### Interpolation pattern
 
@@ -450,9 +451,9 @@ the pattern matches if the matchable is SameValueZero with the result.
 If the result is an object that *does* implement the custom matcher protocol,
 see below for matching rules.
 
-If the interpolation pattern uses `with`-chaining,
-it introduces the bindings introduced by the chained pattern;
-otherwise it adds no bindings.
+Interpolation patterns can use [`with`-chaining](#with-chaining)
+to further match a pattern against the result of the interpolation match.
+See that section for further details.
 
 #### Array Pattern
 
@@ -584,18 +585,28 @@ class Foo {
 
 An [interpolation pattern](#interpolation-pattern)
 or a [regex pattern](#regex-pattern)
+(referred to as the "parent pattern" for the rest of this section)
 *may* also have a `with <pattern>` suffix,
 allowing you to provide further patterns
-to match against the first pattern's result.
+to match against the parent pattern's result.
 
-The "custom matcher result" used as the matchable for the nested pattern
-differs based on the parent pattern:
-if the interpolation pattern invoked the custom match protocol,
-the "custom matcher result" is the value of the `value` property on the result object;
-if it didn't invoke the custom match protocol,
-the "custom matcher result" is the original matchable itself;
-if it's a regex pattern instead,
-the "custom matcher result" is the regex's resulting match object.
+The `with` pattern is only invoked
+if the parent pattern successfully matches.
+Any bindings introduced by the `with` pattern
+are added to the bindings from the parent pattern,
+with the `with` pattern's values overriding the parent pattern's value
+if the same bindings appear in both.
+
+The parent pattern defines a "matcher result",
+obtained from the matchable in some way,
+which is used as the `with` pattern's matchable:
+
+* for regex patterns,
+    the regex's match object is used
+* for interpolation patterns that did not invoke the custom matcher protocol,
+    the matchable itself is used
+* for interpolation patterns that *did* invoke the custom matcher protocol,
+    the value of the `value` property on the result object is used
 
 For example:
 
@@ -619,6 +630,21 @@ match (3) {
   }
 }
 ```
+
+or
+
+```js
+match("foobar") {
+  when (/foo(.*)/) with [, suffix]
+    console.log(suffix);
+    // logs "bar", since the match result
+    // is an array-like containing the whole match
+    // followed by the groups.
+    // note the hole at the start of the array matcher
+    // ignoring the first item,
+    // which is the entire match "foobar".
+}
+````
 
 #### Combining Patterns
 
