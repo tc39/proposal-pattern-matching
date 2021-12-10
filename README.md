@@ -708,9 +708,8 @@ are added to the bindings from the parent pattern,
 with the `with` pattern's values overriding the parent pattern's value
 if the same bindings appear in both.
 
-The parent pattern defines a "matcher result",
-obtained from the matchable in some way,
-which is used as the `with` pattern's matchable:
+The parent pattern defines what the matchable will be
+for the `with` pattern:
 
 * for regex patterns,
     the regex's match object is used
