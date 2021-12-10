@@ -571,7 +571,7 @@ but it is very simple to define one in this style:
 
 ```js
 class Foo {
-  [Symbol.matcher](value) {
+  static [Symbol.matcher](value) {
     return {
       matched: value instanceof Foo,
       value
