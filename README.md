@@ -519,16 +519,16 @@ const fiveIntegers = integers(5);
 match(fiveIntegers) {
   when([a])
     console.log(`found one int: ${a}`);
-    // matching a generator against an array pattern
-    // obtain the iterator (which is just the generator itself)
+    // Matching a generator against an array pattern.
+    // Obtain the iterator (which is just the generator itself),
     // then pull two items:
     // one to match against the `a` pattern (which succeeds),
     // the second to verify the iterator only has one item
-    // (which fails)
+    // (which fails).
   when([a, b])
     console.log(`found two ints: ${a} and ${b}`);
-    // matching against an array pattern again
-    // the generator object has already been cached,
+    // Matching against an array pattern again.
+    // The generator object has already been cached,
     // so we fetch the cached results.
     // We need three items in total;
     // two to check against the patterns,
