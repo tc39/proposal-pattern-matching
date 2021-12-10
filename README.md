@@ -541,6 +541,24 @@ If the function successfully returns an object with a truthy `matched` property,
 the pattern matches;
 in any other case, the pattern fails.
 
+##### Built-in Custom Matchers
+
+All of the classes for primitive types
+(`Boolean`, `String`, `Number`, `BigNum`)
+expose a built-in `Symbol.matcher` method,
+matching if and only if the matchable
+is an object of that type, or a primitive corresponding to that type
+(using brand-checking to check objects,
+so boxed values from other windows will still match).
+The custom matcher result for these classes is the primitive value.
+
+All other platform objects also expose built-in `Symbol.matcher` methods,
+matching if and only if the matchable
+is of the same type
+(again using brand-checking to verify,
+similar to `Array.isArray()`).
+The custom matcher result for these classes is the matchable itself.
+
 #### `with`-chaining
 
 An [interpolation pattern](#interpolation-pattern)
