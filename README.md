@@ -851,6 +851,26 @@ In JS, the primary use-case would be skipping spaces in arrays. This is already 
 
 With that in mind, and also with the extremely contentious nature, we would only pursue this if we saw strong support for it.
 
+### Default Values
+
+Destructuring can supply a default value with `= <expr>`
+which is used when a key isn't present.
+Is this useful for pattern matching?
+
+Optional keys seem reasonable;
+right now they'd require duplicating the pattern
+like `{a, b} | {a}`
+(`b` will be bound to undefined in the RHS if not present).
+
+Do we need/want full defaulting?
+Does it complicate the syntax to much
+to have arbitrary JS expressions there,
+without anything like wrapper characters
+to distinguish it from surrounding patterns?
+
+This would bring us into closer alignment with destructuring,
+which is nice.
+
 ### Dedicated renaming syntax
 
 Right now, to bind a value in the middle of a pattern
