@@ -387,6 +387,13 @@ or `else`, which always succeeds but must be the final match clause.
 The RHS is an arbitrary JS expression,
 which the match construct resolves to if the LHS successfully matches.
 
+The LHS's patterns, if any,
+can introduce variable bindings
+which are visible to the guard and the RHS of the same clause.
+Bindings are not visible across clauses.
+Each pattern describes what bindings, if any,
+it introduces.
+
 ### Guard
 
 The `if(<expr>)` part of a match clause.
