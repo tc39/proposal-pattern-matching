@@ -559,6 +559,21 @@ is of the same type
 similar to `Array.isArray()`).
 The custom matcher result for these classes is the matchable itself.
 
+Userland classes do *not* define a default custom matcher
+(for both practical and technical reasons, see [issue 231](https://github.com/tc39/proposal-pattern-matching/issues/231)),
+but it is very simple to define one in this style:
+
+```js
+class Foo {
+  [Symbol.matcher](value) {
+    return {
+      matched: value instanceof Foo,
+      value
+    };
+  }
+}
+````
+
 #### `with`-chaining
 
 An [interpolation pattern](#interpolation-pattern)
