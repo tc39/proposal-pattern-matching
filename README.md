@@ -426,7 +426,7 @@ They do not introduce bindings.
 
 #### Ident Pattern
 
-Any identifier, such as `foo`.
+Any identifier that isn't a primitive matcher, such as `foo`.
 These always match, and bind the matchable to the given binding name.
 
 #### Regex Pattern
