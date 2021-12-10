@@ -407,20 +407,22 @@ There are several types of patterns:
 
 #### Primitive Pattern
 
-Primitive literals, such as `1`, `NaN`, `false`, or `"foo"`.
-Also some near-literal patterns,
-such as `undefined` (technically just a variable, not a literal),
-`-1` (technically the number 1 and the unary minus operator),
-and `` `foo${bar}` `` (untagged template literals).
+Boolean literals, numeric literals, string literals, and the null literal.
+
+Additionally, some expressions that are *almost* literals,
+and function as literals in people's heads,
+are allowed:
+* `undefined`, matching the undefined value
+* numeric literals preceded by an unary `+` or `-`, like `-1`
+* `NaN`
+* `Infinity` (with `+` or `-` prefixes as well)
+* untagged template literals,
+    with the interpolation expressions
+    seeing only the bindings present at the start of the match construct.
 
 These match if the matchable is SameValueZero with them.
-(Open issue: or SameValue semantics?)
-They do not introduce a binding.
-
-The set of near-primitive matchers is predefined, not an arbitrary expression:
-`-Infinity` is allowed, but `-1 * Infinity` is not.
-Interpolation in untagged template literals
-sees the bindings present at the start of the match construct only.
+(Open issue: or SameValue? Not `===`, as that fails with `NaN`.)
+They do not introduce bindings.
 
 #### Ident Pattern
 
