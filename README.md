@@ -355,7 +355,7 @@ Terms we use when discussing this proposal:
 
 Refers to the entire `match (…) { … }` expression.
 Evaluates to the RHS of the first [match claus](#match-clause) to match,
-or throws a XXXError if none match.
+or throws a TypeError if none match.
 
 ### Matchable
 
