@@ -400,10 +400,12 @@ which matches if the `<expr>` is truthy,
 which does both,
 or `else`, which always succeeds but must be the final match clause.
 
-(There is an open issue on how if/else should be spelled.)
+(There is [an open issue on how if/else should be spelled](https://github.com/tc39/proposal-pattern-matching/issues/208).)
 
 The RHS is an arbitrary JS expression,
 which the match construct resolves to if the LHS successfully matches.
+
+(There is [an open issue about whether there should be some separator syntax between the LHS and RHS](https://github.com/tc39/proposal-pattern-matching/issues/181).)
 
 The LHS's patterns, if any,
 can introduce variable bindings
@@ -439,7 +441,7 @@ are allowed:
     seeing only the bindings present at the start of the match construct.
 
 These match if the matchable is SameValueZero with them.
-(Open issue: or SameValue? Not `===`, as that fails with `NaN`.)
+([Open issue: or SameValue?](https://github.com/tc39/proposal-pattern-matching/issues/121) Not `===`, as that fails with `NaN`.)
 They do not introduce bindings.
 
 #### Ident Pattern
@@ -539,6 +541,8 @@ and the already-pulled items stored in the cache are used
 for the pattern,
 with new items pulled from the iterator
 only if necessary.
+
+(Caching is [still being discussed](https://github.com/tc39/proposal-pattern-matching/issues/216).)
 
 For example:
 
@@ -641,6 +645,8 @@ the cache is first checked,
 and if the matchable and that property name are already in the cache,
 the value is retrieved from cache
 instead of by a fresh Get against the matchable.
+
+(Caching is [still being discussed](https://github.com/tc39/proposal-pattern-matching/issues/216).)
 
 For example:
 
