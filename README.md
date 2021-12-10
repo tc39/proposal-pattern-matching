@@ -23,8 +23,8 @@
 * [Prior Art](#priorities-for-a-solution)
 * [<s>P</s>Code Samples](#code-samples)
 * [Motivating Examples](#motivating-examples)
-* [Possible Future Enhancements](#possible-future-enhancements)
 * [Terminology/Proposal](#proposal)
+* [Possible Future Enhancements](#possible-future-enhancements)
 
 
 ## Problem
@@ -345,69 +345,7 @@ Concise props handling inlined with JSX (via [Divjot Singh](https://twitter.com/
 </Fetch>
 ```
 
-## Possible future enhancements
 
-### `async match`
-
-If the `match` construct appears inside a context where `await` is allowed, `await` can already be used inside it, just like inside `do` expressions. However, just like `async do` expressions, there’s uses of being able to use `await` and produce a Promise, even when not already inside an `async function`.
-
-```jsx
-async match (await matchable) {
-  when ({ a }) { await a; }
-  when ({ b }) { b.then(() => 42); }
-  else { await somethingThatRejects(); }
-} // produces a Promise
-```
-
-### Nil pattern
-```jsx
-match (someArr) {
-  when [_, _, someVal] { … }
-}
-```
-
-Most languages that have structural pattern matching have the concept of a “nil matcher”, which fills a hole in a data structure without creating a binding.
-
-In JS, the primary use-case would be skipping spaces in arrays. This is already covered in destructuring by simply omitting an identifier of any kind in between the commas.
-
-With that in mind, and also with the extremely contentious nature, we would only pursue this if we saw strong support for it.
-
-### Dedicated renaming syntax
-
-Right now, to bind a value in the middle of a pattern
-but continue to match on it,
-you use `&` to run both an ident matcher
-and a further pattern
-on the same value,
-like `when (arr & [item]) ...`.
-
-Langs like Haskell and Rust have a dedicated syntax for this,
-spelled `@`;
-if we adopted this, the above could be written as
-`when (arr @ [item]) ...`.
-
-Since this would introduce no new functionality,
-just a dedicated semantic for a common operation
-and syntactic concordance with other languages,
-we're not pursuing this as part of the base proposal.
-
-### Destructuring enhancements
-
-Both destructuring and pattern matching should remain in sync, so enhancements to one would need to work for the other.
-
-### Catch guards
-
-Allow a `catch` statement to conditionally catch an exception:
-
-```jsx
-try {
-  throw new TypeError('a');
-} catch match (e) {
-  if (e instanceof RangeError) { … }
-  when (/^abc$/) { … }
-  else { throw e; } // default behavior
-}
-```
 
 ## Proposal
 
@@ -686,6 +624,70 @@ it must be written as `when (${Foo} with (bar & baz)) ...`
 (binding the custom match result to both `bar` and `baz`)
 or `when ((${Foo} with bar) & baz) ...`
 (binding the custom match result to `bar`, and the *original* matchable to `baz`).
+
+## Possible future enhancements
+
+### `async match`
+
+If the `match` construct appears inside a context where `await` is allowed, `await` can already be used inside it, just like inside `do` expressions. However, just like `async do` expressions, there’s uses of being able to use `await` and produce a Promise, even when not already inside an `async function`.
+
+```jsx
+async match (await matchable) {
+  when ({ a }) { await a; }
+  when ({ b }) { b.then(() => 42); }
+  else { await somethingThatRejects(); }
+} // produces a Promise
+```
+
+### Nil pattern
+```jsx
+match (someArr) {
+  when [_, _, someVal] { … }
+}
+```
+
+Most languages that have structural pattern matching have the concept of a “nil matcher”, which fills a hole in a data structure without creating a binding.
+
+In JS, the primary use-case would be skipping spaces in arrays. This is already covered in destructuring by simply omitting an identifier of any kind in between the commas.
+
+With that in mind, and also with the extremely contentious nature, we would only pursue this if we saw strong support for it.
+
+### Dedicated renaming syntax
+
+Right now, to bind a value in the middle of a pattern
+but continue to match on it,
+you use `&` to run both an ident matcher
+and a further pattern
+on the same value,
+like `when (arr & [item]) ...`.
+
+Langs like Haskell and Rust have a dedicated syntax for this,
+spelled `@`;
+if we adopted this, the above could be written as
+`when (arr @ [item]) ...`.
+
+Since this would introduce no new functionality,
+just a dedicated semantic for a common operation
+and syntactic concordance with other languages,
+we're not pursuing this as part of the base proposal.
+
+### Destructuring enhancements
+
+Both destructuring and pattern matching should remain in sync, so enhancements to one would need to work for the other.
+
+### Catch guards
+
+Allow a `catch` statement to conditionally catch an exception:
+
+```jsx
+try {
+  throw new TypeError('a');
+} catch match (e) {
+  if (e instanceof RangeError) { … }
+  when (/^abc$/) { … }
+  else { throw e; } // default behavior
+}
+```
 
 
 <!--
