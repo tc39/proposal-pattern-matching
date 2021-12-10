@@ -487,14 +487,61 @@ one final item is pulled from the iterator,
 and if it succeeds (rather than closing the iterator),
 the array pattern fails to match.
 
-Iteration results for the matchable are cached for the lifetime of the match construct,
-so that later clauses can reuse the results of an earlier iteration.
-(This does mean that an earlier, longer array pattern that fails
-can cause the iterator to have more items pulled from it
-than the final matching clause might indicate.)
-
 The array pattern introduces all the bindings introduced by its nested patterns,
 plus the binding introduced by its rest pattern, if present.
+
+##### Array Pattern Caching
+
+To allow for idiomatic uses of generators and other "single-shot" iterators
+to be reasonably matched against several array patterns,
+the iterators and their results are cached over the scope of the match construct.
+
+Specifically, whenever a matchable is matched against an array pattern,
+the matchable is used as the key in a cache,
+whose value is the iterator obtained from the matchable,
+and all items pulled from the matchable by an array pattern.
+
+Whenever something would be matched against an array pattern,
+the cache is first checked,
+and the already-pulled items stored in the cache are used
+for the pattern,
+with new items pulled from the iterator
+only if necessary.
+
+For example:
+
+```js
+function* integers(to) {
+  for(var i = 0; i < to; i++) yield i;
+}
+
+const fiveIntegers = integers(5);
+match(fiveIntegers) {
+  when([a])
+    console.log(`found one int: ${a}`);
+    // matching a generator against an array pattern
+    // obtain the iterator (which is just the generator itself)
+    // then pull two items:
+    // one to match against the `a` pattern (which succeeds),
+    // the second to verify the iterator only has one item
+    // (which fails)
+  when([a, b])
+    console.log(`found two ints: ${a} and ${b}`);
+    // matching against an array pattern again
+    // the generator object has already been cached,
+    // so we fetch the cached results.
+    // We need three items in total;
+    // two to check against the patterns,
+    // and the third to verify the iterator has only two items.
+    // Two are already in the cache,
+    // so we'll just pull one more (and fail the pattern).
+  else console.log("more than two ints");
+}
+console.log([...fiveIntegers]);
+// logs [4, 5]
+// The match construct pulled three elements from the generator,
+// so there's two leftover afterwards.
+```
 
 #### Object Pattern
 
@@ -534,6 +581,34 @@ binding `foo` to `1` and ignoring the other key.
 
 The object pattern introduces all the bindings introduced by its nested patterns,
 plus the binding introduced by its rest pattern, if present.
+
+##### Object Pattern Caching
+
+Similar to [array pattern caching](#array-pattern-caching),
+object patterns cache their results
+over the scope of the match construct,
+so that multiple match clauses
+don't observably retrieve the same property multiple times.
+
+(Unlike array pattern caching,
+which is *necessary* for this proposal to work with iterators,
+object pattern caching is a nice-to-have.
+It does guard against some weirdness
+like non-idempotent getters,
+and helps make idempotent-but-expensive getters
+usable in pattern maching without contortions,
+but mostly it's just for conceptual consistency.)
+
+Whenever a matchable is matched against an object pattern,
+for each property name in the object pattern,
+a (matchable, property name) tuple is used as the key in a cache,
+whose value is the value of the property.
+
+Whenever something would be matched against an object pattern,
+the cache is first checked,
+and if the matchable and that property name are already in the cache,
+the value is retrieved from cache
+instead of by a fresh Get against the matchable.
 
 #### Custom Matcher Protocol
 
