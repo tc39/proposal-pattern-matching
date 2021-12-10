@@ -372,7 +372,7 @@ Terms we use when discussing this proposal:
 ### Match construct
 
 Refers to the entire `match (…) { … }` expression.
-Evaluates to the RHS of the first [match claus](#match-clause) to match,
+Evaluates to the RHS of the first [match clause](#match-clause) to match,
 or throws a TypeError if none match.
 
 ### Matchable
