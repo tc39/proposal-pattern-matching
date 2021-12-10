@@ -352,9 +352,13 @@ Concise props handling inlined with JSX (via [Divjot Singh](https://twitter.com/
 Terms we use when discussing this proposal:
 
 ### Match construct
+
 Refers to the entire `match (…) { … }` expression.
+Evaluates to the RHS of the first [match claus](#match-clause) to match,
+or throws a XXXError if none match.
 
 ### Matchable
+
 The value a pattern is matched against.
 The initial matchable shows up in `match (matchable) { … }`,
 and is used for each match clause as the initial matchable.
@@ -366,11 +370,12 @@ will confirm the matchable itself is an array-like with one item,
 then match the first item against the `"foo"` pattern.
 
 ### Match Clause
+
 One "arm" of the match construct's contents,
 consisting of an LHS (left-hand side) and an RHS (right-hand side).
 
 The LHS looks like `when (<pattern>)`,
-which matches its pattern against the matchable,
+which matches the matchable against its pattern,
 `if(<expr>)`,
 which matches if the `<expr>` is truthy,
 `when(<pattern>) if(<expr>)`,
@@ -390,6 +395,7 @@ if the match clause began with a `when(<pattern>)`,
 it additionally sees all the bindings introduced by the pattern.
 
 ### Pattern
+
 There are several types of patterns:
 
 #### Primitive Pattern
@@ -402,8 +408,8 @@ and `` `foo${bar}` `` (untagged template literals).
 
 These match if the matchable is SameValueZero with them.
 (Open issue: or SameValue semantics?)
-
 They do not introduce a binding.
+
 The set of near-primitive matchers is predefined, not an arbitrary expression:
 `-Infinity` is allowed, but `-1 * Infinity` is not.
 Interpolation in untagged template literals
