@@ -215,7 +215,7 @@ match (nextChar()) {
   else …
 }
 ```
-Here we see the **pattern-interpolation operator** (`${}`),
+Here we see the **interpolation pattern** (`${}`),
 which allows arbitrary values to be matched,
 rather than just literals.
 It is similar to using `${}` in template strings,
