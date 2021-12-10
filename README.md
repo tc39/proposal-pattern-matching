@@ -435,7 +435,8 @@ A regular expression literal.
 
 The matchable is stringified, and the pattern matches if the regex matches the string.
 If the regex defines named capture groups,
-the names are automatically bound to the matched substrings.
+those names are introduced as bindings,
+bound to the captured substrings.
 
 Regex patterns can use [`with`-chaining](#with-chaining)
 to further match a pattern against the regex's match result.
