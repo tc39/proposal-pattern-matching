@@ -610,6 +610,28 @@ and if the matchable and that property name are already in the cache,
 the value is retrieved from cache
 instead of by a fresh Get against the matchable.
 
+For example:
+
+```js
+const randomItem = {
+  get numOrString() { return Math.random() < .5 ? 1 : "1"; }
+};
+
+match(randomItem) {
+  when({numOrString: ${Number}})
+    console.log("Only matches half the time.");
+    // Whether the pattern matches or not,
+    // we cache the (randomItem, "numOrString") pair
+    // with the result.
+  when({numOrString: ${String}})
+    console.log("Guaranteed to match the other half of the time.");
+    // Since (randomItem, "numOrString") has already been cached,
+    // we reuse the result here;
+    // if it was a string for the first clause,
+    // it's the same string here.
+}
+```
+
 #### Custom Matcher Protocol
 
 When an [interpolation pattern](#interpolation-pattern)
