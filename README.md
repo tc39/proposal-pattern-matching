@@ -908,6 +908,60 @@ try {
 }
 ```
 
+### Chaining match constructs
+
+Some reasonable use-cases require repetition of patterns today, like:
+
+```js
+match (res) {
+  when ({ pages, data }) if (pages > 1) console.log("multiple pages")
+  when ({ pages, data }) if (pages === 1) console.log("one page")
+  else console.log("no pages")
+}
+```
+
+We might want to allow match constructs to be chained,
+where the child match construct sees the bindings introduced
+in their parent clause,
+and which will cause the entire parent clause to fail
+if none of the sub-classes match.
+
+The above would then be written as:
+
+```js
+match (res) {
+  when ({ pages, data }) match {
+    if(pages > 1) console.log("multiple pages")
+    if(pages === 1) console.log("one page")
+    // if pages == 0, no clauses succeed in the child match,
+    // so the parent clause fails as well,
+    // and we advance to the outer `else`
+  }
+  else console.log("no pages")
+}
+```
+
+Note the lack of matchable in the child (just `match {...}`),
+to signify that it's chaining from the `when`
+rather than just being part an independent match construct in the RHS
+(which would, instead, throw if none of the clauses match):
+
+```js
+match (res) {
+  when ({ pages, data }) match (0) {
+    if(pages > 1) console.log("multiple pages")
+    if(pages === 1) console.log("one page")
+    // just an RHS, so if pages == 0,
+    // the inner construct fails to match anything
+    // and throws a TypeError
+  }
+  else console.log("no pages")
+}
+```
+
+(If we have a separator between the LHS and RHS,
+the distinction between these two cases would be clearer.)
+
 
 <!--
 ## Implementations
