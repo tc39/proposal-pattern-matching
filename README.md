@@ -230,8 +230,16 @@ With `${LF}`, `LF` is evaluated as an expression, which results in the primitive
 
 ---
 
+If the expression evaluates to an object, rather than a primitive,
+it's checked for a `Symbol.matcher` method.
+If it doesn't have one,
+then it's matched against the matchable using simple equality.
+
+If it *does* have such a method, however,
+then it invokes the **custom matcher protocol**:
+
 ```jsx
-class Name {
+class FirstLastName {
   static [Symbol.matcher](matchable) {
     const pieces = matchable.split(' ');
     if (pieces.length === 2) {
@@ -244,27 +252,37 @@ class Name {
 }
 
 match ('Tab Atkins-Bittner') {
-  when (${Name} with [first, last]) if (last.includes('-')) …
-  when (${Name} with [first, last]) …
+  when (${FirstLastName} with [first, last]) if (last.includes('-')) …
+  when (${FirstLastName} with [first, last]) …
   else …
+}
+
+// Dynamic matchers are useful too
+function asciiCI(str) {
+  return {[Symbol.matcher](matchable) {
+    return {
+      matched: str.lower() == matchable.lower()
+    };
+  }}
+}
+match(cssProperty) {
+  when ({name: name & ${asciiCI("color")}, value})
+    console.log("color: " + value);
+    // matches if `name` is an ASCII case-insensitive match
+    // for "color", so `{"COLOR": "red"} would match.
 }
 ```
 
-While the previous example showed off `${}` evaluating to a primitive,
-the expression can also evaluate to a user-defined object,
-invoking the [user-extensible matcher protocol](#user-extensibility)
-on the object.
+The `Symbol.matcher` method is invoked with the matchable,
+and the interpolation pattern is only considered to have matched
+if the method returns an object with a truthy `matched` property.
+Any other return value (including `true` by itself)
+indicates a failed match.
+(A thrown error percolates up the expression tree, as usual.)
 
-When the expression (`Name`, here) evaluates to a non-primitive object,
-it's first checked for a `Symbol.matcher` method;
-if it has one, the method is invoked with the matchable,
-and needs to return a match result object,
-similar to the iterator protocol.
-
-The `matched` key of the match result determines whether the pattern is considered to have matched or not. If `true`, then the `value` key of the match result can be further pattern-matched using the `with (pattern)` suffix.
-
-If the object doesn't have a `Symbol.matcher` method,
-then it's just compared with the matchable using `===` semantics.
+If the match succeeds,
+it can optionally chain into another pattern using `with <pattern>`,
+matching against the `value` property of the custom matcher's result.
 
 ---
 
