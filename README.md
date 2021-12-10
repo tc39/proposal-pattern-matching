@@ -457,10 +457,13 @@ See that section for further details.
 
 #### Array Pattern
 
-A comma-separated list of zero or more patterns,
+A comma-separated list of zero or more patterns
+or holes,
 wrapped in square brackets,
 like `["foo", a, {bar}]`.
-The final item can be an "rest pattern",
+"Holes" are just nothing (or whitespace),
+like `[,,thirdItem]`.
+The final item can be a "rest pattern",
 looking like `...<ident>`.
 (Aka, it looks like array destructuring.)
 
@@ -473,6 +476,7 @@ an array iterator is used.
 
 Then, items are pulled from the iterator,
 and matched against the array pattern's corresponding nested patterns.
+(Holes always match, introducing no bindings.)
 If any of these matches fail,
 the entire array pattern fails to match.
 
