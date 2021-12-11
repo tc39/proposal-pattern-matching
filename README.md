@@ -28,6 +28,8 @@
 - [Terminology/Proposal](#proposal)
 - [Possible Future Enhancements](#possible-future-enhancements)
 
+# Introduction
+
 ## Problem
 
 There are many ways to match values in the language, but there are no ways to
@@ -129,7 +131,7 @@ A list of community libraries that provide similar matching functionality:
   — Minimal grammar, high performance JavaScript pattern matching
   implementation.
 
-## Code samples
+# Code samples
 
 ```jsx
     match (res) {
@@ -432,16 +434,16 @@ Concise props handling inlined with JSX (via
 </Fetch>
 ```
 
-## Terminology
+# Terminology
 
 Terms we use when discussing this proposal:
 
-### Match construct
+## Match construct
 
 Refers to the entire `match (...) { ... }` expression. Evaluates to the RHS of
 the first [clause](#clause) to match, or throws a TypeError if none match.
 
-### Matchable
+## Matchable
 
 The value a [pattern](#pattern) is matched against. The top-level matchable
 shows up in `match (matchable) { ... }`, and is used for each clause as the
@@ -453,7 +455,7 @@ For example, matching against `["foo"]` will confirm the matchable itself is an
 array-like with one item, then treat the first item as a matchable against the
 `"foo"` [primitive pattern](#primitive-pattern).
 
-### Clause
+## Clause
 
 One "arm" of the [match construct](#match-construct)'s contents, consisting of
 an LHS (left-hand side) and an RHS (right-hand side).
@@ -479,18 +481,18 @@ The LHS's patterns, if any, can introduce variable bindings which are visible to
 the guard and the RHS of the same clause. Bindings are not visible across
 clauses. Each pattern describes what bindings, if any, it introduces.
 
-### Guard
+## Guard
 
 The `if (<expr>)` part of a clause. The `<expr>` sees bindings present at the
 start of the [match construct](#match-construct); if the clause began with a
 `when (<pattern>)`, it additionally sees the bindings introduced by the
 [pattern](#pattern).
 
-### Pattern
+## Pattern
 
 There are several types of patterns:
 
-#### Primitive Pattern
+### Primitive Pattern
 
 Boolean literals, numeric literals, string literals, and the null literal.
 
@@ -512,13 +514,13 @@ These match if the [matchable](#matchable) is
 
 They do not introduce bindings.
 
-#### Identifier Pattern
+### Identifier Pattern
 
 Any identifier that isn't a [primitive matcher](#primitive-matcher), such as
 `foo`. These always match, and bind the [matchable](#matchable) to the given
 binding name.
 
-#### Regex Pattern
+### Regex Pattern
 
 A regular expression literal.
 
@@ -528,7 +530,7 @@ are introduced as bindings, bound to the captured substrings. Regex patterns can
 use [`with`-chaining](#with-chaining) to further match a pattern against the
 regex's match result.
 
-#### Interpolation pattern
+### Interpolation pattern
 
 An arbitrary JS expression wrapped in `${}`, just like in template literals. For
 example, `${myVariable}`, `${"foo-" + restOfString}`, or `${getValue()}`.
@@ -548,7 +550,7 @@ Interpolation patterns can use [`with`-chaining](#with-chaining) to further
 match against the `value` key of the object returned by the `Symbol.matcher`
 method.
 
-#### Array Pattern
+### Array Pattern
 
 A comma-separated list of zero or more patterns or holes, wrapped in square
 brackets, like `["foo", a, {bar}]`. "Holes" are just nothing (or whitespace),
@@ -576,7 +578,7 @@ match.
 The array pattern introduces all the bindings introduced by its nested patterns,
 plus the binding introduced by its rest pattern, if present.
 
-##### Array Pattern Caching
+#### Array Pattern Caching
 
 To allow for idiomatic uses of generators and other "single-shot" iterators to
 be reasonably matched against several array patterns, the iterators and their
@@ -629,7 +631,7 @@ console.log([...fiveIntegers]);
 // so there's two leftover afterwards.
 ```
 
-#### Object Pattern
+### Object Pattern
 
 A comma-separated list of zero or more "object pattern clauses", wrapped in
 curly braces, like `{x: "foo", y, z: {bar}}`. Each "object pattern clause" is
@@ -660,7 +662,7 @@ constraints; `{foo}` will match the object `{foo: 1, bar:2}`, binding `foo` to
 The object pattern introduces all the bindings introduced by its nested
 patterns, plus the binding introduced by its rest pattern, if present.
 
-##### Object Pattern Caching
+#### Object Pattern Caching
 
 Similar to [array pattern caching](#array-pattern-caching), object patterns
 cache their results over the scope of the [match construct](#match-construct),
@@ -707,7 +709,7 @@ match(randomItem) {
 }
 ```
 
-### Custom Matcher Protocol
+## Custom Matcher Protocol
 
 When the expression inside an [interpolation pattern](#interpolation-pattern)
 evaluates to an object with a `Symbol.matcher` method, that method is called
@@ -719,7 +721,7 @@ that value is falsy, the pattern does not match. In the case of a successful
 match, the matched value must be made available on a `value` property of the
 return object.
 
-#### Built-in Custom Matchers
+### Built-in Custom Matchers
 
 All of the classes for primitive types (`Boolean`, `String`, `Number`, `BigNum`)
 expose a built-in `Symbol.matcher` method, matching if and only if the
@@ -748,7 +750,7 @@ class Foo {
 }
 ```
 
-#### `with` chaining
+### `with` chaining
 
 An [interpolation pattern](#interpolation-pattern) or a
 [regex pattern](#regex-pattern) (referred to as the "parent pattern" for the
@@ -807,7 +809,7 @@ match("foobar") {
 }
 ```
 
-### Pattern combinators
+## Pattern combinators
 
 Two or more [patterns](#pattern) can be combined with `|` or `&` to form a
 single larger pattern.
@@ -836,7 +838,7 @@ against both the `foo` [identifier pattern](#identifier-pattern) (binding it to
 `foo` for the RHS) _and_ against the `[bar, baz]`
 [array pattern](#array-pattern).
 
-### Parenthesizing Patterns
+## Parenthesizing Patterns
 
 The pattern syntaxes do not have a precedence relationship with each other. Any
 multi-token patterns (`&`, `|`, `${...} with ...`) appearing at the same
@@ -851,9 +853,9 @@ match result to both `bar` and `baz`) or `when ((${Foo} with bar) & baz) ...`
 (binding the custom match result to `bar`, and the _original_
 [matchable](#matchable) to `baz`).
 
-## Possible future enhancements
+# Possible future enhancements
 
-### `async match`
+## `async match`
 
 If the `match` construct appears inside a context where `await` is allowed,
 `await` can already be used inside it, just like inside `do` expressions.
@@ -868,7 +870,7 @@ async match (await matchable) {
 } // produces a Promise
 ```
 
-### Nil pattern
+## Nil pattern
 
 ```jsx
 match (someArr) {
@@ -886,7 +888,7 @@ the commas.
 With that in mind, and also with the extremely contentious nature, we would only
 pursue this if we saw strong support for it.
 
-### Default Values
+## Default Values
 
 Destructuring can supply a default value with `= <expr>` which is used when a
 key isn't present. Is this useful for pattern matching?
@@ -900,7 +902,7 @@ distinguish it from surrounding patterns?
 
 This would bring us into closer alignment with destructuring, which is nice.
 
-### Dedicated renaming syntax
+## Dedicated renaming syntax
 
 Right now, to bind a value in the middle of a pattern but continue to match on
 it, you use `&` to run both an [identifier pattern](#identifier-pattern) and a
@@ -913,12 +915,12 @@ Since this would introduce no new functionality, just a dedicated syntactic form
 for a common operation and some amount of concordance with other languages,
 we're not pursuing this as part of the base proposal.
 
-### Destructuring enhancements
+## Destructuring enhancements
 
 Both destructuring and pattern matching should remain in sync, so enhancements
 to one would need to work for the other.
 
-### Catch guards
+## Integration with `catch`
 
 Allow a `catch` statement to conditionally catch an exception, saving a level of
 indentation:
@@ -933,7 +935,7 @@ try {
 }
 ```
 
-### Chaining guards
+## Chaining guards
 
 Some reasonable use-cases require repetition of patterns today, like:
 
