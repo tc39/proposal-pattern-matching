@@ -42,7 +42,7 @@ etc.
 
 ## Priorities for a solution
 
-This section details this proposal's priorities. Note that not every champion
+This section details this proposal’s priorities. Note that not every champion
 may agree with each priority.
 
 ### _Pattern_ matching
@@ -90,7 +90,7 @@ If the developer wants two cases to share logic (what we know as "fall-through"
 from `switch`), they should specify it explicitly. Implicit fall-through
 inevitably silently accepts buggy code.
 
-[Clauses](#clause) should always be checked in the order they're written, i.e.
+[Clauses](#clause) should always be checked in the order they’re written, i.e.
 from top to bottom.
 
 ### User extensibility
@@ -162,7 +162,7 @@ match (res) {
   - The parenthesized pattern may be followed by a [**guard**](#guard), which
     consists of the `if` keyword, and a condition (any expression) in
     parentheses. [Guards](#guard) provide a space for additional logic when
-    [patterns](#pattern) aren't expressive enough.
+    [patterns](#pattern) aren’t expressive enough.
   - An explicit `else` [clause](#clause) handles the "no match" scenario by
     always matching. It must always appear last when present, as any
     [clauses](#clause) after an `else` are unreachable.
@@ -193,7 +193,7 @@ first must be exactly the string `'go'`, and the second must be one of the given
 cardinal directions. Note the use of the
 [**and combinator**](#pattern-combinators) (`&`) to bind the second item in the
 array to `dir` using an [**identifier pattern**](#identifier-pattern) before
-verifying (using the [or combinator](#pattern-combinators)) that it's one of the
+verifying (using the [or combinator](#pattern-combinators)) that it’s one of the
 given directions.
 
 (Note that there is intentionally no precedence relationship between the pattern
@@ -203,7 +203,7 @@ operators, such as `&`, `|`, or `with`; parentheses must be used to group
 The second [clause](#clause) showcases a more complex use of the
 [and combinator](#pattern-combinators). First is an
 [identifier pattern](#identifier-pattern) that binds the second item in the
-array to `item`. Then, there's a [regex pattern](#regex-pattern) that checks if
+array to `item`. Then, there’s a [regex pattern](#regex-pattern) that checks if
 the item is a `"something ball"`. Last is an [object pattern](#object-pattern),
 which checks that the item has a `weight` property (which, combined with the
 previous pattern, means that the item must be an exotic string object), and
@@ -257,7 +257,7 @@ as bindings.
 (These magic bindings will only work with **literal**
 [regex patterns](#regex-patterns). If a regex with named capture groups is
 passed into an [interpolation pattern](#interpolation-pattern), the RHS will see
-no magic bindings. It's very important (e.g. for code analysis tools) that
+no magic bindings. It’s very important (e.g. for code analysis tools) that
 bindings only be introduced where the name is locally present.)
 
 The second clause matches integer multiplication expressions, but without named
@@ -270,7 +270,7 @@ available to the [`with` operator](#with-chaining).
 
 (Regexes are a major motivator for the
 [custom matcher protocol](#custom-matcher-protocol) ― while we could treat them
-as a special case, they're just ordinary objects. If they can be used as a
+as a special case, they’re just ordinary objects. If they can be used as a
 [pattern](#regex-pattern), then userland objects should be able to do this as
 well.)
 
@@ -469,7 +469,7 @@ array-like with one item, then treat the first item as a matchable against the
 
 ## Clause
 
-One "arm" of the [match construct](#match-construct)'s contents, consisting of
+One "arm" of the [match construct](#match-construct)’s contents, consisting of
 an LHS (left-hand side) and an RHS (right-hand side).
 
 The LHS can look like:
@@ -489,7 +489,7 @@ The RHS is an arbitrary JS expression, which the whole
 [an open issue](https://github.com/tc39/proposal-pattern-matching/issues/181)
 about whether there should be some separator syntax between the LHS and RHS.)
 
-The LHS's patterns, if any, can introduce variable bindings which are visible to
+The LHS’s patterns, if any, can introduce variable bindings which are visible to
 the guard and the RHS of the same clause. Bindings are not visible across
 clauses. Each pattern describes what bindings, if any, it introduces.
 
@@ -513,7 +513,7 @@ There are several types of patterns:
 Boolean literals, numeric literals, string literals, and the null literal.
 
 Additionally, some expressions that are _almost_ literals, and function as
-literals in people's heads, are allowed:
+literals in people’s heads, are allowed:
 
 - `undefined`, matching the undefined value
 - numeric literals preceded by an unary `+` or `-`, like `-1`
@@ -532,7 +532,7 @@ They do not introduce bindings.
 
 ### Identifier Pattern
 
-Any identifier that isn't a [primitive matcher](#primitive-matcher), such as
+Any identifier that isn’t a [primitive matcher](#primitive-matcher), such as
 `foo`. These always match, and bind the [matchable](#matchable) to the given
 binding name.
 
@@ -544,7 +544,7 @@ The [matchable](#matchable) is stringified, and the pattern matches if the
 string matches the regex. If the regex defines named capture groups, those names
 are introduced as bindings, bound to the captured substrings. Regex patterns can
 use [`with`-chaining](#with-chaining) to further match a pattern against the
-regex's match result.
+regex’s match result.
 
 ### Interpolation pattern
 
@@ -575,10 +575,10 @@ like `[,,thirdItem]`. The final item can be a "rest pattern", looking like
 
 First, an iterator is obtained from the [matchable](#matchable): if the
 [matchable](#matchable) is itself iterable (exposed a `[Symbol.iterator]`
-method) that is used; if it's array-like, an array iterator is used.
+method) that is used; if it’s array-like, an array iterator is used.
 
 Then, items are pulled from the iterator, and matched against the array
-pattern's corresponding nested patterns. (Holes always match, introducing no
+pattern’s corresponding nested patterns. (Holes always match, introducing no
 bindings.) If any of these matches fail, the entire array pattern fails to
 match.
 
@@ -587,7 +587,7 @@ pulled into an Array, and bound to the identifier from the array rest pattern,
 just like in array destructuring.
 
 If the array pattern does _not_ end in a rest pattern, the iterator must match
-the array pattern's length: one final item is pulled from the iterator, and if
+the array pattern’s length: one final item is pulled from the iterator, and if
 it succeeds (rather than closing the iterator), the array pattern fails to
 match.
 
@@ -638,13 +638,13 @@ match(fiveIntegers) {
     // two to check against the patterns,
     // and the third to verify the iterator has only two items.
     // Two are already in the cache,
-    // so we'll just pull one more (and fail the pattern).
+    // so we’ll just pull one more (and fail the pattern).
   else console.log("more than two ints");
 }
 console.log([...fiveIntegers]);
 // logs [4, 5]
 // The match construct pulled three elements from the generator,
-// so there's two leftover afterwards.
+// so there’s two leftover afterwards.
 ```
 
 ### Object Pattern
@@ -663,12 +663,12 @@ the entire object pattern fails to match.
 
 Plain `<identifier>` object pattern clauses are treated as if they were written
 `<identifier>: <identifier>` (just like destructuring); that is, the
-[matchable](#matchable) must have the named property, and the property's value
+[matchable](#matchable) must have the named property, and the property’s value
 is then bound to that name due to being matched against an
 [identifier pattern](#identifier-pattern).
 
 If the object pattern ends in a [TODO: rest pattern], all of the
-[matchable](#matchable)'s own keys that weren't explicitly matched are bound
+[matchable](#matchable)’s own keys that weren’t explicitly matched are bound
 into a fresh `Object`, just like destructuring or array patterns.
 
 Unlike array patterns, the lack of a final rest pattern imposes no additional
@@ -682,14 +682,14 @@ patterns, plus the binding introduced by its rest pattern, if present.
 
 Similar to [array pattern caching](#array-pattern-caching), object patterns
 cache their results over the scope of the [match construct](#match-construct),
-so that multiple [clauses](#clause) don't observably retrieve the same property
+so that multiple [clauses](#clause) don’t observably retrieve the same property
 multiple times.
 
 (Unlike array pattern caching, which is _necessary_ for this proposal to work
 with iterators, object pattern caching is a nice-to-have. It does guard against
 some weirdness like non-idempotent getters, and helps make
 idempotent-but-expensive getters usable in pattern maching without contortions,
-but mostly it's just for conceptual consistency.)
+but mostly it’s just for conceptual consistency.)
 
 Whenever a [matchable](#matchable) is matched against an object pattern, for
 each property name in the object pattern, a `(<matchable>, <property name>)`
@@ -721,7 +721,7 @@ match(randomItem) {
     // Since (randomItem, "numOrString") has already been cached,
     // we reuse the result here;
     // if it was a string for the first clause,
-    // it's the same string here.
+    // it’s the same string here.
 }
 ```
 
@@ -773,17 +773,17 @@ class Foo {
 An [interpolation pattern](#interpolation-pattern) or a
 [regex pattern](#regex-pattern) (referred to as the "parent pattern" for the
 rest of this section) _may_ also have a `with <pattern>` suffix, allowing you to
-provide further patterns to match against the parent pattern's result.
+provide further patterns to match against the parent pattern’s result.
 
 The `with` pattern is only invoked if the parent pattern successfully matches.
 Any bindings introduced by the `with` pattern are added to the bindings from the
-parent pattern, with the `with` pattern's values overriding the parent pattern's
+parent pattern, with the `with` pattern’s values overriding the parent pattern’s
 value if the same bindings appear in both.
 
 The parent pattern defines what the [matchable](#matchable) will be for the
 `with` pattern:
 
-- for regex patterns, the regex's match object is used
+- for regex patterns, the regex’s match object is used
 - for interpolation patterns that did not invoke the custom matcher protocol,
   the [matchable](#matchable) itself is used
 - for interpolation patterns that _did_ invoke the custom matcher protocol, the
@@ -802,10 +802,10 @@ class MyClass = {
 };
 
 match (3) {
-  when (${MyClass}) true; // matches, doesn't use the result
+  when (${MyClass}) true; // matches, doesn’t use the result
   when (${MyClass} with {a, b: {c}}) do {
     // passes the custom matcher,
-    // then further applies an object pattern to the result's value
+    // then further applies an object pattern to the result’s value
     assert(a === 1);
     assert(c === 2);
   }
@@ -877,7 +877,7 @@ match result to both `bar` and `baz`) or `when ((${Foo} with bar) & baz) ...`
 
 If the `match` construct appears inside a context where `await` is allowed,
 `await` can already be used inside it, just like inside `do` expressions.
-However, just like `async do` expressions, there's uses of being able to use
+However, just like `async do` expressions, there’s uses of being able to use
 `await` and produce a Promise, even when not already inside an `async function`.
 
 ```jsx
@@ -909,9 +909,9 @@ pursue this if we saw strong support for it.
 ## Default Values
 
 Destructuring can supply a default value with `= <expr>` which is used when a
-key isn't present. Is this useful for pattern matching?
+key isn’t present. Is this useful for pattern matching?
 
-Optional keys seem reasonable; right now they'd require duplicating the pattern
+Optional keys seem reasonable; right now they’d require duplicating the pattern
 like `{a, b} | {a}` (`b` will be bound to undefined in the RHS if not present).
 
 Do we need/want full defaulting? Does it complicate the syntax to much to have
@@ -931,7 +931,7 @@ adopted this, the above could be written as `when (arr @ [item]) ...`.
 
 Since this would introduce no new functionality, just a dedicated syntactic form
 for a common operation and some amount of concordance with other languages,
-we're not pursuing this as part of the base proposal.
+we’re not pursuing this as part of the base proposal.
 
 ## Destructuring enhancements
 
@@ -985,7 +985,7 @@ match (res) {
 ```
 
 Note the lack of [matchable](#matchable) in the child (just `match {...}`), to
-signify that it's chaining from the `when` rather than just being part an
+signify that it’s chaining from the `when` rather than just being part an
 independent match construct in the RHS (which would, instead, throw if none of
 the clauses match):
 
@@ -1009,5 +1009,5 @@ two cases would be clearer.)
 ## Implementations
 
 * [Babel Plugin](https://github.com/babel/babel/pull/9318)
-* [Sweet.js macro](https://github.com/natefaubion/sparkler) (NOTE: this isn't based on the proposal, this proposal is partially based on it!)
+* [Sweet.js macro](https://github.com/natefaubion/sparkler) (NOTE: this isn’t based on the proposal, this proposal is partially based on it!)
 -->
