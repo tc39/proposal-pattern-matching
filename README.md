@@ -343,7 +343,7 @@ function asciiCI(str) {
   return {
     [Symbol.matcher](matchable) {
       return {
-        matched: str.lower() == matchable.lower()
+        matched: str.toLowerCase() == matchable.toLowerCase()
       };
     }
   }
