@@ -534,7 +534,7 @@ Menu.prototype.addPinEntry = function (id) {
     // prettier-ignore
     this.$pinList.innerHTML += `<li><a href="${makeLinkToId(entry.id)}">${prefix}${entry.titleHTML}</a></li>`;
   } else {
-    this.$pinList.innerHTML += `<li><a href="${makeLinkToId(entry.id)}">${entry.key}</a></li>`;
+    this.$pinList.innerHTML += `<li><a href="${makeLinkToId(entry.id)}">${getKey(entry)}</a></li>`;
   }
 
   if (Object.keys(this._pinnedIds).length === 0) {
@@ -809,7 +809,7 @@ let referencePane = {
     this.$headerRefId.textContent = '#' + entry.id;
     this.$headerRefId.setAttribute('href', makeLinkToId(entry.id));
     this.$headerRefId.style.display = 'inline';
-    entry.referencingIds
+    (entry.referencingIds || [])
       .map(id => {
         let cid = menu.search.biblio.refParentClause[id];
         let clause = menu.search.biblio.byId[cid];
@@ -940,7 +940,7 @@ let Toolbox = {
   },
 
   updateReferences() {
-    this.$refsLink.textContent = `References (${this.entry.referencingIds.length})`;
+    this.$refsLink.textContent = `References (${(this.entry.referencingIds || []).length})`;
   },
 
   activateIfMouseOver(e) {
@@ -1061,7 +1061,10 @@ function doShortcut(e) {
   if (name === 'textarea' || name === 'input' || name === 'select' || target.isContentEditable) {
     return;
   }
-  if (e.key === 'm' && !e.altKey && !e.ctrlKey && !e.metaKey && !e.shiftKey && usesMultipage) {
+  if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+    return;
+  }
+  if (e.key === 'm' && usesMultipage) {
     let pathParts = location.pathname.split('/');
     let hash = location.hash;
     if (pathParts[pathParts.length - 2] === 'multipage') {
@@ -1078,6 +1081,8 @@ function doShortcut(e) {
     } else {
       location = 'multipage/' + hash;
     }
+  } else if (e.key === 'u') {
+    document.documentElement.classList.toggle('show-ao-annotations');
   }
 }
 
@@ -1139,7 +1144,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 let sdoMap = JSON.parse(`{}`);
-let biblio = JSON.parse(`{"refsByClause":{"sec-match-rs-eval":["_ref_0","_ref_1","_ref_2","_ref_3","_ref_4","_ref_40"],"sec-match-rs-when-clause-matches":["_ref_5","_ref_6","_ref_7"],"sec-syntax":["_ref_8","_ref_9","_ref_10","_ref_11","_ref_12","_ref_13","_ref_14","_ref_15","_ref_16","_ref_17","_ref_18","_ref_19","_ref_20","_ref_21","_ref_22","_ref_23","_ref_24","_ref_25","_ref_26","_ref_27","_ref_28","_ref_29","_ref_30","_ref_31","_ref_32","_ref_33","_ref_34","_ref_35","_ref_36","_ref_37","_ref_38","_ref_39"]},"entries":[{"type":"production","id":"prod-Statement","name":"Statement","referencingIds":[]},{"type":"production","id":"prod-MatchStatement","name":"MatchStatement","referencingIds":["_ref_8"]},{"type":"production","id":"prod-WhenClauses","name":"WhenClauses","referencingIds":["_ref_9","_ref_10","_ref_12","_ref_40"]},{"type":"production","id":"prod-WhenClause","name":"WhenClause","referencingIds":["_ref_11","_ref_13"]},{"type":"production","id":"prod-MatchGuard","name":"MatchGuard","referencingIds":["_ref_15"]},{"type":"production","id":"prod-WhenClauseBody","name":"WhenClauseBody","referencingIds":["_ref_16"]},{"type":"production","id":"prod-MatchPattern","name":"MatchPattern","referencingIds":["_ref_14","_ref_37"]},{"type":"production","id":"prod-ObjectMatchPattern","name":"ObjectMatchPattern","referencingIds":["_ref_17"]},{"type":"production","id":"prod-MatchPropertyList","name":"MatchPropertyList","referencingIds":["_ref_22","_ref_25"]},{"type":"production","id":"prod-MatchProperty","name":"MatchProperty","referencingIds":["_ref_24","_ref_26"]},{"type":"production","id":"prod-MatchRestProperty","name":"MatchRestProperty","referencingIds":["_ref_21","_ref_23"]},{"type":"production","id":"prod-ArrayMatchPattern","name":"ArrayMatchPattern","referencingIds":["_ref_18"]},{"type":"production","id":"prod-MatchElementList","name":"MatchElementList","referencingIds":["_ref_30","_ref_31","_ref_34"]},{"type":"production","id":"prod-MatchElisionElement","name":"MatchElisionElement","referencingIds":["_ref_33","_ref_35"]},{"type":"production","id":"prod-MatchElement","name":"MatchElement","referencingIds":["_ref_27","_ref_36","_ref_39"]},{"type":"production","id":"prod-MatchRestElement","name":"MatchRestElement","referencingIds":["_ref_29","_ref_32"]},{"type":"production","id":"prod-IdentifierMatchPattern","name":"IdentifierMatchPattern","referencingIds":["_ref_19","_ref_28","_ref_38"]},{"type":"production","id":"prod-LiteralMatchPattern","name":"LiteralMatchPattern","referencingIds":["_ref_20"]},{"type":"clause","id":"sec-syntax","aoid":null,"titleHTML":"Syntax","number":"1","referencingIds":[]},{"type":"clause","id":"sec-match-ss-errors","aoid":null,"titleHTML":"Static Semantics: Early Errors","number":"2.1","referencingIds":[]},{"type":"clause","id":"sec-match-rs-fn-def","aoid":null,"titleHTML":"Runtime Semantics: IsFunctionDefinition","number":"2.2","referencingIds":[]},{"type":"term","term":"WhenClauseMatches","refId":"sec-match-rs-when-clause-matches","referencingIds":[]},{"type":"clause","id":"sec-match-rs-when-clause-matches","aoid":null,"title":"WhenClauseMatches(exprValue, WhenClause)","titleHTML":"<dfn>WhenClauseMatches</dfn>(<var>exprValue</var>, <var>WhenClause</var>)","number":"2.3.1","referencingIds":["_ref_1"]},{"type":"clause","id":"sec-match-rs-eval","aoid":null,"titleHTML":"Runtime Semantics: Evaluation","number":"2.3","referencingIds":[]},{"type":"term","term":"WhenClauseEvaluation","refId":"sec-match-rs-when-clause-eval","referencingIds":[]},{"type":"clause","id":"sec-match-rs-when-clause-eval","aoid":null,"title":"WhenClauseEvaluation(exprValue, WhenClause)","titleHTML":"<dfn>WhenClauseEvaluation</dfn>(<var>exprValue</var>, <var>WhenClause</var>)","number":"2.4","referencingIds":["_ref_2"]},{"type":"clause","id":"sec-match-expression","aoid":null,"titleHTML":"Match Expression","number":"2","referencingIds":[]},{"type":"clause","id":"sec-copyright-and-software-license","aoid":null,"title":"Copyright & Software License","titleHTML":"Copyright &amp; Software License","number":"A","referencingIds":[]}]}`);
+let biblio = JSON.parse(`{"refsByClause":{"sec-match-rs-eval":["_ref_0","_ref_1","_ref_2","_ref_3","_ref_4","_ref_40"],"sec-match-rs-when-clause-matches":["_ref_5","_ref_6","_ref_7"],"sec-syntax":["_ref_8","_ref_9","_ref_10","_ref_11","_ref_12","_ref_13","_ref_14","_ref_15","_ref_16","_ref_17","_ref_18","_ref_19","_ref_20","_ref_21","_ref_22","_ref_23","_ref_24","_ref_25","_ref_26","_ref_27","_ref_28","_ref_29","_ref_30","_ref_31","_ref_32","_ref_33","_ref_34","_ref_35","_ref_36","_ref_37","_ref_38","_ref_39"]},"entries":[{"type":"production","id":"prod-Statement","name":"Statement"},{"type":"production","id":"prod-MatchStatement","name":"MatchStatement","referencingIds":["_ref_8"]},{"type":"production","id":"prod-WhenClauses","name":"WhenClauses","referencingIds":["_ref_9","_ref_10","_ref_12","_ref_40"]},{"type":"production","id":"prod-WhenClause","name":"WhenClause","referencingIds":["_ref_11","_ref_13"]},{"type":"production","id":"prod-MatchGuard","name":"MatchGuard","referencingIds":["_ref_15"]},{"type":"production","id":"prod-WhenClauseBody","name":"WhenClauseBody","referencingIds":["_ref_16"]},{"type":"production","id":"prod-MatchPattern","name":"MatchPattern","referencingIds":["_ref_14","_ref_37"]},{"type":"production","id":"prod-ObjectMatchPattern","name":"ObjectMatchPattern","referencingIds":["_ref_17"]},{"type":"production","id":"prod-MatchPropertyList","name":"MatchPropertyList","referencingIds":["_ref_22","_ref_25"]},{"type":"production","id":"prod-MatchProperty","name":"MatchProperty","referencingIds":["_ref_24","_ref_26"]},{"type":"production","id":"prod-MatchRestProperty","name":"MatchRestProperty","referencingIds":["_ref_21","_ref_23"]},{"type":"production","id":"prod-ArrayMatchPattern","name":"ArrayMatchPattern","referencingIds":["_ref_18"]},{"type":"production","id":"prod-MatchElementList","name":"MatchElementList","referencingIds":["_ref_30","_ref_31","_ref_34"]},{"type":"production","id":"prod-MatchElisionElement","name":"MatchElisionElement","referencingIds":["_ref_33","_ref_35"]},{"type":"production","id":"prod-MatchElement","name":"MatchElement","referencingIds":["_ref_27","_ref_36","_ref_39"]},{"type":"production","id":"prod-MatchRestElement","name":"MatchRestElement","referencingIds":["_ref_29","_ref_32"]},{"type":"production","id":"prod-IdentifierMatchPattern","name":"IdentifierMatchPattern","referencingIds":["_ref_19","_ref_28","_ref_38"]},{"type":"production","id":"prod-LiteralMatchPattern","name":"LiteralMatchPattern","referencingIds":["_ref_20"]},{"type":"clause","id":"sec-syntax","titleHTML":"Syntax","number":"1"},{"type":"clause","id":"sec-match-ss-errors","titleHTML":"Static Semantics: Early Errors","number":"2.1"},{"type":"clause","id":"sec-match-rs-fn-def","titleHTML":"Runtime Semantics: IsFunctionDefinition","number":"2.2"},{"type":"term","term":"WhenClauseMatches","refId":"sec-match-rs-when-clause-matches"},{"type":"clause","id":"sec-match-rs-when-clause-matches","title":"WhenClauseMatches(exprValue, WhenClause)","titleHTML":"<dfn>WhenClauseMatches</dfn>(<var>exprValue</var>, <var>WhenClause</var>)","number":"2.3.1","referencingIds":["_ref_1"]},{"type":"clause","id":"sec-match-rs-eval","titleHTML":"Runtime Semantics: Evaluation","number":"2.3"},{"type":"term","term":"WhenClauseEvaluation","refId":"sec-match-rs-when-clause-eval"},{"type":"clause","id":"sec-match-rs-when-clause-eval","title":"WhenClauseEvaluation(exprValue, WhenClause)","titleHTML":"<dfn>WhenClauseEvaluation</dfn>(<var>exprValue</var>, <var>WhenClause</var>)","number":"2.4","referencingIds":["_ref_2"]},{"type":"clause","id":"sec-match-expression","titleHTML":"Match Expression","number":"2"},{"type":"clause","id":"sec-copyright-and-software-license","title":"Copyright & Software License","titleHTML":"Copyright &amp; Software License","number":"A"}]}`);
 ;let usesMultipage = false</script><style>body {
   display: flex;
   font-size: 18px;
@@ -1175,6 +1180,43 @@ a:visited {
 a:hover {
   text-decoration: underline;
   color: #239dee;
+}
+
+a.e-user-code,
+span.e-user-code {
+  white-space: nowrap;
+}
+
+a.e-user-code::before,
+span.e-user-code::before {
+  display: none;
+  color: brown;
+  background-color: white;
+  border: 2pt solid brown;
+  padding: 0.3ex;
+  margin: 0 0.25em 0 0;
+  line-height: 1;
+  vertical-align: text-top;
+  text-transform: uppercase;
+  font-family: 'Comic Code', sans-serif;
+  font-weight: 900;
+  font-size: x-small;
+}
+
+a.e-user-code:hover::before,
+span.e-user-code:hover::before {
+  background-color: brown;
+  color: white;
+}
+
+html.show-ao-annotations a.e-user-code::before,
+html.show-ao-annotations span.e-user-code::before {
+  display: inline-block;
+}
+
+a.e-user-code::before,
+span.e-user-code::before {
+  content: 'UC';
 }
 
 code {
@@ -2320,7 +2362,7 @@ li.menu-search-result-term:before {
 </style></head><body><div id="menu-toggle"><svg xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%; stroke:currentColor" viewBox="0 0 120 120">
       <title>Menu</title>
       <path stroke-width="10" stroke-linecap="round" d="M30,60 h60  M30,30 m0,5 h60  M30,90 m0,-5 h60"></path>
-    </svg></div><div id="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-syntax" title="Syntax"><span class="secnum">1</span> Syntax</a></li><li><span class="item-toggle">◢</span><a href="#sec-match-expression" title="Match Expression"><span class="secnum">2</span> Match Expression</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-match-ss-errors" title="Static Semantics: Early Errors"><span class="secnum">2.1</span> SS: Early Errors</a></li><li><span class="item-toggle-none"></span><a href="#sec-match-rs-fn-def" title="Runtime Semantics: IsFunctionDefinition"><span class="secnum">2.2</span> RS: IsFunctionDefinition</a></li><li><span class="item-toggle">◢</span><a href="#sec-match-rs-eval" title="Runtime Semantics: Evaluation"><span class="secnum">2.3</span> RS: Evaluation</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-match-rs-when-clause-matches" title="WhenClauseMatches(exprValue, WhenClause)"><span class="secnum">2.3.1</span> <dfn>WhenClauseMatches</dfn>(<var>exprValue</var>, <var>WhenClause</var>)</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-match-rs-when-clause-eval" title="WhenClauseEvaluation(exprValue, WhenClause)"><span class="secnum">2.4</span> <dfn>WhenClauseEvaluation</dfn>(<var>exprValue</var>, <var>WhenClause</var>)</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 1 Draft / October 1, 2021</h1><h1 class="title">Pattern Matching</h1>
+    </svg></div><div id="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-syntax" title="Syntax"><span class="secnum">1</span> Syntax</a></li><li><span class="item-toggle">◢</span><a href="#sec-match-expression" title="Match Expression"><span class="secnum">2</span> Match Expression</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-match-ss-errors" title="Static Semantics: Early Errors"><span class="secnum">2.1</span> SS: Early Errors</a></li><li><span class="item-toggle-none"></span><a href="#sec-match-rs-fn-def" title="Runtime Semantics: IsFunctionDefinition"><span class="secnum">2.2</span> RS: IsFunctionDefinition</a></li><li><span class="item-toggle">◢</span><a href="#sec-match-rs-eval" title="Runtime Semantics: Evaluation"><span class="secnum">2.3</span> RS: Evaluation</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-match-rs-when-clause-matches" title="WhenClauseMatches(exprValue, WhenClause)"><span class="secnum">2.3.1</span> <dfn>WhenClauseMatches</dfn>(<var>exprValue</var>, <var>WhenClause</var>)</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-match-rs-when-clause-eval" title="WhenClauseEvaluation(exprValue, WhenClause)"><span class="secnum">2.4</span> <dfn>WhenClauseEvaluation</dfn>(<var>exprValue</var>, <var>WhenClause</var>)</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 1 Draft / December 11, 2021</h1><h1 class="title">Pattern Matching</h1>
 
 <emu-note type="editor">Spec text is under construction.</emu-note>
 
@@ -2591,7 +2633,7 @@ li.menu-search-result-term:before {
       <h1><span class="secnum">A</span> Copyright &amp; Software License</h1>
       
       <h2>Copyright Notice</h2>
-      <p>© 2021 Jordan Harband, Mark Cohen, Tab Atkins, Yulia Startsev, Daniel Rosenwasser, Jack Works, Ross Kirsling</p>
+      <p>© 2021 Daniel Rosenwasser, Jack Works, Jordan Harband, Mark Cohen, Ross Kirsling, Tab Atkins, Yulia Startsev</p>
 
       <h2>Software License</h2>
       <p>All Software contained in this document ("Software") is protected by copyright and is being made available under the "BSD License", included below. This Software may be subject to third party rights (rights from parties other than Ecma International), including patent rights, and no licenses under such third party rights are granted under this license even if the third party concerned is a member of Ecma International. SEE THE ECMA CODE OF CONDUCT IN PATENT MATTERS AVAILABLE AT https://ecma-international.org/memento/codeofconduct.htm FOR INFORMATION REGARDING THE LICENSING OF PATENT CLAIMS THAT ARE REQUIRED TO IMPLEMENT ECMA INTERNATIONAL STANDARDS.</p>
