@@ -450,8 +450,6 @@ Concise conditional logic in JSX (via
 
 # Terminology
 
-Terms we use when discussing this proposal:
-
 ## Match construct
 
 Refers to the entire `match (...) { ... }` expression. Evaluates to the RHS of
@@ -494,6 +492,10 @@ about whether there should be some separator syntax between the LHS and RHS.)
 The LHS's patterns, if any, can introduce variable bindings which are visible to
 the guard and the RHS of the same clause. Bindings are not visible across
 clauses. Each pattern describes what bindings, if any, it introduces.
+
+### TODO: LHS
+
+### TODO: RHS
 
 ## Guard
 
@@ -722,6 +724,8 @@ match(randomItem) {
     // it's the same string here.
 }
 ```
+
+### TODO: Rest pattern
 
 ## Custom Matcher Protocol
 
