@@ -133,84 +133,83 @@ A list of community libraries that provide similar matching functionality:
 
 # Code samples
 
+## General terminology
+
 ```jsx
-    match (res) {
-//  match (matchable) {
-      when ({ status: 200, body, ...rest }) handleData(body, rest)
-//      when (pattern) -> ...
-//      ───────↓──────    ─↓─
-//            LHS      RHS (expression)
-//      ───────────↓---──────
-//              clause
-
-      when ({ status: 301 | 304, destination: url }) handleRedirect(url)
-//      ↳ `|` (pipe) is the "or" combinator
-//      ↳ `url` is an identifier pattern, effectively a new name for `destination`
-
-      when({ status: 404 }) retry(req);
-
-      else throwSomething();
-//      ↳ cannot coexist with top-level identifier pattern, e.g. `when (foo)`
-    }
+match (res) {
+  when ({ status: 200, body, ...rest }) handleData(body, rest)
+  when ({ status, destination: url }) if (300 <= status && status < 400)
+    handleRedirect(url)
+  when ({ status: 500 }) if (!this.hasRetried) do {
+    retry(req);
+    this.hasRetried = true;
+  }
+  else throwSomething();
+}
 ```
 
-- `res` is the "[**matchable**](#matchable)". This can be any expression.
-- `when (...) { ... }` is the "[clause](#clause)".
-- The `...` in `when (...)` is the "[pattern](#pattern)".
-- Everything after the [pattern](#pattern) is the "right-hand side" (RHS), and
-  is an expression that will be evaluated if the pattern matches
+- The whole block beginning with the `match` keyword, is the
+  [**match construct**](#match-construct).
+- `res` is the [**matchable**](#matchable). This can be any expression.
+- There are four [**clauses**](#clause) in this example: three `when` clauses,
+  and one `else` clause.
+- A [clause](#clause) consists of a left-hand side (LHS) and a right-hand side
+  (RHS).
+- The LHS can begin with the `when` or `else` keywords.
+  - The `when` keyword must be followed by a [**pattern**](#pattern) in
+    parentheses. Each of the [`when` clauses](#clause) here contain
+    [**object patterns**](#object-pattern).
+  - The parenthesized pattern may be followed by a [**guard**](#guard), which
+    consists of the `if` keyword, and a condition (any expression) in
+    parentheses. [Guards](#guard) provide a space for additional logic when
+    [patterns](#pattern) aren't expressive enough.
+  - An explicit `else` [clause](#clause) handles the "no match" scenario by
+    always matching. It must always appear last when present, as any
+    [clauses](#clause) after an `else` are unreachable.
+- The RHS is any expression. It will be evaluated if the LHS successfully
+  matches, and the result will be the value of the entire
+  [match construct](#match-construct).
 
-  (We assume that
-  [`do` expressions](https://github.com/tc39/proposal-do-expressions) will
-  mature soon, which will allow for RHSes with many statements in them easily;
-  today they require an IIFE).
+  - We assume that
+    [`do` expressions](https://github.com/tc39/proposal-do-expressions) will
+    mature soon, which will users to put multiple statements in an RHS; today,
+    that requires an
+    [IIFE](https://developer.mozilla.org/en-US/docs/Glossary/IIFE).
 
-- `301 | 304` uses the [**or combinator**](#pattern-combinators) (`|`) to
-  indicate "or" semantics for multiple patterns.
-- Most valid object or array destructurings are valid patterns. Default values
-  are not yet supported.
-- An explicit `else` [clause](#clause) handles the "no match" scenario by always
-  matching. It must always appear last when present, as any [clauses](#clause)
-  after an `else` are unreachable.
-
----
+## More on combinators
 
 ```jsx
 match (command) {
   when ([ 'go', dir & ('north' | 'east' | 'south' | 'west')]) ...
-  when ([ 'take', item ]) ...
+  when ([ 'take', item & /[a-z]+ ball/ & { weight }]) ...
   else ...
 }
 ```
 
-This sample is a contrived parser for a text-based adventure game. Note the use
-of `&`, to indicate "and" semantics, here being used to bind the second array
-item to `dir` with an [**identifier pattern**](#identifier-pattern) _and_ verify
-that it's one of the supported values. The second [clause](#clause) doesn't need
-to verify its argument (at least, not here in the matcher clause), so it just
-uses an [**identifier pattern**](#identifier-pattern) to bind the value to
-`item`.
+This sample is a contrived parser for a text-based adventure game.
+
+The first clause matches if the command is an array with exactly two items. The
+first must be exactly the string `'go'`, and the second must be one of the given
+cardinal directions. Note the use of the
+[**and combinator**](#pattern-combinators) (`&`) to bind the second item in the
+array to `dir` using an [**identifier pattern**](#identifier-pattern) before
+verifying (using the [or combinator](#pattern-combinators)) that it's one of the
+given directions.
 
 (Note that there is intentionally no precedence relationship between the pattern
 operators, such as `&`, `|`, or `with`; parentheses must be used to group
 [patterns](#pattern) using different operators at the same level.)
 
----
+The second [clause](#clause) showcases a more complex use of the
+[and combinator](#pattern-combinators). First is an
+[identifier pattern](#identifier-pattern) that binds the second item in the
+array to `item`. Then, there's a [regex pattern](#regex-pattern) that checks if
+the item is a `"something ball"`. Last is an [object pattern](#object-pattern),
+which checks that the item has a `weight` property (which, combined with the
+previous pattern, means that the item must be an exotic string object), and
+makes that binding available to the RHS.
 
-```jsx
-match (res) {
-  if (isEmpty(res)) { ... }
-  when ({ numPages, data }) if (numPages > 1) ...
-  when ({ numPages, data }) if (numPages === 1) ...
-  else { ... }
-}
-```
-
-This sample is fetching from a paginated endpoint. Note the use of
-[**guards**](#guard) (the `if` statements), which provide additional conditional
-logic where patterns aren't expressive enough.
-
----
+## Array length checking
 
 ```jsx
 match (res) {
@@ -221,49 +220,66 @@ match (res) {
 }
 ```
 
-This is another way to write the previous code sample without a guard, and
-without checking the page count.
+[**Array patterns**](#array-pattern) implicitly check the length of the incoming
+[matchable](#matchable).
 
-The first `when` clause matches if `data` has exactly one element, and binds
-that element to `page` for the RHS. The second `when` clause matches if `data`
-has at least one element, binding that first element to `frontPage`, and an
-array of any remaining elements to `pages`.
+The first [clause](#clause) is a bare [guard](#guard), which matches if the
+condition is truthy.
 
-Note that for this to work properly, iterator results will need to be cached
-until there's a successful match, for example to allow checking the first item
-more than once.
+The second [clause](#clause) is an [object pattern](#object-pattern) which
+contains an [array pattern](#array-pattern), which matches if `data` has exactly
+one element, and binds that element to `page` for the RHS.
 
----
+The third [clause](#clause) matches if `data` has **at least one** element,
+binding that first element to `frontPage`, and binding an array of any remaining
+elements to `pages` using a [**rest pattern**](#rest-pattern).
+
+([Rest patterns](#rest-pattern) can also be used in objects, with the expected
+semantics.)
+
+## Bindings from regex patterns with named capture groups
 
 ```jsx
 match (arithmeticStr) {
   when (/(?<left>\d+) \+ (?<right>\d+)/) process(left, right);
-  when (/(\d+) \+ (\d+)/) with ([_, left, right]) process(left, right);
+  when (/(\d+) \* (\d+)/) with ([_, left, right]) process(left, right);
   else ...
 }
 ```
 
-This sample is a contrived arithmetic expression parser. Regexes are
-[patterns](#pattern), with the expected matching semantics. Named capture groups
-automatically introduce bindings for the RHS.
+This sample is a contrived arithmetic expression parser which uses
+[regex patterns](#regex-patterns).
 
-Additionally, regexes follow the
-[custom matcher protocol](#custom-matcher-protocol), returning their match
-object for further pattern matching using the `with (pattern)` suffix. In this
-example, since a match object is an array-like, it can be further matched with
-an array matcher to extract the capture groups instead.
+The first clause matches integer addition expressions, using named capture
+groups for each of the operands. The RHS is able to see the named capture groups
+as bindings.
+
+(These magic bindings will only work with **literal**
+[regex patterns](#regex-patterns). If a regex with named capture groups is
+passed into an [interpolation pattern](#interpolation-pattern), the RHS will see
+no magic bindings. It's very important (e.g. for code analysis tools) that
+bindings only be introduced where the name is locally present.)
+
+The second clause matches integer multiplication expressions, but without named
+capture groups. Regexes (both literals and references inside
+[interpolation patterns](#interpolation-patterns)) implement the
+[custom matcher protocol](#custom-matcher-protocol), which makes the return
+value of
+[`String.prototype.match`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/match)
+available to the [`with` operator](#with-chaining).
 
 (Regexes are a major motivator for the
-[custom matcher protocol](#custom-matcher-protocol) ― while they are technically
-a built-in, with their own syntax, they're ordinary objects in every other way.
-If they can be used as a [pattern](#pattern), and introduce their own chosen
-bindings, then userland objects should be able to do this as well.)
+[custom matcher protocol](#custom-matcher-protocol) ― while we could treat them
+as a special case, they're just ordinary objects. If they can be used as a
+[pattern](#regex-pattern), then userland objects should be able to do this as
+well.)
 
----
+## Speaking of interpolations...
 
 ```jsx
 const LF = 0x0a;
 const CR = 0x0d;
+
 match (nextChar()) {
   when (${LF}) ...
   when (${CR}) ...
@@ -272,30 +288,20 @@ match (nextChar()) {
 ```
 
 Here we see the [**interpolation operator**](#interpolation-pattern) (`${}`),
-which allows arbitrary values to be matched, rather than just literals. It is
-similar to using `${}` in template strings, letting you "escape" pattern syntax
-and evaluate an arbitrary JS expression, then convert it appropriately into the
-outer context (a [pattern](#pattern)).
+which escapes from "pattern mode" syntax to "expression mode" syntax. It is
+conceptually very similar to using `${}` in template strings.
 
-Without `${}`, `when (LF)` would be an
-[identifier pattern](#identifier-pattern), which would always match regardless
-of the value of the [matchable](#matchable) (`nextChar()`) and bind the matched
-value to the given name (`LF`), shadowing the outer `const LF = 0x0a`
-declaration at the top.
+Written as just `LF`, `LF` is an [identifier pattern](#identifier-pattern),
+which would always match regardless of the value of the [matchable](#matchable)
+(`nextChar()`) and bind it to the given name (`LF`), shadowing the outer
+`const LF = 0x0a` declaration at the top.
 
-With `${}`, `when ${LF}` is evaluated as an expression, which results in the
-primitive `Number` value `0x0a`. This is then treated like a
+Written as `${LF}`, `LF` is evaluated as an expression, which results in the
+primitive `Number` value `0x0a`. This value is then treated as a
 [literal Number pattern](#primitive-pattern), and the [clause](#clause) matches
-only if the [matchable](#matchable) is `SameValueZero` with `0x0a`. The RHS sees
-no new bindings.
+if the [matchable](#matchable) is `0x0a`. The RHS sees no new bindings.
 
----
-
-[Interpolation patterns](#interpolation-pattern) can be much more powerful when
-used with the [custom matcher protocol](#custom-matcher-protocol).
-
-If the expression inside `${}` evaluates to an object with a `Symbol.matcher`
-method, that method is invoked with the [matchable](#matchable) as an argument:
+## [Custom matcher protocol](#custom-matcher-protocol) interpolations
 
 ```jsx
 class FirstLastName {
@@ -317,7 +323,7 @@ match ('Tab Atkins-Bittner') {
 }
 ```
 
-In this example, the expression inside `${}` is the class `FirstLastName`, which
+In this sample, the expression inside `${}` is the class `FirstLastName`, which
 has a `Symbol.matcher` method. That method is invoked with the
 [matchable](#matchable) (`'Tab Atkins-Bittner'`) as its sole argument. The
 [interpolation pattern](#interpolation-pattern) is considered to have matched if
@@ -326,11 +332,11 @@ Any other return value (including `true` by itself) indicates a failed match. (A
 thrown error percolates up the expression tree, as usual.)
 
 The [interpolation pattern](#interpolation-pattern) can optionally chain into
-another pattern using `with <pattern>`, which matches against the `value`
-property of the object returned by the `Symbol.matcher` method.
+another pattern using [`with` chaining](#with-chaining), which matches against
+the `value` property of the object returned by the `Symbol.matcher` method.
 
-Dynamic custom matchers can readily be created, and open up the door to many
-more possibilities:
+Dynamic custom matchers can readily be created, opening a world of
+possibilities:
 
 ```jsx
 function asciiCI(str) {
@@ -351,7 +357,7 @@ match (cssProperty) {
 }
 ```
 
----
+## Built-in custom matchers
 
 ```jsx
 match (value) {
@@ -363,16 +369,21 @@ match (value) {
 }
 ```
 
-All the built-in classes come with a predefined `[Symbol.matcher]` method which
-uses brand-checking semantics to determine if the incoming
-[matchable](#matchable) is of that type. If so, the incoming
+All the built-in classes come with a predefined `Symbol.matcher` method which
+uses
+[brand check semantics](https://github.com/tc39/how-we-work/blob/master/terminology.md#brand-check)
+to determine if the incoming [matchable](#matchable) is of that type. If so, the
 [matchable](#matchable) is returned under the `value` key.
 
-Brand-checking semantics allow for predictable results across realms. So, for
-example, arrays from other windows will still successfully match the `${Array}`
-pattern, similar to `Array.isArray()`.
+Brand checks allow for predictable results across realms. So, for example,
+arrays from other windows will still successfully match the `${Array}` pattern,
+similar to `Array.isArray()`.
 
-## Motivating Examples
+## Motivating examples
+
+Below are selected situations where we expect pattern matching will be widely
+used. As such, we want to optimize the ergonomics of such cases to the best of
+our ability.
 
 Matching `fetch()` responses:
 
@@ -391,8 +402,8 @@ match (res) {
 
 ---
 
-More concise, more functional handling of Redux reducers. Compare with
-[this same example in the Redux documentation](https://redux.js.org/basics/reducers#splitting-reducers):
+More concise, more functional handling of Redux reducers (compare with
+[this same example in the Redux documentation](https://redux.js.org/basics/reducers#splitting-reducers)):
 
 ```jsx
 function todosReducer(state = initialState, action) {
@@ -421,14 +432,17 @@ function todosReducer(state = initialState, action) {
 
 ---
 
-Concise props handling inlined with JSX (via
+Concise conditional logic in JSX (via
 [Divjot Singh](https://twitter.com/bogas04/status/977499729557839873)):
 
 ```jsx
 <Fetch url={API_URL}>
   {props => match (props) {
     when ({ loading }) <Loading />
-    when ({ error }) <Error error={error} />
+    when ({ error }) do {
+      console.err("something bad happened");
+      <Error error={error} />
+    }
     when ({ data }) <Page data={data} />
   }}
 </Fetch>
