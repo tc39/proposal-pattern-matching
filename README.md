@@ -651,7 +651,7 @@ console.log([...fiveIntegers]);
 
 A comma-separated list of zero or more "object pattern clauses", wrapped in
 curly braces, like `{x: "foo", y, z: {bar}}`. Each "object pattern clause" is
-either an `<identifier>`, or a `<key>: <pattern>` pair, wher `<key>` is an
+either an `<identifier>`, or a `<key>: <pattern>` pair, where `<key>` is an
 `<identifier>` or a computed-key expression like `[Symbol.foo]`. The final item
 can be a "rest pattern", looking like `...<identifier>`. (Aka, it looks like
 object destructuring.)
