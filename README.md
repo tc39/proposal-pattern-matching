@@ -448,7 +448,7 @@ Concise conditional logic in JSX (via
 </Fetch>
 ```
 
-# Terminology
+# Proposal
 
 ## Match construct
 
