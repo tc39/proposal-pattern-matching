@@ -4,6 +4,8 @@
 
 **Stage**: 1
 
+**Spec Text**: <https://tc39.github.io/proposal-pattern-matching>
+
 **Authors**: Originally Kat Marchán (Microsoft,
 [@zkat\_\_](https://twitter.com/zkat__)); now, the below champions.
 
