@@ -690,7 +690,7 @@ multiple times.
 (Unlike array pattern caching, which is _necessary_ for this proposal to work
 with iterators, object pattern caching is a nice-to-have. It does guard against
 some weirdness like non-idempotent getters, and helps make
-idempotent-but-expensive getters usable in pattern maching without contortions,
+idempotent-but-expensive getters usable in pattern matching without contortions,
 but mostly it’s just for conceptual consistency.)
 
 Whenever a [matchable](#matchable) is matched against an object pattern, for
