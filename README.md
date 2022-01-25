@@ -306,28 +306,37 @@ if the [matchable](#matchable) is `0x0a`. The RHS sees no new bindings.
 ## [Custom matcher protocol](#custom-matcher-protocol) interpolations
 
 ```jsx
-class FirstLastName {
-  static [Symbol.matcher](matchable) {
-    const pieces = matchable.split(' ');
-    if (pieces.length === 2) {
-      return {
-        matched: true,
-        value: pieces
-      };
-    }
-  }
+class Option {
+	constructor(val, hasValue) {
+		this.value = val;
+		this.hasValue = hasValue;
+	}
+	static Some(val) {
+		return new Option(val, true);
+	}
+	static None() {
+		return new Option(null, false);
+	}
 }
 
-match ('Tab Atkins-Bittner') {
-  when (${FirstLastName} with [first, last]) if (last.includes('-')) ...
-  when (${FirstLastName} with [first, last]) ...
-  else ...
+Option.Some[Symbol.matcher] = (val)=>({
+	matched: val instanceof Option && val.hasValue,
+	value: val.value,
+});
+Option.None[Symbol.matcher] = (val)=>({
+	matched: val instanceof Option && !val.hasValue
+});
+
+match(result) {
+	when (${Option.Some} with val) console.log(val);
+	when (${Option.None}) console.log("none");
 }
 ```
 
-In this sample, the expression inside `${}` is the class `FirstLastName`, which
-has a `Symbol.matcher` method. That method is invoked with the
-[matchable](#matchable) (`'Tab Atkins-Bittner'`) as its sole argument. The
+In this sample implementation of the common "Option" type, 
+the expressions inside `${}` are the static "constructors" `Option.Some` and `Option.None`, 
+which have a `Symbol.matcher` method. That method is invoked with the
+[matchable](#matchable) (`result`) as its sole argument. The
 [interpolation pattern](#interpolation-pattern) is considered to have matched if
 the `Symbol.matcher` method returns an object with a truthy `matched` property.
 Any other return value (including `true` by itself) indicates a failed match. (A
@@ -335,7 +344,8 @@ thrown error percolates up the expression tree, as usual.)
 
 The [interpolation pattern](#interpolation-pattern) can optionally chain into
 another pattern using [`with` chaining](#with-chaining), which matches against
-the `value` property of the object returned by the `Symbol.matcher` method.
+the `value` property of the object returned by the `Symbol.matcher` method;
+in this case, it allows `Option.Some` to expose the value inside of the `Option`.
 
 Dynamic custom matchers can readily be created, opening a world of
 possibilities:
