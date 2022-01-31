@@ -307,15 +307,21 @@ if the [matchable](#matchable) is `0x0a`. The RHS sees no new bindings.
 
 ```jsx
 class Option {
-	constructor(val, hasValue) {
-		this.value = val;
-		this.hasValue = hasValue;
+	constructor(hasValue, value) {
+		this.hasValue = !!hasValue;
+		if(hasValue) {
+			this._value = value;
+		}
 	}
+	get value() {
+		if(this.hasValue) return this._value;
+		throw new Exception("Can't get the value of an Option.None.");
+	
 	static Some(val) {
-		return new Option(val, true);
+		return new Option(true, val);
 	}
 	static None() {
-		return new Option(null, false);
+		return new Option(false);
 	}
 }
 
