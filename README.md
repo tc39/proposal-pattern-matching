@@ -371,7 +371,7 @@ match (cssProperty) {
   when ({ name: name & ${asciiCI("color")}, value })
     console.log("color: " + value);
     // matches if `name` is an ASCII case-insensitive match
-    // for "color", so `{"COLOR": "red"} would match.
+    // for "color", so `{name:"COLOR", value:"red"} would match.
 }
 ```
 
