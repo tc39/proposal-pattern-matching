@@ -132,6 +132,8 @@ A list of community libraries that provide similar matching functionality:
 - [babel-plugin-proposal-pattern-matching](https://github.com/iptop/babel-plugin-proposal-pattern-matching)
   — Minimal grammar, high performance JavaScript pattern matching
   implementation.
+- [match-iz](https://github.com/shuckster/match-iz)
+— A tiny functional pattern-matching library inspired by the TC39 proposal.
 
 # Code samples
 
