@@ -578,10 +578,7 @@ matching proceeds with the [custom matcher protocol](#custom-matcher-protocol)
 semantics. If it resolves to anything else (typically a primitive, a `Symbol`,
 or an object without a `Symbol.matcher` function), then the pattern matches if
 the [matchable](#matchable) is
-[`SameValueZero`](https://tc39.es/ecma262/#sec-samevaluezero) with the result.
-(Again, See #121 for discussion on whether we should use
-[`SameValue`](https://tc39.es/ecma262/#sec-samevalue) or
-[`SameValueZero`](https://tc39.es/ecma262/#sec-samevaluezero) semantics.)
+[`SameValue`](https://tc39.es/ecma262/#sec-samevalue) with the result.
 
 Interpolation patterns can use [`with`-chaining](#with-chaining) to further
 match against the `value` key of the object returned by the `Symbol.matcher`
