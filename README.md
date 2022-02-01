@@ -146,7 +146,7 @@ match (res) {
     retry(req);
     this.hasRetried = true;
   }
-  else: throwSomething();
+  default: throwSomething();
 }
 ```
 
@@ -154,10 +154,10 @@ match (res) {
   [**match construct**](#match-construct).
 - `res` is the [**matchable**](#matchable). This can be any expression.
 - There are four [**clauses**](#clause) in this example: three `when` clauses,
-  and one `else` clause.
+  and one `default` clause.
 - A [clause](#clause) consists of a left-hand side (LHS) and a right-hand side
   (RHS), separated by a colon (`:`).
-- The LHS can begin with the `when` or `else` keywords.
+- The LHS can begin with the `when` or `default` keywords.
   - The `when` keyword must be followed by a [**pattern**](#pattern) in
     parentheses. Each of the [`when` clauses](#clause) here contain
     [**object patterns**](#object-pattern).
@@ -165,9 +165,9 @@ match (res) {
     consists of the `if` keyword, and a condition (any expression) in
     parentheses. [Guards](#guard) provide a space for additional logic when
     [patterns](#pattern) aren’t expressive enough.
-  - An explicit `else` [clause](#clause) handles the "no match" scenario by
+  - An explicit `default` [clause](#clause) handles the "no match" scenario by
     always matching. It must always appear last when present, as any
-    [clauses](#clause) after an `else` are unreachable.
+    [clauses](#clause) after an `default` are unreachable.
 - The RHS is any expression. It will be evaluated if the LHS successfully
   matches, and the result will be the value of the entire
   [match construct](#match-construct).
@@ -184,7 +184,7 @@ match (res) {
 match (command) {
   when ([ 'go', dir & ('north' | 'east' | 'south' | 'west')]): ...
   when ([ 'take', item & /[a-z]+ ball/ & { weight }]): ...
-  else: ...
+  default: ...
 }
 ```
 
@@ -218,7 +218,7 @@ match (res) {
   if (isEmpty(res)): ...
   when ({ data: [page] }): ...
   when ({ data: [frontPage, ...pages] }): ...
-  else: { ... }
+  default: { ... }
 }
 ```
 
@@ -245,7 +245,7 @@ semantics.)
 match (arithmeticStr) {
   when (/(?<left>\d+) \+ (?<right>\d+)/): process(left, right);
   when (/(\d+) \* (\d+)/) with ([_, left, right]): process(left, right);
-  else: ...
+  default: ...
 }
 ```
 
@@ -285,7 +285,7 @@ const CR = 0x0d;
 match (nextChar()) {
   when (${LF}): ...
   when (${CR}): ...
-  else: ...
+  default: ...
 }
 ```
 
@@ -383,7 +383,7 @@ match (value) {
   when (${BigNum}): ...
   when (${String}): ...
   when (${Array}): ...
-  else: ...
+  default: ...
 }
 ```
 
@@ -443,7 +443,7 @@ function todosReducer(state = initialState, action) {
         todos: newTodos,
       });
     }
-    else: state // ignore unknown actions
+    default: state // ignore unknown actions
   }
 }
 ```
@@ -496,9 +496,7 @@ The LHS can look like:
   top-level [matchable](#matchable);
 - `if (<expr>)`, which matches if the `<expr>` is truthy;
 - `when (<pattern>) if (<expr>)`, which does both;
-- `else`, which always succeeds but must be the final clause.
-
-(There is an [open issue](#208) on how `if` / `else` should be spelled.)
+- `default`, which always succeeds but must be the final clause.
 
 The RHS is an arbitrary JS expression, which the whole
 [match construct](#match-construct) resolves to if the LHS successfully matches.
@@ -657,7 +655,7 @@ match(fiveIntegers) {
     // and the third to verify the iterator has only two items.
     // Two are already in the cache,
     // so we’ll just pull one more (and fail the pattern).
-  else console.log("more than two ints");
+  default: console.log("more than two ints");
 }
 console.log([...fiveIntegers]);
 // logs [4, 5]
@@ -902,7 +900,7 @@ However, just like `async do` expressions, there’s uses of being able to use
 async match (await matchable) {
   when ({ a }): await a; 
   when ({ b }): b.then(() => 42);
-  else: await somethingThatRejects();
+  default: await somethingThatRejects();
 } // produces a Promise
 ```
 
@@ -967,7 +965,7 @@ try {
 } catch match (e) {
   if (e instanceof RangeError): ...
   when (/^abc$/): ...
-  else: do { throw e; } // default behavior
+  default: do { throw e; } // default behavior
 }
 ```
 
@@ -979,7 +977,7 @@ Some reasonable use-cases require repetition of patterns today, like:
 match (res) {
   when ({ pages, data }) if (pages > 1): console.log("multiple pages")
   when ({ pages, data }) if (pages === 1): console.log("one page")
-  else: console.log("no pages")
+  default: console.log("no pages")
 }
 ```
 
@@ -996,9 +994,9 @@ match (res) {
     if (pages === 1): console.log("one page")
     // if pages == 0, no clauses succeed in the child match,
     // so the parent clause fails as well,
-    // and we advance to the outer `else`
+    // and we advance to the outer `default`
   }
-  else: console.log("no pages")
+  default: console.log("no pages")
 }
 ```
 
@@ -1016,7 +1014,7 @@ match (res) {
     // the inner construct fails to match anything
     // and throws a TypeError
   }
-  else: console.log("no pages")
+  default: console.log("no pages")
 }
 ```
 
