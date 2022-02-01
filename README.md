@@ -590,7 +590,7 @@ like `[,,thirdItem]`. The final item can be a "rest pattern", looking like
 `...<identifier>`. (Aka, it looks like array destructuring.)
 
 First, an iterator is obtained from the [matchable](#matchable): if the
-[matchable](#matchable) is itself iterable (exposed a `[Symbol.iterator]`
+[matchable](#matchable) is itself iterable (exposes a `[Symbol.iterator]`
 method) that is used; if it’s array-like, an array iterator is used.
 
 Then, items are pulled from the iterator, and matched against the array
@@ -659,6 +659,10 @@ console.log([...fiveIntegers]);
 // The match construct pulled three elements from the generator,
 // so there’s two leftover afterwards.
 ```
+
+When execution of the match construct finishes,
+all cached iterators are closed.
+
 
 ### Object Pattern
 
