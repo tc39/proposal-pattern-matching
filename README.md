@@ -586,8 +586,13 @@ method.
 
 A comma-separated list of zero or more patterns or holes, wrapped in square
 brackets, like `["foo", a, {bar}]`. "Holes" are just nothing (or whitespace),
-like `[,,thirdItem]`. The final item can be a "rest pattern", looking like
-`...<identifier>`. (Aka, it looks like array destructuring.)
+like `[,,thirdItem]`. 
+The final item can optionally be either a "rest pattern", 
+looking like `...`,
+or a "binding rest pattern",
+looking like `...<identifier>`. 
+(Aka, an array pattern looks like array destructuring,
+save for the addition of the "rest pattern" variant.)
 
 First, an iterator is obtained from the [matchable](#matchable): if the
 [matchable](#matchable) is itself iterable (exposes a `[Symbol.iterator]`
@@ -598,17 +603,19 @@ pattern’s corresponding nested patterns. (Holes always match, introducing no
 bindings.) If any of these matches fail, the entire array pattern fails to
 match.
 
-If the array pattern ends in a rest pattern, the remainder of the iterator is
-pulled into an Array, and bound to the identifier from the array rest pattern,
+If the array pattern ends in a binding rest pattern, 
+the remainder of the iterator is pulled into an Array, 
+and bound to the identifier from the binding rest pattern,
 just like in array destructuring.
 
-If the array pattern does _not_ end in a rest pattern, the iterator must match
-the array pattern’s length: one final item is pulled from the iterator, and if
-it succeeds (rather than closing the iterator), the array pattern fails to
-match.
+If the array pattern does _not_ end in a rest pattern (binding or otherwise), 
+the iterator must match the array pattern’s length: 
+one final item is pulled from the iterator, 
+and if it succeeds (rather than closing the iterator), 
+the array pattern fails to match.
 
 The array pattern introduces all the bindings introduced by its nested patterns,
-plus the binding introduced by its rest pattern, if present.
+plus the binding introduced by its binding rest pattern, if present.
 
 #### Array Pattern Caching
 
