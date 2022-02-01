@@ -307,35 +307,35 @@ if the [matchable](#matchable) is `0x0a`. The RHS sees no new bindings.
 
 ```jsx
 class Option {
-	constructor(hasValue, value) {
-		this.hasValue = !!hasValue;
-		if(hasValue) {
-			this._value = value;
-		}
-	}
-	get value() {
-		if(this.hasValue) return this._value;
-		throw new Exception("Can't get the value of an Option.None.");
-	
-	static Some(val) {
-		return new Option(true, val);
-	}
-	static None() {
-		return new Option(false);
-	}
+  constructor(hasValue, value) {
+    this.hasValue = !!hasValue;
+    if(hasValue) {
+      this._value = value;
+    }
+  }
+  get value() {
+    if(this.hasValue) return this._value;
+    throw new Exception("Can't get the value of an Option.None.");
+  
+  static Some(val) {
+    return new Option(true, val);
+  }
+  static None() {
+    return new Option(false);
+  }
 }
 
 Option.Some[Symbol.matcher] = (val)=>({
-	matched: val instanceof Option && val.hasValue,
-	value: val.value,
+  matched: val instanceof Option && val.hasValue,
+  value: val.value,
 });
 Option.None[Symbol.matcher] = (val)=>({
-	matched: val instanceof Option && !val.hasValue
+  matched: val instanceof Option && !val.hasValue
 });
 
 match(result) {
-	when (${Option.Some} with val): console.log(val);
-	when (${Option.None}): console.log("none");
+  when (${Option.Some} with val): console.log(val);
+  when (${Option.None}): console.log("none");
 }
 ```
 
@@ -625,9 +625,6 @@ Whenever something would be matched against an array pattern, the cache is first
 checked, and the already-pulled items stored in the cache are used for the
 pattern, with new items pulled from the iterator only if necessary.
 
-(Caching is
-[still being discussed](https://github.com/tc39/proposal-pattern-matching/issues/216).)
-
 For example:
 
 ```js
@@ -715,9 +712,6 @@ Whenever something would be matched against an object pattern, the cache is
 first checked, and if the [matchable](#matchable) and that property name are
 already in the cache, the value is retrieved from cache instead of by a fresh
 `Get` against the [matchable](#matchable).
-
-(Caching is
-[still being discussed](https://github.com/tc39/proposal-pattern-matching/issues/216).)
 
 For example:
 
