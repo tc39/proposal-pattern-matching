@@ -634,7 +634,7 @@ For example:
 
 ```js
 function* integers(to) {
-  for(var i = 0; i < to; i++) yield i;
+  for(var i = 1; i <= to; i++) yield i;
 }
 
 const fiveIntegers = integers(5);
