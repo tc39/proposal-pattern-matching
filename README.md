@@ -139,14 +139,14 @@ A list of community libraries that provide similar matching functionality:
 
 ```jsx
 match (res) {
-  when ({ status: 200, body, ...rest }) handleData(body, rest)
-  when ({ status, destination: url }) if (300 <= status && status < 400)
+  when ({ status: 200, body, ...rest }): handleData(body, rest)
+  when ({ status, destination: url }) if (300 <= status && status < 400):
     handleRedirect(url)
-  when ({ status: 500 }) if (!this.hasRetried) do {
+  when ({ status: 500 }) if (!this.hasRetried): do {
     retry(req);
     this.hasRetried = true;
   }
-  else throwSomething();
+  else: throwSomething();
 }
 ```
 
@@ -156,7 +156,7 @@ match (res) {
 - There are four [**clauses**](#clause) in this example: three `when` clauses,
   and one `else` clause.
 - A [clause](#clause) consists of a left-hand side (LHS) and a right-hand side
-  (RHS).
+  (RHS), separated by a colon (`:`).
 - The LHS can begin with the `when` or `else` keywords.
   - The `when` keyword must be followed by a [**pattern**](#pattern) in
     parentheses. Each of the [`when` clauses](#clause) here contain
@@ -182,9 +182,9 @@ match (res) {
 
 ```jsx
 match (command) {
-  when ([ 'go', dir & ('north' | 'east' | 'south' | 'west')]) ...
-  when ([ 'take', item & /[a-z]+ ball/ & { weight }]) ...
-  else ...
+  when ([ 'go', dir & ('north' | 'east' | 'south' | 'west')]): ...
+  when ([ 'take', item & /[a-z]+ ball/ & { weight }]): ...
+  else: ...
 }
 ```
 
@@ -215,10 +215,10 @@ makes that binding available to the RHS.
 
 ```jsx
 match (res) {
-  if (isEmpty(res)) ...
-  when ({ data: [page] }) ...
-  when ({ data: [frontPage, ...pages] }) ...
-  else { ... }
+  if (isEmpty(res)): ...
+  when ({ data: [page] }): ...
+  when ({ data: [frontPage, ...pages] }): ...
+  else: { ... }
 }
 ```
 
@@ -243,9 +243,9 @@ semantics.)
 
 ```jsx
 match (arithmeticStr) {
-  when (/(?<left>\d+) \+ (?<right>\d+)/) process(left, right);
-  when (/(\d+) \* (\d+)/) with ([_, left, right]) process(left, right);
-  else ...
+  when (/(?<left>\d+) \+ (?<right>\d+)/): process(left, right);
+  when (/(\d+) \* (\d+)/) with ([_, left, right]): process(left, right);
+  else: ...
 }
 ```
 
@@ -283,9 +283,9 @@ const LF = 0x0a;
 const CR = 0x0d;
 
 match (nextChar()) {
-  when (${LF}) ...
-  when (${CR}) ...
-  else ...
+  when (${LF}): ...
+  when (${CR}): ...
+  else: ...
 }
 ```
 
@@ -334,8 +334,8 @@ Option.None[Symbol.matcher] = (val)=>({
 });
 
 match(result) {
-	when (${Option.Some} with val) console.log(val);
-	when (${Option.None}) console.log("none");
+	when (${Option.Some} with val): console.log(val);
+	when (${Option.None}): console.log("none");
 }
 ```
 
@@ -368,7 +368,7 @@ function asciiCI(str) {
 }
 
 match (cssProperty) {
-  when ({ name: name & ${asciiCI("color")}, value })
+  when ({ name: name & ${asciiCI("color")}, value }):
     console.log("color: " + value);
     // matches if `name` is an ASCII case-insensitive match
     // for "color", so `{name:"COLOR", value:"red"} would match.
@@ -379,11 +379,11 @@ match (cssProperty) {
 
 ```jsx
 match (value) {
-  when (${Number}) ...
-  when (${BigNum}) ...
-  when (${String}) ...
-  when (${Array}) ...
-  else ...
+  when (${Number}): ...
+  when (${BigNum}): ...
+  when (${String}): ...
+  when (${Array}): ...
+  else: ...
 }
 ```
 
@@ -408,11 +408,11 @@ Matching `fetch()` responses:
 ```jsx
 const res = await fetch(jsonService)
 match (res) {
-  when ({ status: 200, headers: { 'Content-Length': s } })
+  when ({ status: 200, headers: { 'Content-Length': s } }):
     console.log(`size is ${s}`);
-  when ({ status: 404 })
+  when ({ status: 404 }):
     console.log('JSON not found');
-  when ({ status }) if (status >= 400) do {
+  when ({ status }) if (status >= 400): do {
     throw new RequestError(res);
   }
 };
@@ -426,11 +426,11 @@ More concise, more functional handling of Redux reducers (compare with
 ```jsx
 function todosReducer(state = initialState, action) {
   return match (action) {
-    when ({ type: 'set-visibility-filter', payload: visFilter })
+    when ({ type: 'set-visibility-filter', payload: visFilter }):
       { ...state, visFilter }
-    when ({ type: 'add-todo', payload: text })
+    when ({ type: 'add-todo', payload: text }):
       { ...state, todos: [...state.todos, { text, completed: false }] }
-    when ({ type: 'toggle-todo', payload: index }) do {
+    when ({ type: 'toggle-todo', payload: index }): do {
       const newTodos = state.todos.map((todo, i) => {
         return i !== index ? todo : {
           ...todo,
@@ -443,7 +443,7 @@ function todosReducer(state = initialState, action) {
         todos: newTodos,
       });
     }
-    else state // ignore unknown actions
+    else: state // ignore unknown actions
   }
 }
 ```
@@ -456,12 +456,12 @@ Concise conditional logic in JSX (via
 ```jsx
 <Fetch url={API_URL}>
   {props => match (props) {
-    when ({ loading }) <Loading />
-    when ({ error }) do {
+    when ({ loading }): <Loading />
+    when ({ error }): do {
       console.err("something bad happened");
       <Error error={error} />
     }
-    when ({ data }) <Page data={data} />
+    when ({ data }): <Page data={data} />
   }}
 </Fetch>
 ```
@@ -488,7 +488,7 @@ array-like with one item, then treat the first item as a matchable against the
 ## Clause
 
 One "arm" of the [match construct](#match-construct)’s contents, consisting of
-an LHS (left-hand side) and an RHS (right-hand side).
+an LHS (left-hand side) and an RHS (right-hand side), separated by a colon (`:`).
 
 The LHS can look like:
 
@@ -642,7 +642,7 @@ function* integers(to) {
 
 const fiveIntegers = integers(5);
 match(fiveIntegers) {
-  when([a])
+  when([a]):
     console.log(`found one int: ${a}`);
     // Matching a generator against an array pattern.
     // Obtain the iterator (which is just the generator itself),
@@ -650,7 +650,7 @@ match(fiveIntegers) {
     // one to match against the `a` pattern (which succeeds),
     // the second to verify the iterator only has one item
     // (which fails).
-  when([a, b])
+  when([a, b]):
     console.log(`found two ints: ${a} and ${b}`);
     // Matching against an array pattern again.
     // The generator object has already been cached,
@@ -732,12 +732,12 @@ const randomItem = {
 };
 
 match(randomItem) {
-  when({numOrString: ${Number}})
+  when({numOrString: ${Number}}):
     console.log("Only matches half the time.");
     // Whether the pattern matches or not,
     // we cache the (randomItem, "numOrString") pair
     // with the result.
-  when({numOrString: ${String}})
+  when({numOrString: ${String}}):
     console.log("Guaranteed to match the other half of the time.");
     // Since (randomItem, "numOrString") has already been cached,
     // we reuse the result here;
@@ -823,8 +823,8 @@ class MyClass = {
 };
 
 match (3) {
-  when (${MyClass}) true; // matches, doesn’t use the result
-  when (${MyClass} with {a, b: {c}}) do {
+  when (${MyClass}): true; // matches, doesn’t use the result
+  when (${MyClass} with {a, b: {c}}): do {
     // passes the custom matcher,
     // then further applies an object pattern to the result’s value
     assert(a === 1);
@@ -837,7 +837,7 @@ or
 
 ```jsx
 match("foobar") {
-  when (/foo(.*)/) with [, suffix]
+  when (/foo(.*)/ with [, suffix]):
     console.log(suffix);
     // logs "bar", since the match result
     // is an array-like containing the whole match
@@ -903,9 +903,9 @@ However, just like `async do` expressions, there’s uses of being able to use
 
 ```jsx
 async match (await matchable) {
-  when ({ a }) { await a; }
-  when ({ b }) { b.then(() => 42); }
-  else { await somethingThatRejects(); }
+  when ({ a }): await a; 
+  when ({ b }): b.then(() => 42);
+  else: await somethingThatRejects();
 } // produces a Promise
 ```
 
@@ -913,7 +913,7 @@ async match (await matchable) {
 
 ```jsx
 match (someArr) {
-  when [_, _, someVal] { ... }
+  when ([_, _, someVal]): ...
 }
 ```
 
@@ -933,7 +933,7 @@ Destructuring can supply a default value with `= <expr>` which is used when a
 key isn’t present. Is this useful for pattern matching?
 
 Optional keys seem reasonable; right now they’d require duplicating the pattern
-like `{a, b} | {a}` (`b` will be bound to undefined in the RHS if not present).
+like `({a, b} | {a})` (`b` will be bound to undefined in the RHS if not present).
 
 Do we need/want full defaulting? Does it complicate the syntax to much to have
 arbitrary JS expressions there, without anything like wrapper characters to
@@ -945,10 +945,10 @@ This would bring us into closer alignment with destructuring, which is nice.
 
 Right now, to bind a value in the middle of a pattern but continue to match on
 it, you use `&` to run both an [identifier pattern](#identifier-pattern) and a
-further [pattern](#pattern) on the same value, like `when (arr & [item]) ...`.
+further [pattern](#pattern) on the same value, like `when(arr & [item]): ...`.
 
 Langs like Haskell and Rust have a dedicated syntax for this, spelled `@`; if we
-adopted this, the above could be written as `when (arr @ [item]) ...`.
+adopted this, the above could be written as `when(arr @ [item]): ...`.
 
 Since this would introduce no new functionality, just a dedicated syntactic form
 for a common operation and some amount of concordance with other languages,
@@ -968,9 +968,9 @@ indentation:
 try {
   throw new TypeError('a');
 } catch match (e) {
-  if (e instanceof RangeError) { ... }
-  when (/^abc$/) { ... }
-  else { throw e; } // default behavior
+  if (e instanceof RangeError): ...
+  when (/^abc$/): ...
+  else: do { throw e; } // default behavior
 }
 ```
 
@@ -980,9 +980,9 @@ Some reasonable use-cases require repetition of patterns today, like:
 
 ```js
 match (res) {
-  when ({ pages, data }) if (pages > 1) console.log("multiple pages")
-  when ({ pages, data }) if (pages === 1) console.log("one page")
-  else console.log("no pages")
+  when ({ pages, data }) if (pages > 1): console.log("multiple pages")
+  when ({ pages, data }) if (pages === 1): console.log("one page")
+  else: console.log("no pages")
 }
 ```
 
@@ -995,13 +995,13 @@ The above would then be written as:
 ```js
 match (res) {
   when ({ pages, data }) match {
-    if (pages > 1) console.log("multiple pages")
-    if (pages === 1) console.log("one page")
+    if (pages > 1): console.log("multiple pages")
+    if (pages === 1): console.log("one page")
     // if pages == 0, no clauses succeed in the child match,
     // so the parent clause fails as well,
     // and we advance to the outer `else`
   }
-  else console.log("no pages")
+  else: console.log("no pages")
 }
 ```
 
@@ -1012,19 +1012,19 @@ the clauses match):
 
 ```js
 match (res) {
-  when ({ pages, data }) match (0) {
-    if(pages > 1) console.log("multiple pages")
-    if(pages === 1) console.log("one page")
+  when ({ pages, data }): match (0) {
+    if(pages > 1): console.log("multiple pages")
+    if(pages === 1): console.log("one page")
     // just an RHS, so if pages == 0,
     // the inner construct fails to match anything
     // and throws a TypeError
   }
-  else console.log("no pages")
+  else: console.log("no pages")
 }
 ```
 
-(If we have a separator between the LHS and RHS, the distinction between these
-two cases would be clearer.)
+The presence or absence of the separator colon also distinguishes these cases,
+of course.
 
 <!--
 ## Implementations
