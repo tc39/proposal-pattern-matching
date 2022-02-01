@@ -541,10 +541,13 @@ literals in people’s heads, are allowed:
   bindings present at the start of the [match construct](#match-construct).
 
 These match if the [matchable](#matchable) is
-[`SameValueZero`](https://tc39.es/ecma262/#sec-samevaluezero) with them. (See
-#121 for discussion on whether we should use
-[`SameValue`](https://tc39.es/ecma262/#sec-samevalue) or
-[`SameValueZero`](https://tc39.es/ecma262/#sec-samevaluezero) semantics.)
+[`SameValue`](https://tc39.es/ecma262/#sec-samevalue) with them,
+with one exception:
+if the pattern is the literal `0` (without the unary prefix operators `+0` or `-0`),
+it is instead compared with [`SameValueZero`](https://tc39.es/ecma262/#sec-samevaluezero).
+
+(That is, `+0` and `-0` only match positive and negative zero, respectively,
+while `0` matches both zeroes without regard for the sign.)
 
 They do not introduce bindings.
 
