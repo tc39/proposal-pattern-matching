@@ -132,8 +132,6 @@ A list of community libraries that provide similar matching functionality:
 - [babel-plugin-proposal-pattern-matching](https://github.com/iptop/babel-plugin-proposal-pattern-matching)
   — Minimal grammar, high performance JavaScript pattern matching
   implementation.
-- [match-iz](https://github.com/shuckster/match-iz)
-  — A tiny pattern-matching library inspired by the TC39 proposal.
 
 # Code samples
 
@@ -619,6 +617,11 @@ the array pattern fails to match.
 The array pattern introduces all the bindings introduced by its nested patterns,
 plus the binding introduced by its binding rest pattern, if present.
 
+Bindings introduced by earlier nested patterns
+are visible to later nested patterns in the same array pattern.
+(For example, `[a, ${a}]`) will match 
+only if the second item in the array is identical to the first item.)
+
 #### Array Pattern Caching
 
 To allow for idiomatic uses of generators and other "single-shot" iterators to
@@ -703,6 +706,14 @@ constraints; `{foo}` will match the object `{foo: 1, bar:2}`, binding `foo` to
 
 The object pattern introduces all the bindings introduced by its nested
 patterns, plus the binding introduced by its rest pattern, if present.
+
+Bindings introduced by earlier nested patterns
+are visible to later nested patterns in the same object pattern.
+(For example, `{a, b:${a}}`) will match 
+only if the `b` property item in the object is identical to the `a` property's value.)
+Ordering is important, however, so `{b:${a}, a}` does *not* mean the same thing;
+instead, the `${a}` resolves based on whatever `a` binding might exist from earlier in the pattern,
+or outside the match construct entirely.
 
 #### Object Pattern Caching
 
@@ -878,6 +889,11 @@ For examle, `when (foo & [bar, baz]) ...` matches the [matchable](#matchable)
 against both the `foo` [identifier pattern](#identifier-pattern) (binding it to
 `foo` for the RHS) _and_ against the `[bar, baz]`
 [array pattern](#array-pattern).
+
+Bindings introduced by earlier nested patterns
+are visible to later nested patterns in the same combined pattern.
+(For example, `(a & ${console.log(a)||a})`) will bind the matchable to `a`,
+and then log it.)
 
 ## Parenthesizing Patterns
 
