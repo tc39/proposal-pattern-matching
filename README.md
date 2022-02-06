@@ -1045,6 +1045,33 @@ match (res) {
 The presence or absence of the separator colon also distinguishes these cases,
 of course.
 
+## `or` on when clauses
+
+There might be some cases that requires different `when + if` guards with the same RHS.
+
+```js
+// current
+match (expr()) {
+    when ({ type: 'a', version, ...rest }) if (isAcceptableTypeVersion(version)):
+        a_long_expression_do_something_with_rest
+    when ({ kind: 'a', version, ...rest }) if (isAcceptableKindVersion(version)):
+        a_long_expression_do_something_with_rest            
+}
+```
+
+Today this case can be resolved by extracting `a_long_expression_do_something_with_rest` to a function,
+but if cases above are very common, we may also allows `or` to be used on the when clause,
+and the code above becomes:
+
+```js
+// current
+match (expr()) {
+    when ({ type: 'a', version, ...rest }) if (isAcceptableTypeVersion(version))
+    or when ({ kind: 'a', version, ...rest }) if (isAcceptableKindVersion(version)):
+        a_long_expression_do_something_with_rest            
+}
+```
+
 <!--
 ## Implementations
 
