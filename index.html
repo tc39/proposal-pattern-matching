@@ -135,7 +135,7 @@ Search.prototype.loadBiblio = function () {
 };
 
 Search.prototype.documentKeydown = function (e) {
-  if (e.keyCode === 191) {
+  if (e.key === '/') {
     e.preventDefault();
     e.stopPropagation();
     this.triggerSearch();
@@ -1061,7 +1061,7 @@ function doShortcut(e) {
   if (name === 'textarea' || name === 'input' || name === 'select' || target.isContentEditable) {
     return;
   }
-  if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+  if (e.altKey || e.ctrlKey || e.metaKey) {
     return;
   }
   if (e.key === 'm' && usesMultipage) {
@@ -1083,6 +1083,8 @@ function doShortcut(e) {
     }
   } else if (e.key === 'u') {
     document.documentElement.classList.toggle('show-ao-annotations');
+  } else if (e.key === '?') {
+    document.getElementById('shortcuts-help').classList.toggle('active');
   }
 }
 
@@ -1098,8 +1100,11 @@ function init() {
   document.addEventListener(
     'keydown',
     debounce(e => {
-      if (e.code === 'Escape' && Toolbox.active) {
-        Toolbox.deactivate();
+      if (e.code === 'Escape') {
+        if (Toolbox.active) {
+          Toolbox.deactivate();
+        }
+        document.getElementById('shortcuts-help').classList.remove('active');
       }
     })
   );
@@ -2359,10 +2364,57 @@ li.menu-search-result-term:before {
 .clause-attributes-tag a {
   color: #884400;
 }
-</style></head><body><div id="menu-toggle"><svg xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%; stroke:currentColor" viewBox="0 0 120 120">
+
+/* Shortcuts help dialog */
+
+#shortcuts-help {
+  position: fixed;
+  left: 5%;
+  margin: 0 auto;
+  right: 5%;
+  z-index: 10;
+  top: 10%;
+  top: calc(5vw + 5vh);
+  padding: 30px 90px;
+  max-width: 500px;
+  outline: solid 10000px rgba(255, 255, 255, 0.6);
+  border-radius: 5px;
+  border-width: 1px 1px 0 1px;
+  background-color: #ddd;
+  display: none;
+}
+
+#shortcuts-help.active {
+  display: block;
+}
+
+#shortcuts-help ul {
+  padding: 0;
+}
+
+#shortcuts-help li {
+  display: flex;
+  justify-content: space-between;
+}
+
+#shortcuts-help code {
+  padding: 3px 10px;
+  border-radius: 3px;
+  border-width: 1px 1px 0 1px;
+  border-color: #bbb;
+  background-color: #eee;
+  box-shadow: inset 0 -1px 0 #ccc;
+}
+</style></head><body><div id="shortcuts-help">
+<ul>
+  <li><span>Toggle shortcuts help</span><code>?</code></li>
+  <li><span>Toggle "can call user code" annotations</span><code>u</code></li>
+
+  <li><span>Jump to search box</span><code>/</code></li>
+</ul></div><div id="menu-toggle"><svg xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%; stroke:currentColor" viewBox="0 0 120 120">
       <title>Menu</title>
       <path stroke-width="10" stroke-linecap="round" d="M30,60 h60  M30,30 m0,5 h60  M30,90 m0,-5 h60"></path>
-    </svg></div><div id="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-syntax" title="Syntax"><span class="secnum">1</span> Syntax</a></li><li><span class="item-toggle">◢</span><a href="#sec-match-expression" title="Match Expression"><span class="secnum">2</span> Match Expression</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-match-ss-errors" title="Static Semantics: Early Errors"><span class="secnum">2.1</span> SS: Early Errors</a></li><li><span class="item-toggle-none"></span><a href="#sec-match-rs-fn-def" title="Runtime Semantics: IsFunctionDefinition"><span class="secnum">2.2</span> RS: IsFunctionDefinition</a></li><li><span class="item-toggle">◢</span><a href="#sec-match-rs-eval" title="Runtime Semantics: Evaluation"><span class="secnum">2.3</span> RS: Evaluation</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-match-rs-when-clause-matches" title="WhenClauseMatches(exprValue, WhenClause)"><span class="secnum">2.3.1</span> <dfn>WhenClauseMatches</dfn>(<var>exprValue</var>, <var>WhenClause</var>)</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-match-rs-when-clause-eval" title="WhenClauseEvaluation(exprValue, WhenClause)"><span class="secnum">2.4</span> <dfn>WhenClauseEvaluation</dfn>(<var>exprValue</var>, <var>WhenClause</var>)</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 1 Draft / December 11, 2021</h1><h1 class="title">Pattern Matching</h1>
+    </svg></div><div id="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-syntax" title="Syntax"><span class="secnum">1</span> Syntax</a></li><li><span class="item-toggle">◢</span><a href="#sec-match-expression" title="Match Expression"><span class="secnum">2</span> Match Expression</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-match-ss-errors" title="Static Semantics: Early Errors"><span class="secnum">2.1</span> SS: Early Errors</a></li><li><span class="item-toggle-none"></span><a href="#sec-match-rs-fn-def" title="Runtime Semantics: IsFunctionDefinition"><span class="secnum">2.2</span> RS: IsFunctionDefinition</a></li><li><span class="item-toggle">◢</span><a href="#sec-match-rs-eval" title="Runtime Semantics: Evaluation"><span class="secnum">2.3</span> RS: Evaluation</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-match-rs-when-clause-matches" title="WhenClauseMatches(exprValue, WhenClause)"><span class="secnum">2.3.1</span> <dfn>WhenClauseMatches</dfn>(<var>exprValue</var>, <var>WhenClause</var>)</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-match-rs-when-clause-eval" title="WhenClauseEvaluation(exprValue, WhenClause)"><span class="secnum">2.4</span> <dfn>WhenClauseEvaluation</dfn>(<var>exprValue</var>, <var>WhenClause</var>)</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 1 Draft / February 6, 2022</h1><h1 class="title">Pattern Matching</h1>
 
 <emu-note type="editor">Spec text is under construction.</emu-note>
 
@@ -2633,7 +2685,7 @@ li.menu-search-result-term:before {
       <h1><span class="secnum">A</span> Copyright &amp; Software License</h1>
       
       <h2>Copyright Notice</h2>
-      <p>© 2021 Daniel Rosenwasser, Jack Works, Jordan Harband, Mark Cohen, Ross Kirsling, Tab Atkins, Yulia Startsev</p>
+      <p>© 2022 Daniel Rosenwasser, Jack Works, Jordan Harband, Mark Cohen, Ross Kirsling, Tab Atkins, Yulia Startsev</p>
 
       <h2>Software License</h2>
       <p>All Software contained in this document ("Software") is protected by copyright and is being made available under the "BSD License", included below. This Software may be subject to third party rights (rights from parties other than Ecma International), including patent rights, and no licenses under such third party rights are granted under this license even if the third party concerned is a member of Ecma International. SEE THE ECMA CODE OF CONDUCT IN PATENT MATTERS AVAILABLE AT https://ecma-international.org/memento/codeofconduct.htm FOR INFORMATION REGARDING THE LICENSING OF PATENT CLAIMS THAT ARE REQUIRED TO IMPLEMENT ECMA INTERNATIONAL STANDARDS.</p>
