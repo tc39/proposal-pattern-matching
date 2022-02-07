@@ -184,8 +184,8 @@ match (res) {
 
 ```jsx
 match (command) {
-  when ([ 'go', dir & ('north' | 'east' | 'south' | 'west')]): ...
-  when ([ 'take', item & /[a-z]+ ball/ & { weight }]): ...
+  when ([ 'go', dir and ('north' or 'east' or 'south' or 'west')]): ...
+  when ([ 'take', item and /[a-z]+ ball/ and { weight }]): ...
   default: ...
 }
 ```
@@ -195,13 +195,13 @@ This sample is a contrived parser for a text-based adventure game.
 The first clause matches if the command is an array with exactly two items. The
 first must be exactly the string `'go'`, and the second must be one of the given
 cardinal directions. Note the use of the
-[**and combinator**](#pattern-combinators) (`&`) to bind the second item in the
+[**and combinator**](#pattern-combinators) to bind the second item in the
 array to `dir` using an [**identifier pattern**](#identifier-pattern) before
 verifying (using the [or combinator](#pattern-combinators)) that it’s one of the
 given directions.
 
 (Note that there is intentionally no precedence relationship between the pattern
-operators, such as `&`, `|`, or `with`; parentheses must be used to group
+operators, such as `and`, `or`, or `with`; parentheses must be used to group
 [patterns](#pattern) using different operators at the same level.)
 
 The second [clause](#clause) showcases a more complex use of the
@@ -370,7 +370,7 @@ function asciiCI(str) {
 }
 
 match (cssProperty) {
-  when ({ name: name & ${asciiCI("color")}, value }):
+  when ({ name: name and ${asciiCI("color")}, value }):
     console.log("color: " + value);
     // matches if `name` is an ASCII case-insensitive match
     // for "color", so `{name:"COLOR", value:"red"} would match.
@@ -865,10 +865,10 @@ match("foobar") {
 
 ## Pattern combinators
 
-Two or more [patterns](#pattern) can be combined with `|` or `&` to form a
+Two or more [patterns](#pattern) can be combined with `or` or `and` to form a
 single larger pattern.
 
-A sequence of `|`-separated [patterns](#pattern) have short-circuiting "or"
+A sequence of `or`-separated [patterns](#pattern) have short-circuiting "or"
 semantics: the **or [pattern](#pattern)** matches if any of the nested
 [patterns](#pattern) match, and stops executing as soon as one of its nested
 [patterns](#pattern) matches. It introduces all the bindings introduced by its
@@ -877,7 +877,7 @@ matched [pattern](#pattern); bindings introduced by other [patterns](#pattern)
 (either failed matches, or [patterns](#pattern) past the first successful match)
 are bound to `undefined`.
 
-A sequence of `&`-separated [patterns](#pattern) have short-circuiting "and"
+A sequence of `and`-separated [patterns](#pattern) have short-circuiting "and"
 semantics: the **and [pattern](#pattern)** matches if all of the nested
 [patterns](#pattern) match, and stops executing as soon as one of its nested
 [patterns](#pattern) fails to match. It introduces all the bindings introduced
@@ -885,30 +885,33 @@ by its nested [patterns](#pattern), with later [patterns](#pattern) providing
 the value for a given binding if multiple [patterns](#pattern) would introduce
 that binding.
 
-Note that `&` can idiomatically be used to bind a [matchable](#matchable) and
+Note that `and` can idiomatically be used to bind a [matchable](#matchable) and
 still allow it to be further matched against additional [patterns](#pattern).
-For examle, `when (foo & [bar, baz]) ...` matches the [matchable](#matchable)
+For examle, `when (foo and [bar, baz]) ...` matches the [matchable](#matchable)
 against both the `foo` [identifier pattern](#identifier-pattern) (binding it to
 `foo` for the RHS) _and_ against the `[bar, baz]`
 [array pattern](#array-pattern).
 
 Bindings introduced by earlier nested patterns
 are visible to later nested patterns in the same combined pattern.
-(For example, `(a & ${console.log(a)||a})`) will bind the matchable to `a`,
+(For example, `(a and ${console.log(a)||a})`) will bind the matchable to `a`,
 and then log it.)
+
+(Note: the `and` and `or` spellings of these operators are preferred by the champions group,
+but we'd be okay with spelling them `&` and `|` if the committee prefers.
 
 ## Parenthesizing Patterns
 
 The pattern syntaxes do not have a precedence relationship with each other. Any
-multi-token patterns (`&`, `|`, `${...} with ...`) appearing at the same
+multi-token patterns (`and`, `or`, `${...} with ...`) appearing at the same
 "nesting level" are a syntax error; parentheses must be used to to specify their
 relationship to each other instead.
 
-For example, `when ("foo" | "bar" & val) ...` is a syntax error; it must be
-written as `when ("foo" | ("bar" & val)) ...` or `when (("foo" | "bar") & val)`
-instead. Similarly, `when (${Foo} with bar & baz) ...` is a syntax error; it
-must be written as `when (${Foo} with (bar & baz)) ...` (binding the custom
-match result to both `bar` and `baz`) or `when ((${Foo} with bar) & baz) ...`
+For example, `when ("foo" or "bar" and val) ...` is a syntax error; it must be
+written as `when ("foo" or ("bar" and val)) ...` or `when (("foo" or "bar") and val)`
+instead. Similarly, `when (${Foo} with bar and baz) ...` is a syntax error; it
+must be written as `when (${Foo} with (bar and baz)) ...` (binding the custom
+match result to both `bar` and `baz`) or `when ((${Foo} with bar) and baz) ...`
 (binding the custom match result to `bar`, and the _original_
 [matchable](#matchable) to `baz`).
 
@@ -953,7 +956,7 @@ Destructuring can supply a default value with `= <expr>` which is used when a
 key isn’t present. Is this useful for pattern matching?
 
 Optional keys seem reasonable; right now they’d require duplicating the pattern
-like `({a, b} | {a})` (`b` will be bound to undefined in the RHS if not present).
+like `({a, b} or {a})` (`b` will be bound to undefined in the RHS if not present).
 
 Do we need/want full defaulting? Does it complicate the syntax to much to have
 arbitrary JS expressions there, without anything like wrapper characters to
@@ -964,8 +967,8 @@ This would bring us into closer alignment with destructuring, which is nice.
 ## Dedicated renaming syntax
 
 Right now, to bind a value in the middle of a pattern but continue to match on
-it, you use `&` to run both an [identifier pattern](#identifier-pattern) and a
-further [pattern](#pattern) on the same value, like `when(arr & [item]): ...`.
+it, you use `and` to run both an [identifier pattern](#identifier-pattern) and a
+further [pattern](#pattern) on the same value, like `when(arr and [item]): ...`.
 
 Langs like Haskell and Rust have a dedicated syntax for this, spelled `@`; if we
 adopted this, the above could be written as `when(arr @ [item]): ...`.
