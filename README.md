@@ -125,15 +125,11 @@ and [C++](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p1371r2.pdf).
 
 A list of community libraries that provide similar matching functionality:
 
-- [Optionals](https://github.com/OliverBrotchie/optionals) — Rust-like error
-  handling, options and exhaustive pattern matching for TypeScript and Deno
-- [ts-pattern](https://github.com/gvergnaud/ts-pattern) — Exhaustive Pattern
-  Matching library for TypeScript, with smart type inference.
-- [babel-plugin-proposal-pattern-matching](https://github.com/iptop/babel-plugin-proposal-pattern-matching)
-  — Minimal grammar, high performance JavaScript pattern matching
-  implementation.
-- [match-iz](https://github.com/shuckster/match-iz)
-— A tiny functional pattern-matching library inspired by the TC39 proposal.
+- [Optionals](https://github.com/OliverBrotchie/optionals) — Rust-like error handling, options and exhaustive pattern matching for TypeScript and Deno
+- [ts-pattern](https://github.com/gvergnaud/ts-pattern) — Exhaustive Pattern Matching library for TypeScript, with smart type inference.
+- [babel-plugin-proposal-pattern-matching](https://github.com/iptop/babel-plugin-proposal-pattern-matching) — Minimal grammar, high performance JavaScript pattern matching implementation.
+- [match-iz](https://github.com/shuckster/match-iz) — A tiny functional pattern-matching library inspired by the TC39 proposal.
+- [patcom](https://github.com/concept-not-found/patcom) — Feature parity with TC39 proposal without any new syntax
 
 # Code samples
 
@@ -318,7 +314,7 @@ class Option {
   get value() {
     if(this.hasValue) return this._value;
     throw new Exception("Can't get the value of an Option.None.");
-
+  }
   static Some(val) {
     return new Option(true, val);
   }
