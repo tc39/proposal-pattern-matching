@@ -318,7 +318,7 @@ class Option {
   get value() {
     if(this.hasValue) return this._value;
     throw new Exception("Can't get the value of an Option.None.");
-  
+
   static Some(val) {
     return new Option(true, val);
   }
@@ -341,8 +341,8 @@ match(result) {
 }
 ```
 
-In this sample implementation of the common "Option" type, 
-the expressions inside `${}` are the static "constructors" `Option.Some` and `Option.None`, 
+In this sample implementation of the common "Option" type,
+the expressions inside `${}` are the static "constructors" `Option.Some` and `Option.None`,
 which have a `Symbol.matcher` method. That method is invoked with the
 [matchable](#matchable) (`result`) as its sole argument. The
 [interpolation pattern](#interpolation-pattern) is considered to have matched if
@@ -588,11 +588,11 @@ method.
 
 A comma-separated list of zero or more patterns or holes, wrapped in square
 brackets, like `["foo", a, {bar}]`. "Holes" are just nothing (or whitespace),
-like `[,,thirdItem]`. 
-The final item can optionally be either a "rest pattern", 
+like `[,,thirdItem]`.
+The final item can optionally be either a "rest pattern",
 looking like `...`,
 or a "binding rest pattern",
-looking like `...<identifier>`. 
+looking like `...<identifier>`.
 (Aka, an array pattern looks like array destructuring,
 save for the addition of the "rest pattern" variant.)
 
@@ -605,15 +605,15 @@ pattern’s corresponding nested patterns. (Holes always match, introducing no
 bindings.) If any of these matches fail, the entire array pattern fails to
 match.
 
-If the array pattern ends in a binding rest pattern, 
-the remainder of the iterator is pulled into an Array, 
+If the array pattern ends in a binding rest pattern,
+the remainder of the iterator is pulled into an Array,
 and bound to the identifier from the binding rest pattern,
 just like in array destructuring.
 
-If the array pattern does _not_ end in a rest pattern (binding or otherwise), 
-the iterator must match the array pattern’s length: 
-one final item is pulled from the iterator, 
-and if it succeeds (rather than closing the iterator), 
+If the array pattern does _not_ end in a rest pattern (binding or otherwise),
+the iterator must match the array pattern’s length:
+one final item is pulled from the iterator,
+and if it succeeds (rather than closing the iterator),
 the array pattern fails to match.
 
 The array pattern introduces all the bindings introduced by its nested patterns,
@@ -621,7 +621,7 @@ plus the binding introduced by its binding rest pattern, if present.
 
 Bindings introduced by earlier nested patterns
 are visible to later nested patterns in the same array pattern.
-(For example, `[a, ${a}]`) will match 
+(For example, `[a, ${a}]`) will match
 only if the second item in the array is identical to the first item.)
 
 #### Array Pattern Caching
@@ -711,7 +711,7 @@ patterns, plus the binding introduced by its rest pattern, if present.
 
 Bindings introduced by earlier nested patterns
 are visible to later nested patterns in the same object pattern.
-(For example, `{a, b:${a}}`) will match 
+(For example, `{a, b:${a}}`) will match
 only if the `b` property item in the object is identical to the `a` property's value.)
 Ordering is important, however, so `{b:${a}, a}` does *not* mean the same thing;
 instead, the `${a}` resolves based on whatever `a` binding might exist from earlier in the pattern,
@@ -926,7 +926,7 @@ However, just like `async do` expressions, there’s uses of being able to use
 
 ```jsx
 async match (await matchable) {
-  when ({ a }): await a; 
+  when ({ a }): await a;
   when ({ b }): b.then(() => 42);
   default: await somethingThatRejects();
 } // produces a Promise
