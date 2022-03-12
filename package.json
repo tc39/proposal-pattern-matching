@@ -14,6 +14,6 @@
 	},
 	"license": "MIT",
 	"devDependencies": {
-		"ecmarkup": "^9.8.1"
+		"ecmarkup": "^10.0.2"
 	}
 }
