@@ -242,7 +242,7 @@ semantics.)
 ```jsx
 match (arithmeticStr) {
   when (/(?<left>\d+) \+ (?<right>\d+)/): process(left, right);
-  when (/(\d+) \* (\d+)/ with [_, left, right]): process(left, right);
+  when (/(\d+) \* (\d+)/ with [, left, right]): process(left, right);
   default: ...
 }
 ```
