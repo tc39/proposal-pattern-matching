@@ -9,7 +9,6 @@ stage: 1
 contributors: Daniel Rosenwasser, Jack Works, Jordan Harband, Mark Cohen, Ross Kirsling, Tab Atkins, Yulia Startsev
 </pre>
 
-
 <emu-clause id="sec-syntax">
   <h1>Syntax</h1>
   <emu-note>Work in progress.</emu-note>
@@ -19,10 +18,10 @@ contributors: Daniel Rosenwasser, Jack Works, Jordan Harband, Mark Cohen, Ross K
     <pre><code class="javascript">const ${Some} with [a, b] = result;
 const { a: ${ Some } with [a, b] } = result;</code></pre>
   </emu-note>
-  <emu-grammar type="definition">
+  <emu-grammar>
     BindingRestElement:
       <del>`...` BindingIdentifier</del>
-      <ins>`...` BindingIdentifier[opt]</ins>
+      <ins>`...` BindingIdentifier?</ins>
 
     BindingElement:
       <ins>BindingInterpolation</ins>
@@ -37,7 +36,7 @@ const { a: ${ Some } with [a, b] } = result;</code></pre>
   <h2>Syntax of pattern matching</h2>
   <emu-grammar type="definition">
     MatchExpression ::
-      `match` [no LineTerminator here] `(` Expression `)` [no LineTerminator here] `{` MatchClauses[opt] `}`
+      `match` [no LineTerminator here] `(` Expression `)` [no LineTerminator here] `{` MatchClauses? `}`
 
     MatchClauses :
       MatchClause
@@ -86,12 +85,12 @@ const { a: ${ Some } with [a, b] } = result;</code></pre>
       `{` `}`
       `{` MatchRestProperty `}`
       `{` MatchPropertyList `}`
-      `{` MatchPropertyList `,` MatchRestProperty[opt] `}`
+      `{` MatchPropertyList `,` MatchRestProperty? `}`
 
     ArrayMatchPattern :
-      `[` Elision[opt] MatchRestElement[opt] `]`
+      `[` Elision? MatchRestElement? `]`
       `[` MatchElementList `]`
-      `[` MatchElementList `,` Elision[opt] MatchRestElement[opt] `]`
+      `[` MatchElementList `,` Elision? MatchRestElement? `]`
 
     MatchRestProperty :
       `...` IdentifierMatchPattern
@@ -105,14 +104,14 @@ const { a: ${ Some } with [a, b] } = result;</code></pre>
       MatchElementList `,` MatchElisionElement
 
     MatchElisionElement :
-      Elision[opt] MatchPattern
+      Elision? MatchPattern
 
     MatchProperty :
       IdentifierMatchPattern
       PropertyName `:` MatchPattern
 
     MatchRestElement :
-      `...` MatchPattern[opt]
+      `...` MatchPattern?
 
   </emu-grammar>
   <emu-note>
@@ -121,7 +120,6 @@ const { a: ${ Some } with [a, b] } = result;</code></pre>
   <emu-note>
     No Initializer is allowed in the current syntax. See <a href="https://github.com/tc39/proposal-pattern-matching/#default-values">https://github.com/tc39/proposal-pattern-matching/#default-values</a>
   </emu-note>
-
 </emu-clause>
 <emu-clause id="sec-match-expression">
   <h1>Match Expression</h1>
