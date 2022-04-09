@@ -2414,51 +2414,11 @@ li.menu-search-result-term:before {
 </ul></div><div id="menu-toggle"><svg xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%; stroke:currentColor" viewBox="0 0 120 120">
       <title>Menu</title>
       <path stroke-width="10" stroke-linecap="round" d="M30,60 h60  M30,30 m0,5 h60  M30,90 m0,-5 h60"></path>
-    </svg></div><div id="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-syntax" title="Syntax"><span class="secnum">1</span> Syntax</a></li><li><span class="item-toggle-none"></span><a href="#sec-match-expression" title="Match Expression"><span class="secnum">2</span> Match Expression</a></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 1 Draft / March 28, 2022</h1><h1 class="title">Pattern Matching</h1>
+    </svg></div><div id="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-syntax" title="Syntax"><span class="secnum">1</span> Syntax</a></li><li><span class="item-toggle-none"></span><a href="#sec-match-expression" title="Match Expression"><span class="secnum">2</span> Match Expression</a></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 1 Draft / April 9, 2022</h1><h1 class="title">Pattern Matching</h1>
 
 <emu-clause id="sec-syntax">
   <h1><span class="secnum">1</span> Syntax</h1>
   <emu-note><span class="note">Note 1</span><div class="note-contents">Work in progress.</div></emu-note>
-  <h2>Syntax to deconstructing</h2>
-  <emu-note><span class="note">Note 2</span><div class="note-contents">
-    <a href="https://github.com/tc39/proposal-pattern-matching/#destructuring-enhancements">Back port new features from the pattern matching to deconstructing.</a>
-    <pre><code class="javascript hljs"><span class="hljs-keyword">const</span> ${<span class="hljs-title class_">Some</span>} <span class="hljs-keyword">with</span> [a, b] = result;
-<span class="hljs-keyword">const</span> { <span class="hljs-attr">a</span>: ${ <span class="hljs-title class_">Some</span> } <span class="hljs-keyword">with</span> [a, b] } = result;</code></pre>
-  </div></emu-note>
-  <emu-grammar><emu-production name="BindingRestElement">
-    <emu-nt><a href="https://tc39.es/ecma262/#prod-BindingRestElement">BindingRestElement</a></emu-nt> <emu-geq>:</emu-geq> <del><emu-rhs a="ffhe3nqa">
-        <emu-t>...</emu-t>
-        <emu-nt><a href="https://tc39.es/ecma262/#prod-BindingIdentifier">BindingIdentifier</a></emu-nt>
-    </emu-rhs></del>
-    <ins><emu-rhs a="flypl6am">
-        <emu-t>...</emu-t>
-        <emu-nt optional=""><a href="https://tc39.es/ecma262/#prod-BindingIdentifier">BindingIdentifier</a><emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt>
-    </emu-rhs></ins>
-</emu-production>
-<emu-production name="BindingElement">
-    <emu-nt><a href="https://tc39.es/ecma262/#prod-BindingElement">BindingElement</a></emu-nt> <emu-geq>:</emu-geq> <ins><emu-rhs a="ntdiua5m">
-        <emu-nt>BindingInterpolation</emu-nt>
-    </emu-rhs></ins>
-</emu-production>
-<ins><emu-production name="BindingInterpolation">
-    <emu-nt>BindingInterpolation</emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="ouirtgcs">
-        <emu-t>${</emu-t>
-        <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt>
-        <emu-t>}</emu-t>
-        <emu-t>with</emu-t>
-        <emu-nt><a href="https://tc39.es/ecma262/#prod-BindingIdentifier">BindingIdentifier</a></emu-nt>
-    </emu-rhs>
-    <emu-rhs a="j2idv-9q">
-        <emu-t>${</emu-t>
-        <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt>
-        <emu-t>}</emu-t>
-        <emu-t>with</emu-t>
-        <emu-nt><a href="https://tc39.es/ecma262/#prod-BindingPattern">BindingPattern</a></emu-nt>
-    </emu-rhs>
-</emu-production></ins>
-</emu-grammar>
-
-  <h2>Syntax of pattern matching</h2>
   <emu-grammar type="definition"><emu-production name="MatchExpression" type="lexical" id="prod-MatchExpression">
     <emu-nt><a href="#prod-MatchExpression">MatchExpression</a></emu-nt> <emu-geq>::</emu-geq> <emu-rhs a="o5iqya6m">
         <emu-t>match</emu-t>
@@ -2706,10 +2666,10 @@ li.menu-search-result-term:before {
     </emu-rhs>
 </emu-production>
 </emu-grammar>
-  <emu-note><span class="note">Note 3</span><div class="note-contents">
+  <emu-note><span class="note">Note 2</span><div class="note-contents">
     <code>undefined</code>, <code>NaN</code> and <code>Infinity</code> are <emu-xref href="#sec-syntactic-grammar"><a href="https://tc39.es/ecma262/#sec-syntactic-grammar">covered</a></emu-xref> by the IdentifierMatchPattern, but <code>+Infinity</code> and <code>-Infinity</code> are coverd by the NearLiteralMatchPattern.
   </div></emu-note>
-  <emu-note><span class="note">Note 4</span><div class="note-contents">
+  <emu-note><span class="note">Note 3</span><div class="note-contents">
     No Initializer is allowed in the current syntax. See <a href="https://github.com/tc39/proposal-pattern-matching/#default-values">https://github.com/tc39/proposal-pattern-matching/#default-values</a>
   </div></emu-note>
 </emu-clause>
