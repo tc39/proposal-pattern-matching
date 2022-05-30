@@ -3,9 +3,8 @@
 	"name": "proposal-pattern-matching",
 	"description": "A repository for ECMAScript pattern matching proposals.",
 	"scripts": {
-		"start": "npm run build-loose -- --watch",
-		"build": "npm run build-loose -- --strict",
-		"build-loose": "ecmarkup --verbose spec.emu index.html"
+		"start": "npm run build -- --watch",
+		"build": "ecmarkup spec.emu index.html --load-biblio @tc39/ecma262-biblio --strict --lint-spec"
 	},
 	"homepage": "https://github.com/tc39/proposal-pattern-matching#readme",
 	"repository": {
@@ -14,6 +13,7 @@
 	},
 	"license": "MIT",
 	"devDependencies": {
-		"ecmarkup": "^10.0.2"
+		"ecmarkup": "^12.0.2",
+		"@tc39/ecma262-biblio": "2.0.2288"
 	}
 }

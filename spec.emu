@@ -9,148 +9,97 @@ stage: 1
 contributors: Daniel Rosenwasser, Jack Works, Jordan Harband, Mark Cohen, Ross Kirsling, Tab Atkins, Yulia Startsev
 </pre>
 
-<emu-note type="editor">Spec text is under construction.</emu-note>
-
 <emu-clause id="sec-syntax">
   <h1>Syntax</h1>
+  <emu-note>Work in progress.</emu-note>
   <emu-grammar type="definition">
-    Statement ::
-      <ins>MatchStatement</ins>
+    MatchExpression ::
+      `match` [no LineTerminator here] `(` Expression `)` [no LineTerminator here] `{` MatchClauses? `}`
 
-    <ins class="block">
-    MatchStatement ::
-      `match` [no LineTerminator here] `(` Expression `)` [no LineTerminator here] `{` WhenClauses `}`
-      `match` [no LineTerminator here] `(` Expression `)` [no LineTerminator here] `as` LeftHandSideExpression `{` WhenClauses `}`
+    MatchClauses :
+      MatchClause
+      MatchClauses MatchClause
 
-    WhenClauses :
-      WhenClause
-      WhenClauses WhenClause
-
-    WhenClause :
-      `when` MatchPattern Initializer[opt] MatchGuard[opt] WhenClauseBody
-
-    MatchGuard :
-      `if` `(` Expression `)`
-
-    WhenClauseBody :
-      Block[?Yield, ?Await, ?Return]
+    MatchClause :
+      `when` `(` MatchPattern `)` `if` `(` Expression `)` `:` Expression
+      `when` `(` MatchPattern `)` `:` Expression
+      `if` `(` Expression `)` `:` Expression
+      `default` `:` Expression
 
     MatchPattern :
+      CombinedMatchPattern
+      InterpolationPattern
+      IdentifierMatchPattern
+      NearLiteralMatchPattern
       ObjectMatchPattern
       ArrayMatchPattern
-      IdentifierMatchPattern
-      LiteralMatchPattern
+      `(` MatchPattern `)`
+
+    CombinedMatchPattern:
+      MatchPattern `or` MatchPattern
+      MatchPattern `and` MatchPattern
+
+    InterpolationPattern:
+      `${` Expression `}` `with` MatchPattern
+      `${` Expression `}`
+
+    IdentifierMatchPattern :
+      BindingIdentifier
+
+    NearLiteralMatchPattern :
+      NullLiteral
+      BooleanLiteral
+      NumericLiteral
+      StringLiteral
+      RegularExpressionLiteral `with` MatchPattern
+      RegularExpressionLiteral
+      TemplateLiteral[~Tagged]
+      `+` NumericLiteral
+      `-` NumericLiteral
+      `+` `Infinity`
+      `-` `Infinity`
 
     ObjectMatchPattern :
       `{` `}`
       `{` MatchRestProperty `}`
-      `{` MatchPropertyList `,` MatchRestProperty[opt] `}`
+      `{` MatchPropertyList `}`
+      `{` MatchPropertyList `,` MatchRestProperty? `}`
 
-    MatchPropertyList :
-      MatchProperty
-      MatchPropertyList `,` MatchProperty
-
-    MatchProperty
-      SingleNameBinding Initializer[opt]
-      PropertyName `:` MatchElement
+    ArrayMatchPattern :
+      `[` Elision? MatchRestElement? `]`
+      `[` MatchElementList `]`
+      `[` MatchElementList `,` Elision? MatchRestElement? `]`
 
     MatchRestProperty :
       `...` IdentifierMatchPattern
 
-    ArrayMatchPattern :
-      `[` `]`
-      `[` Elision[opt] MatchRestElement `]`
-      `[` MatchElementList `]`
-      `[` MatchElementList `,` Elision[opts] MatchRestElement[opt] `]`
+    MatchPropertyList :
+      MatchProperty
+      MatchPropertyList `,` MatchProperty
 
     MatchElementList :
       MatchElisionElement
       MatchElementList `,` MatchElisionElement
 
     MatchElisionElement :
-      Elision[opt] MatchElement Initializer[opt]
+      Elision? MatchPattern
 
-    MatchElement :
-      MatchPattern
+    MatchProperty :
+      IdentifierMatchPattern
+      PropertyName `:` MatchPattern
 
     MatchRestElement :
-      `...` IdentifierMatchPattern
-      `...` MatchElement
+      `...` MatchPattern?
 
-    IdentifierMatchPattern :
-      BindingIdentifier
-
-    LiteralMatchPattern :
-      NullLiteral
-      BooleanLiteral
-      NumericLiteral
-      StringLiteral
-
-    </ins>
   </emu-grammar>
+  <emu-note>
+    `undefined`, `NaN` and `Infinity` are covered by the IdentifierMatchPattern, but `+Infinity` and `-Infinity` are coverd by the NearLiteralMatchPattern.
+  </emu-note>
+  <emu-note>
+    No Initializer is allowed in the current syntax. See <a href="https://github.com/tc39/proposal-pattern-matching/#default-values">https://github.com/tc39/proposal-pattern-matching/#default-values</a>
+  </emu-note>
 </emu-clause>
 <emu-clause id="sec-match-expression">
   <h1>Match Expression</h1>
-  <emu-clause id="sec-match-ss-errors">
-    <h1>Static Semantics: Early Errors</h1>
-    <p>To be done</p>
-  </emu-clause>
-  <emu-clause id="sec-match-rs-fn-def">
-    <h1>Runtime Semantics: IsFunctionDefinition</h1>
-    <p>To be done</p>
-  </emu-clause>
-  <emu-clause id="sec-match-rs-eval">
-    <h1>Runtime Semantics: Evaluation</h1>
-    <emu-grammar>_MatchStatement_ `:` `match` `(` _Expression_ `)` `{` WhenClauses `}`</emu-grammar>
-    <emu-alg>
-      1. Let _exprRef_ be the result of evaluation _Expression_.
-      1. Let _exprValue_ be ? GetValue(_exprRef_)
-      1. For each element _WhenClause_ in _WhenClauses_:
-      1. If no _WhenClause_ left, throw _MatchError_
-      1. Let _matched_ be ? WhenClauseMatches(_exprValue_, _WhenClause_)
-      1. If _matched_ is true, then
-          1. Let _clauseCompletion_ be ? WhenClauseEvaluation(_exprValue_, _WhenClause_)
-          1. Return Completion(UpdateEmpty(_clauseCompletion_, `undefined`))
-    </emu-alg>
-    <emu-clause id="sec-match-rs-when-clause-matches">
-      <h1><dfn>WhenClauseMatches</dfn>(_exprValue_, _WhenClause_)</h1>
-      <emu-grammar>
-        _WhenClause_ `:` `when` _MatchPattern_ _Initializer_[opt] _MatchGuard_[opt] `->` _WhenClauseBody_
-
-        _MatchPattern_ `:` _ObjectMatchPattern_
-
-        _ObjectMatchPattern_ `:` `{` `}`
-      </emu-grammar>
-      <emu-alg>
-        1. Perform ? ToObject(_exprValue_)
-        1. Return `true`
-      </emu-alg>
-      <emu-grammar>
-        _ObjectMatchPattern_ `:` `{` _MatchRestProperty_ `}`
-      </emu-grammar>
-      <emu-alg>
-        1. TODO
-      </emu-alg>
-      <emu-grammar>
-        _ObjectMatchPattern_ `:` `{` _MatchProperty_ `}`
-      </emu-grammar>
-      <emu-alg>
-        1. TODO
-      </emu-alg>
-      <emu-grammar>
-        _ArrayMatchPattern_ `:` TKTK
-      </emu-grammar>
-      <emu-alg>
-        1. Let _iter_ be ? GetIterator(_exprValue_)
-        2. Note:
-        <emu-note type="editor">
-          ...only run GetIterator once per MatchStatement, and only call `.next()` once per position... (grouping together multiple checks against the same ArrayMatchPattern such that info is shared across matches, but only for specific positions (that is, given patterns `[a, b]`, `[...foo]`, and `{x: [...foo]}`, `.next()` will be called once: once for the top-level arraypatterns and once for the nested one -- _even if_ the iterable in the third pattern is object-identical to the toplevel patterns). The results of going over the iterator in each position will be cached as it's processed, such that it's not iterated over multiple times)
-        </emu-note>
-      </emu-alg>
-    </emu-clause>
-  </emu-clause>
-  <emu-clause id="sec-match-rs-when-clause-eval">
-    <h1><dfn>WhenClauseEvaluation</dfn>(_exprValue_, _WhenClause_)</h1>
-    <p>To be done</p>
-  </emu-clause>
+  <p>To be done</p>
 </emu-clause>

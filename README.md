@@ -242,7 +242,7 @@ semantics.)
 ```jsx
 match (arithmeticStr) {
   when (/(?<left>\d+) \+ (?<right>\d+)/): process(left, right);
-  when (/(\d+) \* (\d+)/) with ([_, left, right]): process(left, right);
+  when (/(\d+) \* (\d+)/ with [, left, right]): process(left, right);
   default: ...
 }
 ```
@@ -1055,7 +1055,7 @@ match (expr()) {
     when ({ type: 'a', version, ...rest }) if (isAcceptableTypeVersion(version)):
         a_long_expression_do_something_with_rest
     when ({ kind: 'a', version, ...rest }) if (isAcceptableKindVersion(version)):
-        a_long_expression_do_something_with_rest            
+        a_long_expression_do_something_with_rest
 }
 ```
 
@@ -1068,7 +1068,7 @@ and the code above becomes:
 match (expr()) {
     when ({ type: 'a', version, ...rest }) if (isAcceptableTypeVersion(version))
     or when ({ kind: 'a', version, ...rest }) if (isAcceptableKindVersion(version)):
-        a_long_expression_do_something_with_rest            
+        a_long_expression_do_something_with_rest
 }
 ```
 
