@@ -1259,7 +1259,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 let sdoMap = JSON.parse(`{}`);
-let biblio = JSON.parse(`{"refsByClause":{"sec-match-expression-syntax":["_ref_0","_ref_1","_ref_2","_ref_3","_ref_4","_ref_5","_ref_6","_ref_7","_ref_8","_ref_9","_ref_10","_ref_11","_ref_12","_ref_13","_ref_14","_ref_15","_ref_16","_ref_17","_ref_18","_ref_19","_ref_20","_ref_21","_ref_22","_ref_23","_ref_24","_ref_25","_ref_26","_ref_27","_ref_28","_ref_29","_ref_30","_ref_31","_ref_32","_ref_33","_ref_34","_ref_35","_ref_36","_ref_37"],"sec-match-expression-early-errors":["_ref_38"]},"entries":[{"type":"production","id":"prod-MatchExpression","name":"MatchExpression"},{"type":"production","id":"prod-MatchClauses","name":"MatchClauses","referencingIds":["_ref_0","_ref_2"]},{"type":"production","id":"prod-MatchClause","name":"MatchClause","referencingIds":["_ref_1","_ref_3","_ref_38"]},{"type":"production","id":"prod-MatchPattern","name":"MatchPattern","referencingIds":["_ref_4","_ref_5","_ref_12","_ref_13","_ref_14","_ref_15","_ref_16","_ref_17","_ref_18","_ref_34","_ref_36","_ref_37"]},{"type":"production","id":"prod-CombinedMatchPattern","name":"CombinedMatchPattern","referencingIds":["_ref_6"]},{"type":"production","id":"prod-InterpolationPattern","name":"InterpolationPattern","referencingIds":["_ref_7"]},{"type":"production","id":"prod-IdentifierMatchPattern","name":"IdentifierMatchPattern","referencingIds":["_ref_8","_ref_27","_ref_35"]},{"type":"production","id":"prod-NearLiteralMatchPattern","name":"NearLiteralMatchPattern","referencingIds":["_ref_9"]},{"type":"production","id":"prod-ObjectMatchPattern","name":"ObjectMatchPattern","referencingIds":["_ref_10"]},{"type":"production","id":"prod-ArrayMatchPattern","name":"ArrayMatchPattern","referencingIds":["_ref_11"]},{"type":"production","id":"prod-MatchRestProperty","name":"MatchRestProperty","referencingIds":["_ref_19","_ref_22"]},{"type":"production","id":"prod-MatchPropertyList","name":"MatchPropertyList","referencingIds":["_ref_20","_ref_21","_ref_29"]},{"type":"production","id":"prod-MatchElementList","name":"MatchElementList","referencingIds":["_ref_24","_ref_25","_ref_32"]},{"type":"production","id":"prod-MatchElisionElement","name":"MatchElisionElement","referencingIds":["_ref_31","_ref_33"]},{"type":"production","id":"prod-MatchProperty","name":"MatchProperty","referencingIds":["_ref_28","_ref_30"]},{"type":"production","id":"prod-MatchRestElement","name":"MatchRestElement","referencingIds":["_ref_23","_ref_26"]},{"type":"clause","id":"sec-match-expression-syntax","titleHTML":"Syntax","number":"1.1"},{"type":"clause","id":"sec-match-expression-early-errors","titleHTML":"Static Semantics: Early Errors","number":"1.2"},{"type":"clause","id":"sec-match-expression-runtime-semantics","titleHTML":"Runtime Semantics: Evaluation","number":"1.3"},{"type":"clause","id":"sec-match-expression","titleHTML":"Match Expression","number":"1"},{"type":"clause","id":"sec-copyright-and-software-license","title":"Copyright & Software License","titleHTML":"Copyright &amp; Software License","number":"A"}]}`);
+let biblio = JSON.parse(`{"refsByClause":{"sec-match-expression-runtime-semantics":["_ref_0","_ref_58"],"sec-match-clauses-evaluation":["_ref_1","_ref_2","_ref_3","_ref_59","_ref_60","_ref_61"],"sec-match-clause-evaluation":["_ref_4","_ref_5","_ref_62","_ref_63"],"sec-match-pattern-matches":["_ref_6","_ref_7","_ref_8","_ref_9","_ref_64","_ref_65","_ref_66","_ref_67","_ref_68","_ref_69","_ref_70"],"sec-combined-match-pattern-matches":["_ref_10","_ref_11","_ref_12","_ref_13","_ref_71","_ref_72","_ref_73","_ref_74"],"sec-interpolation-pattern-matches":["_ref_14","_ref_15","_ref_16","_ref_17","_ref_75"],"sec-near-literal-match-pattern-matches":["_ref_18","_ref_76"],"sec-match-expression-syntax":["_ref_19","_ref_20","_ref_21","_ref_22","_ref_23","_ref_24","_ref_25","_ref_26","_ref_27","_ref_28","_ref_29","_ref_30","_ref_31","_ref_32","_ref_33","_ref_34","_ref_35","_ref_36","_ref_37","_ref_38","_ref_39","_ref_40","_ref_41","_ref_42","_ref_43","_ref_44","_ref_45","_ref_46","_ref_47","_ref_48","_ref_49","_ref_50","_ref_51","_ref_52","_ref_53","_ref_54","_ref_55","_ref_56"],"sec-match-expression-early-errors":["_ref_57"]},"entries":[{"type":"production","id":"prod-MatchExpression","name":"MatchExpression"},{"type":"production","id":"prod-MatchClauses","name":"MatchClauses","referencingIds":["_ref_19","_ref_21","_ref_58","_ref_60"]},{"type":"production","id":"prod-MatchClause","name":"MatchClause","referencingIds":["_ref_20","_ref_22","_ref_57","_ref_59","_ref_61"]},{"type":"production","id":"prod-MatchPattern","name":"MatchPattern","referencingIds":["_ref_23","_ref_24","_ref_31","_ref_32","_ref_33","_ref_34","_ref_35","_ref_36","_ref_37","_ref_53","_ref_55","_ref_56","_ref_62","_ref_63","_ref_70","_ref_71","_ref_72","_ref_73","_ref_74","_ref_75","_ref_76"]},{"type":"production","id":"prod-CombinedMatchPattern","name":"CombinedMatchPattern","referencingIds":["_ref_25","_ref_64"]},{"type":"production","id":"prod-InterpolationPattern","name":"InterpolationPattern","referencingIds":["_ref_26","_ref_65"]},{"type":"production","id":"prod-IdentifierMatchPattern","name":"IdentifierMatchPattern","referencingIds":["_ref_27","_ref_46","_ref_54","_ref_66"]},{"type":"production","id":"prod-NearLiteralMatchPattern","name":"NearLiteralMatchPattern","referencingIds":["_ref_28","_ref_67"]},{"type":"production","id":"prod-ObjectMatchPattern","name":"ObjectMatchPattern","referencingIds":["_ref_29","_ref_68"]},{"type":"production","id":"prod-ArrayMatchPattern","name":"ArrayMatchPattern","referencingIds":["_ref_30","_ref_69"]},{"type":"production","id":"prod-MatchRestProperty","name":"MatchRestProperty","referencingIds":["_ref_38","_ref_41"]},{"type":"production","id":"prod-MatchPropertyList","name":"MatchPropertyList","referencingIds":["_ref_39","_ref_40","_ref_48"]},{"type":"production","id":"prod-MatchElementList","name":"MatchElementList","referencingIds":["_ref_43","_ref_44","_ref_51"]},{"type":"production","id":"prod-MatchElisionElement","name":"MatchElisionElement","referencingIds":["_ref_50","_ref_52"]},{"type":"production","id":"prod-MatchProperty","name":"MatchProperty","referencingIds":["_ref_47","_ref_49"]},{"type":"production","id":"prod-MatchRestElement","name":"MatchRestElement","referencingIds":["_ref_42","_ref_45"]},{"type":"clause","id":"sec-match-expression-syntax","titleHTML":"Syntax","number":"1.1"},{"type":"clause","id":"sec-match-expression-early-errors","titleHTML":"Static Semantics: Early Errors","number":"1.2"},{"type":"clause","id":"sec-match-expression-runtime-semantics","titleHTML":"Runtime Semantics: Evaluation","number":"1.3"},{"type":"term","term":"MatchClausesEvaluation","refId":"sec-match-clauses-evaluation"},{"type":"clause","id":"sec-match-clauses-evaluation","title":"Runtime Semantics: MatchClausesEvaluation","titleHTML":"Runtime Semantics: <dfn>MatchClausesEvaluation</dfn>","number":"1.4","referencingIds":["_ref_0","_ref_2"]},{"type":"term","term":"MatchClauseEvaluation","refId":"sec-match-clause-evaluation"},{"type":"clause","id":"sec-match-clause-evaluation","title":"Runtime Semantics: MatchClauseEvaluation","titleHTML":"Runtime Semantics: <dfn>MatchClauseEvaluation</dfn>","number":"1.5","referencingIds":["_ref_1","_ref_3"]},{"type":"term","term":"MatchPatternMatches","refId":"sec-match-pattern-matches"},{"type":"clause","id":"sec-match-pattern-matches","title":"Runtime Semantics: MatchPatternMatches","titleHTML":"Runtime Semantics: <dfn>MatchPatternMatches</dfn>","number":"1.6","referencingIds":["_ref_4","_ref_5","_ref_9","_ref_10","_ref_11","_ref_12","_ref_13","_ref_16","_ref_17","_ref_18"]},{"type":"term","term":"CombinedMatchPatternMatches","refId":"sec-combined-match-pattern-matches"},{"type":"clause","id":"sec-combined-match-pattern-matches","title":"Runtime Semantics: CombinedMatchPatternMatches","titleHTML":"Runtime Semantics: <dfn>CombinedMatchPatternMatches</dfn>","number":"1.7","referencingIds":["_ref_6"]},{"type":"term","term":"InterpolationPatternMatches","refId":"sec-interpolation-pattern-matches"},{"type":"clause","id":"sec-interpolation-pattern-matches","title":"Runtime Semantics: InterpolationPatternMatches","titleHTML":"Runtime Semantics: <dfn>InterpolationPatternMatches</dfn>","number":"1.8","referencingIds":["_ref_7"]},{"type":"term","term":"NearLiteralMatchPatternMatches","refId":"sec-near-literal-match-pattern-matches"},{"type":"clause","id":"sec-near-literal-match-pattern-matches","title":"Runtime Semantics: NearLiteralMatchPatternMatches","titleHTML":"Runtime Semantics: <dfn>NearLiteralMatchPatternMatches</dfn>","number":"1.9","referencingIds":["_ref_8"]},{"type":"clause","id":"sec-match-record","titleHTML":"Match Records","number":"1.10"},{"type":"term","term":"InvokeCustomMatcher","refId":"sec-custom-matcher"},{"type":"clause","id":"sec-custom-matcher","title":"InvokeCustomMatcher ( val, matchable )","titleHTML":"<dfn>InvokeCustomMatcher</dfn> ( <var>val</var>, <var>matchable</var> )","number":"1.11","referencingIds":["_ref_14","_ref_15"]},{"type":"clause","id":"sec-match-expression","titleHTML":"Match Expression","number":"1"},{"type":"clause","id":"sec-copyright-and-software-license","title":"Copyright & Software License","titleHTML":"Copyright &amp; Software License","number":"A"}]}`);
 ;let usesMultipage = false</script><style>body {
   display: flex;
   font-size: 18px;
@@ -2524,7 +2524,7 @@ li.menu-search-result-term:before {
 </ul></div><div id="menu-toggle"><svg xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%; stroke:currentColor" viewBox="0 0 120 120">
       <title>Menu</title>
       <path stroke-width="10" stroke-linecap="round" d="M30,60 h60  M30,30 m0,5 h60  M30,90 m0,-5 h60"></path>
-    </svg></div><div id="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle">◢</span><a href="#sec-match-expression" title="Match Expression"><span class="secnum">1</span> Match Expression</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-match-expression-syntax" title="Syntax"><span class="secnum">1.1</span> Syntax</a></li><li><span class="item-toggle-none"></span><a href="#sec-match-expression-early-errors" title="Static Semantics: Early Errors"><span class="secnum">1.2</span> SS: Early Errors</a></li><li><span class="item-toggle-none"></span><a href="#sec-match-expression-runtime-semantics" title="Runtime Semantics: Evaluation"><span class="secnum">1.3</span> RS: Evaluation</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 1 Draft / June 14, 2022</h1><h1 class="title">Pattern Matching</h1>
+    </svg></div><div id="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle">◢</span><a href="#sec-match-expression" title="Match Expression"><span class="secnum">1</span> Match Expression</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-match-expression-syntax" title="Syntax"><span class="secnum">1.1</span> Syntax</a></li><li><span class="item-toggle-none"></span><a href="#sec-match-expression-early-errors" title="Static Semantics: Early Errors"><span class="secnum">1.2</span> SS: Early Errors</a></li><li><span class="item-toggle-none"></span><a href="#sec-match-expression-runtime-semantics" title="Runtime Semantics: Evaluation"><span class="secnum">1.3</span> RS: Evaluation</a></li><li><span class="item-toggle-none"></span><a href="#sec-match-clauses-evaluation" title="Runtime Semantics: MatchClausesEvaluation"><span class="secnum">1.4</span> RS: <dfn>MatchClausesEvaluation</dfn></a></li><li><span class="item-toggle-none"></span><a href="#sec-match-clause-evaluation" title="Runtime Semantics: MatchClauseEvaluation"><span class="secnum">1.5</span> RS: <dfn>MatchClauseEvaluation</dfn></a></li><li><span class="item-toggle-none"></span><a href="#sec-match-pattern-matches" title="Runtime Semantics: MatchPatternMatches"><span class="secnum">1.6</span> RS: <dfn>MatchPatternMatches</dfn></a></li><li><span class="item-toggle-none"></span><a href="#sec-combined-match-pattern-matches" title="Runtime Semantics: CombinedMatchPatternMatches"><span class="secnum">1.7</span> RS: <dfn>CombinedMatchPatternMatches</dfn></a></li><li><span class="item-toggle-none"></span><a href="#sec-interpolation-pattern-matches" title="Runtime Semantics: InterpolationPatternMatches"><span class="secnum">1.8</span> RS: <dfn>InterpolationPatternMatches</dfn></a></li><li><span class="item-toggle-none"></span><a href="#sec-near-literal-match-pattern-matches" title="Runtime Semantics: NearLiteralMatchPatternMatches"><span class="secnum">1.9</span> RS: <dfn>NearLiteralMatchPatternMatches</dfn></a></li><li><span class="item-toggle-none"></span><a href="#sec-match-record" title="Match Records"><span class="secnum">1.10</span> Match Records</a></li><li><span class="item-toggle-none"></span><a href="#sec-custom-matcher" title="InvokeCustomMatcher ( val, matchable )"><span class="secnum">1.11</span> <dfn>InvokeCustomMatcher</dfn> ( <var>val</var>, <var>matchable</var> )</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 1 Draft / June 14, 2022</h1><h1 class="title">Pattern Matching</h1>
 
 <emu-clause id="sec-match-expression">
   <h1><span class="secnum">1</span> Match Expression</h1>
@@ -2540,24 +2540,24 @@ li.menu-search-result-term:before {
         <emu-t>)</emu-t>
         <emu-gann>[no <emu-nt><a href="https://tc39.es/ecma262/#prod-LineTerminator">LineTerminator</a></emu-nt> here]</emu-gann>
         <emu-t>{</emu-t>
-        <emu-nt optional="" id="_ref_0"><a href="#prod-MatchClauses">MatchClauses</a><emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt>
+        <emu-nt optional="" id="_ref_19"><a href="#prod-MatchClauses">MatchClauses</a><emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt>
         <emu-t>}</emu-t>
     </emu-rhs>
 </emu-production>
 <emu-production name="MatchClauses" id="prod-MatchClauses">
     <emu-nt><a href="#prod-MatchClauses">MatchClauses</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="-ygl5mts">
-        <emu-nt id="_ref_1"><a href="#prod-MatchClause">MatchClause</a></emu-nt>
+        <emu-nt id="_ref_20"><a href="#prod-MatchClause">MatchClause</a></emu-nt>
     </emu-rhs>
     <emu-rhs a="-os7wxzw">
-        <emu-nt id="_ref_2"><a href="#prod-MatchClauses">MatchClauses</a></emu-nt>
-        <emu-nt id="_ref_3"><a href="#prod-MatchClause">MatchClause</a></emu-nt>
+        <emu-nt id="_ref_21"><a href="#prod-MatchClauses">MatchClauses</a></emu-nt>
+        <emu-nt id="_ref_22"><a href="#prod-MatchClause">MatchClause</a></emu-nt>
     </emu-rhs>
 </emu-production>
 <emu-production name="MatchClause" id="prod-MatchClause">
     <emu-nt><a href="#prod-MatchClause">MatchClause</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="xk_jo2wg">
         <emu-t>when</emu-t>
         <emu-t>(</emu-t>
-        <emu-nt id="_ref_4"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt id="_ref_23"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
         <emu-t>)</emu-t>
         <emu-t>if</emu-t>
         <emu-t>(</emu-t>
@@ -2569,7 +2569,7 @@ li.menu-search-result-term:before {
     <emu-rhs a="s8plqgll">
         <emu-t>when</emu-t>
         <emu-t>(</emu-t>
-        <emu-nt id="_ref_5"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt id="_ref_24"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
         <emu-t>)</emu-t>
         <emu-t>:</emu-t>
         <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt>
@@ -2590,39 +2590,39 @@ li.menu-search-result-term:before {
 </emu-production>
 <emu-production name="MatchPattern" id="prod-MatchPattern">
     <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="zldm3trl">
-        <emu-nt id="_ref_6"><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a></emu-nt>
+        <emu-nt id="_ref_25"><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a></emu-nt>
     </emu-rhs>
     <emu-rhs a="rwvb5pxd">
-        <emu-nt id="_ref_7"><a href="#prod-InterpolationPattern">InterpolationPattern</a></emu-nt>
+        <emu-nt id="_ref_26"><a href="#prod-InterpolationPattern">InterpolationPattern</a></emu-nt>
     </emu-rhs>
     <emu-rhs a="40clqo3r">
-        <emu-nt id="_ref_8"><a href="#prod-IdentifierMatchPattern">IdentifierMatchPattern</a></emu-nt>
+        <emu-nt id="_ref_27"><a href="#prod-IdentifierMatchPattern">IdentifierMatchPattern</a></emu-nt>
     </emu-rhs>
     <emu-rhs a="xbvtkf76">
-        <emu-nt id="_ref_9"><a href="#prod-NearLiteralMatchPattern">NearLiteralMatchPattern</a></emu-nt>
+        <emu-nt id="_ref_28"><a href="#prod-NearLiteralMatchPattern">NearLiteralMatchPattern</a></emu-nt>
     </emu-rhs>
     <emu-rhs a="8rwi5pil">
-        <emu-nt id="_ref_10"><a href="#prod-ObjectMatchPattern">ObjectMatchPattern</a></emu-nt>
+        <emu-nt id="_ref_29"><a href="#prod-ObjectMatchPattern">ObjectMatchPattern</a></emu-nt>
     </emu-rhs>
     <emu-rhs a="wffg_mnt">
-        <emu-nt id="_ref_11"><a href="#prod-ArrayMatchPattern">ArrayMatchPattern</a></emu-nt>
+        <emu-nt id="_ref_30"><a href="#prod-ArrayMatchPattern">ArrayMatchPattern</a></emu-nt>
     </emu-rhs>
     <emu-rhs a="59hl_iep">
         <emu-t>(</emu-t>
-        <emu-nt id="_ref_12"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt id="_ref_31"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
         <emu-t>)</emu-t>
     </emu-rhs>
 </emu-production>
 <emu-production name="CombinedMatchPattern" id="prod-CombinedMatchPattern">
     <emu-nt><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="9wuvrand">
-        <emu-nt id="_ref_13"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt id="_ref_32"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
         <emu-t>or</emu-t>
-        <emu-nt id="_ref_14"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt id="_ref_33"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
     </emu-rhs>
     <emu-rhs a="4lmqei0y">
-        <emu-nt id="_ref_15"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt id="_ref_34"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
         <emu-t>and</emu-t>
-        <emu-nt id="_ref_16"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt id="_ref_35"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
     </emu-rhs>
 </emu-production>
 <emu-production name="InterpolationPattern" id="prod-InterpolationPattern">
@@ -2631,7 +2631,7 @@ li.menu-search-result-term:before {
         <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt>
         <emu-t>}</emu-t>
         <emu-t>with</emu-t>
-        <emu-nt id="_ref_17"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt id="_ref_36"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
     </emu-rhs>
     <emu-rhs a="-hek52yq">
         <emu-t>${</emu-t>
@@ -2660,7 +2660,7 @@ li.menu-search-result-term:before {
     <emu-rhs a="okxt3jdb">
         <emu-nt><a href="https://tc39.es/ecma262/#prod-RegularExpressionLiteral">RegularExpressionLiteral</a></emu-nt>
         <emu-t>with</emu-t>
-        <emu-nt id="_ref_18"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt id="_ref_37"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
     </emu-rhs>
     <emu-rhs a="mbzy6lvr">
         <emu-nt><a href="https://tc39.es/ecma262/#prod-RegularExpressionLiteral">RegularExpressionLiteral</a></emu-nt>
@@ -2684,6 +2684,17 @@ li.menu-search-result-term:before {
         <emu-t>-</emu-t>
         <emu-t>Infinity</emu-t>
     </emu-rhs>
+    <emu-rhs a="skb_0nne">
+        <emu-t>NaN</emu-t>
+    </emu-rhs>
+    <emu-rhs a="pk2advgl">
+        <emu-t>+</emu-t>
+        <emu-t>NaN</emu-t>
+    </emu-rhs>
+    <emu-rhs a="briv2b7f">
+        <emu-t>-</emu-t>
+        <emu-t>NaN</emu-t>
+    </emu-rhs>
 </emu-production>
 <emu-production name="ObjectMatchPattern" id="prod-ObjectMatchPattern">
     <emu-nt><a href="#prod-ObjectMatchPattern">ObjectMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="gbpaspne">
@@ -2692,19 +2703,19 @@ li.menu-search-result-term:before {
     </emu-rhs>
     <emu-rhs a="o1dsndx3">
         <emu-t>{</emu-t>
-        <emu-nt id="_ref_19"><a href="#prod-MatchRestProperty">MatchRestProperty</a></emu-nt>
+        <emu-nt id="_ref_38"><a href="#prod-MatchRestProperty">MatchRestProperty</a></emu-nt>
         <emu-t>}</emu-t>
     </emu-rhs>
     <emu-rhs a="nspsfrh4">
         <emu-t>{</emu-t>
-        <emu-nt id="_ref_20"><a href="#prod-MatchPropertyList">MatchPropertyList</a></emu-nt>
+        <emu-nt id="_ref_39"><a href="#prod-MatchPropertyList">MatchPropertyList</a></emu-nt>
         <emu-t>}</emu-t>
     </emu-rhs>
     <emu-rhs a="l1lfhe0h">
         <emu-t>{</emu-t>
-        <emu-nt id="_ref_21"><a href="#prod-MatchPropertyList">MatchPropertyList</a></emu-nt>
+        <emu-nt id="_ref_40"><a href="#prod-MatchPropertyList">MatchPropertyList</a></emu-nt>
         <emu-t>,</emu-t>
-        <emu-nt optional="" id="_ref_22"><a href="#prod-MatchRestProperty">MatchRestProperty</a><emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt>
+        <emu-nt optional="" id="_ref_41"><a href="#prod-MatchRestProperty">MatchRestProperty</a><emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt>
         <emu-t>}</emu-t>
     </emu-rhs>
 </emu-production>
@@ -2712,69 +2723,69 @@ li.menu-search-result-term:before {
     <emu-nt><a href="#prod-ArrayMatchPattern">ArrayMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="v71kenem">
         <emu-t>[</emu-t>
         <emu-nt optional=""><a href="https://tc39.es/ecma262/#prod-Elision">Elision</a><emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt>
-        <emu-nt optional="" id="_ref_23"><a href="#prod-MatchRestElement">MatchRestElement</a><emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt>
+        <emu-nt optional="" id="_ref_42"><a href="#prod-MatchRestElement">MatchRestElement</a><emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt>
         <emu-t>]</emu-t>
     </emu-rhs>
     <emu-rhs a="1jarqwxx">
         <emu-t>[</emu-t>
-        <emu-nt id="_ref_24"><a href="#prod-MatchElementList">MatchElementList</a></emu-nt>
+        <emu-nt id="_ref_43"><a href="#prod-MatchElementList">MatchElementList</a></emu-nt>
         <emu-t>]</emu-t>
     </emu-rhs>
     <emu-rhs a="rio4_qba">
         <emu-t>[</emu-t>
-        <emu-nt id="_ref_25"><a href="#prod-MatchElementList">MatchElementList</a></emu-nt>
+        <emu-nt id="_ref_44"><a href="#prod-MatchElementList">MatchElementList</a></emu-nt>
         <emu-t>,</emu-t>
         <emu-nt optional=""><a href="https://tc39.es/ecma262/#prod-Elision">Elision</a><emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt>
-        <emu-nt optional="" id="_ref_26"><a href="#prod-MatchRestElement">MatchRestElement</a><emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt>
+        <emu-nt optional="" id="_ref_45"><a href="#prod-MatchRestElement">MatchRestElement</a><emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt>
         <emu-t>]</emu-t>
     </emu-rhs>
 </emu-production>
 <emu-production name="MatchRestProperty" id="prod-MatchRestProperty">
     <emu-nt><a href="#prod-MatchRestProperty">MatchRestProperty</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="_fzrac9_">
         <emu-t>...</emu-t>
-        <emu-nt id="_ref_27"><a href="#prod-IdentifierMatchPattern">IdentifierMatchPattern</a></emu-nt>
+        <emu-nt id="_ref_46"><a href="#prod-IdentifierMatchPattern">IdentifierMatchPattern</a></emu-nt>
     </emu-rhs>
 </emu-production>
 <emu-production name="MatchPropertyList" id="prod-MatchPropertyList">
     <emu-nt><a href="#prod-MatchPropertyList">MatchPropertyList</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="itbva-y6">
-        <emu-nt id="_ref_28"><a href="#prod-MatchProperty">MatchProperty</a></emu-nt>
+        <emu-nt id="_ref_47"><a href="#prod-MatchProperty">MatchProperty</a></emu-nt>
     </emu-rhs>
     <emu-rhs a="q97kd0i8">
-        <emu-nt id="_ref_29"><a href="#prod-MatchPropertyList">MatchPropertyList</a></emu-nt>
+        <emu-nt id="_ref_48"><a href="#prod-MatchPropertyList">MatchPropertyList</a></emu-nt>
         <emu-t>,</emu-t>
-        <emu-nt id="_ref_30"><a href="#prod-MatchProperty">MatchProperty</a></emu-nt>
+        <emu-nt id="_ref_49"><a href="#prod-MatchProperty">MatchProperty</a></emu-nt>
     </emu-rhs>
 </emu-production>
 <emu-production name="MatchElementList" id="prod-MatchElementList">
     <emu-nt><a href="#prod-MatchElementList">MatchElementList</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="dlv9v-6j">
-        <emu-nt id="_ref_31"><a href="#prod-MatchElisionElement">MatchElisionElement</a></emu-nt>
+        <emu-nt id="_ref_50"><a href="#prod-MatchElisionElement">MatchElisionElement</a></emu-nt>
     </emu-rhs>
     <emu-rhs a="eheyxnr4">
-        <emu-nt id="_ref_32"><a href="#prod-MatchElementList">MatchElementList</a></emu-nt>
+        <emu-nt id="_ref_51"><a href="#prod-MatchElementList">MatchElementList</a></emu-nt>
         <emu-t>,</emu-t>
-        <emu-nt id="_ref_33"><a href="#prod-MatchElisionElement">MatchElisionElement</a></emu-nt>
+        <emu-nt id="_ref_52"><a href="#prod-MatchElisionElement">MatchElisionElement</a></emu-nt>
     </emu-rhs>
 </emu-production>
 <emu-production name="MatchElisionElement" id="prod-MatchElisionElement">
     <emu-nt><a href="#prod-MatchElisionElement">MatchElisionElement</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="vsgvuuqm">
         <emu-nt optional=""><a href="https://tc39.es/ecma262/#prod-Elision">Elision</a><emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt>
-        <emu-nt id="_ref_34"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt id="_ref_53"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
     </emu-rhs>
 </emu-production>
 <emu-production name="MatchProperty" id="prod-MatchProperty">
     <emu-nt><a href="#prod-MatchProperty">MatchProperty</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="40clqo3r">
-        <emu-nt id="_ref_35"><a href="#prod-IdentifierMatchPattern">IdentifierMatchPattern</a></emu-nt>
+        <emu-nt id="_ref_54"><a href="#prod-IdentifierMatchPattern">IdentifierMatchPattern</a></emu-nt>
     </emu-rhs>
     <emu-rhs a="gcl0dg9q">
         <emu-nt><a href="https://tc39.es/ecma262/#prod-PropertyName">PropertyName</a></emu-nt>
         <emu-t>:</emu-t>
-        <emu-nt id="_ref_36"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt id="_ref_55"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
     </emu-rhs>
 </emu-production>
 <emu-production name="MatchRestElement" id="prod-MatchRestElement">
     <emu-nt><a href="#prod-MatchRestElement">MatchRestElement</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="darx62xy">
         <emu-t>...</emu-t>
-        <emu-nt optional="" id="_ref_37"><a href="#prod-MatchPattern">MatchPattern</a><emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt>
+        <emu-nt optional="" id="_ref_56"><a href="#prod-MatchPattern">MatchPattern</a><emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt>
     </emu-rhs>
 </emu-production>
 </emu-grammar>
@@ -2790,7 +2801,7 @@ li.menu-search-result-term:before {
     <emu-note><span class="note">Note</span><div class="note-contents">To be done.</div></emu-note>
     <emu-grammar><emu-production name="MatchClauses">
     <emu-nt><a href="#prod-MatchClauses">MatchClauses</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="-ygl5mts">
-        <emu-nt id="_ref_38"><a href="#prod-MatchClause">MatchClause</a></emu-nt>
+        <emu-nt id="_ref_57"><a href="#prod-MatchClause">MatchClause</a></emu-nt>
     </emu-rhs>
 </emu-production>
 </emu-grammar>
@@ -2800,13 +2811,294 @@ li.menu-search-result-term:before {
   </emu-clause>
   <emu-clause id="sec-match-expression-runtime-semantics">
     <h1><span class="secnum">1.3</span> Runtime Semantics: Evaluation</h1>
-    <p><emu-note><span class="note">Note</span><div class="note-contents">To be done.</div></emu-note></p>
+    <emu-grammar><emu-production name="MatchExpression" type="lexical">
+    <emu-nt><a href="#prod-MatchExpression">MatchExpression</a></emu-nt> <emu-geq>::</emu-geq> <emu-rhs a="vn-q5reb">
+        <emu-t>match</emu-t>
+        <emu-t>(</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt>
+        <emu-t>)</emu-t>
+        <emu-t>{</emu-t>
+        <emu-nt optional="" id="_ref_58"><a href="#prod-MatchClauses">MatchClauses</a><emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-nt>
+        <emu-t>}</emu-t>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Let <var>exprRef</var> be the result of evaluating Expression.</li><li>Let <var>matchable</var> be ?&nbsp;<emu-xref aoid="GetValue"><a href="https://tc39.es/ecma262/#sec-getvalue">GetValue</a></emu-xref>(<var>exprRef</var>).</li><li>If MatchClauses is not present, throw a <emu-val>TypeError</emu-val> exception.</li><li>Let <var>cache</var> be !&nbsp;<emu-xref aoid="Construct"><a href="https://tc39.es/ecma262/#sec-construct">Construct</a></emu-xref>(<emu-xref href="#sec-map-constructor"><a href="https://tc39.es/ecma262/#sec-map-constructor">%Map%</a></emu-xref>, a new Empty <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.es/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref>).</li><li>Return ?&nbsp;<emu-xref href="#sec-match-clauses-evaluation" id="_ref_0"><a href="#sec-match-clauses-evaluation">MatchClausesEvaluation</a></emu-xref> of MatchClauses with argument <var>matchable</var> and <var>cache</var>.</li></ol></emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-match-clauses-evaluation">
+    <h1><span class="secnum">1.4</span> Runtime Semantics: <dfn>MatchClausesEvaluation</dfn></h1>
+    <p>The <emu-xref href="#sec-algorithm-conventions-syntax-directed-operations"><a href="https://tc39.es/ecma262/#sec-algorithm-conventions-syntax-directed-operations">syntax-directed operation</a></emu-xref> MatchClausesEvaluation takes argument <var>matchable</var> (an <emu-xref href="#sec-ecmascript-language-types"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>) and <var>cache</var> (a <emu-xref href="#sec-map-constructor"><a href="https://tc39.es/ecma262/#sec-map-constructor">%Map%</a></emu-xref>) and returns either a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion containing</a></emu-xref> a <emu-xref href="#sec-match-records"><a href="https://tc39.es/ecma262/#sec-match-records">Match Record</a></emu-xref> or an <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">abrupt completion</a></emu-xref>. It is defined piecewise over the following productions:</p>
+    <emu-grammar><emu-production name="MatchClauses" collapsed="">
+    <emu-nt><a href="#prod-MatchClauses">MatchClauses</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="-ygl5mts"><emu-nt id="_ref_59"><a href="#prod-MatchClause">MatchClause</a></emu-nt></emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Let <var>result</var> be ?&nbsp;<emu-xref href="#sec-match-clause-evaluation" id="_ref_1"><a href="#sec-match-clause-evaluation">MatchClauseEvaluation</a></emu-xref> of MatchClause with argument <var>matchable</var> and <var>cache</var>.</li><li>If <var>result</var>.[[Matched]] is <emu-val>true</emu-val>, return <var>result</var>.[[Value]].</li><li>Throw a <emu-val>TypeError</emu-val>.</li></ol></emu-alg>
+    <emu-grammar><emu-production name="MatchClauses" collapsed="">
+    <emu-nt><a href="#prod-MatchClauses">MatchClauses</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="-os7wxzw">
+        <emu-nt id="_ref_60"><a href="#prod-MatchClauses">MatchClauses</a></emu-nt>
+        <emu-nt id="_ref_61"><a href="#prod-MatchClause">MatchClause</a></emu-nt>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Let <var>result</var> be ?&nbsp;<emu-xref href="#sec-match-clauses-evaluation" id="_ref_2"><a href="#sec-match-clauses-evaluation">MatchClausesEvaluation</a></emu-xref> of MatchClauses with argument <var>matchable</var> and <var>cache</var>.</li><li>If <var>result</var>.[[Matched]] is <emu-val>true</emu-val>, return <var>result</var>.[[Value]].</li><li>Let <var>result</var> be ?&nbsp;<emu-xref href="#sec-match-clause-evaluation" id="_ref_3"><a href="#sec-match-clause-evaluation">MatchClauseEvaluation</a></emu-xref> of MatchClause with argument <var>matchable</var> and <var>cache</var>.</li><li>If <var>result</var>.[[Matched]] is <emu-val>true</emu-val>, return <var>result</var>.[[Value]].</li><li>Throw a <emu-val>TypeError</emu-val>.</li></ol></emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-match-clause-evaluation">
+    <h1><span class="secnum">1.5</span> Runtime Semantics: <dfn>MatchClauseEvaluation</dfn></h1>
+    <p>The <emu-xref href="#sec-algorithm-conventions-syntax-directed-operations"><a href="https://tc39.es/ecma262/#sec-algorithm-conventions-syntax-directed-operations">syntax-directed operation</a></emu-xref> MatchClauseEvaluation takes argument <var>matchable</var> (an <emu-xref href="#sec-ecmascript-language-types"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>) and <var>cache</var> (a <emu-xref href="#sec-map-constructor"><a href="https://tc39.es/ecma262/#sec-map-constructor">%Map%</a></emu-xref>) and returns either a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion containing</a></emu-xref> a <emu-xref href="#sec-match-records"><a href="https://tc39.es/ecma262/#sec-match-records">Match Record</a></emu-xref> or an <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">abrupt completion</a></emu-xref>. It is defined piecewise over the following productions:</p>
+    <emu-grammar><emu-production name="MatchClause" collapsed="">
+    <emu-nt><a href="#prod-MatchClause">MatchClause</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="xk_jo2wg">
+        <emu-t>when</emu-t>
+        <emu-t>(</emu-t>
+        <emu-nt id="_ref_62"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-t>)</emu-t>
+        <emu-t>if</emu-t>
+        <emu-t>(</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt>
+        <emu-t>)</emu-t>
+        <emu-t>:</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Let <var>closure</var> be a new <emu-xref href="#sec-abstract-closure"><a href="https://tc39.es/ecma262/#sec-abstract-closure">Abstract Closure</a></emu-xref> with parameters () that captures <var>matchable</var>, <var>cache</var> and <var>MatchPattern</var> and performs the following steps when called:<ol><li>Let <var>matches</var> be ?&nbsp;<emu-xref href="#sec-match-pattern-matches" id="_ref_4"><a href="#sec-match-pattern-matches">MatchPatternMatches</a></emu-xref> of MatchPattern with arguments <var>matchable</var> and <var>cache</var>.</li><li>If <var>matches</var> is <emu-val>false</emu-val>, return <emu-xref href="#sec-match-records"><a href="https://tc39.es/ecma262/#sec-match-records">Match Record</a></emu-xref> { [[Matched]]: false, [[Value]]: unused }.</li><li>Let <var>ifRef</var> be the result of evaluating the first Expression.</li><li>Let <var>ifGuard</var> be <emu-xref aoid="ToBoolean"><a href="https://tc39.es/ecma262/#sec-toboolean">ToBoolean</a></emu-xref>(? <emu-xref aoid="GetValue"><a href="https://tc39.es/ecma262/#sec-getvalue">GetValue</a></emu-xref>(<var>ifRef</var>)).</li><li>If <var>ifGuard</var> is <emu-val>false</emu-val>, then<ol><li>return <emu-xref href="#sec-match-records"><a href="https://tc39.es/ecma262/#sec-match-records">Match Record</a></emu-xref> { [[Matched]]: <emu-val>false</emu-val>, [[Value]]: unused }.</li></ol></li><li>Let <var>exprRef</var> be evaluating the second Expression.</li><li>Let <var>exprVal</var> be ?&nbsp;<emu-xref aoid="GetValue"><a href="https://tc39.es/ecma262/#sec-getvalue">GetValue</a></emu-xref>(<var>exprRef</var>).</li><li>Return <emu-xref href="#sec-match-records"><a href="https://tc39.es/ecma262/#sec-match-records">Match Record</a></emu-xref> { [[Matched]]: <emu-val>true</emu-val>, [[Value]]: <var>exprVal</var> }.</li></ol></li><li>Let <var>oldEnv</var> be the <emu-xref href="#running-execution-context"><a href="https://tc39.es/ecma262/#running-execution-context">running execution context</a></emu-xref>'s LexicalEnvironment.</li><li>Let <var>matchEnv</var> be <emu-xref aoid="NewDeclarativeEnvironment"><a href="https://tc39.es/ecma262/#sec-newdeclarativeenvironment">NewDeclarativeEnvironment</a></emu-xref>(<var>oldEnv</var>).</li><li>Set the <emu-xref href="#running-execution-context"><a href="https://tc39.es/ecma262/#running-execution-context">running execution context</a></emu-xref>'s LexicalEnvironment to <var>matchEnv</var>.</li><li>Let <var>result</var> be <var>closure</var> ().</li><li>Set the <emu-xref href="#running-execution-context"><a href="https://tc39.es/ecma262/#running-execution-context">running execution context</a></emu-xref>'s LexicalEnvironment to <var>oldEnv</var>.</li><li>Return <var>result</var>.</li></ol></emu-alg>
+    <emu-grammar><emu-production name="MatchClause" collapsed="">
+    <emu-nt><a href="#prod-MatchClause">MatchClause</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="s8plqgll">
+        <emu-t>when</emu-t>
+        <emu-t>(</emu-t>
+        <emu-nt id="_ref_63"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-t>)</emu-t>
+        <emu-t>:</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Let <var>closure</var> be a new <emu-xref href="#sec-abstract-closure"><a href="https://tc39.es/ecma262/#sec-abstract-closure">Abstract Closure</a></emu-xref> with parameters () that captures <var>matchable</var>, <var>cache</var> and <var>MatchPattern</var> and performs the following steps when called:<ol><li>Let <var>matches</var> be ?&nbsp;<emu-xref href="#sec-match-pattern-matches" id="_ref_5"><a href="#sec-match-pattern-matches">MatchPatternMatches</a></emu-xref> of MatchPattern with arguments <var>matchable</var> and <var>cache</var>.</li><li>If <var>matches</var> is <emu-val>false</emu-val>, return <emu-xref href="#sec-match-records"><a href="https://tc39.es/ecma262/#sec-match-records">Match Record</a></emu-xref> { [[Matched]]: false, [[Value]]: unused }.</li><li>Let <var>exprRef</var> be evaluating the second Expression.</li><li>Let <var>exprVal</var> be ?&nbsp;<emu-xref aoid="GetValue"><a href="https://tc39.es/ecma262/#sec-getvalue">GetValue</a></emu-xref>(<var>exprRef</var>).</li><li>Return <emu-xref href="#sec-match-records"><a href="https://tc39.es/ecma262/#sec-match-records">Match Record</a></emu-xref> { [[Matched]]: <emu-val>true</emu-val>, [[Value]]: <var>exprVal</var> }.</li></ol></li><li>Let <var>oldEnv</var> be the <emu-xref href="#running-execution-context"><a href="https://tc39.es/ecma262/#running-execution-context">running execution context</a></emu-xref>'s LexicalEnvironment.</li><li>Let <var>matchEnv</var> be <emu-xref aoid="NewDeclarativeEnvironment"><a href="https://tc39.es/ecma262/#sec-newdeclarativeenvironment">NewDeclarativeEnvironment</a></emu-xref>(<var>oldEnv</var>).</li><li>Set the <emu-xref href="#running-execution-context"><a href="https://tc39.es/ecma262/#running-execution-context">running execution context</a></emu-xref>'s LexicalEnvironment to <var>matchEnv</var>.</li><li>Let <var>result</var> be <var>closure</var> ().</li><li>Set the <emu-xref href="#running-execution-context"><a href="https://tc39.es/ecma262/#running-execution-context">running execution context</a></emu-xref>'s LexicalEnvironment to <var>oldEnv</var>.</li><li>Return <var>result</var>.</li></ol></emu-alg>
+    <emu-grammar><emu-production name="MatchClause" collapsed="">
+    <emu-nt><a href="#prod-MatchClause">MatchClause</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="njx3-2gq">
+        <emu-t>if</emu-t>
+        <emu-t>(</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt>
+        <emu-t>)</emu-t>
+        <emu-t>:</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Let <var>ifRef</var> be the result of evaluating the first Expression.</li><li>Let <var>ifGuard</var> be <emu-xref aoid="ToBoolean"><a href="https://tc39.es/ecma262/#sec-toboolean">ToBoolean</a></emu-xref>(? <emu-xref aoid="GetValue"><a href="https://tc39.es/ecma262/#sec-getvalue">GetValue</a></emu-xref>(<var>ifRef</var>)).</li><li>If <var>ifGuard</var> is <emu-val>false</emu-val>, then<ol><li>return <emu-xref href="#sec-match-records"><a href="https://tc39.es/ecma262/#sec-match-records">Match Record</a></emu-xref> { [[Matched]]: <emu-val>false</emu-val>, [[Value]]: unused }.</li></ol></li><li>Let <var>exprRef</var> be evaluating the second Expression.</li><li>Let <var>exprVal</var> be ?&nbsp;<emu-xref aoid="GetValue"><a href="https://tc39.es/ecma262/#sec-getvalue">GetValue</a></emu-xref>(<var>exprRef</var>).</li><li>Return <emu-xref href="#sec-match-records"><a href="https://tc39.es/ecma262/#sec-match-records">Match Record</a></emu-xref> { [[Matched]]: <emu-val>true</emu-val>, [[Value]]: <var>exprVal</var> }.</li></ol></emu-alg>
+    <emu-grammar><emu-production name="MatchClause" collapsed="">
+    <emu-nt><a href="#prod-MatchClause">MatchClause</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="xhzralk2">
+        <emu-t>default</emu-t>
+        <emu-t>:</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Let <var>exprRef</var> be evaluating the Expression.</li><li>Let <var>exprVal</var> be ?&nbsp;<emu-xref aoid="GetValue"><a href="https://tc39.es/ecma262/#sec-getvalue">GetValue</a></emu-xref>(<var>exprRef</var>).</li><li>Return <emu-xref href="#sec-match-records"><a href="https://tc39.es/ecma262/#sec-match-records">Match Record</a></emu-xref> { [[Matched]]: <emu-val>true</emu-val>, [[Value]]: <var>exprVal</var> }.</li></ol></emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-match-pattern-matches">
+    <h1><span class="secnum">1.6</span> Runtime Semantics: <dfn>MatchPatternMatches</dfn></h1>
+    <p>The <emu-xref href="#sec-algorithm-conventions-syntax-directed-operations"><a href="https://tc39.es/ecma262/#sec-algorithm-conventions-syntax-directed-operations">syntax-directed operation</a></emu-xref> MatchPatternMatches takes argument <var>matchable</var> (an <emu-xref href="#sec-ecmascript-language-types"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>) and <var>cache</var> (a <emu-xref href="#sec-map-constructor"><a href="https://tc39.es/ecma262/#sec-map-constructor">%Map%</a></emu-xref>) and returns either a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion containing</a></emu-xref> a Boolean or an <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">abrupt completion</a></emu-xref>. It is defined piecewise over the following productions:</p>
+    <emu-grammar><emu-production name="MatchPattern" collapsed="">
+    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="zldm3trl"><emu-nt id="_ref_64"><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a></emu-nt></emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Return ?&nbsp;<emu-xref href="#sec-combined-match-pattern-matches" id="_ref_6"><a href="#sec-combined-match-pattern-matches">CombinedMatchPatternMatches</a></emu-xref> of CombinedMatchPattern with arguments <var>matchable</var> and <var>cache</var>.</li></ol></emu-alg>
+    <emu-grammar><emu-production name="MatchPattern" collapsed="">
+    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="rwvb5pxd"><emu-nt id="_ref_65"><a href="#prod-InterpolationPattern">InterpolationPattern</a></emu-nt></emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Return ?&nbsp;<emu-xref href="#sec-interpolation-pattern-matches" id="_ref_7"><a href="#sec-interpolation-pattern-matches">InterpolationPatternMatches</a></emu-xref> of InterpolationPattern with arguments <var>matchable</var> and <var>cache</var>.</li></ol></emu-alg>
+    <emu-grammar><emu-production name="MatchPattern" collapsed="">
+    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="40clqo3r"><emu-nt id="_ref_66"><a href="#prod-IdentifierMatchPattern">IdentifierMatchPattern</a></emu-nt></emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Let <var>oldEnv</var> be the <emu-xref href="#running-execution-context"><a href="https://tc39.es/ecma262/#running-execution-context">running execution context</a></emu-xref>'s LexicalEnvironment.</li><li>Let <var>newEnv</var> be <emu-xref aoid="NewDeclarativeEnvironment"><a href="https://tc39.es/ecma262/#sec-newdeclarativeenvironment">NewDeclarativeEnvironment</a></emu-xref>(<var>newEnv</var>).</li><li>Set the <emu-xref href="#running-execution-context"><a href="https://tc39.es/ecma262/#running-execution-context">running execution context</a></emu-xref>'s LexicalEnvironment to <var>matchEnv</var>.</li><li>Let <var>identifier</var> be the BindingIdentifier that is coverd by IdentifierMatchPattern.</li><li>Let <var>name</var> be the <emu-xref aoid="BoundNames"><a href="https://tc39.es/ecma262/#sec-static-semantics-boundnames">BoundNames</a></emu-xref> of <var>identifier</var>.</li><li>Perform !&nbsp;<var>newEnv</var>.CreateImmutableBinding(<var>name</var>[0], <emu-val>true</emu-val>).</li><li>Perform !&nbsp;<var>newEnv</var>.InitializeBinding(<var>name</var>[0], <var>matchable</var>).</li><li>Return <emu-val>true</emu-val>.</li></ol></emu-alg>
+    <emu-grammar><emu-production name="MatchPattern" collapsed="">
+    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="xbvtkf76"><emu-nt id="_ref_67"><a href="#prod-NearLiteralMatchPattern">NearLiteralMatchPattern</a></emu-nt></emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Return ?&nbsp;<emu-xref href="#sec-near-literal-match-pattern-matches" id="_ref_8"><a href="#sec-near-literal-match-pattern-matches">NearLiteralMatchPatternMatches</a></emu-xref> of NearLiteralMatchPattern with arguments <var>matchable</var> and <var>cache</var>.</li></ol></emu-alg>
+    <emu-grammar><emu-production name="MatchPattern" collapsed="">
+    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="8rwi5pil"><emu-nt id="_ref_68"><a href="#prod-ObjectMatchPattern">ObjectMatchPattern</a></emu-nt></emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Return ?&nbsp;ObjectMatchPatternMatches of ObjectMatchPattern with arguments <var>matchable</var> and <var>cache</var>.</li></ol></emu-alg>
+    <emu-grammar><emu-production name="MatchPattern" collapsed="">
+    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="wffg_mnt"><emu-nt id="_ref_69"><a href="#prod-ArrayMatchPattern">ArrayMatchPattern</a></emu-nt></emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Return ?&nbsp;ArrayMatchPatternMatches of ArrayMatchPattern with arguments <var>matchable</var> and <var>cache</var>.</li></ol></emu-alg>
+    <emu-grammar><emu-production name="MatchPattern" collapsed="">
+    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="59hl_iep">
+        <emu-t>(</emu-t>
+        <emu-nt id="_ref_70"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-t>)</emu-t>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Return <emu-xref href="#sec-match-pattern-matches" id="_ref_9"><a href="#sec-match-pattern-matches">MatchPatternMatches</a></emu-xref> of MatchPattern with argument <var>matchable</var> and <var>cache</var>.</li></ol></emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-combined-match-pattern-matches">
+    <h1><span class="secnum">1.7</span> Runtime Semantics: <dfn>CombinedMatchPatternMatches</dfn></h1>
+    <p>The <emu-xref href="#sec-algorithm-conventions-syntax-directed-operations"><a href="https://tc39.es/ecma262/#sec-algorithm-conventions-syntax-directed-operations">syntax-directed operation</a></emu-xref> CombinedMatchPatternMatches takes argument <var>matchable</var> (an <emu-xref href="#sec-ecmascript-language-types"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>) and <var>cache</var> (a <emu-xref href="#sec-map-constructor"><a href="https://tc39.es/ecma262/#sec-map-constructor">%Map%</a></emu-xref>) and returns either a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion containing</a></emu-xref> a Boolean or an <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">abrupt completion</a></emu-xref>. It is defined piecewise over the following productions:</p>
+    <emu-grammar><emu-production name="CombinedMatchPattern" collapsed="">
+    <emu-nt><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="9wuvrand">
+        <emu-nt id="_ref_71"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-t>or</emu-t>
+        <emu-nt id="_ref_72"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Let <var>leftMatches</var> be <emu-xref href="#sec-match-pattern-matches" id="_ref_10"><a href="#sec-match-pattern-matches">MatchPatternMatches</a></emu-xref> of the first MatchPattern with arguments <var>matchable</var> and <var>cache</var>.</li><li>If <var>leftMatches</var> is <emu-val>true</emu-val>, return <emu-val>true</emu-val>.</li><li>Return <emu-xref href="#sec-match-pattern-matches" id="_ref_11"><a href="#sec-match-pattern-matches">MatchPatternMatches</a></emu-xref> of the second MatchPattern with arguments <var>matchable</var> and <var>cache</var>.</li></ol></emu-alg>
+    <emu-grammar><emu-production name="CombinedMatchPattern" collapsed="">
+    <emu-nt><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="4lmqei0y">
+        <emu-nt id="_ref_73"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-t>and</emu-t>
+        <emu-nt id="_ref_74"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Let <var>leftMatches</var> be <emu-xref href="#sec-match-pattern-matches" id="_ref_12"><a href="#sec-match-pattern-matches">MatchPatternMatches</a></emu-xref> of the first MatchPattern with arguments <var>matchable</var> and <var>cache</var>.</li><li>If <var>leftMatches</var> is <emu-val>false</emu-val>, return <emu-val>false</emu-val>.</li><li>Return <emu-xref href="#sec-match-pattern-matches" id="_ref_13"><a href="#sec-match-pattern-matches">MatchPatternMatches</a></emu-xref> of the second MatchPattern with arguments <var>matchable</var> and <var>cache</var>.</li></ol></emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-interpolation-pattern-matches">
+    <h1><span class="secnum">1.8</span> Runtime Semantics: <dfn>InterpolationPatternMatches</dfn></h1>
+    <p>The <emu-xref href="#sec-algorithm-conventions-syntax-directed-operations"><a href="https://tc39.es/ecma262/#sec-algorithm-conventions-syntax-directed-operations">syntax-directed operation</a></emu-xref> InterpolationPatternMatches takes argument <var>matchable</var> (an <emu-xref href="#sec-ecmascript-language-types"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>) and <var>cache</var> (a <emu-xref href="#sec-map-constructor"><a href="https://tc39.es/ecma262/#sec-map-constructor">%Map%</a></emu-xref>) and returns either a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion containing</a></emu-xref> a Boolean or an <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">abrupt completion</a></emu-xref>. It is defined piecewise over the following productions:</p>
+    <emu-grammar><emu-production name="InterpolationPattern" collapsed="">
+    <emu-nt><a href="#prod-InterpolationPattern">InterpolationPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="-hek52yq">
+        <emu-t>${</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt>
+        <emu-t>}</emu-t>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Let <var>exprRef</var> be evaluating the Expression.</li><li>Let <var>exprVal</var> be ?&nbsp;<emu-xref aoid="GetValue"><a href="https://tc39.es/ecma262/#sec-getvalue">GetValue</a></emu-xref>(<var>exprRef</var>).</li><li>Let <var>result</var> be ?&nbsp;<emu-xref href="#sec-custom-matcher" id="_ref_14"><a href="#sec-custom-matcher">InvokeCustomMatcher</a></emu-xref>(<var>exprVal</var>, <var>matchable</var>).</li><li>If <var>result</var> is an <emu-xref href="#sec-ecmascript-language-types"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>, return <emu-val>true</emu-val>.</li><li>Return <var>result</var>.</li></ol></emu-alg>
+    <emu-grammar><emu-production name="InterpolationPattern" collapsed="">
+    <emu-nt><a href="#prod-InterpolationPattern">InterpolationPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="yn296bnk">
+        <emu-t>${</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt>
+        <emu-t>}</emu-t>
+        <emu-t>with</emu-t>
+        <emu-nt id="_ref_75"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Let <var>exprRef</var> be evaluating the Expression.</li><li>Let <var>exprVal</var> be ?&nbsp;<emu-xref aoid="GetValue"><a href="https://tc39.es/ecma262/#sec-getvalue">GetValue</a></emu-xref>(<var>exprRef</var>).</li><li>Let <var>result</var> be ?&nbsp;<emu-xref href="#sec-custom-matcher" id="_ref_15"><a href="#sec-custom-matcher">InvokeCustomMatcher</a></emu-xref>(<var>exprVal</var>, <var>matchable</var>).</li><li>If <var>result</var> is <emu-val>false</emu-val>, return <emu-val>false</emu-val>.</li><li>If <var>result</var> is an <emu-xref href="#sec-ecmascript-language-types"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>, then<ol><li>Let <var>newCache</var> be !&nbsp;<emu-xref aoid="Construct"><a href="https://tc39.es/ecma262/#sec-construct">Construct</a></emu-xref>(<emu-xref href="#sec-map-constructor"><a href="https://tc39.es/ecma262/#sec-map-constructor">%Map%</a></emu-xref>, a new Empty <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.es/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref>).</li><li>Let <var>matches</var> be ?&nbsp;<emu-xref href="#sec-match-pattern-matches" id="_ref_16"><a href="#sec-match-pattern-matches">MatchPatternMatches</a></emu-xref> of MatchPattern with arguments <var>result</var> and <var>newCache</var>.</li><li>Return <var>matches</var>.</li></ol></li><li>Return ?&nbsp;<emu-xref href="#sec-match-pattern-matches" id="_ref_17"><a href="#sec-match-pattern-matches">MatchPatternMatches</a></emu-xref> of MatchPattern with arguments <var>matchable</var> and <var>cache</var>.</li></ol></emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-near-literal-match-pattern-matches">
+    <h1><span class="secnum">1.9</span> Runtime Semantics: <dfn>NearLiteralMatchPatternMatches</dfn></h1>
+    <p>The <emu-xref href="#sec-algorithm-conventions-syntax-directed-operations"><a href="https://tc39.es/ecma262/#sec-algorithm-conventions-syntax-directed-operations">syntax-directed operation</a></emu-xref> NearLiteralMatchPatternMatches takes argument <var>matchable</var> (an <emu-xref href="#sec-ecmascript-language-types"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>) and <var>cache</var> (a <emu-xref href="#sec-map-constructor"><a href="https://tc39.es/ecma262/#sec-map-constructor">%Map%</a></emu-xref>) and returns either a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion containing</a></emu-xref> a Boolean or an <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">abrupt completion</a></emu-xref>. It is defined piecewise over the following productions:</p>
+    <emu-grammar><emu-production name="NearLiteralMatchPattern" collapsed="">
+    <emu-nt><a href="#prod-NearLiteralMatchPattern">NearLiteralMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="vphbieby"><emu-nt><a href="https://tc39.es/ecma262/#prod-NullLiteral">NullLiteral</a></emu-nt></emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Return <emu-xref aoid="SameValue"><a href="https://tc39.es/ecma262/#sec-samevalue">SameValue</a></emu-xref>(<var>matchable</var>, <emu-val>null</emu-val>).</li></ol></emu-alg>
+    <emu-grammar><emu-production name="NearLiteralMatchPattern" collapsed="">
+    <emu-nt><a href="#prod-NearLiteralMatchPattern">NearLiteralMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="nqjh_sxl"><emu-nt><a href="https://tc39.es/ecma262/#prod-BooleanLiteral">BooleanLiteral</a></emu-nt></emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Return <emu-xref aoid="SameValue"><a href="https://tc39.es/ecma262/#sec-samevalue">SameValue</a></emu-xref>(<var>matchable</var>, the result of evaluating BooleanLiteral).</li></ol></emu-alg>
+    <emu-grammar><emu-production name="NearLiteralMatchPattern" collapsed="">
+    <emu-nt><a href="#prod-NearLiteralMatchPattern">NearLiteralMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="pui0b1rt"><emu-nt><a href="https://tc39.es/ecma262/#prod-NumericLiteral">NumericLiteral</a></emu-nt></emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Return <emu-xref aoid="SameValue"><a href="https://tc39.es/ecma262/#sec-samevalue">SameValue</a></emu-xref>(<var>matchable</var>, the result of evaluating NumericLiteral).</li></ol></emu-alg>
+    <emu-grammar><emu-production name="NearLiteralMatchPattern" collapsed="">
+    <emu-nt><a href="#prod-NearLiteralMatchPattern">NearLiteralMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="xhtltz00"><emu-nt><a href="https://tc39.es/ecma262/#prod-StringLiteral">StringLiteral</a></emu-nt></emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Return <emu-xref aoid="SameValue"><a href="https://tc39.es/ecma262/#sec-samevalue">SameValue</a></emu-xref>(<var>matchable</var>, the result of evaluating StringLiteral).</li></ol></emu-alg>
+    <emu-grammar><emu-production name="NearLiteralMatchPattern" collapsed="">
+    <emu-nt><a href="#prod-NearLiteralMatchPattern">NearLiteralMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="okxt3jdb">
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-RegularExpressionLiteral">RegularExpressionLiteral</a></emu-nt>
+        <emu-t>with</emu-t>
+        <emu-nt id="_ref_76"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Let <var>regexp</var> be the result of evaluating RegularExpressionLiteral.</li><li>If <emu-xref aoid="Type"><a href="https://tc39.es/ecma262/#sec-ecmascript-data-types-and-values">Type</a></emu-xref>(<var>matchable</var>) is not a String, return <emu-val>false</emu-val>.</li><li>Let <var>result</var> be ?&nbsp;<emu-xref aoid="RegExpBuiltinExec"><a href="https://tc39.es/ecma262/#sec-regexpbuiltinexec">RegExpBuiltinExec</a></emu-xref>(<var>regexp</var>, <var>matchable</var>).</li><li>If <var>result</var> is <emu-val>null</emu-val>, return <emu-val>false</emu-val>.</li><li>Let <var>newCache</var> be !&nbsp;<emu-xref aoid="Construct"><a href="https://tc39.es/ecma262/#sec-construct">Construct</a></emu-xref>(<emu-xref href="#sec-map-constructor"><a href="https://tc39.es/ecma262/#sec-map-constructor">%Map%</a></emu-xref>, a new Empty <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.es/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref>).</li><li>Return ?&nbsp;<emu-xref href="#sec-match-pattern-matches" id="_ref_18"><a href="#sec-match-pattern-matches">MatchPatternMatches</a></emu-xref> of MatchPattern with arguments <var>result</var> and <var>newCache</var>.</li></ol></emu-alg>
+    <emu-grammar><emu-production name="NearLiteralMatchPattern" collapsed="">
+    <emu-nt><a href="#prod-NearLiteralMatchPattern">NearLiteralMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="mbzy6lvr"><emu-nt><a href="https://tc39.es/ecma262/#prod-RegularExpressionLiteral">RegularExpressionLiteral</a></emu-nt></emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Let <var>regexp</var> be the result of evaluating RegularExpressionLiteral.</li><li>If <emu-xref aoid="Type"><a href="https://tc39.es/ecma262/#sec-ecmascript-data-types-and-values">Type</a></emu-xref>(<var>matchable</var>) is not a String, return <emu-val>false</emu-val>.</li><li>Let <var>result</var> be ?&nbsp;<emu-xref aoid="RegExpBuiltinExec"><a href="https://tc39.es/ecma262/#sec-regexpbuiltinexec">RegExpBuiltinExec</a></emu-xref>(<var>regexp</var>, <var>matchable</var>).</li><li>If <var>result</var> is <emu-val>null</emu-val>, return <emu-val>false</emu-val>.</li><li>Return <emu-val>true</emu-val>.</li></ol></emu-alg>
+    <emu-grammar><emu-production name="NearLiteralMatchPattern" collapsed="">
+    <emu-nt><a href="#prod-NearLiteralMatchPattern">NearLiteralMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="nxncjj7z"><emu-nt params="~Tagged"><a href="https://tc39.es/ecma262/#prod-TemplateLiteral">TemplateLiteral</a><emu-mods><emu-params>[~Tagged]</emu-params></emu-mods></emu-nt></emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Return <emu-xref aoid="SameValue"><a href="https://tc39.es/ecma262/#sec-samevalue">SameValue</a></emu-xref>(<var>matchable</var>, the result of evaluating TemplateLiteral).</li></ol></emu-alg>
+    <emu-grammar><emu-production name="NearLiteralMatchPattern" collapsed="">
+    <emu-nt><a href="#prod-NearLiteralMatchPattern">NearLiteralMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="1epwai_f">
+        <emu-t>+</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-NumericLiteral">NumericLiteral</a></emu-nt>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Let <var>num</var> be the result of evaluating NumericLiteral.</li><li>Return <emu-xref aoid="SameValueZero"><a href="https://tc39.es/ecma262/#sec-samevaluezero">SameValueZero</a></emu-xref>(<var>matchable</var>, <var>num</var>).</li></ol></emu-alg>
+    <emu-grammar><emu-production name="NearLiteralMatchPattern" collapsed="">
+    <emu-nt><a href="#prod-NearLiteralMatchPattern">NearLiteralMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="u8w2p_fz">
+        <emu-t>-</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-NumericLiteral">NumericLiteral</a></emu-nt>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Let <var>num</var> be the result of evaluating NumericLiteral.</li><li>Return <emu-xref aoid="SameValueZero"><a href="https://tc39.es/ecma262/#sec-samevaluezero">SameValueZero</a></emu-xref>(<var>matchable</var>, -<var>num</var>).</li></ol></emu-alg>
+    <emu-grammar><emu-production name="NearLiteralMatchPattern" collapsed="">
+    <emu-nt><a href="#prod-NearLiteralMatchPattern">NearLiteralMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="bmcrlo4a">
+        <emu-t>+</emu-t>
+        <emu-t>Infinity</emu-t>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Return <emu-xref aoid="SameValue"><a href="https://tc39.es/ecma262/#sec-samevalue">SameValue</a></emu-xref>(<var>matchable</var>, <emu-val>Infinity</emu-val>).</li></ol></emu-alg>
+    <emu-grammar><emu-production name="NearLiteralMatchPattern" collapsed="">
+    <emu-nt><a href="#prod-NearLiteralMatchPattern">NearLiteralMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="exefunjs">
+        <emu-t>-</emu-t>
+        <emu-t>Infinity</emu-t>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Return <emu-xref aoid="SameValue"><a href="https://tc39.es/ecma262/#sec-samevalue">SameValue</a></emu-xref>(<var>matchable</var>, <emu-val>-Infinity</emu-val>).</li></ol></emu-alg>
+    <emu-grammar><emu-production name="NearLiteralMatchPattern" collapsed="">
+    <emu-nt><a href="#prod-NearLiteralMatchPattern">NearLiteralMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="skb_0nne"><emu-t>NaN</emu-t></emu-rhs>
+</emu-production>
+<emu-production name="NearLiteralMatchPattern" collapsed="">
+    <emu-nt><a href="#prod-NearLiteralMatchPattern">NearLiteralMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="pk2advgl">
+        <emu-t>+</emu-t>
+        <emu-t>NaN</emu-t>
+    </emu-rhs>
+</emu-production>
+<emu-production name="NearLiteralMatchPattern" collapsed="">
+    <emu-nt><a href="#prod-NearLiteralMatchPattern">NearLiteralMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="briv2b7f">
+        <emu-t>-</emu-t>
+        <emu-t>NaN</emu-t>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-alg><ol><li>Return <emu-xref aoid="SameValue"><a href="https://tc39.es/ecma262/#sec-samevalue">SameValue</a></emu-xref>(<var>matchable</var>, <emu-val>NaN</emu-val>).</li></ol></emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-match-record">
+    <h1><span class="secnum">1.10</span> Match Records</h1>
+    <p>A <emu-xref href="#sec-match-records"><a href="https://tc39.es/ecma262/#sec-match-records">Match Record</a></emu-xref> is a <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.es/ecma262/#sec-list-and-record-specification-type">Record</a></emu-xref> value used to represent the match result of the match clause.</p>
+    <p><emu-xref href="#sec-match-records"><a href="https://tc39.es/ecma262/#sec-match-records">Match Record</a></emu-xref> have the fields listed in Table 1.</p>
+    <emu-table><figure><figcaption>Table 1: Table 1</figcaption>
+      
+      <table>
+        <tbody><tr><th>Field Name</th><th>Value</th><th>Meaning</th></tr>
+        <tr><td>[[Matched]]</td><td>a Boolean</td><td>If the match clause matched.</td></tr>
+        <tr><td>[[Value]]</td><td>an <emu-xref href="#sec-ecmascript-language-types"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref></td><td>The matched value.</td></tr>
+      </tbody></table>
+    </figure></emu-table>
+  </emu-clause>
+  <emu-clause id="sec-custom-matcher">
+    <h1><span class="secnum">1.11</span> <dfn>InvokeCustomMatcher</dfn> ( <var>val</var>, <var>matchable</var> )</h1>
+    <p>The abstract operation GetCustomMatcher takes argument <var>val</var> and returns a Boolean or an <emu-xref href="#sec-ecmascript-language-types"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>. It performs the following steps when called:</p>
+    <emu-alg><ol><li>Let <var>type</var> be <emu-xref aoid="Type"><a href="https://tc39.es/ecma262/#sec-ecmascript-data-types-and-values">Type</a></emu-xref>(<var>val</var>).</li><li>If <var>type</var> is not Object, return <emu-xref aoid="SameValue"><a href="https://tc39.es/ecma262/#sec-samevalue">SameValue</a></emu-xref>(<var>val</var>, <var>matchable</var>).</li><li>Let <var>matcher</var> be ?&nbsp;<emu-xref aoid="Get"><a href="https://tc39.es/ecma262/#sec-get-o-p">Get</a></emu-xref>(<var>val</var>, <emu-xref href="#sec-well-known-symbols"><a href="https://tc39.es/ecma262/#sec-well-known-symbols">@@match</a></emu-xref>er).</li><li>If <emu-xref aoid="IsCallable"><a href="https://tc39.es/ecma262/#sec-iscallable">IsCallable</a></emu-xref>(<var>matcher</var>) is <emu-val>false</emu-val>, throw a TypeError exception.</li><li>Let <var>result</var> be ?&nbsp;<emu-xref aoid="Call"><a href="https://tc39.es/ecma262/#sec-call">Call</a></emu-xref>(<var>matcher</var>, <emu-val>undefined</emu-val>, « <var>matchable</var> »).</li><li>If <emu-xref aoid="Type"><a href="https://tc39.es/ecma262/#sec-ecmascript-data-types-and-values">Type</a></emu-xref>(<var>result</var>) is not Object, throw a TypeError exception.</li><li>Let <var>matched</var> be <emu-xref aoid="ToBoolean"><a href="https://tc39.es/ecma262/#sec-toboolean">ToBoolean</a></emu-xref>(? <emu-xref aoid="Get"><a href="https://tc39.es/ecma262/#sec-get-o-p">Get</a></emu-xref>(<var>result</var>, <emu-val>"matched"</emu-val>)).</li><li>If <var>matched</var> is <emu-val>false</emu-val>, return <emu-val>false</emu-val>.</li><li>Return ?&nbsp;<emu-xref aoid="Get"><a href="https://tc39.es/ecma262/#sec-get-o-p">Get</a></emu-xref>(<var>result</var>, <emu-val>"value"</emu-val>).</li></ol></emu-alg>
   </emu-clause>
 </emu-clause><emu-annex id="sec-copyright-and-software-license">
       <h1><span class="secnum">A</span> Copyright &amp; Software License</h1>
       
       <h2>Copyright Notice</h2>
-      <p>© 2022 Daniel Rosenwasser, Jack Works, Jordan Harband, Mark Cohen, Ross Kirsling, Tab Atkins, Yulia Startsev</p>
+      <p>© 2022 Daniel Rosenwasser,Jack Works,Jordan Harband,Mark Cohen,Ross Kirsling,Tab Atkins,Yulia Startsev</p>
 
       <h2>Software License</h2>
       <p>All Software contained in this document ("Software") is protected by copyright and is being made available under the "BSD License", included below. This Software may be subject to third party rights (rights from parties other than Ecma International), including patent rights, and no licenses under such third party rights are granted under this license even if the third party concerned is a member of Ecma International. SEE THE ECMA CODE OF CONDUCT IN PATENT MATTERS AVAILABLE AT https://ecma-international.org/memento/codeofconduct.htm FOR INFORMATION REGARDING THE LICENSING OF PATENT CLAIMS THAT ARE REQUIRED TO IMPLEMENT ECMA INTERNATIONAL STANDARDS.</p>
