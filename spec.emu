@@ -240,12 +240,12 @@ contributors:
     </emu-grammar>
     <emu-alg>
       1. Let _oldEnv_ be the running execution context's LexicalEnvironment.
-      1. Let _newEnv_ be NewDeclarativeEnvironment(_newEnv_).
+      1. Let _matchEnv_ be NewDeclarativeEnvironment(_oldEnv_).
       1. Set the running execution context's LexicalEnvironment to _matchEnv_.
       1. Let _identifier_ be the BindingIdentifier that is coverd by IdentifierMatchPattern.
       1. Let _name_ be the BoundNames of _identifier_.
-      1. Perform ! _newEnv_.CreateImmutableBinding(_name_[0], *true*).
-      1. Perform ! _newEnv_.InitializeBinding(_name_[0], _matchable_).
+      1. Perform ! _matchEnv_.CreateImmutableBinding(_name_[0], *true*).
+      1. Perform ! _matchEnv_.InitializeBinding(_name_[0], _matchable_).
       1. Return *true*.
     </emu-alg>
     <emu-grammar>
@@ -356,6 +356,7 @@ contributors:
       1. If Type(_matchable_) is not a String, return *false*.
       1. Let _result_ be ? RegExpBuiltinExec(_regexp_, _matchable_).
       1. If _result_ is *null*, return *false*.
+      1. Perform ! RegularExpressionNamedCaptureGroupBindingInitialization(_result_).
       1. Let _newCache_ be ! Construct(%Map%, a new Empty List).
       1. Return ? MatchPatternMatches of MatchPattern with arguments _result_ and _newCache_.
     </emu-alg>
@@ -367,6 +368,7 @@ contributors:
       1. If Type(_matchable_) is not a String, return *false*.
       1. Let _result_ be ? RegExpBuiltinExec(_regexp_, _matchable_).
       1. If _result_ is *null*, return *false*.
+      1. Perform ! RegularExpressionNamedCaptureGroupBindingInitialization(_result_).
       1. Return *true*.
     </emu-alg>
     <emu-grammar>
@@ -436,6 +438,23 @@ contributors:
       1. Let _matched_ be ToBoolean(? Get(_result_, *"matched"*)).
       1. If _matched_ is *false*, return *false*.
       1. Return ? Get(_result_, *"value"*).
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-regex-named-capture-group-binding">
+    <h1><dfn>RegularExpressionNamedCaptureGroupBindingInitialization</dfn> ( _val_ )</h1>
+    <p>The abstract operation RegularExpressionNamedCaptureGroupBindingInitialization takes argument _val_ and returns unused. It performs the following steps when called:</p>
+    <emu-alg>
+      1. NOTE This Abstract Operation should never trigger user code.
+      1. Let _groups_ be ! Get(_val_, *"groups"*).
+      1. If _groups_ is *undefined*, return.
+      1. Let _bindings_ be ! GetOwnPropertyKeys(_groups_, ~String~).
+      1. Let _oldEnv_ be the running execution context's LexicalEnvironment.
+      1. Let _matchEnv_ be NewDeclarativeEnvironment(_oldEnv_).
+      1. Set the running execution context's LexicalEnvironment to _matchEnv_.
+      1. For each element _name_ of _bindings_, do
+        1. NOTE the binding name might not be a valid identifier (for example, <code>/a(?&lt;if&gt;.+)/</code>) , but those bingings are not accessible from the user land so the engine can safely ignore them.
+        1. Perform ! _matchEnv_.CreateImmutableBinding(_name_, *true*).
+        1. Perform ! _matchEnv_.InitializeBinding(_name_, ! Get(_groups_, _name_)).
     </emu-alg>
   </emu-clause>
 </emu-clause>
