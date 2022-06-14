@@ -902,6 +902,7 @@ let Toolbox = {
       e.preventDefault();
       e.stopPropagation();
       menu.togglePinEntry(this.entry.id);
+      this.$pinLink.textContent = menu._pinnedIds[this.entry.id] ? 'Unpin' : 'Pin';
     });
 
     this.$refsLink = document.createElement('a');
@@ -922,6 +923,7 @@ let Toolbox = {
     sdoBox.deactivate();
     this.active = true;
     this.entry = entry;
+    this.$pinLink.textContent = menu._pinnedIds[entry.id] ? 'Unpin' : 'Pin';
     this.$outer.classList.add('active');
     this.top = el.offsetTop - this.$outer.offsetHeight;
     this.left = el.offsetLeft - 10;
@@ -1115,6 +1117,114 @@ document.addEventListener('keypress', doShortcut);
 document.addEventListener('DOMContentLoaded', () => {
   Toolbox.init();
   referencePane.init();
+});
+
+// preserve state during navigation
+
+function getTocPath(li) {
+  let path = [];
+  let pointer = li;
+  while (true) {
+    let parent = pointer.parentElement;
+    if (parent == null) {
+      return null;
+    }
+    let index = [].indexOf.call(parent.children, pointer);
+    if (index == -1) {
+      return null;
+    }
+    path.unshift(index);
+    pointer = parent.parentElement;
+    if (pointer == null) {
+      return null;
+    }
+    if (pointer.id === 'menu-toc') {
+      break;
+    }
+    if (pointer.tagName !== 'LI') {
+      return null;
+    }
+  }
+  return path;
+}
+
+function activateTocPath(path) {
+  try {
+    let pointer = document.getElementById('menu-toc');
+    for (let index of path) {
+      pointer = pointer.querySelector('ol').children[index];
+    }
+    pointer.classList.add('active');
+  } catch (e) {
+    // pass
+  }
+}
+
+function getActiveTocPaths() {
+  return [...menu.$menu.querySelectorAll('.active')].map(getTocPath).filter(p => p != null);
+}
+
+function loadStateFromSessionStorage() {
+  if (!window.sessionStorage || typeof menu === 'undefined' || window.navigating) {
+    return;
+  }
+  if (sessionStorage.referencePaneState != null) {
+    let state = JSON.parse(sessionStorage.referencePaneState);
+    if (state != null) {
+      if (state.type === 'ref') {
+        let entry = menu.search.biblio.byId[state.id];
+        if (entry != null) {
+          referencePane.showReferencesFor(entry);
+        }
+      } else if (state.type === 'sdo') {
+        let sdos = sdoMap[state.id];
+        if (sdos != null) {
+          referencePane.$headerText.innerHTML = state.html;
+          referencePane.showSDOsBody(sdos, state.id);
+        }
+      }
+      delete sessionStorage.referencePaneState;
+    }
+  }
+
+  if (sessionStorage.activeTocPaths != null) {
+    document
+      .getElementById('menu-toc')
+      .querySelectorAll('.active')
+      .forEach(e => {
+        e.classList.remove('active');
+      });
+    let active = JSON.parse(sessionStorage.activeTocPaths);
+    active.forEach(activateTocPath);
+    delete sessionStorage.activeTocPaths;
+  }
+
+  if (sessionStorage.searchValue != null) {
+    let value = JSON.parse(sessionStorage.searchValue);
+    menu.search.$searchBox.value = value;
+    menu.search.search(value);
+    delete sessionStorage.searchValue;
+  }
+
+  if (sessionStorage.tocScroll != null) {
+    let tocScroll = JSON.parse(sessionStorage.tocScroll);
+    menu.$toc.scrollTop = tocScroll;
+    delete sessionStorage.tocScroll;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadStateFromSessionStorage);
+
+window.addEventListener('pageshow', loadStateFromSessionStorage);
+
+window.addEventListener('beforeunload', () => {
+  if (!window.sessionStorage || typeof menu === 'undefined') {
+    return;
+  }
+  sessionStorage.referencePaneState = JSON.stringify(referencePane.state || null);
+  sessionStorage.activeTocPaths = JSON.stringify(getActiveTocPaths());
+  sessionStorage.searchValue = JSON.stringify(menu.search.$searchBox.value);
+  sessionStorage.tocScroll = JSON.stringify(menu.$toc.scrollTop);
 });
 
 'use strict';
@@ -2414,7 +2524,7 @@ li.menu-search-result-term:before {
 </ul></div><div id="menu-toggle"><svg xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%; stroke:currentColor" viewBox="0 0 120 120">
       <title>Menu</title>
       <path stroke-width="10" stroke-linecap="round" d="M30,60 h60  M30,30 m0,5 h60  M30,90 m0,-5 h60"></path>
-    </svg></div><div id="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-syntax" title="Syntax"><span class="secnum">1</span> Syntax</a></li><li><span class="item-toggle-none"></span><a href="#sec-match-expression" title="Match Expression"><span class="secnum">2</span> Match Expression</a></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 1 Draft / April 9, 2022</h1><h1 class="title">Pattern Matching</h1>
+    </svg></div><div id="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-syntax" title="Syntax"><span class="secnum">1</span> Syntax</a></li><li><span class="item-toggle-none"></span><a href="#sec-match-expression" title="Match Expression"><span class="secnum">2</span> Match Expression</a></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 1 Draft / June 14, 2022</h1><h1 class="title">Pattern Matching</h1>
 
 <emu-clause id="sec-syntax">
   <h1><span class="secnum">1</span> Syntax</h1>
