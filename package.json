@@ -4,7 +4,7 @@
 	"description": "A repository for ECMAScript pattern matching proposals.",
 	"scripts": {
 		"start": "npm run build -- --watch",
-		"build": "ecmarkup spec.emu index.html --load-biblio @tc39/ecma262-biblio --strict --lint-spec"
+		"build": "ecmarkup spec.emu index.html --load-biblio @tc39/ecma262-biblio --lint-spec"
 	},
 	"homepage": "https://github.com/tc39/proposal-pattern-matching#readme",
 	"repository": {
