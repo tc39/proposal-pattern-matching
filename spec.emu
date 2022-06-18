@@ -6,7 +6,14 @@
 <pre class="metadata">
 title: Pattern Matching
 stage: 1
-contributors: Daniel Rosenwasser, Jack Works, Jordan Harband, Mark Cohen, Ross Kirsling, Tab Atkins, Yulia Startsev
+contributors:
+  - Daniel Rosenwasser
+  - Jack Works
+  - Jordan Harband
+  - Mark Cohen
+  - Ross Kirsling
+  - Tab Atkins
+  - Yulia Startsev
 </pre>
 
 <emu-clause id="sec-match-expression">
@@ -46,7 +53,7 @@ contributors: Daniel Rosenwasser, Jack Works, Jordan Harband, Mark Cohen, Ross K
         `${` Expression `}`
 
       IdentifierMatchPattern :
-        BindingIdentifier
+        Identifier
 
       NearLiteralMatchPattern :
         NullLiteral
@@ -60,6 +67,8 @@ contributors: Daniel Rosenwasser, Jack Works, Jordan Harband, Mark Cohen, Ross K
         `-` NumericLiteral
         `+` `Infinity`
         `-` `Infinity`
+        `+` `NaN`
+        `-` `NaN`
 
       ObjectMatchPattern :
         `{` `}`
@@ -95,7 +104,7 @@ contributors: Daniel Rosenwasser, Jack Works, Jordan Harband, Mark Cohen, Ross K
 
     </emu-grammar>
     <emu-note>
-      `undefined`, `NaN` and `Infinity` are covered by the IdentifierMatchPattern, but `+Infinity` and `-Infinity` are coverd by the NearLiteralMatchPattern.
+      `undefined`, `NaN` and `Infinity` are covered by the IdentifierMatchPattern, but `+NaN`, `-NaN`, `+Infinity` and `-Infinity` are covered by the NearLiteralMatchPattern.
     </emu-note>
     <emu-note>
       No Initializer is allowed in the current syntax. See <a href="https://github.com/tc39/proposal-pattern-matching/#default-values">https://github.com/tc39/proposal-pattern-matching/#default-values</a>
@@ -114,6 +123,685 @@ contributors: Daniel Rosenwasser, Jack Works, Jordan Harband, Mark Cohen, Ross K
   </emu-clause>
   <emu-clause id="sec-match-expression-runtime-semantics">
     <h1>Runtime Semantics: Evaluation</h1>
-    <p><emu-note>To be done.</emu-note></p>
+    <emu-grammar>
+      MatchExpression ::
+        `match` `(` Expression `)` `{` MatchClauses? `}`
+    </emu-grammar>
+    <emu-alg>
+      1. Let _matchableRef_ be the result of evaluating Expression.
+      1. Let _matchable_ be ? GetValue(_matchableRef_).
+      1. If MatchClauses is not present, throw a *TypeError* exception.
+      1. Let _cacheGroup_ be ! Construct(%WeakMap%, a new Empty List).
+      1. Let _iterators_ be ! Construct(%Set%, a new Empty List).
+      1. Perform ! CreateDataPropertyOrThrow(_cacheGroup_, "IteratorToClose", iterators).
+      1. Let _result_ be ? MatchClausesEvaluation of MatchClauses with argument _matchable_ and _cacheGroup_.
+      1. Let _iteratorRecords_ be a new empty List.
+      1. For each element _iter_ of _iterators_.[[SetData]], do
+        1. Append _iter_.[[CachedIterator]] to _iteratorRecords_.
+      1. Perform ? CloseIterators(_iteratorRecords_).
+      1. If _result_.[[Matched]] is *true*, return _result_.[[Value]].
+      1. Throw a *TypeError* exception.
+    </emu-alg>
+    <emu-note>
+      The object _cacheGroup_ is not accessible from the user code. An implementation might choose to avoid the actual creation of the object.
+    </emu-note>
+  </emu-clause>
+  <emu-clause id="sec-match-clauses-evaluation">
+    <h1>Runtime Semantics: <dfn>MatchClausesEvaluation</dfn></h1>
+    <p>The syntax-directed operation MatchClausesEvaluation takes argument _matchable_ (an ECMAScript language value) and _cacheGroup_ (a %WeakMap%) and returns either a normal completion containing a Match Record or an abrupt completion. It is defined piecewise over the following productions:</p>
+    <emu-grammar>
+      MatchClauses : MatchClause
+    </emu-grammar>
+    <emu-alg>
+      1. Return ? MatchClauseEvaluation of MatchClause with argument _matchable_ and _cacheGroup_.
+    </emu-alg>
+    <emu-grammar>
+      MatchClauses : MatchClauses MatchClause
+    </emu-grammar>
+    <emu-alg>
+      1. Let _result_ be ? MatchClausesEvaluation of MatchClauses with argument _matchable_ and _cacheGroup_.
+      1. If _result_.[[Matched]] is *true*, return _result_.
+      1. Return ? MatchClauseEvaluation of MatchClause with argument _matchable_ and _cacheGroup_.
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-match-clause-evaluation">
+    <h1>Runtime Semantics: <dfn>MatchClauseEvaluation</dfn></h1>
+    <p>The syntax-directed operation MatchClauseEvaluation takes argument _matchable_ (an ECMAScript language value) and _cacheGroup_ (a %WeakMap%) and returns either a normal completion containing a Match Record or an abrupt completion. It is defined piecewise over the following productions:</p>
+    <emu-grammar>
+      MatchClause : `when` `(` MatchPattern `)` `if` `(` Expression `)` `:` Expression
+    </emu-grammar>
+    <emu-alg>
+      1. Let _closure_ be a new Abstract Closure with parameters () that captures _matchable_, _cacheGroup_, MatchPattern, the first Expression and the second Expression and performs the following steps when called:
+        1. Let _matches_ be ? MatchPatternMatches of MatchPattern with arguments _matchable_ and _cacheGroup_.
+        1. If _matches_ is *false*, return Match Record { [[Matched]]: false, [[Value]]: unused }.
+        1. Let _ifRef_ be the result of evaluating the first Expression.
+        1. Let _ifVal_ be ToBoolean(? GetValue(_ifRef_)).
+        1. If _ifVal_ is *false*, return Match Record { [[Matched]]: *false*, [[Value]]: unused }.
+        1. Let _exprRef_ be evaluating the second Expression.
+        1. Let _exprVal_ be ? GetValue(_exprRef_).
+        1. Return Match Record { [[Matched]]: *true*, [[Value]]: _exprVal_ }.
+      1. Let _oldEnv_ be the running execution context's LexicalEnvironment.
+      1. Let _matchEnv_ be NewDeclarativeEnvironment(_oldEnv_).
+      1. Set the running execution context's LexicalEnvironment to _matchEnv_.
+      1. Let _result_ be _closure_ ().
+      1. Set the running execution context's LexicalEnvironment to _oldEnv_.
+      1. Return _result_.
+    </emu-alg>
+    <emu-grammar>
+      MatchClause : `when` `(` MatchPattern `)` `:` Expression
+    </emu-grammar>
+    <emu-alg>
+      1. Let _closure_ be a new Abstract Closure with parameters () that captures _matchable_, _cacheGroup_, MatchPattern and Expression and performs the following steps when called:
+        1. Let _matches_ be ? MatchPatternMatches of MatchPattern with arguments _matchable_ and _cacheGroup_.
+        1. If _matches_ is *false*, return Match Record { [[Matched]]: false, [[Value]]: unused }.
+        1. Let _exprRef_ be evaluating the second Expression.
+        1. Let _exprVal_ be ? GetValue(_exprRef_).
+        1. Return Match Record { [[Matched]]: *true*, [[Value]]: _exprVal_ }.
+      1. Let _oldEnv_ be the running execution context's LexicalEnvironment.
+      1. Let _matchEnv_ be NewDeclarativeEnvironment(_oldEnv_).
+      1. Set the running execution context's LexicalEnvironment to _matchEnv_.
+      1. Let _result_ be _closure_ ().
+      1. Set the running execution context's LexicalEnvironment to _oldEnv_.
+      1. Return _result_.
+    </emu-alg>
+    <emu-grammar>
+      MatchClause : `if` `(` Expression `)` `:` Expression
+    </emu-grammar>
+    <emu-alg>
+      1. Let _ifRef_ be the result of evaluating the first Expression.
+      1. Let _ifVal_ be ToBoolean(? GetValue(_ifRef_)).
+      1. If _ifVal_ is *false*, return Match Record { [[Matched]]: *false*, [[Value]]: unused }.
+      1. Let _exprRef_ be evaluating the second Expression.
+      1. Let _exprVal_ be ? GetValue(_exprRef_).
+      1. Return Match Record { [[Matched]]: *true*, [[Value]]: _exprVal_ }.
+    </emu-alg>
+    <emu-grammar>
+      MatchClause : `default` `:` Expression
+    </emu-grammar>
+    <emu-alg>
+      1. Let _exprRef_ be evaluating the Expression.
+      1. Let _exprVal_ be ? GetValue(_exprRef_).
+      1. Return Match Record { [[Matched]]: *true*, [[Value]]: _exprVal_ }.
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-match-pattern-matches">
+    <h1>Runtime Semantics: <dfn>MatchPatternMatches</dfn></h1>
+    <p>The syntax-directed operation MatchPatternMatches takes argument _matchable_ (an ECMAScript language value) and _cacheGroup_ (a %WeakMap%) and returns either a normal completion containing a Boolean or an abrupt completion. It is defined piecewise over the following productions:</p>
+    <emu-grammar>
+      MatchPattern : CombinedMatchPattern
+    </emu-grammar>
+    <emu-alg>
+      1. Return ? CombinedMatchPatternMatches of CombinedMatchPattern with arguments _matchable_ and _cacheGroup_.
+    </emu-alg>
+    <emu-grammar>
+      MatchPattern : InterpolationPattern
+    </emu-grammar>
+    <emu-alg>
+      1. Return ? InterpolationPatternMatches of InterpolationPattern with arguments _matchable_ and _cacheGroup_.
+    </emu-alg>
+    <emu-grammar>
+      MatchPattern : IdentifierMatchPattern
+    </emu-grammar>
+    <emu-alg>
+      1. Let _identifier_ be the Identifier that is covered by IdentifierMatchPattern.
+      1. Let _name_ be the StringValue of _identifier_.
+      1. If _name_ is *"Infinity"*, return SameValue(_matchable_, *Infinity*).
+      1. If _name_ is *"undefined"*, return SameValue(_matchable_, *undefined*).
+      1. If _name_ is *"NaN"*, return SameValue(_matchable_, *NaN*).
+      1. Perform AddMatchBinding(_name_[0], _matchable_).
+      1. Return *true*.
+    </emu-alg>
+    <emu-grammar>
+      MatchPattern : NearLiteralMatchPattern
+    </emu-grammar>
+    <emu-alg>
+      1. Return ? NearLiteralMatchPatternMatches of NearLiteralMatchPattern with arguments _matchable_ and _cacheGroup_.
+    </emu-alg>
+    <emu-grammar>
+      MatchPattern : ObjectMatchPattern
+    </emu-grammar>
+    <emu-alg>
+      1. Return ? DestructuringMatchPatternMatches of ObjectMatchPattern with arguments _matchable_ and _cacheGroup_.
+    </emu-alg>
+    <emu-grammar>
+      MatchPattern : ArrayMatchPattern
+    </emu-grammar>
+    <emu-alg>
+      1. Return ? DestructuringMatchPatternMatches of ArrayMatchPattern with arguments _matchable_ and _cacheGroup_.
+    </emu-alg>
+    <emu-grammar>
+      MatchPattern : `(` MatchPattern `)`
+    </emu-grammar>
+    <emu-alg>
+      1. Return ? MatchPatternMatches of MatchPattern with argument _matchable_ and _cacheGroup_.
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-combined-match-pattern-matches">
+    <h1>Runtime Semantics: <dfn>CombinedMatchPatternMatches</dfn></h1>
+    <p>The syntax-directed operation CombinedMatchPatternMatches takes argument _matchable_ (an ECMAScript language value) and _cacheGroup_ (a %WeakMap%) and returns either a normal completion containing a Boolean or an abrupt completion. It is defined piecewise over the following productions:</p>
+    <emu-grammar>
+      CombinedMatchPattern : MatchPattern `or` MatchPattern
+    </emu-grammar>
+    <emu-alg>
+      1. Let _leftMatches_ be ? MatchPatternMatches of the first MatchPattern with arguments _matchable_ and _cacheGroup_.
+      1. If _leftMatches_ is *true*, return *true*.
+      1. Return ? MatchPatternMatches of the second MatchPattern with arguments _matchable_ and _cacheGroup_.
+    </emu-alg>
+    <emu-grammar>
+      CombinedMatchPattern : MatchPattern `and` MatchPattern
+    </emu-grammar>
+    <emu-alg>
+      1. Let _leftMatches_ be ? MatchPatternMatches of the first MatchPattern with arguments _matchable_ and _cacheGroup_.
+      1. If _leftMatches_ is *false*, return *false*.
+      1. Return ? MatchPatternMatches of the second MatchPattern with arguments _matchable_ and _cacheGroup_.
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-interpolation-pattern-matches">
+    <h1>Runtime Semantics: <dfn>InterpolationPatternMatches</dfn></h1>
+    <p>The syntax-directed operation InterpolationPatternMatches takes argument _matchable_ (an ECMAScript language value) and _cacheGroup_ (a %WeakMap%) and returns either a normal completion containing a Boolean or an abrupt completion. It is defined piecewise over the following productions:</p>
+    <emu-grammar>
+      InterpolationPattern : `${` Expression `}`
+    </emu-grammar>
+    <emu-alg>
+      1. Let _exprRef_ be evaluating the Expression.
+      1. Let _exprVal_ be ? GetValue(_exprRef_).
+      1. Let _result_ be ? InvokeCustomMatcher(_exprVal_, _matchable_).
+      1. If _result_ is an ECMAScript language value, return *true*.
+      1. Return _result_.
+    </emu-alg>
+    <emu-grammar>
+      InterpolationPattern : `${` Expression `}` `with` MatchPattern
+    </emu-grammar>
+    <emu-alg>
+      1. Let _exprRef_ be evaluating the Expression.
+      1. Let _exprVal_ be ? GetValue(_exprRef_).
+      1. Let _result_ be ? InvokeCustomMatcher(_exprVal_, _matchable_).
+      1. If _result_ is *false*, return *false*.
+      1. If _result_ is an ECMAScript language value, then
+        1. Return ? MatchPatternMatches of MatchPattern with arguments _result_ and _cacheGroup_.
+      1. Return ? MatchPatternMatches of MatchPattern with arguments _matchable_ and _cacheGroup_.
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-near-literal-match-pattern-matches">
+    <h1>Runtime Semantics: <dfn>NearLiteralMatchPatternMatches</dfn></h1>
+    <p>The syntax-directed operation NearLiteralMatchPatternMatches takes argument _matchable_ (an ECMAScript language value) and _cacheGroup_ (a %WeakMap%) and returns either a normal completion containing a Boolean or an abrupt completion. It is defined piecewise over the following productions:</p>
+    <emu-grammar>
+      NearLiteralMatchPattern : NullLiteral
+    </emu-grammar>
+    <emu-alg>
+      1. Return SameValue(_matchable_, *null*).
+    </emu-alg>
+    <emu-grammar>
+      NearLiteralMatchPattern : BooleanLiteral
+    </emu-grammar>
+    <emu-alg>
+      1. Return SameValue(_matchable_, the result of evaluating BooleanLiteral).
+    </emu-alg>
+    <emu-grammar>
+      NearLiteralMatchPattern : NumericLiteral
+    </emu-grammar>
+    <emu-alg>
+      1. Return SameValue(_matchable_, the result of evaluating NumericLiteral).
+    </emu-alg>
+    <emu-grammar>
+      NearLiteralMatchPattern : StringLiteral
+    </emu-grammar>
+    <emu-alg>
+      1. Return SameValue(_matchable_, the result of evaluating StringLiteral).
+    </emu-alg>
+    <emu-grammar>
+      NearLiteralMatchPattern : RegularExpressionLiteral `with` MatchPattern
+    </emu-grammar>
+    <emu-alg>
+      1. Let _regexp_ be the result of evaluating RegularExpressionLiteral.
+      1. If Type(_matchable_) is not a String, return *false*.
+      1. Let _result_ be ? RegExpBuiltinExec(_regexp_, _matchable_).
+      1. If _result_ is *null*, return *false*.
+      1. Perform ! RegularExpressionNamedCaptureGroupBindingInitialization(_result_).
+      1. Return ? MatchPatternMatches of MatchPattern with arguments _result_ and _cacheGroup_.
+    </emu-alg>
+    <emu-grammar>
+      NearLiteralMatchPattern : RegularExpressionLiteral
+    </emu-grammar>
+    <emu-alg>
+      1. Let _regexp_ be the result of evaluating RegularExpressionLiteral.
+      1. If Type(_matchable_) is not a String, return *false*.
+      1. Let _result_ be ? RegExpBuiltinExec(_regexp_, _matchable_).
+      1. If _result_ is *null*, return *false*.
+      1. Perform ! RegularExpressionNamedCaptureGroupBindingInitialization(_result_).
+      1. Return *true*.
+    </emu-alg>
+    <emu-note>
+      The object that returned from RegExpBuiltinExec in this Abstract Operation is not accessible from the user code. An implementation might choose to avoid the actual creation of the object.
+    </emu-note>
+    <emu-grammar>
+      NearLiteralMatchPattern : TemplateLiteral[~Tagged]
+    </emu-grammar>
+    <emu-alg>
+      1. Let _strRef_ be the result of evaluating TemplateLiteral.
+      1. Let _str_ be ? GetValue(_strRef_).
+      1. Return SameValue(_matchable_, _str_).
+    </emu-alg>
+    <emu-grammar>
+      NearLiteralMatchPattern : `+` NumericLiteral
+    </emu-grammar>
+    <emu-alg>
+      1. Let _num_ be the result of evaluating NumericLiteral.
+      1. Return SameValueZero(_matchable_, _num_).
+    </emu-alg>
+    <emu-grammar>
+      NearLiteralMatchPattern : `-` NumericLiteral
+    </emu-grammar>
+    <emu-alg>
+      1. Let _num_ be the result of evaluating NumericLiteral.
+      1. Return SameValueZero(_matchable_, -_num_).
+    </emu-alg>
+    <emu-grammar>
+      NearLiteralMatchPattern : `+` `Infinity`
+    </emu-grammar>
+    <emu-alg>
+      1. Return SameValue(_matchable_, *Infinity*).
+    </emu-alg>
+    <emu-grammar>
+      NearLiteralMatchPattern : `-` `Infinity`
+    </emu-grammar>
+    <emu-alg>
+      1. Return SameValue(_matchable_, *-Infinity*).
+    </emu-alg>
+    <emu-grammar>
+      NearLiteralMatchPattern : `+` `NaN`
+      NearLiteralMatchPattern : `-` `NaN`
+    </emu-grammar>
+    <emu-alg>
+      1. Return SameValue(_matchable_, *NaN*).
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-destructuring-match-pattern-matches">
+    <h1>Runtime Semantics: <dfn>DestructuringMatchPatternMatches</dfn></h1>
+    <p>The syntax-directed operation DestructuringMatchPatternMatches takes argument _matchable_ (an ECMAScript language value) and _cacheGroup_ (a %WeakMap%) and returns either a normal completion containing a Boolean or an abrupt completion. It is defined piecewise over the following productions:</p>
+    <emu-grammar>
+      ObjectMatchPattern : `{` `}`
+    </emu-grammar>
+    <emu-alg>
+      1. If Type(_matchable_) is not Object, return *false*.
+      1. Return *true*.
+    </emu-alg>
+    <emu-grammar>
+      ObjectMatchPattern : `{` MatchRestProperty `}`
+    </emu-grammar>
+    <emu-alg>
+      1. Perform ? MatchRestPropertyEvaluation of MatchRestProperty with arguments _rest_, _cacheGroup_ and a new empty List.
+      1. Return *true*.
+    </emu-alg>
+    <emu-grammar>
+      ObjectMatchPattern : `{` MatchPropertyList `}`
+    </emu-grammar>
+    <emu-alg>
+      1. If Type(_matchable_) is not Object, return *false*.
+      1. Let _result_ be ? MatchPropertyEvaluation of MatchPropertyList with arguments _matchable_ and _cacheGroup_.
+      1. If _result_ is a List, return *true*.
+      1. Return *false*.
+    </emu-alg>
+    <emu-grammar>
+      ObjectMatchPattern : `{` MatchPropertyList `,` MatchRestProperty? `}`
+    </emu-grammar>
+    <emu-alg>
+      1. If Type(_matchable_) is not Object, return *false*.
+      1. Let _result_ be ? MatchPropertyEvaluation of MatchPropertyList with arguments _matchable_ and _cacheGroup_.
+      1. If _result_ is *false*, return *false*.
+      1. If MatchRestProperty is present, performs MatchRestPropertyEvaluation of MatchRestProperty with arguments _rest_, _cacheGroup_ and _result_.
+      1. Return _result_.
+    </emu-alg>
+    <emu-grammar>
+      ArrayMatchPattern : `[` Elision? MatchRestElement? `]`
+    </emu-grammar>
+    <emu-alg>
+      1. If ? MatchCachedIsIterable(_cacheGroup_, _matchable_) is *false*, return *false*.
+      1. Let _index_ be Record { [[LastIndex]]: -1 }.
+      1. If Elision is present, then
+        1. Let _result_ be ? MatchElementEvaluation of Elision with arguments _matchable_, _cacheGroup_ and _index_.
+        1. If _result_ is *false*, return *false*.
+      1. If MatchRestElement is present, then
+        1. Return ? MatchElementEvaluation of MatchRestElement with arguments _matchable_, _cacheGroup_ and _index_.
+      1. Return ? MatchIteratorLengthMatch(_cacheGroup_, _matchable_, index.[[LastIndex]]).
+    </emu-alg>
+    <emu-grammar>
+      ArrayMatchPattern : `[` MatchElementList `]`
+    </emu-grammar>
+    <emu-alg>
+      1. If ? MatchCachedIsIterable(_cacheGroup_, _matchable_) is *false*, return *false*.
+      1. Let _index_ be Record { [[LastIndex]]: -1 }.
+      1. Let _result_ be ? MatchElementEvaluation of MatchElementList with arguments _matchable_, _cacheGroup_ and _index_.
+      1. If _result_ is *false*, return *false*.
+      1. Return ? MatchIteratorLengthMatch(_cacheGroup_, _matchable_, index.[[LastIndex]]).
+    </emu-alg>
+    <emu-grammar>
+      ArrayMatchPattern : `[` MatchElementList `,` Elision? MatchRestElement? `]`
+    </emu-grammar>
+    <emu-alg>
+      1. If ? MatchCachedIsIterable(_cacheGroup_, _matchable_) is *false*, return *false*.
+      1. Let _index_ be Record { [[LastIndex]]: -1 }.
+      1. Let _result_ be ? MatchElementEvaluation of MatchElementList with arguments _matchable_, _cacheGroup_ and _index_.
+      1. If _result_ is *false*, return *false*.
+      1. If Elision is present, then
+        1. Let _result_ be ? MatchElementEvaluation of Elision with arguments _matchable_, _cacheGroup_ and _index_.
+        1. If _result_ is *false*, return *false*.
+      1. If MatchRestElement is present, then
+        1. Return ? MatchElementEvaluation of MatchRestElement with arguments _matchable_, _cacheGroup_ and _index_.
+      1. Return ? MatchIteratorLengthMatch(_cacheGroup_, _matchable_, index.[[LastIndex]]).
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-match-property-evaluation">
+    <h1>Runtime Semantics: <dfn>MatchPropertyEvaluation</dfn></h1>
+    <p>The syntax-directed operation MatchPropertyEvaluation takes argument _matchable_ (an ECMAScript language value) and _cacheGroup_ (a %WeakMap%) and returns either a normal completion containing a *false* (not matched) or a List (excluded name for rest match) or an abrupt completion. It is defined piecewise over the following productions:</p>
+    <emu-grammar>
+      MatchPropertyList : MatchProperty
+    </emu-grammar>
+    <emu-alg>
+      1. Return ? MatchPropertyEvaluation of MatchProperty with arguments _matchable_ and _cacheGroup_.
+    </emu-alg>
+    <emu-grammar>
+      MatchPropertyList : MatchPropertyList `,` MatchProperty
+    </emu-grammar>
+    <emu-alg>
+      1. Let _result_ be ? MatchPropertyEvaluation of MatchPropertyList with arguments _matchable_ and _cacheGroup_.
+      1. If _result_ is *false*, return *false*.
+      1. Let _result2_ be ? MatchPropertyEvaluation of MatchProperty with arguments _matchable_ and _cacheGroup_.
+      1. If _result2_ is *false*, return *false*.
+      1. Return the list-concatenation of _result_ and _result2_.
+    </emu-alg>
+    <emu-grammar>
+      MatchProperty : IdentifierMatchPattern
+    </emu-grammar>
+    <emu-alg>
+      1. Let _identifier_ be the Identifier that is covered by IdentifierMatchPattern.
+      1. Let _name_ be the StringValue of _identifier_.
+      1. If ? MatchCachedHasProperty(_cacheGroup_, _matchable_, _name_) is *false*, return *false*.
+      1. Let _value_ be ? MatchCachedGet(_cacheGroup_, _matchable_, _name_).
+      1. Perform AddMatchBinding(_name_, _value_).
+      1. Return *true*.
+    </emu-alg>
+    <emu-grammar>
+      MatchProperty : PropertyName `:` MatchPattern
+    </emu-grammar>
+    <emu-alg>
+      1. Let _propKey_ be the result of evaluating PropertyName.
+      1. ReturnIfAbrupt(propKey).
+      1. If ? MatchCachedHasProperty(_cacheGroup_, _matchable_, _propKey_) is *false*, return *false*.
+      1. Let _value_ be ? MatchCachedGet(_cacheGroup_, _matchable_, _propKey_).
+      1. Return ? MatchPatternMatches of MatchPattern with arguments _value_ and _cacheGroup_.
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-match-rest-property-evaluation">
+    <h1>Runtime Semantics: <dfn>MatchRestPropertyEvaluation</dfn></h1>
+    <p>The syntax-directed operation MatchRestPropertyEvaluation takes argument _matchable_ (an ECMAScript language value), _cacheGroup_ (a %WeakMap%) and _excludedNames_ (a List) and returns unused or an abrupt completion. It is defined piecewise over the following productions:</p>
+    <emu-grammar>
+      MatchRestProperty : `...` IdentifierMatchPattern
+    </emu-grammar>
+    <emu-alg>
+      1. Let _identifier_ be the Identifier that is covered by IdentifierMatchPattern.
+      1. Let _name_ be the StringValue of _identifier_.
+      1. Let _rest_ be OrdinaryObjectCreate(%Object.prototype%).
+      1. Perform ? CopyDataProperties(_rest_, _matchable_, _excludedNames_).
+      1. Perform AddMatchBinding(_name_, _rest).
+      1. Return unused.
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-match-element-evaluation">
+    <h1>Runtime Semantics: <dfn>MatchElementEvaluation</dfn></h1>
+    <p>The syntax-directed operation MatchElementEvaluation takes argument _matchable_ (an ECMAScript language value), _cacheGroup_ (a %WeakMap%) and _counter_ (a Record) and returns either a normal completion containing a Boolean or an abrupt completion. It is defined piecewise over the following productions:</p>
+    <emu-grammar>
+      MatchRestElement : `...` MatchPattern?
+    </emu-grammar>
+    <emu-alg>
+      1. If MatchPattern is not present, return *true*.
+      1. Let _iteratorRecord_ be ? MatchCachedGetIterator(_cacheGroup_, _matchable_).
+      1. Let _A_ be ! ArrayCreate(0).
+      1. Let _n_ be 0.
+      1. Repeat,
+        1. Let _next_ be ? MatchCachedIteratorStep(_cacheGroup_, _iteratorRecord_).
+        1. If _iteratorRecord_.[[Matched]] is *false*, then
+          1. Return ? MatchPatternMatches of MatchPattern with arguments _A_ and _cacheGroup_.
+        1. Perform ! CreateDataPropertyOrThrow(A, ! ToString(𝔽(n)), _next_.[[Value]]).
+        1. Set _n_ to _n_ + 1.
+    </emu-alg>
+    <emu-grammar>
+      MatchElementList : MatchElisionElement
+    </emu-grammar>
+    <emu-alg>
+      1. Return ? MatchElementEvaluation of MatchElisionElement with arguments _matchable_, _cacheGroup_ and _counter_.
+    </emu-alg>
+    <emu-grammar>
+      MatchElementList : MatchElementList `,` MatchElisionElement
+    </emu-grammar>
+    <emu-alg>
+      1. Let _result_ be ? MatchElementEvaluation of MatchElementList with arguments _matchable_, _cacheGroup_ and _counter_.
+      1. If _result_ is *false*, return *false*.
+      1. Return ? MatchElementEvaluation of MatchElisionElement with arguments _matchable_, _cacheGroup_ and _counter_.
+    </emu-alg>
+    <emu-grammar>
+      MatchElisionElement : Elision? MatchPattern
+    </emu-grammar>
+    <emu-alg>
+      1. If Elision is present, then
+        1. Let _result_ be ? MatchElementEvaluation of Elision with arguments _matchable_, _cacheGroup_ and _counter_.
+        1. If _result_ is *false*, return *false*.
+      1. Let _value_ be ? MatchCachedGetIteratorNthItem(_cacheGroup_, _matchable_, _counter_.[[LastIndex]]).
+      1. If _value_.[[Matched]] is *false*, return *false*.
+      1. Let _result2_ be ? MatchPatternMatches of MatchPattern with arguments _value_.[[Value]] and _cacheGroup_.
+      1. If _result2_ is *false*, return *false*.
+      1. Set _counter_.[[LastIndex]] to _counter_.[[LastIndex]] + 1.
+      1. Return *true*.
+    </emu-alg>
+    <emu-grammar>
+      Elision : `,`
+    </emu-grammar>
+    <emu-alg>
+      1. Let _result_ be ? MatchCachedGetIteratorNthItem(_cacheGroup_, _matchable_, _counter_.[[LastIndex]]).
+      1. If _result_.[[Matched]] is *false*, return *false*.
+      1. Set _counter_.[[LastIndex]] to _counter_.[[LastIndex]] + 1.
+      1. Return *true*.
+    </emu-alg>
+    <emu-grammar>
+      Elision : Elision `,`
+    </emu-grammar>
+    <emu-alg>
+      1. Let _result_ be ? MatchElementEvaluation of Elision with arguments _matchable_, _cacheGroup_ and _counter_.
+      1. If _result_ is *false*, return *false*.
+      1. Let _result2_ be ? MatchCachedGetIteratorNthItem(_cacheGroup_, _matchable_, _counter_.[[LastIndex]]).
+      1. If _result2_.[[Matched]] is *false*, return *false*.
+      1. Set _counter_.[[LastIndex]] to _counter_.[[LastIndex]] + 1.
+      1. Return *true*.
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-match-record">
+    <h1>Match Records</h1>
+    <p>A Match Record is a Record value used to represent the match result of the match clause.</p>
+    <p>Match Record have the fields listed in Table 1.</p>
+    <emu-table>
+      <emu-caption>Table 1</emu-caption>
+      <table>
+        <tr><th>Field Name</th><th>Value</th><th>Meaning</th></tr>
+        <tr><td>[[Matched]]</td><td>a Boolean</td><td>If the match clause matched.</td></tr>
+        <tr><td>[[Value]]</td><td>an ECMAScript language value or unused</td><td>The matched value.</td></tr>
+      </table>
+    </emu-table>
+  </emu-clause>
+  <emu-clause id="sec-custom-matcher">
+    <h1><dfn>InvokeCustomMatcher</dfn> ( _val_, _matchable_ )</h1>
+    <p>The abstract operation InvokeCustomMatcher takes arguments _val_ and _matchable_ and returns a Boolean or an ECMAScript language value. It performs the following steps when called:</p>
+    <emu-alg>
+      1. If Type(_val_) is not Object, return SameValue(_val_, _matchable_).
+      1. Let _matcher_ be ? Get(_val_, @@matcher).
+      1. If IsCallable(_matcher_) is *false*, throw a *TypeError* exception.
+      1. Let _result_ be ? Call(_matcher_, *undefined*, « _matchable_ »).
+      1. If Type(_result_) is not Object, throw a *TypeError* exception.
+      1. Let _matched_ be ToBoolean(? Get(_result_, *"matched"*)).
+      1. If _matched_ is *false*, return *false*.
+      1. Return ? Get(_result_, *"value"*).
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-regex-named-capture-group-binding">
+    <h1><dfn>RegularExpressionNamedCaptureGroupBindingInitialization</dfn> ( _regexMatchResult_ )</h1>
+    <p>The abstract operation RegularExpressionNamedCaptureGroupBindingInitialization takes argument _regexMatchResult_ and returns unused. It performs the following steps when called:</p>
+    <emu-alg>
+      1. Let _groups_ be ! Get(_regexMatchResult_, *"groups"*).
+      1. If _groups_ is *undefined*, return.
+      1. Let _bindings_ be ! GetOwnPropertyKeys(_groups_, ~String~).
+      1. Let _oldEnv_ be the running execution context's LexicalEnvironment.
+      1. Let _matchEnv_ be NewDeclarativeEnvironment(_oldEnv_).
+      1. Set the running execution context's LexicalEnvironment to _matchEnv_.
+      1. For each element _name_ of _bindings_, do
+        1. NOTE the binding name might not be a valid identifier (for example, <code>/a(?&lt;if&gt;.+)/</code>) , but those bingings are not accessible from the user land so the engine can safely ignore them.
+        1. Perform ! _matchEnv_.CreateImmutableBinding(_name_, *true*).
+        1. Perform ! _matchEnv_.InitializeBinding(_name_, ! Get(_groups_, _name_)).
+    </emu-alg>
+    <emu-note>
+      The object _regexMatchResult_ that is used in this Abstract Operation is not accessible from the user code. An implementation might choose to avoid the actual creation of the object.
+    </emu-note>
+  </emu-clause>
+  <emu-clause id="sec-get-match-cache">
+    <h1><dfn>GetMatchCache</dfn> ( _cacheGroup_, _object_ )</h1>
+    <p>The abstract operation GetMatchCache takes argument _cacheGroup_ (a %WeakMap%) and _object_ (an ECMAScript language value) and returns an ECMAScript language value. It performs the following steps when called:</p>
+    <emu-alg>
+      1. If ! Call(%WeakMap.prototype.has%, _cacheGroup_, « _object_ ») is *true*, then
+        1. Return ! Call(%WeakMap.prototype.get%, _cacheGroup_, « _object_ »).
+      1. Let _cache_ be OrdinaryObjectCreate(*null*).
+      1. Perform ! CreateDataPropertyOrThrow(_obj_, "Has", ! Construct(%Set%, *undefined*, a new Empty List)).
+      1. Perform ! CreateDataPropertyOrThrow(_obj_, "Get", ! Construct(%Map%, *undefined*, a new Empty List)).
+      1. Perform ! CreateDataPropertyOrThrow(_obj_, "Iterator", *undefined*).
+      1. Perform ! CreateDataPropertyOrThrow(_obj_, "IteratedItems", ! ArrayCreate(0)).
+      1. Perform ! Call(%WeakMap.prototype.set%, _cacheGroup_, « _object_, _cache_ »).
+      1. Return _cache_.
+    </emu-alg>
+    <emu-note>
+      The object _cache_ and all data property on it is not accessible from the user code. An implementation might choose to avoid the actual creation of the object.
+    </emu-note>
+  </emu-clause>
+  <emu-clause id="sec-match-cached-has-property">
+    <h1><dfn>MatchCachedHasProperty</dfn> ( _cacheGroup_, _object_, _propertyName_ )</h1>
+    <p>The abstract operation MatchCacheHas takes argument _cacheGroup_ (a %WeakMap%), _object_ (an ECMAScript language value) and _propertyName_ (a PropertyName) and returns a Boolean or an abrupt completion. It performs the following steps when called:</p>
+    <emu-alg>
+      1. Let _cache_ be ! Get(GetMatchCache(_cacheGroup_, _object_), "Has").
+      1. Let _cachedResult_ be ! Call(%Set.prototype.get%, _cache_, « _propertyName_ »).
+      1. If Type(_cachedResult_) is Boolean, return _cachedResult_.
+      1. Let _result_ be ? HasProperty(_object_, _propertyName_).
+      1. Perform ! Call(%Set.prototype.set%, _cache_, « _propertyName_, _result_ »).
+      1. Return _result_.
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-match-cached-get">
+    <h1><dfn>MatchCachedGet</dfn> ( _cacheGroup_, _object_, _propertyName_ )</h1>
+    <p>The abstract operation MatchCachedGet takes argument _cacheGroup_ (a %WeakMap%), _object_ (an ECMAScript language value) and _propertyName_ (a PropertyName) and returns an ECMAScript language value. It performs the following steps when called:</p>
+    <emu-alg>
+      1. Let _cache_ be ! Get(GetMatchCache(_cacheGroup_, _object_), "Get").
+      1. Let _hasCache_ be ! Call(%Map.prototype.has%, _cache_, « _propertyName_ »).
+      1. If _hasCache_ is *true*, return ! Call(%Map.prototype.get%, _cache_, « _propertyName_ »).
+      1. Let _result_ be ? Get(_object_, _propertyName_).
+      1. Perform ! Call(%Map.prototype.set%, _cache_, « _propertyName_, _result_ »).
+      1. Return _result_.
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-match-cached-is-iterable">
+    <h1><dfn>MatchCachedIsIterable</dfn> ( _cacheGroup_, _object_ )</h1>
+    <p>The abstract operation MatchCachedGet takes argument _cacheGroup_ (a %WeakMap%) and _object_ (an ECMAScript language value) and returns an ECMAScript language value. It performs the following steps when called:</p>
+    <emu-alg>
+      1. Let _iter_ be ? MatchCachedGet(_cacheGroup_, _object_, @@iterator).
+      1. If Type(_iter_) is not Function, return *false*.
+      1. Return *true*.
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-match-cached-get-iterator">
+    <h1><dfn>MatchCachedGetIterator</dfn> ( _cacheGroup_, _object_ )</h1>
+    <p>The abstract operation MatchCachedGet takes argument _cacheGroup_ (a %WeakMap%) and _object_ (an ECMAScript language value) and returns an Iterator Record. It performs the following steps when called:</p>
+    <emu-alg>
+      1. Let _cache_ be GetMatchCache(_cacheGroup_, _object_).
+      1. Let _iter_ be ! Get(_cache_, "Iterator").
+      1. If _iter_ is not *undefined*, return _iter_.[[CachedIterator]].
+      1. Let _f_ be ? MatchCachedGet(_cacheGroup_, _object_, @@iterator).
+      1. Set _iter_ to OrdinaryObjectCreate(*null*, « [[CachedIterator]] »).
+      1. Set _iter_.[[CachedIterator]] to ? GetIterator(_object_, ~sync~, _f_).
+      1. Perform ! Set(_cache_, "Iterator", _iter_).
+      1. Perform ! Call(%Set.prototype.add%, ! Get(_cacheGroup_, "IteratorToClose"), « _iter »).
+      1. Return _iter_.[[CachedIterator]].
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-match-cached-iterator-step">
+    <h1><dfn>MatchCachedIteratorStep</dfn> ( _cacheGroup_, _iterator_ )</h1>
+    <p>The abstract operation MatchCachedGetIteratorNthItem takes argument _cacheGroup_ (a %WeakMap%), _iterator_ (an Iterator Record) and _n_ (a Number) and returns a Match Record. It performs the following steps when called:</p>
+    <emu-alg>
+      1. If _iterator_.[[Done]] is *true*, return Match Record { [[Matched]]: *false*, [[Value]]: ~unused~ }.
+      1. Let _cache_ be GetMatchCache(_cacheGroup_, _iterator_).
+      1. Let _cachedItems_ be ! Get(_cache_, "IteratedItems").
+      1. Let _iterResult_ be Completion(IteratorStep(_iterator_)).
+      1. If _iterResult_ is an abrupt completion, set _iterator_.[[Done]] to *true*.
+      1. ReturnIfAbrupt(_iterResult_).
+      1. If _iterResult_ is *false*, then
+        1. Set _iterator_.[[Done]] to *true*.
+        1. Return Match Record { [[Matched]]: *false*, [[Value]]: ~unused~ }.
+      1. Let _value_ be Completion(IteratorValue(_iterResult_)).
+      1. If _value_ is an abrupt completion, set _iterator_.[[Done]] to *true*.
+      1. ReturnIfAbrupt(_value_).
+      1. Perform ! Call(%Array.prototype.push%, _cachedItems_, « _value_ »).
+      1. Return Match Record { [[Matched]]: *true*, [[Value]]: _value_ }.
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-match-cached-get-iterator-nth-item">
+    <h1><dfn>MatchCachedGetIteratorNthItem</dfn> ( _cacheGroup_, _iterator_, _n_ )</h1>
+    <p>The abstract operation MatchCachedGetIteratorNthItem takes argument _cacheGroup_ (a %WeakMap%), _iterator_ (an Iterator Record) and _n_ (a Number) and returns a Match Record. It performs the following steps when called:</p>
+    <emu-alg>
+      1. Let _cache_ be GetMatchCache(_cacheGroup_, _iterator_).
+      1. Let _cachedItems_ be ! Get(_cache_, "IteratedItems").
+      1. Let _nthItem_ be ! _cachedItems_.[[GetOwnProperty]](_n_).
+      1. If _nthItem_ is not *undefined*, return Match Record { [[Matched]]: *true*, [[Value]]: _nthItem_.[[Value]] }.
+      1. If _iterator_.[[Done]] is *true*, return Match Record { [[Matched]]: *false*, [[Value]]: ~unused~ }.
+      1. Return ? MatchCachedIteratorStep(_cacheGroup_, _iterator_).
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-match-iterator-lengthMatch">
+    <h1><dfn>MatchIteratorLengthMatch</dfn> ( _cacheGroup_, _matchable_, _lastIndex_ )</h1>
+    <p>The abstract operation MatchIteratorLengthMatch takes argument _cacheGroup_ (a %WeakMap%), _matchable_ (an ECMAScript language value) and _lastIndex_ (a Number) and returns a Boolean or an abrupt completion. It performs the following steps when called:</p>
+    <emu-alg>
+      1. Let _iterator_ be ? MatchCachedGetIterator(_cacheGroup_, _matchable_).
+      1. Let _cache_ be GetMatchCache(_cacheGroup_, _iterator_).
+      1. Let _cachedItems_ be ! Get(_cache_, "IteratedItems").
+      1. Let _length_ be ! Get(_cachedItems_, "length").
+      1. If _lastIndex_ &gt; -1, then
+        1. If _length_ &gt; _lastIndex_, return *false*.
+        1. If _iterator_.[[Done]] is *true*, then
+          1. If _length_ = _lastIndex_, return *true*.
+          1. Return *false*.
+      1. Let _iterResult_ be ? MatchCachedGetIteratorNthItem(_cacheGroup_, _iterator_, _lastIndex_ + 1).
+      1. If _iterResult_.[[Matched]] is *true*, return *false*.
+      1. Return *true*.
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-close-iterators">
+    <h1><dfn>CloseIterators</dfn> ( _iterators_ )</h1>
+    <p>The abstract operation CloseIterators takes argument _iterators_ (a List of Iterator Record) and returns an ECMAScript language value. It performs the following steps when called:</p>
+    <emu-alg>
+      1. Let _errors_ be a new empty List.
+      1. For each element _iter_ of _iterators_, do
+        1. If _iter_.[[Done]] is *false*, then
+          1. Let _completion_ be Completion(IteratorClose(_iter_, NormalCompletion(*undefined*))).
+          1. If _completion_ is an abrupt completion, append _completion_.[[Value]] to _errors_.
+      1. If _errors_ is not empty, then
+        1. If length of _errors_ is 1, return ThrowCompletion(_errors_[0]).
+        1. Let _error_ be a newly created AggregateError object.
+        1. Perform ! DefinePropertyOrThrow(error, "errors", PropertyDescriptor { [[Configurable]]: true, [[Enumerable]]: false, [[Writable]]: true, [[Value]]: CreateArrayFromList(errors) }).
+        1. Return ThrowCompletion(error).
+    </emu-alg>
+  </emu-clause>
+  <emu-clause id="sec-add-match-binding">
+    <h1><dfn>AddMatchBinding</dfn> ( _name_, _value_ )</h1>
+    <p>The abstract operation AddMatchBinding takes argument _name_ and _value_ (an ECMAScript language value) and returns unused. It performs the following steps when called:</p>
+    <emu-alg>
+      1. Let _oldEnv_ be the running execution context's LexicalEnvironment.
+      1. Let _matchEnv_ be NewDeclarativeEnvironment(_oldEnv_).
+      1. Set the running execution context's LexicalEnvironment to _matchEnv_.
+      1. Perform ! _matchEnv_.CreateImmutableBinding(_name_, *true*).
+      1. Perform ! _matchEnv_.InitializeBinding(_name_, _value_).
+      1. Return unused.
+    </emu-alg>
   </emu-clause>
 </emu-clause>
