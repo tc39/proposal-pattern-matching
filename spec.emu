@@ -820,3 +820,43 @@ contributors:
     </emu-alg>
   </emu-clause>
 </emu-clause>
+<emu-clause id="sec-ecmascript-data-types-and-values" aoid="Type">
+  <h1>ECMAScript Data Types and Values</h1>
+  <emu-clause id="sec-ecmascript-language-types">
+    <h1>ECMAScript Language Types</h1>
+    <emu-clause id="sec-ecmascript-language-types-symbol-type">
+      <h1>The Symbol Type</h1>
+      <emu-clause id="sec-well-known-symbols">
+        <h1>Well-Known Symbols</h1>
+        <emu-table id="table-1" caption="Well-known Symbols">
+          <table>
+            <tbody>
+            <tr>
+              <th>
+                Specification Name
+              </th>
+              <th>
+                [[Description]]
+              </th>
+              <th>
+                Value and Purpose
+              </th>
+            </tr>
+            <tr>
+              <td>
+                <ins><dfn>@@matcher</dfn></ins>
+              </td>
+              <td>
+                <ins>`"Symbol.matcher"`</ins>
+              </td>
+              <td>
+                <ins>A method that performs custom pattern matching semantics. Called by the semantics of the `match` expression.</ins>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </emu-table>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
