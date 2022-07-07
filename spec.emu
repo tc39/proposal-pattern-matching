@@ -112,13 +112,29 @@ contributors:
   </emu-clause>
   <emu-clause id="sec-match-expression-early-errors">
     <h1>Static Semantics: Early Errors</h1>
-    <emu-note>To be done.</emu-note>
+    <emu-note>This section has not written in normative spec language yet.</emu-note>
     <emu-grammar>
       MatchClauses :
         MatchClause
+        MatchClauses MatchClause
     </emu-grammar>
     <ul>
-      <li>It is a Syntax Error if ...</li>
+      <li>It is a Syntax Error if there are more than one `default` `:` clause.</li>
+      <li>It is a Syntax Error if any other clauses follow the `default` `:` clause.</li>
+    </ul>
+    <emu-grammar>
+      NearLiteralMatchPattern :
+        RegularExpressionLiteral `with` MatchPattern
+    </emu-grammar>
+    <ul>
+      <li>It is a Syntax Error if the named capture group inside RegularExpressionLiteral cannot be covered by Identifier. For example, <code>/a(?&lt;if&gt;.+)/</code> is a syntax error when used in match pattern.</li>
+    </ul>
+    <emu-grammar>
+      MatchPattern :
+        CombinedMatchPattern
+    </emu-grammar>
+    <ul>
+      <li>It is a Syntax Error if the combined match pattern has both `|` and `&` at the same level without a `()`. For example, `a | b & c` is an early error, `a | (b & c)` or `(a | b) & c` is okay.</li>
     </ul>
   </emu-clause>
   <emu-clause id="sec-match-expression-runtime-semantics">
@@ -652,7 +668,6 @@ contributors:
       1. Let _matchEnv_ be NewDeclarativeEnvironment(_oldEnv_).
       1. Set the running execution context's LexicalEnvironment to _matchEnv_.
       1. For each element _name_ of _bindings_, do
-        1. NOTE the binding name might not be a valid identifier (for example, <code>/a(?&lt;if&gt;.+)/</code>) , but those bingings are not accessible from the user land so the engine can safely ignore them.
         1. Perform ! _matchEnv_.CreateImmutableBinding(_name_, *true*).
         1. Perform ! _matchEnv_.InitializeBinding(_name_, ! Get(_groups_, _name_)).
     </emu-alg>
