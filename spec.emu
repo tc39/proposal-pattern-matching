@@ -1,4 +1,4 @@
-CreateMatchResultObject<!doctype html>
+<!doctype html>
 <meta charset="utf8">
 <link rel="stylesheet" href="./spec.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
@@ -110,7 +110,7 @@ contributors:
     </dl>
     <emu-alg>
       1. Let _obj_ be OrdinaryObjectCreate(%Object.prototype%).
-      1. Perform ! CreateDataPropertyOrThrow(_obj_, *"matched"&, _matched_).
+      1. Perform ! CreateDataPropertyOrThrow(_obj_, *"matched"*, _matched_).
       1. If _matched_ is *true*, then
         1. Assert: _value_ is not present.
         1. Perform ! CreateDataPropertyOrThrow(_obj_, *"value"*, _value_).
