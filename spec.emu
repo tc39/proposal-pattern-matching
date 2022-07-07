@@ -104,7 +104,7 @@ contributors:
 
     </emu-grammar>
     <emu-note>
-      `undefined`, `NaN` and `Infinity` are covered by the IdentifierMatchPattern, but `+NaN`, `-NaN`, `+Infinity` and `-Infinity` are covered by the NearLiteralMatchPattern.
+      `undefined`, `NaN`, and `Infinity` are covered by the IdentifierMatchPattern, but `+NaN`, `-NaN`, `+Infinity`, and `-Infinity` are covered by the NearLiteralMatchPattern.
     </emu-note>
     <emu-note>
       No Initializer is allowed in the current syntax. See <a href="https://github.com/tc39/proposal-pattern-matching/#default-values">https://github.com/tc39/proposal-pattern-matching/#default-values</a>
@@ -187,7 +187,7 @@ contributors:
       MatchClause : `when` `(` MatchPattern `)` `if` `(` Expression `)` `:` Expression
     </emu-grammar>
     <emu-alg>
-      1. Let _closure_ be a new Abstract Closure with parameters () that captures _matchable_, _cacheGroup_, MatchPattern, the first Expression and the second Expression and performs the following steps when called:
+      1. Let _closure_ be a new Abstract Closure with parameters () that captures _matchable_, _cacheGroup_, MatchPattern, the first Expression, and the second Expression and performs the following steps when called:
         1. Let _matches_ be ? MatchPatternMatches of MatchPattern with arguments _matchable_ and _cacheGroup_.
         1. If _matches_ is *false*, return Match Record { [[Matched]]: false, [[Value]]: unused }.
         1. Let _ifRef_ be the result of evaluating the first Expression.
@@ -207,7 +207,7 @@ contributors:
       MatchClause : `when` `(` MatchPattern `)` `:` Expression
     </emu-grammar>
     <emu-alg>
-      1. Let _closure_ be a new Abstract Closure with parameters () that captures _matchable_, _cacheGroup_, MatchPattern and Expression and performs the following steps when called:
+      1. Let _closure_ be a new Abstract Closure with parameters () that captures _matchable_, _cacheGroup_, MatchPattern, and Expression and performs the following steps when called:
         1. Let _matches_ be ? MatchPatternMatches of MatchPattern with arguments _matchable_ and _cacheGroup_.
         1. If _matches_ is *false*, return Match Record { [[Matched]]: false, [[Value]]: unused }.
         1. Let _exprRef_ be evaluating the second Expression.
@@ -585,22 +585,22 @@ contributors:
       MatchElementList : MatchElisionElement
     </emu-grammar>
     <emu-alg>
-      1. Return ? MatchElementEvaluation of MatchElisionElement with arguments _matchable_, _cacheGroup_ and _counter_.
+      1. Return ? MatchElementEvaluation of MatchElisionElement with arguments _matchable_, _cacheGroup_, and _counter_.
     </emu-alg>
     <emu-grammar>
       MatchElementList : MatchElementList `,` MatchElisionElement
     </emu-grammar>
     <emu-alg>
-      1. Let _result_ be ? MatchElementEvaluation of MatchElementList with arguments _matchable_, _cacheGroup_ and _counter_.
+      1. Let _result_ be ? MatchElementEvaluation of MatchElementList with arguments _matchable_, _cacheGroup_, and _counter_.
       1. If _result_ is *false*, return *false*.
-      1. Return ? MatchElementEvaluation of MatchElisionElement with arguments _matchable_, _cacheGroup_ and _counter_.
+      1. Return ? MatchElementEvaluation of MatchElisionElement with arguments _matchable_, _cacheGroup_, and _counter_.
     </emu-alg>
     <emu-grammar>
       MatchElisionElement : Elision? MatchPattern
     </emu-grammar>
     <emu-alg>
       1. If Elision is present, then
-        1. Let _result_ be ? MatchElementEvaluation of Elision with arguments _matchable_, _cacheGroup_ and _counter_.
+        1. Let _result_ be ? MatchElementEvaluation of Elision with arguments _matchable_, _cacheGroup_, and _counter_.
         1. If _result_ is *false*, return *false*.
       1. Let _value_ be ? MatchCachedGetIteratorNthItem(_cacheGroup_, _matchable_, _counter_.[[LastIndex]]).
       1. If _value_.[[Matched]] is *false*, return *false*.
@@ -622,7 +622,7 @@ contributors:
       Elision : Elision `,`
     </emu-grammar>
     <emu-alg>
-      1. Let _result_ be ? MatchElementEvaluation of Elision with arguments _matchable_, _cacheGroup_ and _counter_.
+      1. Let _result_ be ? MatchElementEvaluation of Elision with arguments _matchable_, _cacheGroup_, and _counter_.
       1. If _result_ is *false*, return *false*.
       1. Let _result2_ be ? MatchCachedGetIteratorNthItem(_cacheGroup_, _matchable_, _counter_.[[LastIndex]]).
       1. If _result2_.[[Matched]] is *false*, return *false*.
