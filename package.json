@@ -13,7 +13,7 @@
 	},
 	"license": "MIT",
 	"devDependencies": {
-		"ecmarkup": "^12.0.2",
-		"@tc39/ecma262-biblio": "2.0.2288"
+		"@tc39/ecma262-biblio": "^2.1.2336",
+		"ecmarkup": "^13.0.0"
 	}
 }
