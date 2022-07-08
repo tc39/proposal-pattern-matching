@@ -291,7 +291,7 @@ contributors:
       </emu-note>
     </emu-clause>
     <emu-clause id="sec-match-clauses-evaluation" type="sdo">
-      <h1>Runtime Semantics: MatchClausesEvaluation></h1>
+      <h1>Runtime Semantics: MatchClausesEvaluation</h1>
       <p>The syntax-directed operation MatchClausesEvaluation takes argument _matchable_ (an ECMAScript language value) and _cacheGroup_ (a %WeakMap%) and returns either a normal completion containing a Match Record or an abrupt completion. It is defined piecewise over the following productions:</p>
       <emu-grammar>
         MatchClauses : MatchClause
