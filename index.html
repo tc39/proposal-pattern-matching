@@ -2930,7 +2930,7 @@ li.menu-search-result-term:before {
 </emu-production>
 </emu-grammar>
       <ul>
-        <li>It is a Syntax Error if the combined match pattern has both <code>|</code> and <code>&amp;</code> at the same level without a <code>()</code>. For example, <code>a | b &amp; c</code> is an <emu-xref href="#early-error"><a href="https://tc39.es/ecma262/#early-error">early error</a></emu-xref>, <code>a | (b &amp; c)</code> or <code>(a | b) &amp; c</code> is okay.</li>
+        <li>It is a Syntax Error if the combined match pattern has both <code>or</code> and <code>and</code> at the same level without a <code>()</code>. For example, <code>a or b and c</code> is an <emu-xref href="#early-error"><a href="https://tc39.es/ecma262/#early-error">early error</a></emu-xref>, <code>a or (b and c)</code> or <code>(a or b) and c</code> is okay.</li>
       </ul>
     </emu-clause>
     <emu-clause id="sec-match-expression-runtime-semantics">

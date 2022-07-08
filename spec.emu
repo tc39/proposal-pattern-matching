@@ -262,7 +262,7 @@ contributors:
           CombinedMatchPattern
       </emu-grammar>
       <ul>
-        <li>It is a Syntax Error if the combined match pattern has both `|` and `&` at the same level without a `()`. For example, `a | b & c` is an early error, `a | (b & c)` or `(a | b) & c` is okay.</li>
+        <li>It is a Syntax Error if the combined match pattern has both `or` and `and` at the same level without a `()`. For example, `a or b and c` is an early error, `a or (b and c)` or `(a or b) and c` is okay.</li>
       </ul>
     </emu-clause>
     <emu-clause id="sec-match-expression-runtime-semantics">
