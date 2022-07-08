@@ -1137,6 +1137,26 @@ contributors:
         </emu-alg>
       </emu-clause>
     </emu-clause>
+
+    <emu-clause id="sec-properties-of-the-boolean-prototype-object">
+      <h1>Properties of the Boolean Prototype Object</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause id="sec-boolean-prototype-@@matcher">
+        <h1>Boolean.prototype [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is a matching Boolean.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. Let _B_ be ? thisBooleanValue(*this value*).
+          1. Let _result_ be Completion(thisBooleanValue(_value_)).
+          1. If _result_ is an abrupt completion or SameValue(_B_, _result_) is *false*, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _result_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
   </emu-clause>
 
   <emu-clause id="sec-symbol-objects">
@@ -1171,6 +1191,27 @@ contributors:
         <emu-alg>
           1. Let _result_ be Completion(thisSymbolValue(_value_)).
           1. If _result_ is an abrupt completion, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _result_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+
+    <emu-clause id="sec-properties-of-the-symbol-prototype-object">
+      <h1>Properties of the Symbol Prototype Object</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause id="sec-symbol-prototype-@@matcher">
+        <h1>Symbol.prototype [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is the same Symbol.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. Let _S_ be ? thisSymbolValue(*this value*).
+          1. Let _result_ be Completion(thisSymbolValue(_value_)).
+          1. If _result_ is an abrupt completion or SameValue(_S_, _result_) is *false*, return CreateMatchResultObject(*false*).
           1. Return CreateMatchResultObject(*true*, _result_).
         </emu-alg>
       </emu-clause>
@@ -1287,6 +1328,30 @@ contributors:
         </emu-alg>
       </emu-clause>
     </emu-clause>
+
+    <emu-clause id="sec-properties-of-the-number-prototype-object">
+      <h1>Properties of the Number Prototype Object</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause id="sec-number-prototype-@@matcher">
+        <h1>Number.prototype [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is the same Number.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. Let _N_ be ? thisNumberValue(*this value*).
+          1. Let _result_ be Completion(thisNumberValue(_value_)).
+          1. If _result_ is an abrupt completion or SameValueZero(_N_, _result_) is *false*, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _result_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
   </emu-clause>
 
   <emu-clause id="sec-bigint-objects">
@@ -1308,6 +1373,28 @@ contributors:
         <emu-alg>
           1. Let _result_ be Completion(thisBigIntValue(_value_)).
           1. If _result_ is an abrupt completion, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _result_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+
+    <emu-clause id="sec-properties-of-the-bigint-prototype-object">
+      <h1>Properties of the BigInt Prototype Object</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause id="sec-bigint-prototype-@@matcher">
+        <h1>BigInt.prototype [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is the same BigInt.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. Let _B_ be ? thisBigIntValue(*this value*).
+          1. Let _result_ be Completion(thisBigIntValue(_value_)).
+          1. If _result_ is an abrupt completion or SameValue(_B_, _result_) is *false*, return CreateMatchResultObject(*false*).
           1. Return CreateMatchResultObject(*true*, _result_).
         </emu-alg>
       </emu-clause>
@@ -1366,6 +1453,57 @@ contributors:
         <emu-alg>
           1. Let _result_ be Completion(thisStringValue(_value_)).
           1. If _result_ is an abrupt completion, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _result_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+
+    <emu-clause id="sec-properties-of-the-string-prototype-object">
+      <h1>Properties of the String Prototype Object</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause id="sec-string-prototype-@@matcher">
+        <h1>String.prototype [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is the same String.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. Let _S_ be ? thisStringValue(*this value*).
+          1. Let _result_ be Completion(thisStringValue(_value_)).
+          1. If _result_ is an abrupt completion or SameValue(_S_, _result_) is *false*, return CreateMatchResultObject(*false*).
           1. Return CreateMatchResultObject(*true*, _result_).
         </emu-alg>
       </emu-clause>
@@ -1757,14 +1895,12 @@ contributors:
     </emu-alg>
   </emu-clause>
 
-  <emu-clause id="todo-boxed-prims">
-    <h1>Add builtin matchers on the prototype for relevant boxed primitives, matching hardcoded primitive matching</h1>
+  <emu-clause id="todo-object-instances">
+    <h1>Should we add builtin matchers on the prototype for relevant class instances, so they do something useful?</h1>
     <emu-alg>
-      1. Boolean.
-      1. String.
-      1. Number.
-      1. Symbol.
-      1. BigInt.
+      1. Date: should compare the time value, and not identity.
+      1. RegExp: should compare pattern/flags, and maybe lastIndex?.
+      1. Array/Typed Array/Map/Set: should match type, and then iterate and match against contents?.
     </emu-alg>
   </emu-clause>
 </emu-clause>
