@@ -3128,7 +3128,7 @@ li.menu-search-result-term:before {
     <emu-nt><a href="#prod-NearLiteralMatchPattern">NearLiteralMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="pui0b1rt" id="prod-7_4ORieJ"><emu-nt><a href="https://tc39.es/ecma262/#prod-NumericLiteral">NumericLiteral</a></emu-nt></emu-rhs>
 </emu-production>
 </emu-grammar>
-      <emu-alg><ol><li>Return <emu-xref aoid="SameValue"><a href="https://tc39.es/ecma262/#sec-samevalue">SameValue</a></emu-xref>(<var>matchable</var>, the result of evaluating NumericLiteral).</li></ol></emu-alg>
+      <emu-alg><ol><li>Let <var>numeric</var> be the result of evaluating NumericLiteral.</li><li>NOTE: TODO: <emu-val>-0</emu-val><sub>𝔽</sub> is handled already, but when there is no explicit <code>+</code> sign, the next line should use <emu-xref aoid="SameValueZero"><a href="https://tc39.es/ecma262/#sec-samevaluezero">SameValueZero</a></emu-xref>.</li><li>Return <emu-xref aoid="SameValue"><a href="https://tc39.es/ecma262/#sec-samevalue">SameValue</a></emu-xref>(<var>matchable</var>, <var>numeric</var>).</li></ol></emu-alg>
       <emu-grammar><emu-production name="NearLiteralMatchPattern" collapsed="">
     <emu-nt><a href="#prod-NearLiteralMatchPattern">NearLiteralMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="xhtltz00" id="prod-nFT2R-a-"><emu-nt><a href="https://tc39.es/ecma262/#prod-StringLiteral">StringLiteral</a></emu-nt></emu-rhs>
 </emu-production>

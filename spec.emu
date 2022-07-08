@@ -483,7 +483,9 @@ contributors:
         NearLiteralMatchPattern : NumericLiteral
       </emu-grammar>
       <emu-alg>
-        1. Return SameValue(_matchable_, the result of evaluating NumericLiteral).
+        1. Let _numeric_ be the result of evaluating NumericLiteral.
+        1. NOTE: TODO: *-0*<sub>𝔽</sub> is handled already, but when there is no explicit `+` sign, the next line should use SameValueZero.
+        1. Return SameValue(_matchable_, _numeric_).
       </emu-alg>
       <emu-grammar>
         NearLiteralMatchPattern : StringLiteral
