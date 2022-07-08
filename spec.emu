@@ -85,6 +85,24 @@ contributors:
 <emu-clause id="sec-intrinsic-matcher">
   <h1>Misc</h1>
 
+  <emu-clause id="sec-create-match-record" type="abstract operation">
+    <h1>
+      CreateMatchRecord (
+        _matched_: a Boolean,
+        optional _value_: an ECMAScript language value,
+      ): a Match Record
+    </h1>
+    <dl class="header">
+    </dl>
+    <emu-alg>
+      1. If _matched_ is *true*, then
+        1. Assert: _value_ is present.
+        1. Return Match Record { [[Matched]]: *true*, [[Value]]: _value_ }.
+      1. Assert: _value_ is not present.
+      1. Return Match Record { [[Matched]]: _matched_, [[Value]]: ~unused~ }.
+    </emu-alg>
+  </emu-clause>
+
   <emu-clause id="sec-create-match-result" type="abstract operation">
     <h1>
       CreateMatchResultObject (
@@ -317,13 +335,13 @@ contributors:
       <emu-alg>
         1. Let _closure_ be a new Abstract Closure with parameters () that captures _matchable_, _cacheGroup_, MatchPattern, the first Expression, and the second Expression and performs the following steps when called:
           1. Let _matches_ be ? MatchPatternMatches of MatchPattern with arguments _matchable_ and _cacheGroup_.
-          1. If _matches_ is *false*, return Match Record { [[Matched]]: false, [[Value]]: unused }.
+          1. If _matches_ is *false*, return CreateMatchRecord(*false*).
           1. Let _ifRef_ be the result of evaluating the first Expression.
           1. Let _ifVal_ be ToBoolean(? GetValue(_ifRef_)).
-          1. If _ifVal_ is *false*, return Match Record { [[Matched]]: *false*, [[Value]]: unused }.
+          1. If _ifVal_ is *false*, return CreateMatchRecord(*false*).
           1. Let _exprRef_ be evaluating the second Expression.
           1. Let _exprVal_ be ? GetValue(_exprRef_).
-          1. Return Match Record { [[Matched]]: *true*, [[Value]]: _exprVal_ }.
+          1. Return CreateMatchRecord(*true*, _exprVal_).
         1. Let _oldEnv_ be the running execution context's LexicalEnvironment.
         1. Let _matchEnv_ be NewDeclarativeEnvironment(_oldEnv_).
         1. Set the running execution context's LexicalEnvironment to _matchEnv_.
@@ -337,10 +355,10 @@ contributors:
       <emu-alg>
         1. Let _closure_ be a new Abstract Closure with parameters () that captures _matchable_, _cacheGroup_, MatchPattern, and Expression and performs the following steps when called:
           1. Let _matches_ be ? MatchPatternMatches of MatchPattern with arguments _matchable_ and _cacheGroup_.
-          1. If _matches_ is *false*, return Match Record { [[Matched]]: false, [[Value]]: unused }.
+          1. If _matches_ is *false*, return CreateMatchRecord(*false*).
           1. Let _exprRef_ be evaluating the second Expression.
           1. Let _exprVal_ be ? GetValue(_exprRef_).
-          1. Return Match Record { [[Matched]]: *true*, [[Value]]: _exprVal_ }.
+          1. Return CreateMatchRecord(*true*, _exprVal_).
         1. Let _oldEnv_ be the running execution context's LexicalEnvironment.
         1. Let _matchEnv_ be NewDeclarativeEnvironment(_oldEnv_).
         1. Set the running execution context's LexicalEnvironment to _matchEnv_.
@@ -354,10 +372,10 @@ contributors:
       <emu-alg>
         1. Let _ifRef_ be the result of evaluating the first Expression.
         1. Let _ifVal_ be ToBoolean(? GetValue(_ifRef_)).
-        1. If _ifVal_ is *false*, return Match Record { [[Matched]]: *false*, [[Value]]: unused }.
+        1. If _ifVal_ is *false*, return CreateMatchRecord(*false*).
         1. Let _exprRef_ be evaluating the second Expression.
         1. Let _exprVal_ be ? GetValue(_exprRef_).
-        1. Return Match Record { [[Matched]]: *true*, [[Value]]: _exprVal_ }.
+        1. Return CreateMatchRecord(*true*, _exprVal_).
       </emu-alg>
       <emu-grammar>
         MatchClause : `default` `:` Expression
@@ -365,7 +383,7 @@ contributors:
       <emu-alg>
         1. Let _exprRef_ be evaluating the Expression.
         1. Let _exprVal_ be ? GetValue(_exprRef_).
-        1. Return Match Record { [[Matched]]: *true*, [[Value]]: _exprVal_ }.
+        1. Return CreateMatchRecord(*true*, _exprVal_).
       </emu-alg>
     </emu-clause>
     <emu-clause id="sec-match-pattern-matches" type="sdo">
@@ -933,7 +951,7 @@ contributors:
       <dl class="header">
       </dl>
       <emu-alg>
-        1. If _iterator_.[[Done]] is *true*, return Match Record { [[Matched]]: *false*, [[Value]]: ~unused~ }.
+        1. If _iterator_.[[Done]] is *true*, return CreateMatchRecord(*false*).
         1. Let _cache_ be GetMatchCache(_cacheGroup_, _iterator_).
         1. Let _cachedItems_ be ! Get(_cache_, "IteratedItems").
         1. Let _iterResult_ be Completion(IteratorStep(_iterator_)).
@@ -941,12 +959,12 @@ contributors:
         1. ReturnIfAbrupt(_iterResult_).
         1. If _iterResult_ is *false*, then
           1. Set _iterator_.[[Done]] to *true*.
-          1. Return Match Record { [[Matched]]: *false*, [[Value]]: ~unused~ }.
+          1. Return CreateMatchRecord(*false*).
         1. Let _value_ be Completion(IteratorValue(_iterResult_)).
         1. If _value_ is an abrupt completion, set _iterator_.[[Done]] to *true*.
         1. ReturnIfAbrupt(_value_).
         1. Perform ! Call(%Array.prototype.push%, _cachedItems_, « _value_ »).
-        1. Return Match Record { [[Matched]]: *true*, [[Value]]: _value_ }.
+        1. Return CreateMatchRecord(*true*, _value_).
       </emu-alg>
     </emu-clause>
 
@@ -964,8 +982,8 @@ contributors:
         1. Let _cache_ be GetMatchCache(_cacheGroup_, _iterator_).
         1. Let _cachedItems_ be ! Get(_cache_, "IteratedItems").
         1. Let _nthItem_ be ! _cachedItems_.[[GetOwnProperty]](_n_).
-        1. If _nthItem_ is not *undefined*, return Match Record { [[Matched]]: *true*, [[Value]]: _nthItem_.[[Value]] }.
-        1. If _iterator_.[[Done]] is *true*, return Match Record { [[Matched]]: *false*, [[Value]]: ~unused~ }.
+        1. If _nthItem_ is not *undefined*, return CreateMatchRecord(*true*, _nthItem_.[[Value]]).
+        1. If _iterator_.[[Done]] is *true*, return CreateMatchRecord(*false*).
         1. Return ? MatchCachedIteratorStep(_cacheGroup_, _iterator_).
       </emu-alg>
     </emu-clause>
