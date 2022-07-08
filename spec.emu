@@ -698,7 +698,7 @@ contributors:
     </emu-clause>
     <emu-clause id="sec-match-rest-property-evaluation" type="sdo">
       <h1>Runtime Semantics: MatchRestPropertyEvaluation</h1>
-      <p>The syntax-directed operation MatchRestPropertyEvaluation takes argument _matchable_ (an ECMAScript language value), _cacheGroup_ (a %WeakMap%) and _excludedNames_ (a List) and returns unused or an abrupt completion. It is defined piecewise over the following productions:</p>
+      <p>The syntax-directed operation MatchRestPropertyEvaluation takes argument _matchable_ (an ECMAScript language value), _cacheGroup_ (a %WeakMap%) and _excludedNames_ (a List) and returns ~unused~ or an abrupt completion. It is defined piecewise over the following productions:</p>
       <emu-grammar>
         MatchRestProperty : `...` IdentifierMatchPattern
       </emu-grammar>
@@ -708,7 +708,7 @@ contributors:
         1. Let _rest_ be OrdinaryObjectCreate(%Object.prototype%).
         1. Perform ? CopyDataProperties(_rest_, _matchable_, _excludedNames_).
         1. Perform AddMatchBinding(_name_, _rest).
-        1. Return unused.
+        1. Return ~unused~.
       </emu-alg>
     </emu-clause>
     <emu-clause id="sec-match-element-evaluation" type="sdo">
@@ -788,7 +788,7 @@ contributors:
         <table>
           <tr><th>Field Name</th><th>Value</th><th>Meaning</th></tr>
           <tr><td>[[Matched]]</td><td>a Boolean</td><td>If the match clause matched.</td></tr>
-          <tr><td>[[Value]]</td><td>an ECMAScript language value or unused</td><td>The matched value.</td></tr>
+          <tr><td>[[Value]]</td><td>an ECMAScript language value or ~unused~</td><td>The matched value.</td></tr>
         </table>
       </emu-table>
     </emu-clause>
