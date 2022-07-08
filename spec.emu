@@ -334,7 +334,7 @@ contributors:
     <h1>Match Expression</h1>
     <emu-clause id="sec-match-expression-syntax">
       <h1>Syntax</h1>
-      <emu-note>Work in progress.</emu-note>
+      <emu-note type="editor">Work in progress.</emu-note>
       <emu-grammar type="definition">
         MatchExpression ::
           `match` [no LineTerminator here] `(` Expression `)` [no LineTerminator here] `{` MatchClauses? `}`
@@ -426,7 +426,7 @@ contributors:
     </emu-clause>
     <emu-clause id="sec-match-expression-early-errors">
       <h1>Static Semantics: Early Errors</h1>
-      <emu-note>This section has not written in normative spec language yet.</emu-note>
+      <emu-note type="editor">This section has not written in normative spec language yet.</emu-note>
       <emu-grammar>
         MatchClauses :
           MatchClause
@@ -473,7 +473,7 @@ contributors:
         1. Throw a *TypeError* exception.
       </emu-alg>
       <emu-note>
-        The object _cacheGroup_ is not accessible from the user code. An implementation might choose to avoid the actual creation of the object.
+        The object _cacheGroup_ is not accessible from user code. An implementation may choose to avoid the actual creation of the object.
       </emu-note>
     </emu-clause>
     <emu-clause id="sec-match-clauses-evaluation" type="sdo">
@@ -702,7 +702,7 @@ contributors:
         1. Return *true*.
       </emu-alg>
       <emu-note>
-        The object that returned from RegExpBuiltinExec in this Abstract Operation is not accessible from the user code. An implementation might choose to avoid the actual creation of the object.
+        The object that returned from RegExpBuiltinExec in this Abstract Operation is not accessible from user code. An implementation may choose to avoid the actual creation of the object.
       </emu-note>
       <emu-grammar>
         NearLiteralMatchPattern : TemplateLiteral[~Tagged]
@@ -1222,5 +1222,4 @@ contributors:
       </emu-alg>
     </emu-clause>
   </emu-clause>
-
 </emu-clause>
