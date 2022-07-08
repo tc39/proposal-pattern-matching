@@ -331,7 +331,7 @@ Option.None[Symbol.matcher] = (val)=>({
   matched: val instanceof Option && !val.hasValue
 });
 
-match(result) {
+match (result) {
   when (${Option.Some} with val): console.log(val);
   when (${Option.None}): console.log("none");
 }
@@ -643,7 +643,7 @@ function* integers(to) {
 }
 
 const fiveIntegers = integers(5);
-match(fiveIntegers) {
+match (fiveIntegers) {
   when([a]):
     console.log(`found one int: ${a}`);
     // Matching a generator against an array pattern.
@@ -742,7 +742,7 @@ const randomItem = {
   get numOrString() { return Math.random() < .5 ? 1 : "1"; }
 };
 
-match(randomItem) {
+match (randomItem) {
   when({numOrString: ${Number}}):
     console.log("Only matches half the time.");
     // Whether the pattern matches or not,
@@ -847,7 +847,7 @@ match (3) {
 or
 
 ```jsx
-match("foobar") {
+match ("foobar") {
   when (/foo(.*)/ with [, suffix]):
     console.log(suffix);
     // logs "bar", since the match result
