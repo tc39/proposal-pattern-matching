@@ -293,8 +293,8 @@ contributors:
         1. Let _matchableRef_ be the result of evaluating Expression.
         1. Let _matchable_ be ? GetValue(_matchableRef_).
         1. If MatchClauses is not present, throw a *TypeError* exception.
-        1. Let _cacheGroup_ be ! Construct(%WeakMap%, a new Empty List).
-        1. Let _iterators_ be ! Construct(%Set%, a new Empty List).
+        1. Let _cacheGroup_ be ! Construct(%WeakMap%, a new empty List).
+        1. Let _iterators_ be ! Construct(%Set%, a new empty List).
         1. Perform ! CreateDataPropertyOrThrow(_cacheGroup_, "IteratorToClose", iterators).
         1. Let _result_ be ? MatchClausesEvaluation of MatchClauses with argument _matchable_ and _cacheGroup_.
         1. Let _iteratorRecords_ be a new empty List.
@@ -851,8 +851,8 @@ contributors:
         1. If ! Call(%WeakMap.prototype.has%, _cacheGroup_, « _object_ ») is *true*, then
           1. Return ! Call(%WeakMap.prototype.get%, _cacheGroup_, « _object_ »).
         1. Let _cache_ be OrdinaryObjectCreate(*null*).
-        1. Perform ! CreateDataPropertyOrThrow(_obj_, "Has", ! Construct(%Set%, *undefined*, a new Empty List)).
-        1. Perform ! CreateDataPropertyOrThrow(_obj_, "Get", ! Construct(%Map%, *undefined*, a new Empty List)).
+        1. Perform ! CreateDataPropertyOrThrow(_obj_, "Has", ! Construct(%Set%, *undefined*, a new empty List)).
+        1. Perform ! CreateDataPropertyOrThrow(_obj_, "Get", ! Construct(%Map%, *undefined*, a new empty List)).
         1. Perform ! CreateDataPropertyOrThrow(_obj_, "Iterator", *undefined*).
         1. Perform ! CreateDataPropertyOrThrow(_obj_, "IteratedItems", ! ArrayCreate(0)).
         1. Perform ! Call(%WeakMap.prototype.set%, _cacheGroup_, « _object_, _cache_ »).
