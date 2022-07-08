@@ -83,21 +83,7 @@ contributors:
 </emu-clause>
 
 <emu-clause id="sec-intrinsic-matcher">
-  <h1>Intrinsic matchers</h1>
-  <emu-note>
-    All built-in classes/primitive creators has a @@matcher that do the internal slot check, with the following exceptions:
-    <ul>
-      <li>Proxy [ @@matcher ] does not exist.</li>
-      <li>Generator [ @@matcher ] does not exist.</li>
-      <li>AsyncFunction [ @@matcher ] does not exist.</li>
-      <li>AsyncGenerator [ @@matcher ] does not exist.</li>
-      <li>AsyncGeneratorFunction [ @@matcher ] does not exist.</li>
-      <li>Promise [ @@matcher ] performs a "then"-able check, not a internal slot check.</li>
-      <li>Array [ @@matcher ] performs a IsArray check.</li>
-      <li>Error [ @@matcher ] performs the internal slot check, and the constructor name check (to support sub-classing).</li>
-      <li>SharedArrayBuffer [ @@matcher ] performs a IsSharedArrayBuffer check.</li>
-    </ul>
-  </emu-note>
+  <h1>Misc</h1>
 
   <emu-clause id="sec-create-match-result" type="abstract operation">
     <h1>
@@ -118,78 +104,8 @@ contributors:
     </emu-alg>
   </emu-clause>
 
-  <emu-clause id="sec-typeof-matcher">
-    <h1>"typeof" matchers</h1>
-    <p>Those matchers behave like "typeof" operator.</p>
-    <emu-clause id="sec-symbol-matcher">
-      <h1>Symbol [ @@matcher ] ( _value_ )</h1>
-      <p>The following steps are taken:</p>
-      <emu-alg>
-        1. If Type(_value_) is not Symbol, return CreateMatchResultObject(*false*).
-        1. Return CreateMatchResultObject(*true*, _value_).
-      </emu-alg>
-    </emu-clause>
-    <emu-clause id="sec-bigint-matcher">
-      <h1>BigInt [ @@matcher ] ( _value_ )</h1>
-      <p>The following steps are taken:</p>
-      <emu-alg>
-        1. If Type(_value_) is not BigInt, return CreateMatchResultObject(*false*).
-        1. Return CreateMatchResultObject(*true*, _value_).
-      </emu-alg>
-    </emu-clause>
-    <emu-clause id="sec-number-matcher">
-      <h1>Number [ @@matcher ] ( _value_ )</h1>
-      <p>The following steps are taken:</p>
-      <emu-alg>
-        1. If Type(_value_) is not Number, return CreateMatchResultObject(*false*).
-        1. Return CreateMatchResultObject(*true*, _value_).
-      </emu-alg>
-    </emu-clause>
-    <emu-clause id="sec-string-matcher">
-      <h1>String [ @@matcher ] ( _value_ )</h1>
-      <p>The following steps are taken:</p>
-      <emu-alg>
-        1. If Type(_value_) is not String, return CreateMatchResultObject(*false*).
-        1. Return CreateMatchResultObject(*true*, _value_).
-      </emu-alg>
-    </emu-clause>
-    <emu-clause id="sec-boolean-matcher">
-      <h1>Boolean [ @@matcher ] ( _value_ )</h1>
-      <p>The following steps are taken:</p>
-      <emu-alg>
-        1. If Type(_value_) is not Boolean, return CreateMatchResultObject(*false*).
-        1. Return CreateMatchResultObject(*true*, _value_).
-      </emu-alg>
-    </emu-clause>
-    <emu-clause id="sec-object-matcher">
-      <h1>Object [ @@matcher ] ( _value_ )</h1>
-      <p>The following steps are taken:</p>
-      <emu-alg>
-        1. If Type(_value_) is not Object, return CreateMatchResultObject(*false*).
-        1. If _value_ implements [[Call]], return CreateMatchResultObject(*false*).
-        1. Return CreateMatchResultObject(*true*, _value_).
-      </emu-alg>
-    </emu-clause>
-    <emu-clause id="sec-function-matcher">
-      <h1>Function [ @@matcher ] ( _value_ )</h1>
-      <p>The following steps are taken:</p>
-      <emu-alg>
-        1. If Type(_value_) is not Object, return CreateMatchResultObject(*false*).
-        1. If _value_ does not implement [[Call]], return CreateMatchResultObject(*false*).
-        1. Return CreateMatchResultObject(*true*, _value_).
-      </emu-alg>
-    </emu-clause>
-  </emu-clause>
   <emu-clause id="sec-class-matcher">
     <h1>Class matcher</h1>
-    <emu-clause id="sec-date-matcher">
-      <h1>Date [ @@matcher ] ( _value_ )</h1>
-      <p>The following steps are taken:</p>
-      <emu-alg>
-        1. If _value_ does not have a [[DateData]] internal slot, return CreateMatchResultObject(*false*).
-        1. Return CreateMatchResultObject(*true*, _value_).
-      </emu-alg>
-    </emu-clause>
     <emu-clause id="sec-error-matcher">
       <h1>Error [ @@matcher ] ( _value_ )</h1>
       <p>The following steps are taken:</p>
@@ -205,113 +121,9 @@ contributors:
         1. If _name_ is _valueName_, return CreateMatchResultObject(*true*, _value_).
         1. Return CreateMatchResultObject(*false*).
       </emu-alg>
-    </emu-clause>
-    <emu-clause id="sec-array-matcher">
-      <h1>Array [ @@matcher ] ( _value_ )</h1>
-      <p>The following steps are taken:</p>
-      <emu-alg>
-        1. If ? IsArray(_value_) is *false*, return CreateMatchResultObject(*false*).
-        1. Return CreateMatchResultObject(*true*, _value_).
-      </emu-alg>
-    </emu-clause>
-    <emu-clause id="sec-map-matcher">
-      <h1>Map [ @@matcher ] ( _value_ )</h1>
-      <p>The following steps are taken:</p>
-      <emu-alg>
-        1. If _value_ does not have a [[MapData]] internal slot, return CreateMatchResultObject(*false*).
-        1. Return CreateMatchResultObject(*true*, _value_).
-      </emu-alg>
-    </emu-clause>
-    <emu-clause id="sec-regexp-matcher">
-      <h1>RegExp [ @@matcher ] ( _value_ )</h1>
-      <p>The following steps are taken:</p>
-      <emu-alg>
-        1. If _value_ does not have a [[RegExpMatcher]] internal slot, return CreateMatchResultObject(*false*).
-        1. Return CreateMatchResultObject(*true*, _value_).
-      </emu-alg>
-    </emu-clause>
-    <emu-clause id="sec-set-matcher">
-      <h1>Set [ @@matcher ] ( _value_ )</h1>
-      <p>The following steps are taken:</p>
-      <emu-alg>
-        1. If _value_ does not have a [[SetData]] internal slot, return CreateMatchResultObject(*false*).
-        1. Return CreateMatchResultObject(*true*, _value_).
-      </emu-alg>
-    </emu-clause>
-    <emu-clause id="sec-weakmap-matcher">
-      <h1>WeakMap [ @@matcher ] ( _value_ )</h1>
-      <p>The following steps are taken:</p>
-      <emu-alg>
-        1. If _value_ does not have a [[WeakMapData]] internal slot, return CreateMatchResultObject(*false*).
-        1. Return CreateMatchResultObject(*true*, _value_).
-      </emu-alg>
-    </emu-clause>
-    <emu-clause id="sec-weakset-matcher">
-      <h1>WeakSet [ @@matcher ] ( _value_ )</h1>
-      <p>The following steps are taken:</p>
-      <emu-alg>
-        1. If _value_ does not have a [[WeakSetData]] internal slot, return CreateMatchResultObject(*false*).
-        1. Return CreateMatchResultObject(*true*, _value_).
-      </emu-alg>
-    </emu-clause>
-    <emu-clause id="sec-weakref-matcher">
-      <h1>WeakRef [ @@matcher ] ( _value_ )</h1>
-      <p>The following steps are taken:</p>
-      <emu-alg>
-        1. If _value_ does not have a [[WeakRefTarget]] internal slot, return CreateMatchResultObject(*false*).
-        1. Return CreateMatchResultObject(*true*, _value_).
-      </emu-alg>
-    </emu-clause>
-    <emu-clause id="sec-promise-matcher">
-      <h1>Promise [ @@matcher ] ( _value_ )</h1>
-      <p>The following steps are taken:</p>
-      <emu-alg>
-        1. Let _then_ be ? Get(_value_, _then_).
-        1. If Type(_then_) is Function, return CreateMatchResultObject(*true*, _value_).
-        1. Return CreateMatchResultObject(*false*).
-      </emu-alg>
-    </emu-clause>
-    <emu-clause id="sec-dataview-matcher">
-      <h1>DataView [ @@matcher ] ( _value_ )</h1>
-      <p>The following steps are taken:</p>
-      <emu-alg>
-        1. If _value_ does not have a [[DataView]] internal slot, return CreateMatchResultObject(*false*).
-        1. Return CreateMatchResultObject(*true*, _value_).
-      </emu-alg>
-    </emu-clause>
-    <emu-clause id="sec-arraybuffer-matcher">
-      <h1>ArrayBuffer [ @@matcher ] ( _value_ )</h1>
-      <p>The following steps are taken:</p>
-      <emu-alg>
-        1. If _value_ does not have a [[ArrayBufferData]] internal slot, return CreateMatchResultObject(*false*).
-        1. Return CreateMatchResultObject(*true*, _value_).
-      </emu-alg>
-    </emu-clause>
-    <emu-clause id="sec-sharedarraybuffer-matcher">
-      <h1>SharedArrayBuffer [ @@matcher ] ( _value_ )</h1>
-      <p>The following steps are taken:</p>
-      <emu-alg>
-        1. If _value_ does not have a [[ArrayBufferData]] internal slot, return CreateMatchResultObject(*false*).
-        1. If IsSharedArrayBuffer(_value_) is *false*, return CreateMatchResultObject(*false*).
-        1. Return CreateMatchResultObject(*true*, _value_).
-      </emu-alg>
-    </emu-clause>
-    <emu-clause id="sec-typedarray-matcher">
-      <h1>%TypedArray% [ @@matcher ] ( _value_ )</h1>
-      <p>The following steps are taken:</p>
-      <emu-alg>
-        1. If _value_ does not have a [[TypedArrayName]] internal slot, return CreateMatchResultObject(*false*).
-        1. If _value_.[[TypedArrayName]] is not %TypedArray.name%, return CreateMatchResultObject(*false*).
-        1. Return CreateMatchResultObject(*true*, _value_).
-      </emu-alg>
-    </emu-clause>
-    <emu-clause id="sec-finalizationregistry-matcher">
-      <h1>FinalizationRegistry [ @@matcher ] ( _value_ )</h1>
-      <p>The following steps are taken:</p>
-      <emu-alg>
-        1. If _value_ does not have a [[CleanupCallback]] internal slot, return CreateMatchResultObject(*false*).
-        1. Return CreateMatchResultObject(*true*, _value_).
-      </emu-alg>
+      <emu-note type="editor">
+        TODO: remove this section and update section 20.5.2
+      </emu-note>
     </emu-clause>
   </emu-clause>
 </emu-clause>
@@ -1221,5 +1033,712 @@ contributors:
         1. Return ~unused~.
       </emu-alg>
     </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+<emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+<emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+<emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+<emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+<emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+<emu-clause id="sec-fundamental-objects">
+  <h1>Fundamental Objects</h1>
+
+  <emu-clause id="sec-object-objects">
+    <h1>Object Objects</h1>
+
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+    <emu-clause id="sec-properties-of-the-object-constructor">
+      <h1>Properties of the Object Constructor</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause id="sec-object-@@matcher">
+        <h1>Object [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is an Object.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. If Type(_value_) is not Object, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _value_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-function-objects">
+    <h1>Function Objects</h1>
+
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+    <emu-clause id="sec-properties-of-the-function-constructor">
+      <h1>Properties of the Function Constructor</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause id="sec-function-@@matcher">
+        <h1>Function [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is a Function.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. If IsCallable(_value_) is *false*, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _value_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-boolean-objects">
+    <h1>Boolean Objects</h1>
+
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+    <emu-clause id="sec-properties-of-the-boolean-constructor">
+      <h1>Properties of the Boolean Constructor</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause id="sec-boolean-@@matcher">
+        <h1>Boolean [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is a Boolean.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. Let _result_ be Completion(thisBooleanValue(_value_)).
+          1. If _result_ is an abrupt completion, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _result_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-symbol-objects">
+    <h1>Symbol Objects</h1>
+
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+    <emu-clause id="sec-properties-of-the-symbol-constructor">
+      <h1>Properties of the Symbol Constructor</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause id="sec-symbol-@@matcher">
+        <h1>Symbol [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is a Symbol.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. Let _result_ be Completion(thisSymbolValue(_value_)).
+          1. If _result_ is an abrupt completion, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _result_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-error-objects">
+    <h1>Error Objects</h1>
+
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+    <emu-clause id="sec-properties-of-the-error-constructor">
+      <h1>Properties of the Error Constructor</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause sec id="error-@@matcher">
+        <h1>Error [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is an Error.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. If Type(_value_) is not Object, or if _value_ does not have an [[ErrorData]] internal slot, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _value_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+  <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+  <emu-clause id="sec-nativeerror-object-structure">
+      <h1>_NativeError_ Object Structure</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause id="sec-properties-of-the-nativeerror-constructors">
+        <h1>Properties of the _NativeError_ Constructors</h1>
+
+        <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+        <emu-clause sec id="nativeerror-@@matcher">
+        <h1>_NativeError_ [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is a <code><var>NativeError</var></code>.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. If Type(_value_) is not Object, or if _value_ does not have an [[ErrorData]] internal slot, return CreateMatchResultObject(*false*).
+          1. NOTE: TODO: use either ? Get(_value_, *"name"*), or ? Get(_value_, *"constructor"*), or check if [[Prototype]] is %_NativeError_.prototype%, or add a _NativeError_ slot.
+          1. Return CreateMatchResultObject(*true*, _value_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-aggregate-error-objects">
+    <h1>AggregateError Objects</h1>
+
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+    <emu-clause id="sec-properties-of-the-aggregate-error-constructor">
+      <h1>Properties of the Error Constructor</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause sec id="aggregate-error-@@matcher">
+        <h1>Error [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is an AggregateError.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. If Type(_value_) is not Object, or if _value_ does not have an [[ErrorData]] internal slot, return CreateMatchResultObject(*false*).
+          1. NOTE: TODO: use either ? Get(_value_, *"name"*), or ? Get(_value_, *"constructor"*), or check if [[Prototype]] is %AggregateError.prototype%, or add a _NativeError_ slot.
+          1. Return CreateMatchResultObject(*true*, _value_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-numbers-and-dates">
+  <h1>Numbers and Dates</h1>
+
+  <emu-clause id="sec-number-objects">
+    <h1>Number Objects</h1>
+
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+    <emu-clause id="sec-properties-of-the-number-constructor">
+      <h1>Properties of the Number Constructor</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause id="sec-number-@@matcher">
+        <h1>Number [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is a Number.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. Let _result_ be Completion(thisNumberValue(_value_)).
+          1. If _result_ is an abrupt completion, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _result_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-bigint-objects">
+    <h1>BigInt Objects</h1>
+
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+    <emu-clause id="sec-properties-of-the-bigint-constructor">
+      <h1>Properties of the BigInt Constructor</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause id="sec-bigint-@@matcher">
+        <h1>BigInt [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is a BigInt.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. Let _result_ be Completion(thisBigIntValue(_value_)).
+          1. If _result_ is an abrupt completion, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _result_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+  <emu-clause id="sec-date-objects">
+    <h1>Date Objects</h1>
+
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+    <emu-clause id="sec-properties-of-the-date-constructor">
+      <h1>Properties of the Date Constructor</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause sec id="date-@@matcher">
+        <h1>Date [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is a Date.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. If Type(_value_) is not Object, or if _value_ does not have a [[DateValue]] internal slot, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _value_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-text-processing">
+  <h1>Text Processing</h1>
+
+  <emu-clause id="sec-string-objects">
+    <h1>String Objects</h1>
+
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+    <emu-clause id="sec-properties-of-the-string-constructor">
+      <h1>Properties of the String Constructor</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause sec id="string-@@matcher">
+        <h1>String [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is a String.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. Let _result_ be Completion(thisStringValue(_value_)).
+          1. If _result_ is an abrupt completion, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _result_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-regexp-regular-expression-objects">
+    <h1>RegExp (Regular Expression) Objects</h1>
+
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+    <emu-clause id="sec-properties-of-the-regexp-constructor">
+      <h1>Properties of the RegExp Constructor</h1>
+
+      <emu-clause sec id="regexp-@@matcher">
+        <h1>RegExp [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is a RegExp.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. Let _result_ be Completion(IsRegExp(_value_)).
+          1. If _result_ is an abrupt completion, or if _result_.[[Value]] is *false*, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _value_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+
+    <emu-clause id="sec-properties-of-the-regexp-prototype-object">
+      <h1>Properties of the RegExp Prototype Object</h1>
+
+      <emu-note type="editor">TODO: regexp prototype matcher</emu-note>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-indexed-collections">
+  <h1>Indexed Collections</h1>
+
+  <emu-clause id="sec-array-objects">
+    <h1>Array Objects</h1>
+
+    <emu-clause id="sec-properties-of-the-array-constructor">
+      <h1>Properties of the Array Constructor</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause sec id="array-@@matcher">
+        <h1>Array [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is an Array.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. Let _result_ be Completion(IsArray(_value_)).
+          1. If _result_ is an abrupt completion, or if _result_.[[Value]] is *false*, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _value_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-typedarray-objects">
+    <h1>TypedArray Objects</h1>
+
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+    <emu-clause id="sec-properties-of-the-typedarray-constructors">
+      <h1>Properties of the _TypedArray_ Constructors</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause sec id="typedarray-@@matcher">
+        <h1>_TypedArray_ [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is a _TypedArray_.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. If Type(_value_) is not Object, return CreateMatchResultObject(*false*).
+          1. If _value_ does not have a [[TypedArrayName]] internal slot, return CreateMatchResultObject(*false*).
+          1. If _value_.[[TypedArrayName]] is not _TypedArray_, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _value_).
+        </emu-alg>
+        <emu-note type="editor">TODO: probably i need to convert _TypedArray_ into a string to be able to do the comparison to the internal slot.</emu-note>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-keyed-collections" oldids="sec-keyed-collection">
+  <h1>Keyed Collections</h1>
+
+  <emu-clause id="sec-map-objects">
+    <h1>Map Objects</h1>
+
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+    <emu-clause id="sec-properties-of-the-map-constructor">
+      <h1>Properties of the Map Constructor</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause sec id="map-@@matcher">
+        <h1>Map [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is a Map.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. If Type(_value_) is not Object, or if _value_ does not have a [[MapData]] internal slot, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _value_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-set-objects">
+    <h1>Set Objects</h1>
+
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+    <emu-clause id="sec-properties-of-the-set-constructor">
+      <h1>Properties of the Set Constructor</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause sec id="set-@@matcher">
+        <h1>Set [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is a Set.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. If Type(_value_) is not Object, or if _value_ does not have a [[SetData]] internal slot, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _value_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-weakmap-objects">
+    <h1>WeakMap Objects</h1>
+
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+    <emu-clause id="sec-properties-of-the-weakmap-constructor">
+      <h1>Properties of the WeakMap Constructor</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause sec id="weakmap-@@matcher">
+        <h1>WeakMap [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is a WeakMap.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. If Type(_value_) is not Object, or if _value_ does not have a [[WeakMapData]] internal slot, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _value_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-weakset-objects">
+    <h1>WeakSet Objects</h1>
+
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+    <emu-clause id="sec-properties-of-the-weakset-constructor">
+      <h1>Properties of the WeakSet Constructor</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause sec id="weakset-@@matcher">
+        <h1>WeakSet [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is a WeakSet.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. If Type(_value_) is not Object, or if _value_ does not have a [[WeakSetData]] internal slot, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _value_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-structured-data">
+  <h1>Structured Data</h1>
+
+  <emu-clause id="sec-arraybuffer-objects">
+    <h1>ArrayBuffer Objects</h1>
+
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+    <emu-clause id="sec-properties-of-the-arraybuffer-constructor">
+      <h1>Properties of the ArrayBuffer Constructor</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause sec id="arraybuffer-@@matcher">
+        <h1>ArrayBuffer [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is an ArrayBuffer.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. If Type(_value_) is not Object, or if _value_ does not have an [[ArrayBufferData]] internal slot, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _value_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-sharedarraybuffer-objects">
+    <h1>SharedArrayBuffer Objects</h1>
+
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+    <emu-clause id="sec-properties-of-the-sharedarraybuffer-constructor">
+      <h1>Properties of the SharedArrayBuffer Constructor</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause sec id="sharedarraybuffer-@@matcher">
+        <h1>SharedArrayBuffer [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is a SharedArrayBuffer.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. If Type(_value_) is not Object, or if _value_ does not have an [[ArrayBufferData]] internal slot, return CreateMatchResultObject(*false*).
+          1. If IsSharedArrayBuffer(_value_) is *false*, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _value_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-dataview-objects">
+    <h1>DataView Objects</h1>
+
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+    <emu-clause id="sec-properties-of-the-dataview-constructor">
+      <h1>Properties of the DataView Constructor</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause sec id="dataview-@@matcher">
+        <h1>DataView [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is a DataView.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. If Type(_value_) is not Object, or if _value_ does not have a [[DataView]] internal slot, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _value_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-managing-memory">
+  <h1>Managing Memory</h1>
+
+  <emu-clause id="sec-weak-ref-objects">
+    <h1>WeakRef Objects</h1>
+
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+    <emu-clause id="sec-properties-of-the-weak-ref-constructor">
+      <h1>Properties of the WeakRef Constructor</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause sec id="weak-ref-@@matcher">
+        <h1>WeakRef [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is a WeakRef.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. If Type(_value_) is not Object, or if _value_ does not have a [[WeakRefTarget]] internal slot, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _value_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-finalization-registry-objects">
+    <h1>FinalizationRegistry Objects</h1>
+
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+    <emu-clause id="sec-properties-of-the-finalization-registry-constructor">
+      <h1>Properties of the FinalizationRegistry Constructor</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause sec id="finalization-registry-@@matcher">
+        <h1>FinalizationRegistry [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is a FinalizationRegistry.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. If Type(_value_) is not Object, or if _value_ does not have a [[Cells]] internal slot, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _value_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-control-abstraction-objects">
+  <h1>Control Abstraction Objects</h1>
+
+  <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+  <emu-clause id="sec-promise-objects">
+    <h1>Promise Objects</h1>
+
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+    <emu-clause id="sec-properties-of-the-promise-constructor">
+      <h1>Properties of the Promise Constructor</h1>
+
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause sec id="promise-@@matcher">
+        <h1>Promise [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is a Promise.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. If IsPromise(_value_) is *false*, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _value_).
+        </emu-alg>
+        <emu-note type="editor">
+          TODO: decide if we want to loosen this to accept thenables, breaking with the precedent set here by the rest of the built-in matchers.
+        </emu-note>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause id="sec-todo">
+  <h1>TODO</h1>
+
+  <emu-clause id="todo-constructors">
+    <h1>Confirm we do not want matchers for these constructors</h1>
+    <emu-alg>
+      1. Iterator/AsyncIterator (probably when Iterator Helpers advances).
+      1. Record/Tuple (definintely when R&T advances).
+      1. GeneratorFunction/AsyncFunction/AsyncGeneratorFunction (maybe).
+      1. Generator/AsyncGenerator (probably not).
+      1. Proxy (definitely not).
+    </emu-alg>
+  </emu-clause>
+
+  <emu-clause id="todo-boxed-prims">
+    <h1>Add builtin matchers on the prototype for relevant boxed primitives, matching hardcoded primitive matching</h1>
+    <emu-alg>
+      1. Boolean.
+      1. String.
+      1. Number.
+      1. Symbol.
+      1. BigInt.
+    </emu-alg>
   </emu-clause>
 </emu-clause>
