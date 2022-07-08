@@ -1397,7 +1397,29 @@ contributors:
     <emu-clause id="sec-properties-of-the-regexp-prototype-object">
       <h1>Properties of the RegExp Prototype Object</h1>
 
-      <emu-note type="editor">TODO: regexp prototype matcher</emu-note>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+      <emu-clause sec id="regexp-prototype-@@matcher">
+        <h1>RegExp.prototype [ @@matcher ] ( _value_ )</h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value matches the RegExp.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. Let _R_ be the *this* value.
+          1. Perform ? RequireInternalSlot(_R_, [[RegExpMatcher]]).
+          1. Let _S_ be ? ToString(_value_).
+          1. Let _result_ be ? RegExpBuiltinExec(_R_, _matchable_).
+          1. If _result_ is *null*, return CreateMatchResultObject(*false*).
+          1. Return CreateMatchResultObject(*true*, _result_).
+        </emu-alg>
+      </emu-clause>
     </emu-clause>
   </emu-clause>
 </emu-clause>
