@@ -172,7 +172,7 @@ match (res) {
 
   - We assume that
     [`do` expressions](https://github.com/tc39/proposal-do-expressions) will
-    mature soon, which will users to put multiple statements in an RHS; today,
+    mature soon, which will allow users to put multiple statements in an RHS; today,
     that requires an
     [IIFE](https://developer.mozilla.org/en-US/docs/Glossary/IIFE).
 
