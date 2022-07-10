@@ -114,6 +114,7 @@ Its current form was presented to TC39 in the April 2021 meeting
 ([slides](https://hackmd.io/@mpcsh/HkZ712ig_#/)).
 
 This proposal draws from, and partially overlaps with, corresponding features in
+[CoffeeScript](https://coffeescript.org/#switch),
 [Rust](https://doc.rust-lang.org/1.6.0/book/patterns.html),
 [Python](https://www.python.org/dev/peps/pep-0622/),
 [F#](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/pattern-matching),
