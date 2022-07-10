@@ -306,31 +306,40 @@ if the [matchable](#matchable) is `0x0a`. The RHS sees no new bindings.
 
 ```jsx
 class Option {
-  constructor(hasValue, value) {
-    this.hasValue = !!hasValue;
-    if(hasValue) {
-      this._value = value;
+  #value;
+  #hasValue = false;
+
+  constructor (hasValue, value) {
+    this.#hasValue = !!hasValue;
+    if (hasValue) {
+      this.#value = value;
     }
   }
+
   get value() {
-    if(this.hasValue) return this._value;
-    throw new Exception("Can't get the value of an Option.None.");
+    if (this.#hasValue) return this.#value;
+    throw new Exception('Can’t get the value of an Option.None.');
   }
+
   static Some(val) {
     return new Option(true, val);
   }
+
   static None() {
     return new Option(false);
   }
-}
 
-Option.Some[Symbol.matcher] = (val)=>({
-  matched: val instanceof Option && val.hasValue,
-  value: val._value,
-});
-Option.None[Symbol.matcher] = (val)=>({
-  matched: val instanceof Option && !val.hasValue
-});
+  static {
+    Option.Some[Symbol.matcher] = (val) => ({
+      matched: #hasValue in val && val.#hasValue,
+      value: val.value,
+    });
+
+    Option.None[Symbol.matcher] = (val) => ({
+      matched: #hasValue in val && !val.#hasValue
+    });
+  }
+}
 
 match (result) {
   when (${Option.Some} with val): console.log(val);
