@@ -13,6 +13,8 @@ jobs:
         node-version: '12.x'
     - run: npm install
     - run: npm run build
+    - run: '> .gitattributes'
+    - run: git diff --word-diff index.html
     - name: commit changes
       uses: elstudio/actions-js-build/commit@v3
       with:
