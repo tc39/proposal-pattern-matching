@@ -326,7 +326,7 @@ class Option {
 
 Option.Some[Symbol.matcher] = (val)=>({
   matched: val instanceof Option && val.hasValue,
-  value: val.value,
+  value: val._value,
 });
 Option.None[Symbol.matcher] = (val)=>({
   matched: val instanceof Option && !val.hasValue
