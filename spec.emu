@@ -518,8 +518,7 @@ contributors:
       </emu-grammar>
       <emu-alg>
         1. Let _regexp_ be the result of evaluating RegularExpressionLiteral.
-        1. If Type(_matchable_) is not a String, return *false*.
-        1. Let _result_ be ? RegExpBuiltinExec(_regexp_, _matchable_).
+        1. Let _result_ be ? RegExpBuiltinExec(_regexp_, ? ToString(_matchable_)).
         1. If _result_ is *null*, return *false*.
         1. Perform RegularExpressionNamedCaptureGroupBindingInitialization(_result_).
         1. Return ? MatchPatternMatches of MatchPattern with arguments _result_ and _cacheGroup_.
@@ -529,8 +528,7 @@ contributors:
       </emu-grammar>
       <emu-alg>
         1. Let _regexp_ be the result of evaluating RegularExpressionLiteral.
-        1. If Type(_matchable_) is not a String, return *false*.
-        1. Let _result_ be ? RegExpBuiltinExec(_regexp_, _matchable_).
+        1. Let _result_ be ? RegExpBuiltinExec(_regexp_, ? ToString(_matchable_)).
         1. If _result_ is *null*, return *false*.
         1. Perform RegularExpressionNamedCaptureGroupBindingInitialization(_result_).
         1. Return *true*.
@@ -1570,8 +1568,7 @@ contributors:
         <emu-alg>
           1. Let _R_ be the *this* value.
           1. Perform ? RequireInternalSlot(_R_, [[RegExpMatcher]]).
-          1. Let _S_ be ? ToString(_value_).
-          1. Let _result_ be ? RegExpBuiltinExec(_R_, _matchable_).
+          1. Let _result_ be ? RegExpBuiltinExec(_R_, ? ToString(_value_)).
           1. If _result_ is *null*, return CreateMatchResultObject(*false*).
           1. Return CreateMatchResultObject(*true*, _result_).
         </emu-alg>
