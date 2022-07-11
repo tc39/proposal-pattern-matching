@@ -86,12 +86,12 @@ contributors:
   <h1>Misc</h1>
 
   <emu-clause id="sec-create-match-record" type="abstract operation">
-    <h1>
+    <h1><ins>
       CreateMatchRecord (
         _matched_: a Boolean,
         optional _value_: an ECMAScript language value,
       ): a Match Record
-    </h1>
+    </ins></h1>
     <dl class="header">
     </dl>
     <emu-alg>
@@ -104,12 +104,12 @@ contributors:
   </emu-clause>
 
   <emu-clause id="sec-create-match-result" type="abstract operation">
-    <h1>
+    <h1><ins>
       CreateMatchResultObject (
         _matched_: a Boolean,
         optional _value_: an ECMAScript language value,
       ): an Object that conforms to the MatchResult interface
-    </h1>
+    </ins></h1>
     <dl class="header">
     </dl>
     <emu-alg>
@@ -163,7 +163,7 @@ contributors:
   <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
   <emu-clause id="sec-match-expression">
-    <h1>Match Expression</h1>
+    <h1><ins>Match Expression</ins></h1>
     <emu-clause id="sec-match-expression-syntax">
       <h1>Syntax</h1>
       <emu-note type="editor">Work in progress.</emu-note>
@@ -257,7 +257,7 @@ contributors:
       </emu-note>
     </emu-clause>
     <emu-clause id="sec-match-expression-early-errors">
-      <h1>Static Semantics: Early Errors</h1>
+      <h1><ins>Static Semantics: Early Errors</ins></h1>
       <emu-note type="editor">This section has not written in normative spec language yet.</emu-note>
       <emu-grammar>
         MatchClauses :
@@ -284,7 +284,7 @@ contributors:
       </ul>
     </emu-clause>
     <emu-clause id="sec-match-expression-runtime-semantics">
-      <h1>Runtime Semantics: Evaluation</h1>
+      <h1><ins>Runtime Semantics: Evaluation</ins></h1>
       <emu-grammar>
         MatchExpression ::
           `match` `(` Expression `)` `{` MatchClauses? `}`
@@ -309,7 +309,7 @@ contributors:
       </emu-note>
     </emu-clause>
     <emu-clause id="sec-match-clauses-evaluation" type="sdo">
-      <h1>Runtime Semantics: MatchClausesEvaluation</h1>
+      <h1><ins>Runtime Semantics: MatchClausesEvaluation</ins></h1>
       <p>The syntax-directed operation MatchClausesEvaluation takes argument _matchable_ (an ECMAScript language value) and _cacheGroup_ (a %WeakMap%) and returns either a normal completion containing a Match Record or an abrupt completion. It is defined piecewise over the following productions:</p>
       <emu-grammar>
         MatchClauses : MatchClause
@@ -327,7 +327,7 @@ contributors:
       </emu-alg>
     </emu-clause>
     <emu-clause id="sec-match-clause-evaluation" type="sdo">
-      <h1>Runtime Semantics: MatchClauseEvaluation</h1>
+      <h1><ins>Runtime Semantics: MatchClauseEvaluation</ins></h1>
       <p>The syntax-directed operation MatchClauseEvaluation takes argument _matchable_ (an ECMAScript language value) and _cacheGroup_ (a %WeakMap%) and returns either a normal completion containing a Match Record or an abrupt completion. It is defined piecewise over the following productions:</p>
       <emu-grammar>
         MatchClause : `when` `(` MatchPattern `)` `if` `(` Expression `)` `:` Expression
@@ -387,7 +387,7 @@ contributors:
       </emu-alg>
     </emu-clause>
     <emu-clause id="sec-match-pattern-matches" type="sdo">
-      <h1>Runtime Semantics: MatchPatternMatches</h1>
+      <h1><ins>Runtime Semantics: MatchPatternMatches</ins></h1>
       <p>The syntax-directed operation MatchPatternMatches takes argument _matchable_ (an ECMAScript language value) and _cacheGroup_ (a %WeakMap%) and returns either a normal completion containing a Boolean or an abrupt completion. It is defined piecewise over the following productions:</p>
       <emu-grammar>
         MatchPattern : CombinedMatchPattern
@@ -439,7 +439,7 @@ contributors:
       </emu-alg>
     </emu-clause>
     <emu-clause id="sec-combined-match-pattern-matches" type="sdo">
-      <h1>Runtime Semantics: CombinedMatchPatternMatches</h1>
+      <h1><ins>Runtime Semantics: CombinedMatchPatternMatches</ins></h1>
       <p>The syntax-directed operation CombinedMatchPatternMatches takes argument _matchable_ (an ECMAScript language value) and _cacheGroup_ (a %WeakMap%) and returns either a normal completion containing a Boolean or an abrupt completion. It is defined piecewise over the following productions:</p>
       <emu-grammar>
         CombinedMatchPattern : MatchPattern `or` MatchPattern
@@ -459,7 +459,7 @@ contributors:
       </emu-alg>
     </emu-clause>
     <emu-clause id="sec-interpolation-pattern-matches" type="sdo">
-      <h1>Runtime Semantics: InterpolationPatternMatches</h1>
+      <h1><ins>Runtime Semantics: InterpolationPatternMatches</ins></h1>
       <p>The syntax-directed operation InterpolationPatternMatches takes argument _matchable_ (an ECMAScript language value) and _cacheGroup_ (a %WeakMap%) and returns either a normal completion containing a Boolean or an abrupt completion. It is defined piecewise over the following productions:</p>
       <emu-grammar>
         InterpolationPattern : `${` Expression `}`
@@ -485,7 +485,7 @@ contributors:
       </emu-alg>
     </emu-clause>
     <emu-clause id="sec-near-literal-match-pattern-matches" type="sdo">
-      <h1>Runtime Semantics: NearLiteralMatchPatternMatches</h1>
+      <h1><ins>Runtime Semantics: NearLiteralMatchPatternMatches</ins></h1>
       <p>The syntax-directed operation NearLiteralMatchPatternMatches takes argument _matchable_ (an ECMAScript language value) and _cacheGroup_ (a %WeakMap%) and returns either a normal completion containing a Boolean or an abrupt completion. It is defined piecewise over the following productions:</p>
       <emu-grammar>
         NearLiteralMatchPattern : NullLiteral
@@ -579,7 +579,7 @@ contributors:
       </emu-alg>
     </emu-clause>
     <emu-clause id="sec-destructuring-match-pattern-matches" type="sdo">
-      <h1>Runtime Semantics: DestructuringMatchPatternMatches</h1>
+      <h1><ins>Runtime Semantics: DestructuringMatchPatternMatches</ins></h1>
       <p>The syntax-directed operation DestructuringMatchPatternMatches takes argument _matchable_ (an ECMAScript language value) and _cacheGroup_ (a %WeakMap%) and returns either a normal completion containing a Boolean or an abrupt completion. It is defined piecewise over the following productions:</p>
       <emu-grammar>
         ObjectMatchPattern : `{` `}`
@@ -654,7 +654,7 @@ contributors:
       </emu-alg>
     </emu-clause>
     <emu-clause id="sec-match-property-evaluation" type="sdo">
-      <h1>Runtime Semantics: MatchPropertyEvaluation</h1>
+      <h1><ins>Runtime Semantics: MatchPropertyEvaluation</ins></h1>
       <p>The syntax-directed operation MatchPropertyEvaluation takes argument _matchable_ (an ECMAScript language value) and _cacheGroup_ (a %WeakMap%) and returns either a normal completion containing a *false* (not matched) or a List (excluded name for rest match) or an abrupt completion. It is defined piecewise over the following productions:</p>
       <emu-grammar>
         MatchPropertyList : MatchProperty
@@ -695,7 +695,7 @@ contributors:
       </emu-alg>
     </emu-clause>
     <emu-clause id="sec-match-rest-property-evaluation" type="sdo">
-      <h1>Runtime Semantics: MatchRestPropertyEvaluation</h1>
+      <h1><ins>Runtime Semantics: MatchRestPropertyEvaluation</ins></h1>
       <p>The syntax-directed operation MatchRestPropertyEvaluation takes argument _matchable_ (an ECMAScript language value), _cacheGroup_ (a %WeakMap%) and _excludedNames_ (a List) and returns ~unused~ or an abrupt completion. It is defined piecewise over the following productions:</p>
       <emu-grammar>
         MatchRestProperty : `...` IdentifierMatchPattern
@@ -710,7 +710,7 @@ contributors:
       </emu-alg>
     </emu-clause>
     <emu-clause id="sec-match-element-evaluation" type="sdo">
-      <h1>Runtime Semantics: MatchElementEvaluation</h1>
+      <h1><ins>Runtime Semantics: MatchElementEvaluation</ins></h1>
       <p>The syntax-directed operation MatchElementEvaluation takes argument _matchable_ (an ECMAScript language value), _cacheGroup_ (a %WeakMap%) and _counter_ (a Record) and returns either a normal completion containing a Boolean or an abrupt completion. It is defined piecewise over the following productions:</p>
       <emu-grammar>
         MatchRestElement : `...` MatchPattern?
@@ -778,7 +778,7 @@ contributors:
     </emu-clause>
 
     <emu-clause id="sec-match-record">
-      <h1>Match Records</h1>
+      <h1><ins>Match Records</ins></h1>
       <p>A Match Record is a Record value used to represent the match result of the match clause.</p>
       <p>Match Record have the fields listed in Table 1.</p>
       <emu-table>
@@ -792,12 +792,12 @@ contributors:
     </emu-clause>
 
     <emu-clause id="sec-custom-matcher" type="abstract operation">
-      <h1>
+      <h1><ins>
         InvokeCustomMatcher (
           _val_: an ECMAScript language value,
           _matchable_: an ECMAScript language value,
         ): either a normal completion containing an ECMAScript language value or an abrupt completion
-      </h1>
+      </ins></h1>
       <dl class="header">
       </dl>
       <emu-alg>
@@ -813,11 +813,11 @@ contributors:
     </emu-clause>
 
     <emu-clause id="sec-regex-named-capture-group-binding" type="abstract operation">
-      <h1>
+      <h1><ins>
         RegularExpressionNamedCaptureGroupBindingInitialization (
           _regexMatchResult_: an Array,
         ): ~unused~
-      </h1>
+      </ins></h1>
       <dl class="header">
       </dl>
       <emu-alg>
@@ -837,12 +837,12 @@ contributors:
     </emu-clause>
 
     <emu-clause id="sec-get-match-cache" type="abstract operation">
-      <h1>
+      <h1><ins>
         GetMatchCache (
           _cacheGroup_: a WeakMap,
           _object_: an ECMAScript language value,
         ): an ECMAScript language value
-      </h1>
+      </ins></h1>
       <dl class="header">
       </dl>
       <emu-alg>
@@ -862,13 +862,13 @@ contributors:
     </emu-clause>
 
     <emu-clause id="sec-match-cached-has-property" type="abstract operation">
-      <h1>
+      <h1><ins>
         MatchCachedHasProperty (
           _cacheGroup_: a WeakMap,
           _object_: an ECMAScript language value,
           _propertyName_: a property key,
         ): either a normal completion containing a Boolean or an abrupt completion
-      </h1>
+      </ins></h1>
       <dl class="header">
       </dl>
       <emu-alg>
@@ -882,13 +882,13 @@ contributors:
     </emu-clause>
 
     <emu-clause id="sec-match-cached-get" type="abstract operation">
-      <h1>
+      <h1><ins>
         MatchCachedGet (
           _cacheGroup_: a WeakMap,
           _object_: an ECMAScript language value,
           _propertyName_: a property key,
         ): either a normal completion containing an ECMAScript language value or an abrupt completion
-      </h1>
+      </ins></h1>
       <dl class="header">
       </dl>
       <emu-alg>
@@ -902,12 +902,12 @@ contributors:
     </emu-clause>
 
     <emu-clause id="sec-match-cached-is-iterable" type="abstract operation">
-      <h1>
+      <h1><ins>
         MatchCachedIsIterable (
           _cacheGroup_: a WeakMap,
           _object_: an ECMAScript language value,
         ): either a normal completion containing a Boolean or an abrupt completion
-      </h1>
+      </ins></h1>
       <dl class="header">
       </dl>
       <emu-alg>
@@ -918,12 +918,12 @@ contributors:
     </emu-clause>
 
     <emu-clause id="sec-match-cached-get-iterator" type="abstract operation">
-      <h1>
+      <h1><ins>
         MatchCachedGetIterator (
           _cacheGroup_: a WeakMap,
           _object_: an ECMAScript language value,
         ): either a normal completion containing an Iterator Record or an abrupt completion
-      </h1>
+      </ins></h1>
       <dl class="header">
       </dl>
       <emu-alg>
@@ -940,12 +940,12 @@ contributors:
     </emu-clause>
 
     <emu-clause id="sec-match-cached-iterator-step" type="abstract operation">
-      <h1>
+      <h1><ins>
         MatchCachedIteratorStep (
           _cacheGroup_: a WeakMap,
           _iterator_: an Iterator Record,
         ): either a normal completion containing a Match Record or an abrupt completion
-      </h1>
+      </ins></h1>
       <dl class="header">
       </dl>
       <emu-alg>
@@ -967,13 +967,13 @@ contributors:
     </emu-clause>
 
     <emu-clause id="sec-match-cached-get-iterator-nth-item" type="abstract operation">
-      <h1>
+      <h1><ins>
         MatchCachedGetIteratorNthItem (
           _cacheGroup_: a WeakMap,
           _iterator_: an Iterator Record,
           _n_: a Number,
         ): either a normal completion containing a Match Record or an abrupt completion
-      </h1>
+      </ins></h1>
       <dl class="header">
       </dl>
       <emu-alg>
@@ -987,13 +987,13 @@ contributors:
     </emu-clause>
 
     <emu-clause id="sec-match-iterator-length-match" type="abstract operation">
-      <h1>
+      <h1><ins>
         MatchIteratorLengthMatch (
           _cacheGroup_: a WeakMap,
           _matchable_: an ECMAScript language value,
           _lastIndex_: a Number,
         ): either a normal completion containing a Boolean or an abrupt completion
-      </h1>
+      </ins></h1>
       <dl class="header">
       </dl>
       <emu-alg>
@@ -1013,11 +1013,11 @@ contributors:
     </emu-clause>
 
     <emu-clause id="sec-close-iterators" type="abstract operation">
-      <h1>
+      <h1><ins>
         CloseIterators (
           _iterators_: a List of Iterator Records
         ): either a normal completion containing ~unused~ or a throw completion
-      </h1>
+      </ins></h1>
       <dl class="header">
       </dl>
       <emu-alg>
@@ -1036,12 +1036,12 @@ contributors:
     </emu-clause>
 
     <emu-clause id="sec-add-match-binding" type="abstract operation">
-      <h1>
+      <h1><ins>
         AddMatchBinding (
           _name_: a String,
           _value_: an ECMAScript language value
         ): ~unused~
-      </h1>
+      </ins></h1>
       <dl class="header">
       </dl>
       <emu-alg>
@@ -1098,7 +1098,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause id="sec-object-@@matcher">
-        <h1>Object [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>Object [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is an Object.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1121,7 +1121,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause id="sec-function-@@matcher">
-        <h1>Function [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>Function [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a Function.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1143,7 +1143,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause id="sec-boolean-@@matcher">
-        <h1>Boolean [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>Boolean [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a Boolean.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1162,7 +1162,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause id="sec-boolean-prototype-@@matcher">
-        <h1>Boolean.prototype [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>Boolean.prototype [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a matching Boolean.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1201,7 +1201,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause id="sec-symbol-@@matcher">
-        <h1>Symbol [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>Symbol [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a Symbol.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1221,7 +1221,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause id="sec-symbol-prototype-@@matcher">
-        <h1>Symbol.prototype [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>Symbol.prototype [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is the same Symbol.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1245,7 +1245,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause sec id="error-@@matcher">
-        <h1>Error [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>Error [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is an Error.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1270,7 +1270,7 @@ contributors:
         <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
         <emu-clause sec id="nativeerror-@@matcher">
-        <h1>_NativeError_ [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>_NativeError_ [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a <code><var>NativeError</var></code>.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1293,7 +1293,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause sec id="aggregate-error-@@matcher">
-        <h1>Error [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>Error [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is an AggregateError.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1334,7 +1334,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause id="sec-number-@@matcher">
-        <h1>Number [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>Number [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a Number.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1357,7 +1357,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause id="sec-number-prototype-@@matcher">
-        <h1>Number.prototype [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>Number.prototype [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is the same Number.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1383,7 +1383,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause id="sec-bigint-@@matcher">
-        <h1>BigInt [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>BigInt [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a BigInt.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1404,7 +1404,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause id="sec-bigint-prototype-@@matcher">
-        <h1>BigInt.prototype [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>BigInt.prototype [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is the same BigInt.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1434,7 +1434,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause sec id="date-@@matcher">
-        <h1>Date [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>Date [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a Date.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1463,7 +1463,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause sec id="string-@@matcher">
-        <h1>String [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>String [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a String.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1513,7 +1513,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause id="sec-string-prototype-@@matcher">
-        <h1>String.prototype [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>String.prototype [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is the same String.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1537,7 +1537,7 @@ contributors:
       <h1>Properties of the RegExp Constructor</h1>
 
       <emu-clause sec id="regexp-@@matcher">
-        <h1>RegExp [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>RegExp [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a RegExp.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1562,7 +1562,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause sec id="regexp-prototype-@@matcher">
-        <h1>RegExp.prototype [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>RegExp.prototype [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value matches the RegExp.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1593,7 +1593,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause sec id="array-@@matcher">
-        <h1>Array [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>Array [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is an Array.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1621,7 +1621,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause sec id="typedarray-@@matcher">
-        <h1>_TypedArray_ [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>_TypedArray_ [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a _TypedArray_.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1651,7 +1651,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause sec id="map-@@matcher">
-        <h1>Map [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>Map [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a Map.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1674,7 +1674,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause sec id="set-@@matcher">
-        <h1>Set [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>Set [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a Set.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1696,7 +1696,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause sec id="weakmap-@@matcher">
-        <h1>WeakMap [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>WeakMap [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a WeakMap.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1718,7 +1718,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause sec id="weakset-@@matcher">
-        <h1>WeakSet [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>WeakSet [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a WeakSet.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1748,7 +1748,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause sec id="arraybuffer-@@matcher">
-        <h1>ArrayBuffer [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>ArrayBuffer [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is an ArrayBuffer.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1772,7 +1772,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause sec id="sharedarraybuffer-@@matcher">
-        <h1>SharedArrayBuffer [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>SharedArrayBuffer [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a SharedArrayBuffer.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1796,7 +1796,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause sec id="dataview-@@matcher">
-        <h1>DataView [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>DataView [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a DataView.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1822,7 +1822,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause sec id="weak-ref-@@matcher">
-        <h1>WeakRef [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>WeakRef [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a WeakRef.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1844,7 +1844,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause sec id="finalization-registry-@@matcher">
-        <h1>FinalizationRegistry [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>FinalizationRegistry [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a FinalizationRegistry.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
@@ -1881,7 +1881,7 @@ contributors:
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause sec id="promise-@@matcher">
-        <h1>Promise [ @@matcher ] ( _value_ )</h1>
+        <h1><ins>Promise [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a Promise.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
