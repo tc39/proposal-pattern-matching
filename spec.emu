@@ -122,29 +122,6 @@ contributors:
       1. Return _obj_.
     </emu-alg>
   </emu-clause>
-
-  <emu-clause id="sec-class-matcher">
-    <h1>Class matcher</h1>
-    <emu-clause id="sec-error-matcher">
-      <h1>Error [ @@matcher ] ( _value_ )</h1>
-      <p>The following steps are taken:</p>
-      <emu-alg>
-        1. If _value_ does not have a [[ErrorData]] internal slot, return CreateMatchResultObject(*false*).
-        1. Let _self_ be the *this* value.
-        1. Let _constructor_ be ? Get(_value_, "constructor").
-        1. If Type(_constructor_) is not Function, return CreateMatchResultObject(*false*).
-        1. If _self_ is _constructor_, return CreateMatchResultObject(*true*, _value_).
-        1. Let _name_ be ? Get(_self_, *"name"*).
-        1. If _name_ is not String, return CreateMatchResultObject(*false*).
-        1. Let _valueName_ be ? Get(_constructor_, *"name"*).
-        1. If _name_ is _valueName_, return CreateMatchResultObject(*true*, _value_).
-        1. Return CreateMatchResultObject(*false*).
-      </emu-alg>
-      <emu-note type="editor">
-        TODO: remove this section and update section 20.5.2
-      </emu-note>
-    </emu-clause>
-  </emu-clause>
 </emu-clause>
 
 <emu-clause id="sec-placeholder-8"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
@@ -1265,7 +1242,24 @@ contributors:
     <emu-clause id="sec-nativeerror-object-structure">
       <h1>_NativeError_ Object Structure</h1>
 
-      <emu-clause id="sec-placeholder-20-5-6-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-nativeerror-constructors">
+        <h1>The _NativeError_ Constructors</h1>
+
+        <emu-clause id="sec-nativeerror">
+          <h1>_NativeError_ ( _message_ [ , _options_ ] )</h1>
+          <p>When a _NativeError_ function is called with argument _message_ and optional argument _options_, the following steps are taken:</p>
+          <emu-alg>
+            1. If NewTarget is *undefined*, let _newTarget_ be the active function object; else let _newTarget_ be NewTarget.
+            1. [id="step-nativerror-ordinarycreatefromconstructor"] Let _O_ be ? OrdinaryCreateFromConstructor(_newTarget_, <code>"%<var>NativeError</var>.prototype%"</code>, &laquo; [[ErrorData]]<ins>, [[ErrorType]]</ins> &raquo;).
+            1. <ins>Set _O_.[[ErrorType]] to the String value consisting of the name of the constructor (the name used instead of _NativeError_).</ins>
+            1. If _message_ is not *undefined*, then
+              1. Let _msg_ be ? ToString(_message_).
+              1. Perform CreateNonEnumerableDataPropertyOrThrow(_O_, *"message"*, _msg_).
+            1. Perform ? InstallErrorCause(_O_, _options_).
+            1. Return _O_.
+          </emu-alg>
+        </emu-clause>
+      </emu-clause>
 
       <emu-clause id="sec-properties-of-the-nativeerror-constructors">
         <h1>Properties of the _NativeError_ Constructors</h1>
@@ -1278,7 +1272,8 @@ contributors:
           <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
           <emu-alg>
             1. If Type(_value_) is not Object, or if _value_ does not have an [[ErrorData]] internal slot, return CreateMatchResultObject(*false*).
-            1. NOTE: TODO: use either ? Get(_value_, *"name"*), or ? Get(_value_, *"constructor"*), or check if [[Prototype]] is %_NativeError_.prototype%, or add a _NativeError_ slot.
+            1. Let _expectedName_ be the String value consisting of the name of the constructor (the name used instead of _NativeError_).
+            1. If _value_ does not have an [[ErrorType]] internal slot, or _value_.[[ErrorType]] is not _expectedName_, return CreateMatchResultObject(*false*).
             1. Return CreateMatchResultObject(*true*, _value_).
           </emu-alg>
         </emu-clause>
@@ -1288,7 +1283,26 @@ contributors:
     <emu-clause id="sec-aggregate-error-objects">
       <h1>AggregateError Objects</h1>
 
-      <emu-clause id="sec-placeholder-20-5-7-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-aggregate-error-constructor">
+        <h1>The AggregateError Constructor</h1>
+
+        <emu-clause id="sec-aggregate-error">
+          <h1>AggregateError ( _errors_, _message_ [ , _options_ ] )</h1>
+          <p>When the *AggregateError* function is called with arguments _errors_ and _message_ and optional argument _options_, the following steps are taken:</p>
+          <emu-alg>
+            1. If NewTarget is *undefined*, let _newTarget_ be the active function object; else let _newTarget_ be NewTarget.
+            1. Let _O_ be ? OrdinaryCreateFromConstructor(_newTarget_, *"%AggregateError.prototype%"*, &laquo; [[ErrorData]]<ins>, [[ErrorType]]</ins> &raquo;).
+            1. <ins>Set _O_.[[ErrorType]] to ~AggregateError~.</ins>
+            1. If _message_ is not *undefined*, then
+              1. Let _msg_ be ? ToString(_message_).
+              1. Perform CreateNonEnumerableDataPropertyOrThrow(_O_, *"message"*, _msg_).
+            1. Perform ? InstallErrorCause(_O_, _options_).
+            1. Let _errorsList_ be ? IterableToList(_errors_).
+            1. Perform ! DefinePropertyOrThrow(_O_, *"errors"*, PropertyDescriptor { [[Configurable]]: *true*, [[Enumerable]]: *false*, [[Writable]]: *true*, [[Value]]: CreateArrayFromList(_errorsList_) }).
+            1. Return _O_.
+          </emu-alg>
+        </emu-clause>
+      </emu-clause>
 
       <emu-clause id="sec-properties-of-the-aggregate-error-constructor">
         <h1>Properties of the AggregateError Constructor</h1>
@@ -1301,7 +1315,7 @@ contributors:
           <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
           <emu-alg>
             1. If Type(_value_) is not Object, or if _value_ does not have an [[ErrorData]] internal slot, return CreateMatchResultObject(*false*).
-            1. NOTE: TODO: use either ? Get(_value_, *"name"*), or ? Get(_value_, *"constructor"*), or check if [[Prototype]] is %AggregateError.prototype%, or add a _NativeError_ slot.
+            1. If _value_ does not have an [[ErrorType]] internal slot, or _value_.[[ErrorType]] is not ~AggregateError~, return CreateMatchResultObject(*false*).
             1. Return CreateMatchResultObject(*true*, _value_).
           </emu-alg>
         </emu-clause>
