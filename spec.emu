@@ -469,8 +469,8 @@ contributors:
         1. Let _exprRef_ be evaluating the Expression.
         1. Let _exprVal_ be ? GetValue(_exprRef_).
         1. Let _result_ be ? InvokeCustomMatcher(_exprVal_, _matchable_).
-        1. If _result_ is an ECMAScript language value, return *true*.
-        1. Return _result_.
+        1. If _result_ is ~not-matched~, return *false*.
+        1. Return *true*.
       </emu-alg>
       <emu-grammar>
         InterpolationPattern : `${` Expression `}` `with` MatchPattern
@@ -479,10 +479,8 @@ contributors:
         1. Let _exprRef_ be evaluating the Expression.
         1. Let _exprVal_ be ? GetValue(_exprRef_).
         1. Let _result_ be ? InvokeCustomMatcher(_exprVal_, _matchable_).
-        1. If _result_ is *false*, return *false*.
-        1. If _result_ is an ECMAScript language value, then
-          1. Return ? MatchPatternMatches of MatchPattern with arguments _result_ and _cacheGroup_.
-        1. Return ? MatchPatternMatches of MatchPattern with arguments _matchable_ and _cacheGroup_.
+        1. If _result_ is ~not-matched~, return *false*.
+        1. Return ? MatchPatternMatches of MatchPattern with arguments _result_ and _cacheGroup_.
       </emu-alg>
     </emu-clause>
     <emu-clause id="sec-near-literal-match-pattern-matches" type="sdo">
@@ -802,13 +800,15 @@ contributors:
       <dl class="header">
       </dl>
       <emu-alg>
-        1. If Type(_val_) is not Object, return SameValueZero(_val_, _matchable_).
+        1. If Type(_val_) is not Object, then
+          1. If SameValueZero(_val_, _matchable_), return _val_.
+          1. Return ~not-matched~.
         1. Let _matcher_ be ? Get(_val_, @@matcher).
         1. If IsCallable(_matcher_) is *false*, throw a *TypeError* exception.
         1. Let _result_ be ? Call(_matcher_, _val_, « _matchable_ »).
         1. If Type(_result_) is not Object, throw a *TypeError* exception.
         1. Let _matched_ be ToBoolean(? Get(_result_, *"matched"*)).
-        1. If _matched_ is *false*, return *false*.
+        1. If _matched_ is *false*, return ~not-matched~.
         1. Return ? Get(_result_, *"value"*).
       </emu-alg>
     </emu-clause>
