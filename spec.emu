@@ -795,7 +795,7 @@ contributors:
         InvokeCustomMatcher (
           _val_: an ECMAScript language value,
           _matchable_: an ECMAScript language value,
-        ): either a normal completion containing an ECMAScript language value or an abrupt completion
+        ): either a normal completion containing either an ECMAScript language value or ~not-matched~, or an abrupt completion
       </ins></h1>
       <dl class="header">
       </dl>
