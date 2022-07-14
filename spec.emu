@@ -806,6 +806,9 @@ contributors:
         1. Let _matcher_ be ? Get(_val_, @@matcher).
         1. If IsCallable(_matcher_) is *false*, throw a *TypeError* exception.
         1. Let _result_ be ? Call(_matcher_, _val_, « _matchable_ »).
+        1. If Type(_result_) is Boolean, then
+          1. If _result_ is *false*, return ~not-matched~.
+          1. Return _val_.
         1. If Type(_result_) is not Object, throw a *TypeError* exception.
         1. Let _matched_ be ToBoolean(? Get(_result_, *"matched"*)).
         1. If _matched_ is *false*, return ~not-matched~.
