@@ -1292,12 +1292,12 @@ contributors:
       <emu-clause id="sec-placeholder-20-5-7-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause id="sec-properties-of-the-aggregate-error-constructor">
-        <h1>Properties of the Error Constructor</h1>
+        <h1>Properties of the AggregateError Constructor</h1>
 
         <emu-clause id="sec-placeholder-20-5-7-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
         <emu-clause sec id="aggregate-error-@@matcher">
-          <h1><ins>Error [ @@matcher ] ( _value_ )</ins></h1>
+          <h1><ins>AggregateError [ @@matcher ] ( _value_ )</ins></h1>
           <p>This function is called by ECMAScript pattern matching to determine if the value is an AggregateError.</p>
           <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
           <emu-alg>
