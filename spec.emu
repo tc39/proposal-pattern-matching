@@ -128,7 +128,7 @@ contributors:
       MatchConstructorInstance (
         _value_: an Object,
         _target_: an ECMAScript language value,
-        _intrinsicName_: a String,
+        optional _intrinsicName_: a String,
       ): either a normal completion containing an Object that conforms to the MatchResult interface, or an abrupt completion
     </ins></h1>
     <dl class="header">
@@ -137,7 +137,7 @@ contributors:
       1. Let _O_ be _value_.
       1. Repeat,
         1. Let _C_ be ? Get(_O_, *"constructor"*).
-        1. If _C_ matches the intrinsic described in <emu-xref href="#table-well-known-intrinsic-objects"></emu-xref> by _intrinsicName_ in any realm, then
+        1. If _intrinsicName_ is present, and _C_ matches the intrinsic described in <emu-xref href="#table-well-known-intrinsic-objects"></emu-xref> by _intrinsicName_ in any realm, then
           1. Return CreateMatchResultObject(*true*, _value_).
         1. If IsConstructor(_target_) is *true*, and SameValue(_C_, _target_) is *true*, then
           1. Return CreateMatchResultObject(*true*, _value_).
@@ -1132,6 +1132,30 @@ contributors:
           1. Return ? MatchConstructorInstance(_value_, *this* value, *"%Function%"*).
         </emu-alg>
       </emu-clause>
+    </emu-clause>
+
+    <emu-clause id="sec-properties-of-the-function-prototype-object">
+      <h1>Properties of the Function Prototype Object</h1>
+
+      <emu-clause id="sec-placeholder-20-2-3-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder-20-2-3-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder-20-2-3-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder-20-2-3-4"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder-20-2-3-5"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder-20-2-3-6"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+    </emu-clause>
+
+    <emu-clause id="sec-function-prototype-@@matcher">
+      <h1><ins>Function.prototype [ @@matcher ] ( _value_ )</ins></h1>
+      <p>This function is called by ECMAScript pattern matching to determine if the value is a Function, or an instance of a class constructor.</p>
+      <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+      <emu-alg>
+        1. If the *this* value is %Function% from any realm, then
+          1. If IsCallable(_value_) is *false*, return CreateMatchResultObject(*false*).
+          1. Return ? MatchConstructorInstance(_value_, *this* value, *"%Function%"*).
+          1. NOTE: TODO: update intrinsics syntax so these 2 lines can invoke the `Function[@@matcher]` intrinsic directly.
+        1. Return ? MatchConstructorInstance(_value_, *this* value).
+      </emu-alg>
     </emu-clause>
   </emu-clause>
 
