@@ -1258,12 +1258,12 @@ contributors:
         </emu-alg>
       </emu-clause>
     </emu-clause>
-  </emu-clause>
 
-  <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-  <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
-  <emu-clause id="sec-nativeerror-object-structure">
+    <emu-clause id="sec-nativeerror-object-structure">
       <h1>_NativeError_ Object Structure</h1>
 
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
@@ -1274,37 +1274,38 @@ contributors:
         <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
         <emu-clause sec id="nativeerror-@@matcher">
-        <h1><ins>_NativeError_ [ @@matcher ] ( _value_ )</ins></h1>
-        <p>This function is called by ECMAScript pattern matching to determine if the value is a <code><var>NativeError</var></code>.</p>
-        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
-        <emu-alg>
-          1. If Type(_value_) is not Object, or if _value_ does not have an [[ErrorData]] internal slot, return CreateMatchResultObject(*false*).
-          1. NOTE: TODO: use either ? Get(_value_, *"name"*), or ? Get(_value_, *"constructor"*), or check if [[Prototype]] is %_NativeError_.prototype%, or add a _NativeError_ slot.
-          1. Return CreateMatchResultObject(*true*, _value_).
-        </emu-alg>
+          <h1><ins>_NativeError_ [ @@matcher ] ( _value_ )</ins></h1>
+          <p>This function is called by ECMAScript pattern matching to determine if the value is a <code><var>NativeError</var></code>.</p>
+          <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+          <emu-alg>
+            1. If Type(_value_) is not Object, or if _value_ does not have an [[ErrorData]] internal slot, return CreateMatchResultObject(*false*).
+            1. NOTE: TODO: use either ? Get(_value_, *"name"*), or ? Get(_value_, *"constructor"*), or check if [[Prototype]] is %_NativeError_.prototype%, or add a _NativeError_ slot.
+            1. Return CreateMatchResultObject(*true*, _value_).
+          </emu-alg>
+        </emu-clause>
       </emu-clause>
     </emu-clause>
-  </emu-clause>
 
-  <emu-clause id="sec-aggregate-error-objects">
-    <h1>AggregateError Objects</h1>
-
-    <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-properties-of-the-aggregate-error-constructor">
-      <h1>Properties of the Error Constructor</h1>
+    <emu-clause id="sec-aggregate-error-objects">
+      <h1>AggregateError Objects</h1>
 
       <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
-      <emu-clause sec id="aggregate-error-@@matcher">
-        <h1><ins>Error [ @@matcher ] ( _value_ )</ins></h1>
-        <p>This function is called by ECMAScript pattern matching to determine if the value is an AggregateError.</p>
-        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
-        <emu-alg>
-          1. If Type(_value_) is not Object, or if _value_ does not have an [[ErrorData]] internal slot, return CreateMatchResultObject(*false*).
-          1. NOTE: TODO: use either ? Get(_value_, *"name"*), or ? Get(_value_, *"constructor"*), or check if [[Prototype]] is %AggregateError.prototype%, or add a _NativeError_ slot.
-          1. Return CreateMatchResultObject(*true*, _value_).
-        </emu-alg>
+      <emu-clause id="sec-properties-of-the-aggregate-error-constructor">
+        <h1>Properties of the Error Constructor</h1>
+
+        <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+
+        <emu-clause sec id="aggregate-error-@@matcher">
+          <h1><ins>Error [ @@matcher ] ( _value_ )</ins></h1>
+          <p>This function is called by ECMAScript pattern matching to determine if the value is an AggregateError.</p>
+          <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+          <emu-alg>
+            1. If Type(_value_) is not Object, or if _value_ does not have an [[ErrorData]] internal slot, return CreateMatchResultObject(*false*).
+            1. NOTE: TODO: use either ? Get(_value_, *"name"*), or ? Get(_value_, *"constructor"*), or check if [[Prototype]] is %AggregateError.prototype%, or add a _NativeError_ slot.
+            1. Return CreateMatchResultObject(*true*, _value_).
+          </emu-alg>
+        </emu-clause>
       </emu-clause>
     </emu-clause>
   </emu-clause>
