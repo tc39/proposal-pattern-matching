@@ -1154,7 +1154,7 @@ contributors:
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
           1. If Type(_value_) is not Object, return CreateMatchResultObject(*false*).
-          1. Return MatchConstructorInstance(_value_, *"%Object%"*).
+          1. Return CreateMatchResultObject(*true*, _value_).
         </emu-alg>
       </emu-clause>
     </emu-clause>
