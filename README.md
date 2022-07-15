@@ -18,7 +18,6 @@
 - Mark Cohen (Netflix, [@mpcsh\_](https://twitter.com/mpcsh_))
 - Ross Kirsling (Sony, [@rkirsling](https://twitter.com/rkirsling))
 - Tab Atkins-Bittner (Google, [@tabatkins](https://twitter.com/tabatkins))
-- Yulia Startsev (Mozilla, [@codehag](https://twitter.com/codehag))
 
 ## Table of Contents
 
