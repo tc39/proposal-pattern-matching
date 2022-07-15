@@ -180,9 +180,9 @@ match (res) {
 
 ```jsx
 match (command) {
-  when ([ 'go', dir and ('north' or 'east' or 'south' or 'west')]): ...
-  when ([ 'take', item and /[a-z]+ ball/ and { weight }]): ...
-  default: ...
+  when ([ 'go', dir and ('north' or 'east' or 'south' or 'west')]): go(dir);
+  when ([ 'take', item and /[a-z]+ ball/ and { weight }]): take(item);
+  default: lookAround()
 }
 ```
 
