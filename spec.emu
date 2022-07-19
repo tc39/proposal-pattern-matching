@@ -122,6 +122,29 @@ contributors:
       1. Return _obj_.
     </emu-alg>
   </emu-clause>
+
+  <emu-clause id="sec-match-constructor-instance" type="abstract operation">
+    <h1><ins>
+      MatchConstructorInstance (
+        _value_: an Object,
+        _target_: an ECMAScript language value,
+        optional _intrinsicName_: a String,
+      ): either a normal completion containing an Object that conforms to the MatchResult interface, or an abrupt completion
+    </ins></h1>
+    <dl class="header">
+    </dl>
+    <emu-alg>
+      1. Let _O_ be _value_.
+      1. Repeat,
+        1. Let _C_ be ? Get(_O_, *"constructor"*).
+        1. If _intrinsicName_ is present, and _C_ matches the intrinsic described in <emu-xref href="#table-well-known-intrinsic-objects"></emu-xref> by _intrinsicName_ in any realm, then
+          1. Return CreateMatchResultObject(*true*, _value_).
+        1. If IsConstructor(_target_) is *true*, and SameValue(_C_, _target_) is *true*, then
+          1. Return CreateMatchResultObject(*true*, _value_).
+        1. Set _O_ to ? _O_.[[GetPrototypeOf]]().
+        1. If _O_ is *null*, return CreateMatchResultObject(*false*).
+    </emu-alg>
+  </emu-clause>
 </emu-clause>
 
 <emu-clause id="sec-placeholder-8"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
@@ -1106,9 +1129,29 @@ contributors:
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
           1. If IsCallable(_value_) is *false*, return CreateMatchResultObject(*false*).
-          1. Return CreateMatchResultObject(*true*, _value_).
+          1. Return ? MatchConstructorInstance(_value_, *this* value, *"%Function%"*).
         </emu-alg>
       </emu-clause>
+    </emu-clause>
+
+    <emu-clause id="sec-properties-of-the-function-prototype-object">
+      <h1>Properties of the Function Prototype Object</h1>
+
+      <emu-clause id="sec-placeholder-20-2-3-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder-20-2-3-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder-20-2-3-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder-20-2-3-4"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder-20-2-3-5"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+      <emu-clause id="sec-placeholder-20-2-3-6"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
+    </emu-clause>
+
+    <emu-clause id="sec-function-prototype-@@matcher">
+      <h1><ins>Function.prototype [ @@matcher ] ( _value_ )</ins></h1>
+      <p>This function is called by ECMAScript pattern matching to determine if the value is a Function, or an instance of a class constructor.</p>
+      <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+      <emu-alg>
+        1. Return ? MatchConstructorInstance(_value_, *this* value).
+      </emu-alg>
     </emu-clause>
   </emu-clause>
 
@@ -1230,7 +1273,7 @@ contributors:
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
           1. If Type(_value_) is not Object, or if _value_ does not have an [[ErrorData]] internal slot, return CreateMatchResultObject(*false*).
-          1. Return CreateMatchResultObject(*true*, _value_).
+          1. Return ? MatchConstructorInstance(_value_, *this* value, *"%Error%"*).
         </emu-alg>
       </emu-clause>
     </emu-clause>
@@ -1242,24 +1285,7 @@ contributors:
     <emu-clause id="sec-nativeerror-object-structure">
       <h1>_NativeError_ Object Structure</h1>
 
-      <emu-clause id="sec-nativeerror-constructors">
-        <h1>The _NativeError_ Constructors</h1>
-
-        <emu-clause id="sec-nativeerror">
-          <h1>_NativeError_ ( _message_ [ , _options_ ] )</h1>
-          <p>When a _NativeError_ function is called with argument _message_ and optional argument _options_, the following steps are taken:</p>
-          <emu-alg>
-            1. If NewTarget is *undefined*, let _newTarget_ be the active function object; else let _newTarget_ be NewTarget.
-            1. [id="step-nativerror-ordinarycreatefromconstructor"] Let _O_ be ? OrdinaryCreateFromConstructor(_newTarget_, <code>"%<var>NativeError</var>.prototype%"</code>, &laquo; [[ErrorData]]<ins>, [[ErrorType]]</ins> &raquo;).
-            1. <ins>Set _O_.[[ErrorType]] to the String value consisting of the name of the constructor (the name used instead of _NativeError_).</ins>
-            1. If _message_ is not *undefined*, then
-              1. Let _msg_ be ? ToString(_message_).
-              1. Perform CreateNonEnumerableDataPropertyOrThrow(_O_, *"message"*, _msg_).
-            1. Perform ? InstallErrorCause(_O_, _options_).
-            1. Return _O_.
-          </emu-alg>
-        </emu-clause>
-      </emu-clause>
+      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
 
       <emu-clause id="sec-properties-of-the-nativeerror-constructors">
         <h1>Properties of the _NativeError_ Constructors</h1>
@@ -1273,8 +1299,8 @@ contributors:
           <emu-alg>
             1. If Type(_value_) is not Object, or if _value_ does not have an [[ErrorData]] internal slot, return CreateMatchResultObject(*false*).
             1. Let _expectedName_ be the String value consisting of the name of the constructor (the name used instead of _NativeError_).
-            1. If _value_ does not have an [[ErrorType]] internal slot, or _value_.[[ErrorType]] is not _expectedName_, return CreateMatchResultObject(*false*).
-            1. Return CreateMatchResultObject(*true*, _value_).
+            1. Let _intrinsicName_ be the string-concatenation of *"%"*, the String value consisting of the name of the constructor (the name used instead of _NativeError_), and "*%*".
+            1. Return ? MatchConstructorInstance(_value_, *this* value, _intrinsicName_).
           </emu-alg>
         </emu-clause>
       </emu-clause>
@@ -1291,8 +1317,7 @@ contributors:
           <p>When the *AggregateError* function is called with arguments _errors_ and _message_ and optional argument _options_, the following steps are taken:</p>
           <emu-alg>
             1. If NewTarget is *undefined*, let _newTarget_ be the active function object; else let _newTarget_ be NewTarget.
-            1. Let _O_ be ? OrdinaryCreateFromConstructor(_newTarget_, *"%AggregateError.prototype%"*, &laquo; [[ErrorData]]<ins>, [[ErrorType]]</ins> &raquo;).
-            1. <ins>Set _O_.[[ErrorType]] to ~AggregateError~.</ins>
+            1. Let _O_ be ? OrdinaryCreateFromConstructor(_newTarget_, *"%AggregateError.prototype%"*, &laquo; [[ErrorData]] &raquo;).
             1. If _message_ is not *undefined*, then
               1. Let _msg_ be ? ToString(_message_).
               1. Perform CreateNonEnumerableDataPropertyOrThrow(_O_, *"message"*, _msg_).
@@ -1315,8 +1340,7 @@ contributors:
           <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
           <emu-alg>
             1. If Type(_value_) is not Object, or if _value_ does not have an [[ErrorData]] internal slot, return CreateMatchResultObject(*false*).
-            1. If _value_ does not have an [[ErrorType]] internal slot, or _value_.[[ErrorType]] is not ~AggregateError~, return CreateMatchResultObject(*false*).
-            1. Return CreateMatchResultObject(*true*, _value_).
+            1. Return ? MatchConstructorInstance(_value_, *this* value, *"%AggregateError%"*).
           </emu-alg>
         </emu-clause>
       </emu-clause>
@@ -1457,7 +1481,7 @@ contributors:
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
           1. If Type(_value_) is not Object, or if _value_ does not have a [[DateValue]] internal slot, return CreateMatchResultObject(*false*).
-          1. Return CreateMatchResultObject(*true*, _value_).
+          1. Return ? MatchConstructorInstance(_value_, *this* value, *"%Date%"*).
         </emu-alg>
       </emu-clause>
     </emu-clause>
@@ -1561,7 +1585,7 @@ contributors:
         <emu-alg>
           1. Let _result_ be Completion(IsRegExp(_value_)).
           1. If _result_ is an abrupt completion, or if _result_.[[Value]] is *false*, return CreateMatchResultObject(*false*).
-          1. Return CreateMatchResultObject(*true*, _value_).
+          1. Return ? MatchConstructorInstance(_value_, *this* value, *"%RegExp%"*).
         </emu-alg>
       </emu-clause>
     </emu-clause>
@@ -1617,7 +1641,7 @@ contributors:
         <emu-alg>
           1. Let _result_ be Completion(IsArray(_value_)).
           1. If _result_ is an abrupt completion, or if _result_.[[Value]] is *false*, return CreateMatchResultObject(*false*).
-          1. Return CreateMatchResultObject(*true*, _value_).
+          1. Return ? MatchConstructorInstance(_value_, *this* value, *"%Array%"*).
         </emu-alg>
       </emu-clause>
     </emu-clause>
@@ -1646,7 +1670,8 @@ contributors:
           1. If Type(_value_) is not Object, return CreateMatchResultObject(*false*).
           1. If _value_ does not have a [[TypedArrayName]] internal slot, return CreateMatchResultObject(*false*).
           1. If _value_.[[TypedArrayName]] is not _TypedArray_, return CreateMatchResultObject(*false*).
-          1. Return CreateMatchResultObject(*true*, _value_).
+          1. Let _intrinsicName_ be the string-concatenation of *"%"*, _value_.[[TypedArrayName]], and "*%*".
+          1. Return ? MatchConstructorInstance(_value_, *this value*, _intrinsicName_).
         </emu-alg>
         <emu-note type="editor">TODO: probably i need to convert _TypedArray_ into a string to be able to do the comparison to the internal slot.</emu-note>
       </emu-clause>
@@ -1674,7 +1699,7 @@ contributors:
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
           1. If Type(_value_) is not Object, or if _value_ does not have a [[MapData]] internal slot, return CreateMatchResultObject(*false*).
-          1. Return CreateMatchResultObject(*true*, _value_).
+          1. Return ? MatchConstructorInstance(_value_, *this value*, *"%Map%"*).
         </emu-alg>
       </emu-clause>
     </emu-clause>
@@ -1697,7 +1722,7 @@ contributors:
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
           1. If Type(_value_) is not Object, or if _value_ does not have a [[SetData]] internal slot, return CreateMatchResultObject(*false*).
-          1. Return CreateMatchResultObject(*true*, _value_).
+          1. Return ? MatchConstructorInstance(_value_, *this value*, *"%Set%"*).
         </emu-alg>
       </emu-clause>
     </emu-clause>
@@ -1719,7 +1744,7 @@ contributors:
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
           1. If Type(_value_) is not Object, or if _value_ does not have a [[WeakMapData]] internal slot, return CreateMatchResultObject(*false*).
-          1. Return CreateMatchResultObject(*true*, _value_).
+          1. Return ? MatchConstructorInstance(_value_, *this value*, *"%WeakMap%"*).
         </emu-alg>
       </emu-clause>
     </emu-clause>
@@ -1741,7 +1766,7 @@ contributors:
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
           1. If Type(_value_) is not Object, or if _value_ does not have a [[WeakSetData]] internal slot, return CreateMatchResultObject(*false*).
-          1. Return CreateMatchResultObject(*true*, _value_).
+          1. Return ? MatchConstructorInstance(_value_, *this value*, *"%WeakSet%"*).
         </emu-alg>
       </emu-clause>
     </emu-clause>
@@ -1771,7 +1796,7 @@ contributors:
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
           1. If Type(_value_) is not Object, or if _value_ does not have an [[ArrayBufferData]] internal slot, return CreateMatchResultObject(*false*).
-          1. Return CreateMatchResultObject(*true*, _value_).
+          1. Return ? MatchConstructorInstance(_value_, *this value*, *"%ArrayBuffer%"*).
         </emu-alg>
       </emu-clause>
     </emu-clause>
@@ -1796,7 +1821,7 @@ contributors:
         <emu-alg>
           1. If Type(_value_) is not Object, or if _value_ does not have an [[ArrayBufferData]] internal slot, return CreateMatchResultObject(*false*).
           1. If IsSharedArrayBuffer(_value_) is *false*, return CreateMatchResultObject(*false*).
-          1. Return CreateMatchResultObject(*true*, _value_).
+          1. Return ? MatchConstructorInstance(_value_, *this value*, *"%SharedArrayBuffer%"*).
         </emu-alg>
       </emu-clause>
     </emu-clause>
@@ -1819,7 +1844,7 @@ contributors:
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
           1. If Type(_value_) is not Object, or if _value_ does not have a [[DataView]] internal slot, return CreateMatchResultObject(*false*).
-          1. Return CreateMatchResultObject(*true*, _value_).
+          1. Return ? MatchConstructorInstance(_value_, *this value*, *"%DataView%"*).
         </emu-alg>
       </emu-clause>
     </emu-clause>
@@ -1845,7 +1870,7 @@ contributors:
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
           1. If Type(_value_) is not Object, or if _value_ does not have a [[WeakRefTarget]] internal slot, return CreateMatchResultObject(*false*).
-          1. Return CreateMatchResultObject(*true*, _value_).
+          1. Return ? MatchConstructorInstance(_value_, *this value*, *"%WeakRef%"*).
         </emu-alg>
       </emu-clause>
     </emu-clause>
@@ -1867,7 +1892,7 @@ contributors:
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
           1. If Type(_value_) is not Object, or if _value_ does not have a [[Cells]] internal slot, return CreateMatchResultObject(*false*).
-          1. Return CreateMatchResultObject(*true*, _value_).
+          1. Return ? MatchConstructorInstance(_value_, *this value*, *"%FinalizationRegistry%"*).
         </emu-alg>
       </emu-clause>
     </emu-clause>
@@ -1904,7 +1929,7 @@ contributors:
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
         <emu-alg>
           1. If IsPromise(_value_) is *false*, return CreateMatchResultObject(*false*).
-          1. Return CreateMatchResultObject(*true*, _value_).
+          1. Return ? MatchConstructorInstance(_value_, *this value*, *"%Promise%"*).
         </emu-alg>
         <emu-note type="editor">
           TODO: decide if we want to loosen this to accept thenables, breaking with the precedent set here by the rest of the built-in matchers.
