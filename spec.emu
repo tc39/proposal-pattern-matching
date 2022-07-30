@@ -15,36 +15,12 @@ contributors:
   - Tab Atkins
 </pre>
 
-<style>
-[id^="sec-placeholder"], [href^="#sec-placeholder"] {
-  display: none;
-}
-</style>
-<script>
-  Array.from(document.querySelectorAll('ol.toc li'), function (node) {
-    if (node.querySelector(':scope > [href^="#sec-placeholder"]')) {
-      node.style.display = 'none';
-    }
-  });
-</script>
-
-<emu-clause id="sec-placeholder-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-<emu-clause id="sec-placeholder-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-<emu-clause id="sec-placeholder-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-<emu-clause id="sec-placeholder-4"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-<emu-clause id="sec-placeholder-5"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-<emu-clause id="sec-ecmascript-data-types-and-values" aoid="Type">
+<emu-clause id="sec-ecmascript-data-types-and-values" aoid="Type" number="6">
   <h1>ECMAScript Data Types and Values</h1>
   <emu-clause id="sec-ecmascript-language-types">
     <h1>ECMAScript Language Types</h1>
 
-    <emu-clause id="sec-placeholder-6-1-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-    <emu-clause id="sec-placeholder-6-1-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-    <emu-clause id="sec-placeholder-6-1-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-    <emu-clause id="sec-placeholder-6-1-4"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-ecmascript-language-types-symbol-type">
+    <emu-clause id="sec-ecmascript-language-types-symbol-type" number="5">
       <h1>The Symbol Type</h1>
       <emu-clause id="sec-well-known-symbols">
         <h1>Well-Known Symbols</h1>
@@ -147,21 +123,10 @@ contributors:
   </emu-clause>
 </emu-clause>
 
-<emu-clause id="sec-placeholder-8"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-<emu-clause id="sec-placeholder-9"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-<emu-clause id="sec-placeholder-10"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-<emu-clause id="sec-placeholder-11"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-<emu-clause id="sec-placeholder-12"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-<emu-clause id="sec-ecmascript-language-expressions">
+<emu-clause id="sec-ecmascript-language-expressions" number="13">
   <h1>ECMAScript Language: Expressions</h1>
 
-  <emu-clause id="sec-placeholder-13-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-  <emu-clause id="sec-placeholder-13-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-  <emu-clause id="sec-placeholder-13-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-  <emu-clause id="sec-placeholder-13-4"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-  <emu-clause id="sec-match-expression">
+  <emu-clause id="sec-match-expression" number="5">
     <h1><ins>Match Expression</ins></h1>
     <emu-clause id="sec-match-expression-syntax">
       <h1>Syntax</h1>
@@ -1059,48 +1024,16 @@ contributors:
   </emu-clause>
 </emu-clause>
 
-<emu-clause id="sec-placeholder-14"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-<emu-clause id="sec-placeholder-15"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-<emu-clause id="sec-placeholder-16"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-<emu-clause id="sec-placeholder-17"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-<emu-clause id="sec-placeholder-18"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-<emu-clause id="sec-placeholder-19"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-<emu-clause id="sec-fundamental-objects">
+<emu-clause id="sec-fundamental-objects" number="20">
   <h1>Fundamental Objects</h1>
 
   <emu-clause id="sec-object-objects">
     <h1>Object Objects</h1>
 
-    <emu-clause id="sec-placeholder-20-1-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-properties-of-the-object-constructor">
+    <emu-clause id="sec-properties-of-the-object-constructor" number="2">
       <h1>Properties of the Object Constructor</h1>
 
-      <emu-clause id="sec-placeholder-20-1-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-1-2-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-1-2-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-1-2-4"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-1-2-5"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-1-2-6"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-1-2-7"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-1-2-8"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-1-2-9"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-1-2-10"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-1-2-11"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-1-2-12"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-1-2-13"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-1-2-14"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-1-2-15"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-1-2-16"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-1-2-17"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-1-2-18"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-1-2-19"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-1-2-20"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-1-2-21"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-1-2-22"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause id="sec-object-@@matcher">
+      <emu-clause id="sec-object-@@matcher" number="23">
         <h1><ins>Object [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is an Object.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1115,15 +1048,10 @@ contributors:
   <emu-clause id="sec-function-objects">
     <h1>Function Objects</h1>
 
-    <emu-clause id="sec-placeholder-20-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-properties-of-the-function-constructor">
+    <emu-clause id="sec-properties-of-the-function-constructor" number="2">
       <h1>Properties of the Function Constructor</h1>
 
-      <emu-clause id="sec-placeholder-20-2-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-2-2-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause id="sec-function-@@matcher">
+      <emu-clause id="sec-function-@@matcher" number="3">
         <h1><ins>Function [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a Function.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1137,35 +1065,24 @@ contributors:
     <emu-clause id="sec-properties-of-the-function-prototype-object">
       <h1>Properties of the Function Prototype Object</h1>
 
-      <emu-clause id="sec-placeholder-20-2-3-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-2-3-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-2-3-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-2-3-4"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-2-3-5"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-2-3-6"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-    </emu-clause>
-
-    <emu-clause id="sec-function-prototype-@@matcher">
-      <h1><ins>Function.prototype [ @@matcher ] ( _value_ )</ins></h1>
-      <p>This function is called by ECMAScript pattern matching to determine if the value is a Function, or an instance of a class constructor.</p>
-      <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
-      <emu-alg>
-        1. Return ? MatchConstructorInstance(_value_, *this* value).
-      </emu-alg>
+      <emu-clause id="sec-function-prototype-@@matcher" number="7">
+        <h1><ins>Function.prototype [ @@matcher ] ( _value_ )</ins></h1>
+        <p>This function is called by ECMAScript pattern matching to determine if the value is a Function, or an instance of a class constructor.</p>
+        <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
+        <emu-alg>
+          1. Return ? MatchConstructorInstance(_value_, *this* value).
+        </emu-alg>
+      </emu-clause>
     </emu-clause>
   </emu-clause>
 
   <emu-clause id="sec-boolean-objects">
     <h1>Boolean Objects</h1>
 
-    <emu-clause id="sec-placeholder-20-3-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-properties-of-the-boolean-constructor">
+    <emu-clause id="sec-properties-of-the-boolean-constructor" number="2">
       <h1>Properties of the Boolean Constructor</h1>
 
-      <emu-clause id="sec-placeholder-20-3-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause id="sec-boolean-@@matcher">
+      <emu-clause id="sec-boolean-@@matcher" number="2">
         <h1><ins>Boolean [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a Boolean.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1180,11 +1097,7 @@ contributors:
     <emu-clause id="sec-properties-of-the-boolean-prototype-object">
       <h1>Properties of the Boolean Prototype Object</h1>
 
-      <emu-clause id="sec-placeholder-20-3-3-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-3-3-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-3-3-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause id="sec-boolean-prototype-@@matcher">
+      <emu-clause id="sec-boolean-prototype-@@matcher" number="4">
         <h1><ins>Boolean.prototype [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a matching Boolean.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1201,29 +1114,10 @@ contributors:
   <emu-clause id="sec-symbol-objects">
     <h1>Symbol Objects</h1>
 
-    <emu-clause id="sec-placeholder-20-4-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-properties-of-the-symbol-constructor">
+    <emu-clause id="sec-properties-of-the-symbol-constructor" number="2">
       <h1>Properties of the Symbol Constructor</h1>
 
-      <emu-clause id="sec-placeholder-20-4-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-4-2-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-4-2-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-4-2-4"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-4-2-5"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-4-2-6"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-4-2-7"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-4-2-8"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-4-2-9"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-4-2-10"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-4-2-11"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-4-2-12"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-4-2-13"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-4-2-14"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-4-2-15"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-4-2-16"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause id="sec-symbol-@@matcher">
+      <emu-clause id="sec-symbol-@@matcher" number="17">
         <h1><ins>Symbol [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a Symbol.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1238,12 +1132,7 @@ contributors:
     <emu-clause id="sec-properties-of-the-symbol-prototype-object">
       <h1>Properties of the Symbol Prototype Object</h1>
 
-      <emu-clause id="sec-placeholder-20-4-3-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-4-3-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-4-3-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-20-4-3-4"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause id="sec-symbol-prototype-@@matcher">
+      <emu-clause id="sec-symbol-prototype-@@matcher" number="5">
         <h1><ins>Symbol.prototype [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is the same Symbol.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1260,14 +1149,10 @@ contributors:
   <emu-clause id="sec-error-objects">
     <h1>Error Objects</h1>
 
-    <emu-clause id="sec-placeholder-20-5-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-properties-of-the-error-constructor">
+    <emu-clause id="sec-properties-of-the-error-constructor" number="2">
       <h1>Properties of the Error Constructor</h1>
 
-      <emu-clause id="sec-placeholder-20-5-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause sec id="error-@@matcher">
+      <emu-clause sec id="error-@@matcher" number="2">
         <h1><ins>Error [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is an Error.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1278,21 +1163,13 @@ contributors:
       </emu-clause>
     </emu-clause>
 
-    <emu-clause id="sec-placeholder-20-5-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-    <emu-clause id="sec-placeholder-20-5-4"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-    <emu-clause id="sec-placeholder-20-5-5"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-nativeerror-object-structure">
+    <emu-clause id="sec-nativeerror-object-structure" number="6">
       <h1>_NativeError_ Object Structure</h1>
 
-      <emu-clause id="sec-placeholder"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause id="sec-properties-of-the-nativeerror-constructors">
+      <emu-clause id="sec-properties-of-the-nativeerror-constructors" number="2">
         <h1>Properties of the _NativeError_ Constructors</h1>
 
-        <emu-clause id="sec-placeholder-20-5-6-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-        <emu-clause sec id="nativeerror-@@matcher">
+        <emu-clause sec id="nativeerror-@@matcher" number="2">
           <h1><ins>_NativeError_ [ @@matcher ] ( _value_ )</ins></h1>
           <p>This function is called by ECMAScript pattern matching to determine if the value is a <code><var>NativeError</var></code>.</p>
           <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1332,9 +1209,7 @@ contributors:
       <emu-clause id="sec-properties-of-the-aggregate-error-constructor">
         <h1>Properties of the AggregateError Constructor</h1>
 
-        <emu-clause id="sec-placeholder-20-5-7-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-        <emu-clause sec id="aggregate-error-@@matcher">
+        <emu-clause sec id="aggregate-error-@@matcher" number="2">
           <h1><ins>AggregateError [ @@matcher ] ( _value_ )</ins></h1>
           <p>This function is called by ECMAScript pattern matching to determine if the value is an AggregateError.</p>
           <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1354,28 +1229,10 @@ contributors:
   <emu-clause id="sec-number-objects">
     <h1>Number Objects</h1>
 
-    <emu-clause id="sec-placeholder-21-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-properties-of-the-number-constructor">
+    <emu-clause id="sec-properties-of-the-number-constructor" number="2">
       <h1>Properties of the Number Constructor</h1>
 
-      <emu-clause id="sec-placeholder-21-1-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-1-2-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-1-2-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-1-2-4"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-1-2-5"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-1-2-6"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-1-2-7"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-1-2-8"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-1-2-9"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-1-2-10"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-1-2-11"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-1-2-12"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-1-2-13"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-1-2-14"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-1-2-15"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause id="sec-number-@@matcher">
+      <emu-clause id="sec-number-@@matcher" number="16">
         <h1><ins>Number [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a Number.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1390,15 +1247,7 @@ contributors:
     <emu-clause id="sec-properties-of-the-number-prototype-object">
       <h1>Properties of the Number Prototype Object</h1>
 
-      <emu-clause id="sec-placeholder-21-1-3-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-1-3-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-1-3-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-1-3-4"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-1-3-5"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-1-3-6"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-1-3-7"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause id="sec-number-prototype-@@matcher">
+      <emu-clause id="sec-number-prototype-@@matcher" number="8">
         <h1><ins>Number.prototype [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is the same Number.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1415,16 +1264,10 @@ contributors:
   <emu-clause id="sec-bigint-objects">
     <h1>BigInt Objects</h1>
 
-    <emu-clause id="sec-placeholder-21-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-properties-of-the-bigint-constructor">
+    <emu-clause id="sec-properties-of-the-bigint-constructor" number="2">
       <h1>Properties of the BigInt Constructor</h1>
 
-      <emu-clause id="sec-placeholder-21-2-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-2-2-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-2-2-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause id="sec-bigint-@@matcher">
+      <emu-clause id="sec-bigint-@@matcher" number="4">
         <h1><ins>BigInt [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a BigInt.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1439,13 +1282,7 @@ contributors:
     <emu-clause id="sec-properties-of-the-bigint-prototype-object">
       <h1>Properties of the BigInt Prototype Object</h1>
 
-      <emu-clause id="sec-placeholder-21-2-3-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-2-3-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-2-3-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-2-3-4"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-2-3-5"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause id="sec-bigint-prototype-@@matcher">
+      <emu-clause id="sec-bigint-prototype-@@matcher" number="6">
         <h1><ins>BigInt.prototype [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is the same BigInt.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1459,23 +1296,13 @@ contributors:
     </emu-clause>
   </emu-clause>
 
-  <emu-clause id="sec-placeholder-21-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-  <emu-clause id="sec-date-objects">
+  <emu-clause id="sec-date-objects" number="4">
     <h1>Date Objects</h1>
 
-    <emu-clause id="sec-placeholder-21-4-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-    <emu-clause id="sec-placeholder-21-4-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-properties-of-the-date-constructor">
+    <emu-clause id="sec-properties-of-the-date-constructor" number="3">
       <h1>Properties of the Date Constructor</h1>
 
-      <emu-clause id="sec-placeholder-21-4-3-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-4-3-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-4-3-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-21-4-3-4"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause sec id="date-@@matcher">
+      <emu-clause sec id="date-@@matcher" number="5">
         <h1><ins>Date [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a Date.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1494,17 +1321,10 @@ contributors:
   <emu-clause id="sec-string-objects">
     <h1>String Objects</h1>
 
-    <emu-clause id="sec-placeholder-22-1-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-properties-of-the-string-constructor">
+    <emu-clause id="sec-properties-of-the-string-constructor" number="2">
       <h1>Properties of the String Constructor</h1>
 
-      <emu-clause id="sec-placeholder-22-1-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-2-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-2-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-2-4"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause sec id="string-@@matcher">
+      <emu-clause sec id="string-@@matcher" number="5">
         <h1><ins>String [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a String.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1519,42 +1339,7 @@ contributors:
     <emu-clause id="sec-properties-of-the-string-prototype-object">
       <h1>Properties of the String Prototype Object</h1>
 
-      <emu-clause id="sec-placeholder-22-1-3-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-4"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-5"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-6"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-7"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-8"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-9"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-10"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-11"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-12"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-13"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-14"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-15"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-16"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-17"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-18"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-19"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-20"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-21"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-22"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-23"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-24"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-25"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-26"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-27"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-28"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-29"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-30"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-31"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-32"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-33"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-1-3-34"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause id="sec-string-prototype-@@matcher">
+      <emu-clause id="sec-string-prototype-@@matcher" number="35">
         <h1><ins>String.prototype [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is the same String.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1571,11 +1356,7 @@ contributors:
   <emu-clause id="sec-regexp-regular-expression-objects">
     <h1>RegExp (Regular Expression) Objects</h1>
 
-    <emu-clause id="sec-placeholder-22-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-    <emu-clause id="sec-placeholder-22-2-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-    <emu-clause id="sec-placeholder-22-2-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-properties-of-the-regexp-constructor">
+    <emu-clause id="sec-properties-of-the-regexp-constructor" number="4">
       <h1>Properties of the RegExp Constructor</h1>
 
       <emu-clause sec id="regexp-@@matcher">
@@ -1593,17 +1374,7 @@ contributors:
     <emu-clause id="sec-properties-of-the-regexp-prototype-object">
       <h1>Properties of the RegExp Prototype Object</h1>
 
-      <emu-clause id="sec-placeholder-22-2-5-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-2-5-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-2-5-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-2-5-4"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-2-5-5"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-2-5-6"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-2-5-7"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-2-5-8"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-22-2-5-9"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause sec id="regexp-prototype-@@matcher">
+      <emu-clause sec id="regexp-prototype-@@matcher" number="10">
         <h1><ins>RegExp.prototype [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value matches the RegExp.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1628,13 +1399,7 @@ contributors:
     <emu-clause id="sec-properties-of-the-array-constructor">
       <h1>Properties of the Array Constructor</h1>
 
-      <emu-clause id="sec-placeholder-23-1-1-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-23-1-1-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-23-1-1-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-23-1-1-4"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-23-1-1-5"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause sec id="array-@@matcher">
+      <emu-clause sec id="array-@@matcher" number="6">
         <h1><ins>Array [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is an Array.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1650,19 +1415,10 @@ contributors:
   <emu-clause id="sec-typedarray-objects">
     <h1>TypedArray Objects</h1>
 
-    <emu-clause id="sec-placeholder-23-1-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-    <emu-clause id="sec-placeholder-23-1-2-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-    <emu-clause id="sec-placeholder-23-1-2-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-    <emu-clause id="sec-placeholder-23-1-2-4"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-    <emu-clause id="sec-placeholder-23-1-2-5"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-properties-of-the-typedarray-constructors">
+    <emu-clause id="sec-properties-of-the-typedarray-constructors" number="6">
       <h1>Properties of the _TypedArray_ Constructors</h1>
 
-      <emu-clause id="sec-placeholder-23-1-2-6-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-23-1-2-6-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause sec id="typedarray-@@matcher">
+      <emu-clause sec id="typedarray-@@matcher" number="3">
         <h1><ins>_TypedArray_ [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a _TypedArray_.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1685,15 +1441,10 @@ contributors:
   <emu-clause id="sec-map-objects">
     <h1>Map Objects</h1>
 
-    <emu-clause id="sec-placeholder-24-1-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-properties-of-the-map-constructor">
+    <emu-clause id="sec-properties-of-the-map-constructor" number="2">
       <h1>Properties of the Map Constructor</h1>
 
-      <emu-clause id="sec-placeholder-24-1-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-24-1-2-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause sec id="map-@@matcher">
+      <emu-clause sec id="map-@@matcher" number="3">
         <h1><ins>Map [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a Map.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1708,15 +1459,10 @@ contributors:
   <emu-clause id="sec-set-objects">
     <h1>Set Objects</h1>
 
-    <emu-clause id="sec-placeholder-24-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-properties-of-the-set-constructor">
+    <emu-clause id="sec-properties-of-the-set-constructor" number="2">
       <h1>Properties of the Set Constructor</h1>
 
-      <emu-clause id="sec-placeholder-24-2-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-24-2-2-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause sec id="set-@@matcher">
+      <emu-clause sec id="set-@@matcher" number="3">
         <h1><ins>Set [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a Set.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1731,14 +1477,10 @@ contributors:
   <emu-clause id="sec-weakmap-objects">
     <h1>WeakMap Objects</h1>
 
-    <emu-clause id="sec-placeholder-24-3-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-properties-of-the-weakmap-constructor">
+    <emu-clause id="sec-properties-of-the-weakmap-constructor" number="2">
       <h1>Properties of the WeakMap Constructor</h1>
 
-      <emu-clause id="sec-placeholder-24-3-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause sec id="weakmap-@@matcher">
+      <emu-clause sec id="weakmap-@@matcher" number="2">
         <h1><ins>WeakMap [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a WeakMap.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1753,14 +1495,10 @@ contributors:
   <emu-clause id="sec-weakset-objects">
     <h1>WeakSet Objects</h1>
 
-    <emu-clause id="sec-placeholder-24-4-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-properties-of-the-weakset-constructor">
+    <emu-clause id="sec-properties-of-the-weakset-constructor" number="2">
       <h1>Properties of the WeakSet Constructor</h1>
 
-      <emu-clause id="sec-placeholder-24-4-1-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause sec id="weakset-@@matcher">
+      <emu-clause sec id="weakset-@@matcher" number="2">
         <h1><ins>WeakSet [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a WeakSet.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1779,18 +1517,10 @@ contributors:
   <emu-clause id="sec-arraybuffer-objects">
     <h1>ArrayBuffer Objects</h1>
 
-    <emu-clause id="sec-placeholder-25-1-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-    <emu-clause id="sec-placeholder-25-1-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-    <emu-clause id="sec-placeholder-25-1-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-properties-of-the-arraybuffer-constructor">
+    <emu-clause id="sec-properties-of-the-arraybuffer-constructor" number="4">
       <h1>Properties of the ArrayBuffer Constructor</h1>
 
-      <emu-clause id="sec-placeholder-25-1-4-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-25-1-4-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-25-1-4-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause sec id="arraybuffer-@@matcher">
+      <emu-clause sec id="arraybuffer-@@matcher" number="4">
         <h1><ins>ArrayBuffer [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is an ArrayBuffer.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1805,16 +1535,10 @@ contributors:
   <emu-clause id="sec-sharedarraybuffer-objects">
     <h1>SharedArrayBuffer Objects</h1>
 
-    <emu-clause id="sec-placeholder-25-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-    <emu-clause id="sec-placeholder-25-2-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-properties-of-the-sharedarraybuffer-constructor">
+    <emu-clause id="sec-properties-of-the-sharedarraybuffer-constructor" number="3">
       <h1>Properties of the SharedArrayBuffer Constructor</h1>
 
-      <emu-clause id="sec-placeholder-25-2-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-25-2-2-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause sec id="sharedarraybuffer-@@matcher">
+      <emu-clause sec id="sharedarraybuffer-@@matcher" number="3">
         <h1><ins>SharedArrayBuffer [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a SharedArrayBuffer.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1830,15 +1554,10 @@ contributors:
   <emu-clause id="sec-dataview-objects">
     <h1>DataView Objects</h1>
 
-    <emu-clause id="sec-placeholder-25-3-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-    <emu-clause id="sec-placeholder-25-3-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-properties-of-the-dataview-constructor">
+    <emu-clause id="sec-properties-of-the-dataview-constructor" number="3">
       <h1>Properties of the DataView Constructor</h1>
 
-      <emu-clause id="sec-placeholder-25-3-3-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause sec id="dataview-@@matcher">
+      <emu-clause sec id="dataview-@@matcher" number="2">
         <h1><ins>DataView [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a DataView.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1857,14 +1576,10 @@ contributors:
   <emu-clause id="sec-weak-ref-objects">
     <h1>WeakRef Objects</h1>
 
-    <emu-clause id="sec-placeholder-26-1-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-properties-of-the-weak-ref-constructor">
+    <emu-clause id="sec-properties-of-the-weak-ref-constructor" number="2">
       <h1>Properties of the WeakRef Constructor</h1>
 
-      <emu-clause id="sec-placeholder-26-1-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause sec id="weak-ref-@@matcher">
+      <emu-clause sec id="weak-ref-@@matcher" number="2">
         <h1><ins>WeakRef [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a WeakRef.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1879,14 +1594,10 @@ contributors:
   <emu-clause id="sec-finalization-registry-objects">
     <h1>FinalizationRegistry Objects</h1>
 
-    <emu-clause id="sec-placeholder-26-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-properties-of-the-finalization-registry-constructor">
+    <emu-clause id="sec-properties-of-the-finalization-registry-constructor" number="2">
       <h1>Properties of the FinalizationRegistry Constructor</h1>
 
-      <emu-clause id="sec-placeholder-26-2-1-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause sec id="finalization-registry-@@matcher">
+      <emu-clause sec id="finalization-registry-@@matcher" number="2">
         <h1><ins>FinalizationRegistry [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a FinalizationRegistry.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1902,28 +1613,13 @@ contributors:
 <emu-clause id="sec-control-abstraction-objects">
   <h1>Control Abstraction Objects</h1>
 
-  <emu-clause id="sec-placeholder-27-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-  <emu-clause id="sec-promise-objects">
+  <emu-clause id="sec-promise-objects" number="2">
     <h1>Promise Objects</h1>
 
-    <emu-clause id="sec-placeholder-27-2-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-    <emu-clause id="sec-placeholder-27-2-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-    <emu-clause id="sec-placeholder-27-2-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-    <emu-clause id="sec-properties-of-the-promise-constructor">
+    <emu-clause id="sec-properties-of-the-promise-constructor" number="4">
       <h1>Properties of the Promise Constructor</h1>
 
-      <emu-clause id="sec-placeholder-27-2-4-1"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-27-2-4-2"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-27-2-4-3"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-27-2-4-4"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-27-2-4-5"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-27-2-4-6"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-27-2-4-7"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-      <emu-clause id="sec-placeholder-27-2-4-8"><h1>Placeholder to ensure correct clause numbering</h1></emu-clause>
-
-      <emu-clause sec id="promise-@@matcher">
+      <emu-clause sec id="promise-@@matcher" number="9">
         <h1><ins>Promise [ @@matcher ] ( _value_ )</ins></h1>
         <p>This function is called by ECMAScript pattern matching to determine if the value is a Promise.</p>
         <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
@@ -1939,7 +1635,7 @@ contributors:
   </emu-clause>
 </emu-clause>
 
-<emu-clause id="sec-todo">
+<emu-clause id="sec-todo" number="9007199254740991">
   <h1>TODO</h1>
 
   <emu-clause id="todo-constructors">
