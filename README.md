@@ -14,7 +14,7 @@
 - Daniel Rosenwasser (Microsoft,
   [@drosenwasser](https://twitter.com/drosenwasser))
 - Jack Works (Sujitech, [@Jack-Works](https://github.com/Jack-Works))
-- Jordan Harband (Coinbase, [@ljharb](https://twitter.com/ljharb))
+- Jordan Harband ([@ljharb](https://twitter.com/ljharb))
 - Mark Cohen (Netflix, [@mpcsh\_](https://twitter.com/mpcsh_))
 - Ross Kirsling (Sony, [@rkirsling](https://twitter.com/rkirsling))
 - Tab Atkins-Bittner (Google, [@tabatkins](https://twitter.com/tabatkins))
