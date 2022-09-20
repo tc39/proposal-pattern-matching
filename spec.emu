@@ -555,7 +555,10 @@ contributors:
         ObjectMatchPattern : `{` MatchRestProperty `}`
       </emu-grammar>
       <emu-alg>
-        1. Perform ? MatchRestPropertyEvaluation of MatchRestProperty with arguments _rest_, _cacheGroup_ and a new empty List.
+        1. Let _restObj_ be OrdinaryObjectCreate(%Object.prototype%).
+        1. Let _excludedNames_ be a new empty List.
+        1. Perform ? CopyDataProperties(_restObj_, _matchable_, _excludedNames_).
+        1. Perform ? MatchRestPropertyEvaluation of MatchRestProperty with arguments _restObj_, _cacheGroup_ and _excludedNames_.
         1. Return *true*.
       </emu-alg>
       <emu-grammar>
@@ -574,7 +577,12 @@ contributors:
         1. If Type(_matchable_) is not Object, return *false*.
         1. Let _result_ be ? MatchPropertyEvaluation of MatchPropertyList with arguments _matchable_ and _cacheGroup_.
         1. If _result_ is *false*, return *false*.
-        1. If MatchRestProperty is present, performs MatchRestPropertyEvaluation of MatchRestProperty with arguments _rest_, _cacheGroup_ and _result_.
+        1. Assert: _result_ is a List.
+        1. Let _excludedNames_ be _result_.
+        1. If MatchRestProperty is present, then
+          1. Let _restObj_ be OrdinaryObjectCreate(%Object.prototype%).
+          1. Perform ? CopyDataProperties(_restObj_, _matchable_, _excludedNames_).
+          1. Return ? MatchRestPropertyEvaluation of MatchRestProperty with arguments _restObj_, _cacheGroup_ and _excludedNames_.
         1. Return _result_.
       </emu-alg>
       <emu-grammar>
@@ -817,10 +825,10 @@ contributors:
         1. If ! Call(%WeakMap.prototype.has%, _cacheGroup_, « _object_ ») is *true*, then
           1. Return ! Call(%WeakMap.prototype.get%, _cacheGroup_, « _object_ »).
         1. Let _cache_ be OrdinaryObjectCreate(*null*).
-        1. Perform ! CreateDataPropertyOrThrow(_obj_, "Has", ! Construct(%Set%, *undefined*, a new empty List)).
-        1. Perform ! CreateDataPropertyOrThrow(_obj_, "Get", ! Construct(%Map%, *undefined*, a new empty List)).
-        1. Perform ! CreateDataPropertyOrThrow(_obj_, "Iterator", *undefined*).
-        1. Perform ! CreateDataPropertyOrThrow(_obj_, "IteratedItems", ! ArrayCreate(0)).
+        1. Perform ! CreateDataPropertyOrThrow(_cache_, "Has", ! Construct(%Set%, *undefined*, a new empty List)).
+        1. Perform ! CreateDataPropertyOrThrow(_cache_, "Get", ! Construct(%Map%, *undefined*, a new empty List)).
+        1. Perform ! CreateDataPropertyOrThrow(_cache_, "Iterator", *undefined*).
+        1. Perform ! CreateDataPropertyOrThrow(_cache_, "IteratedItems", ! ArrayCreate(0)).
         1. Perform ! Call(%WeakMap.prototype.set%, _cacheGroup_, « _object_, _cache_ »).
         1. Return _cache_.
       </emu-alg>
@@ -997,8 +1005,8 @@ contributors:
         1. If _errors_ is not empty, then
           1. If length of _errors_ is 1, return ThrowCompletion(_errors_[0]).
           1. Let _error_ be a newly created AggregateError object.
-          1. Perform ! DefinePropertyOrThrow(error, "errors", PropertyDescriptor { [[Configurable]]: true, [[Enumerable]]: false, [[Writable]]: true, [[Value]]: CreateArrayFromList(errors) }).
-          1. Return ThrowCompletion(error).
+          1. Perform ! DefinePropertyOrThrow(_error_, "errors", PropertyDescriptor { [[Configurable]]: true, [[Enumerable]]: false, [[Writable]]: true, [[Value]]: CreateArrayFromList(errors) }).
+          1. Return ThrowCompletion(_error_).
         1. Return ~unused~.
       </emu-alg>
     </emu-clause>
@@ -1175,7 +1183,6 @@ contributors:
           <p>When the `@@matcher` method is called with argument _value_, the following steps are taken:</p>
           <emu-alg>
             1. If Type(_value_) is not Object, or if _value_ does not have an [[ErrorData]] internal slot, return CreateMatchResultObject(*false*).
-            1. Let _expectedName_ be the String value consisting of the name of the constructor (the name used instead of _NativeError_).
             1. Let _intrinsicName_ be the string-concatenation of *"%"*, the String value consisting of the name of the constructor (the name used instead of _NativeError_), and "*%*".
             1. Return ? MatchConstructorInstance(_value_, *this* value, _intrinsicName_).
           </emu-alg>
