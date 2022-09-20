@@ -618,7 +618,7 @@ contributors:
       <emu-alg>
         1. If Type(_matchable_) is not Object, return *false*.
         1. Let _result_ be ? MatchPropertyEvaluation of |MatchPropertyList| with arguments _matchable_ and _cacheGroup_.
-        1. If _result_ is *false*, return *false*.
+        1. If _result_ is ~not-matched~, return *false*.
         1. Assert: _result_ is a List.
         1. Let _excludedNames_ be _result_.
         1. If |MatchRestProperty| is present, then
@@ -671,7 +671,7 @@ contributors:
         Runtime Semantics: MatchPropertyEvaluation (
           _matchable_: an ECMAScript language value,
           _cacheGroup_: a %WeakMap%,
-        ): either a normal completion containing a *false* (not matched) or a List (excluded name for rest match) or an abrupt completion
+        ): either a normal completion containing either ~not-matched~ or a List, or a throw completion
       </h1>
       <dl class="header">
       </dl>
@@ -686,9 +686,9 @@ contributors:
       </emu-grammar>
       <emu-alg>
         1. Let _result_ be ? MatchPropertyEvaluation of |MatchPropertyList| with arguments _matchable_ and _cacheGroup_.
-        1. If _result_ is *false*, return *false*.
+        1. If _result_ is ~not-matched~, return *false*.
         1. Let _result2_ be ? MatchPropertyEvaluation of |MatchProperty| with arguments _matchable_ and _cacheGroup_.
-        1. If _result2_ is *false*, return *false*.
+        1. If _result2_ is ~not-matched~, return *false*.
         1. Return the list-concatenation of _result_ and _result2_.
       </emu-alg>
       <emu-grammar>
@@ -719,7 +719,7 @@ contributors:
           _matchable_: an ECMAScript language value,
           _cacheGroup_: a %WeakMap%,
           _excludedNames_: a List,
-        ): either ~unused~ or an abrupt completion
+        ): either a normal completion containing ~unused~ or an abrupt completion
       </h1>
       <dl class="header">
       </dl>
