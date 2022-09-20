@@ -795,7 +795,7 @@ using brand-checking to verify, similar to `Array.isArray()`). The `value`
 property of the returned object is the [matchable](#matchable) itself.
 
 Userland classes do _not_ define a default custom matcher (for both
-[practical and technical reasons](#231)), but it is very simple to define one in
+[practical and technical reasons](https://github.com/tc39/proposal-pattern-matching/issues/231)), but it is very simple to define one in
 this style:
 
 ```jsx
