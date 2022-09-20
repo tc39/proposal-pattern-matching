@@ -148,6 +148,8 @@ match (res) {
 }
 ```
 
+### match expression
+
 - The whole block beginning with the `match` keyword, is the
   [**match construct**](#match-construct).
 - `res` is the [**matchable**](#matchable). This can be any expression.
@@ -175,6 +177,16 @@ match (res) {
     mature soon, which will allow users to put multiple statements in an RHS; today,
     that requires an
     [IIFE](https://developer.mozilla.org/en-US/docs/Glossary/IIFE).
+
+### is expression
+
+```js
+const problematic = res is { status: 500 };
+if (problematic) logger.report(res);
+```
+
+- A new [RelationalExpression](https://tc39.es/ecma262/#prod-RelationalExpression) like `a instanceof b` and `a in b`, but for patterns.
+- LHS is an expression, and RHS is a [**pattern**](#pattern).
 
 ## More on combinators
 
@@ -919,6 +931,10 @@ must be written as `when (${Foo} with (bar and baz)) ...` (binding the custom
 match result to both `bar` and `baz`) or `when ((${Foo} with bar) and baz) ...`
 (binding the custom match result to `bar`, and the _original_
 [matchable](#matchable) to `baz`).
+
+## is expression
+
+Refers to the `expr is pattern` expression. Evaluates to a boolean to indicate if the LHS matches the RHS.
 
 # Possible future enhancements
 
