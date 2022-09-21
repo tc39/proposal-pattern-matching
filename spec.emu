@@ -1103,7 +1103,7 @@ contributors:
       RelationalExpression[?In, ?Yield, ?Await] `<=` ShiftExpression[?Yield, ?Await]
       RelationalExpression[?In, ?Yield, ?Await] `>=` ShiftExpression[?Yield, ?Await]
       RelationalExpression[?In, ?Yield, ?Await] `instanceof` ShiftExpression[?Yield, ?Await]
-      <ins>RelationalExpression[?In, ?Yield, ?Await] `is` MatchPattern[?Yield, ?Await]</ins>
+      <ins>RelationalExpression[?In, ?Yield, ?Await] [no LineTerminator here] `is` MatchPattern[?Yield, ?Await]</ins>
       [+In] RelationalExpression[+In, ?Yield, ?Await] `in` ShiftExpression[?Yield, ?Await]
       [+In] PrivateIdentifier `in` ShiftExpression[?Yield, ?Await]
   </emu-grammar>
