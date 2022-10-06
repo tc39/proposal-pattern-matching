@@ -1092,6 +1092,38 @@ contributors:
       </emu-alg>
     </emu-clause>
   </emu-clause>
+  <emu-clause id="sec-relational-operators" number="10">
+  <h1>Relational Operators</h1>
+  <h2>Syntax</h2>
+  <emu-grammar>
+    RelationalExpression[In, Yield, Await]:
+      ShiftExpression[?Yield, ?Await]
+      RelationalExpression[?In, ?Yield, ?Await] `<` ShiftExpression[?Yield, ?Await]
+      RelationalExpression[?In, ?Yield, ?Await] `>` ShiftExpression[?Yield, ?Await]
+      RelationalExpression[?In, ?Yield, ?Await] `<=` ShiftExpression[?Yield, ?Await]
+      RelationalExpression[?In, ?Yield, ?Await] `>=` ShiftExpression[?Yield, ?Await]
+      RelationalExpression[?In, ?Yield, ?Await] `instanceof` ShiftExpression[?Yield, ?Await]
+      <ins>RelationalExpression[?In, ?Yield, ?Await] [no LineTerminator here] `is` MatchPattern[?Yield, ?Await]</ins>
+      [+In] RelationalExpression[+In, ?Yield, ?Await] `in` ShiftExpression[?Yield, ?Await]
+      [+In] PrivateIdentifier `in` ShiftExpression[?Yield, ?Await]
+  </emu-grammar>
+  <emu-clause id="sec-relational-operators-runtime-semantics-evaluation">
+    <h1>Runtime Semantics: Evaluation</h1>
+    <emu-grammar>
+      <ins>RelationalExpression: RelationalExpression `is` MatchPattern[?Yield, ?Await]</ins>
+    </emu-grammar>
+    <emu-alg>
+      1. Let _matchable_ be ? Evaluation of |RelationalExpression|.
+      1. Let _cacheGroup_ be ! Construct(%WeakMap%, a new empty List).
+      1. Let _oldEnv_ be the running execution context's LexicalEnvironment.
+      1. Let _matchEnv_ be NewDeclarativeEnvironment(_oldEnv_).
+      1. Set the running execution context's LexicalEnvironment to _matchEnv_.
+      1. Let _result_ be Completion(MatchPatternMatches of |MatchPattern| with arguments _matchable_ and _cacheGroup_).
+      1. Set the running execution context's LexicalEnvironment to _oldEnv_.
+      1. Return ? _result_.
+    </emu-alg>
+  </emu-clause>
+</emu-clause>
 </emu-clause>
 
 <emu-clause id="sec-fundamental-objects" number="20">
