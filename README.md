@@ -23,7 +23,7 @@
 
 - [Problem](#problem)
 - [Priorities](#priorities-for-a-solution)
-- [Prior Art](#priorities-for-a-solution)
+- [Prior Art](#prior-art)
 - [Code Samples](#code-samples)
 - [Motivating Examples](#motivating-examples)
 - [Terminology/Proposal](#proposal)
