@@ -343,7 +343,7 @@ class Option {
   static {
     Option.Some[Symbol.matcher] = (val) => ({
       matched: #hasValue in val && val.#hasValue,
-      value: val.value,
+      value: #value in val && val.#value,
     });
 
     Option.None[Symbol.matcher] = (val) => ({
