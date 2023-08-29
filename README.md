@@ -33,13 +33,38 @@
 
 ## Problem
 
-There are many ways to match values in the language, but there are no ways to
-match patterns beyond regular expressions for strings. `switch` is severely
-limited: it may not appear in expression position; an explicit `break` is
-required in each `case` to avoid accidental fallthrough; scoping is ambiguous
-(block-scoped variables inside one `case` are available in the scope of the
-others, unless curly braces are used); the only comparison it can do is `===`;
+There are many ways to match *values* in the language,
+but there are no ways to match *patterns*
+beyond regular expressions for strings.
+However, wanting to take different actions
+based on patterns in a given value
+is a very common desire:
+do X if the value has a `foo` property,
+do `Y` if it contains three or more items,
 etc.
+
+### Current Approaches
+
+`switch` has the desired *structure* --
+a value is given,
+and several possible match criteria are offered,
+each with a different associated action.
+But it's severely lacking in practice:
+it may not appear in expression position;
+an explicit `break` is required in each `case` to avoid accidental fallthrough;
+scoping is ambiguous
+(block-scoped variables inside one `case` are available in the scope of the others,
+unless curly braces are used);
+the only comparison it can do is `===`; etc.
+
+`if/else` has the necessary *power*
+(you can perform any comparison you like),
+but it's overly verbose even for common cases,
+requiring the author to explicitly list paths into the value's structure multiple times,
+once per test performed.
+It's also statement-only
+(unless the author opts for the harder-to-understand ternary syntax)
+and requires the value under test to be stored in a (possibly temporary) variable.
 
 ## Priorities for a solution
 
@@ -130,6 +155,645 @@ A list of community libraries that provide similar matching functionality:
 - [babel-plugin-proposal-pattern-matching](https://github.com/iptop/babel-plugin-proposal-pattern-matching) — Minimal grammar, high performance JavaScript pattern matching implementation.
 - [match-iz](https://github.com/shuckster/match-iz) — A tiny functional pattern-matching library inspired by the TC39 proposal.
 - [patcom](https://github.com/concept-not-found/patcom) — Feature parity with TC39 proposal without any new syntax
+
+# Specification
+
+This proposal introduces three new concepts to Javascript:
+
+* the "matcher pattern",
+  a new DSL closely related to destructuring patterns,
+  which allows recursively testing the structure and contents of a value
+  in multiple ways at once,
+  and extracting some of that structure into local bindings at the same time
+* the `match(){}` expression,
+  a general replacement for the `switch` statement
+  that uses matcher patterns
+  to resolve to one of several values,
+* the `is` boolean operator,
+  which allows for one-off testing of a value against a matcher pattern,
+  potentially also introducing bindings from that test into the local environment.
+
+
+# Matcher Patterns
+
+Matcher patterns are a new DSL,
+closely inspired by destructuring patterns,
+for recursively testing the structure and contents of a value
+while simultaneously extracting some parts of that value
+as local bindings for use by other code.
+
+Matcher patterns can be divided into three general varieties:
+* Value patterns, which test that the subject matches some criteria, like "is the string `"foo"`" or "matches the variable `bar`".
+* Structure patterns, which test the subject matches some structural criteria like "has the property `foo`" or "is at least length 3", and also let you recursively apply additional matchers to parts of that structure.
+* Combinator patterns, which let you match several patterns in parallel on the same subject, with simple boolean and/or logic.
+
+## Value Matchers
+
+There are several types of value patterns, performing different types of tests.
+
+### Primitive Pattern
+
+All primitive values can be used directly as matcher patterns,
+representing a test that the subject matches the specified value,
+using [`SameValue`](https://tc39.es/ecma262/#sec-samevalue) semantics
+(except when otherwise noted).
+
+For example, `1` tests that the subject is `SameValue` to `1`,
+`"foo"` tests that it's `SameValue` to `"foo"`,
+etc.
+
+Specifically, boolean literals, numeric literals, string literals, and the null literal
+can all be used.
+
+Additionally, several "near-literal" expressions can be used,
+which represent expressions that function as literals to authors:
+
+* `undefined`, matching the undefined value
+* numeric literals preceded by an unary `+` or `-`, like `-1`
+* `NaN`
+* `Infinity` (with `+` or `-` prefixes as well)
+* untagged template literals
+  (See [Bindings](#bindings) for details on what bindings are visible
+  to the interpolation expressions.)
+
+The one exception to `SameValue` matching semantics
+is that the pattern `0` is matched using `SameValueZero` semantics.
+`+0` and `-0` are matched with `SameValue`, as normal.
+(This has the effect that an "unsigned" zero pattern
+will match both positive and negative zero values,
+while the "signed" zero patterns
+will only match the appropriately signed zero values.)
+
+(Additional notes for `SameValue` semantics:
+it works "as expected" for NaN values,
+correctly matching NaN values against NaN patterns;
+it does not do any implicit type coercion,
+so a `1` value will not match a `"1"` pattern.)
+
+Primitive patterns never introduce bindings.
+
+#### Examples
+
+```js
+````
+
+
+### Variable Patterns
+
+A variable pattern is a "dotted ident": `foo`, `foo.bar`, etc.,
+excluding those that are already primitives like `null`.
+The syntax is meant to align with Decorators,
+which does not allow `[]` access or other syntax by default.
+
+Issue: Decoraters allows `@(...)` to let you run arbitrary expressions
+to obtain a decorator.
+Do we need something for this?
+The previous `${...}` syntax allowed for it.
+Or can we allow `[]` in the name?
+Maybe just containing primitives, like `foo["can't write this with dotted syntax"]`?
+
+A variable pattern resolves the identifier against the visible bindings
+(see [Bindings](#bindings) for details).
+If the result is an object with a `Symbol.customMatcher` property,
+or is a function,
+then it represents a custom matcher test.
+See [custom matchers](#custom-matchers) for details.
+
+Otherwise, it represents a test that the subject is `SameValue` with the result.
+
+Note: This implies that, for example,
+a variable holding an array will only match that exact array,
+via object equivalence;
+it is not equivalent to an [array pattern](#array-patterns)
+doing a structural match.
+
+Variable patterns never introduce bindings.
+
+
+#### Examples
+
+```js
+````
+
+
+### Custom Matchers
+
+If the object that the variable pattern resolves to
+either has a `Symbol.customMatcher` property in its prototype chain,
+or is a function,
+then it is a "custom matcher".
+
+If the object has a `Symbol.customMatcher` property:
+1. If that property's value is a function,
+  then that function is the "custom matcher function".
+2. Otherwise executing this matcher throws a XXXError.
+
+Otherwise, if the object is a function,
+it's the "custom matcher function".
+
+To determine whether the pattern matches or not,
+the custom matcher function is invoked
+with the subject as its sole argument.
+If it returns `true`,
+or an object that is iterable,
+the match is successful;
+if it returns `false`,
+the match fails;
+if it returns anything else,
+it throws an XXXError;
+if it throws,
+it passes the error up.
+
+Note: [Extractor patterns](#extractor-patterns) use the identical machinery,
+but allow further matching against the returned value,
+rather than being limited to just returning true/false.
+
+Note: In other words,
+*any* boolean predicate is immediately usable as a custom matcher.
+
+Issue: I'm being strict here about possible return values
+to allow for safer future extension.
+Is this the right way forward?
+Or should I just do truthy/falsey,
+so predicates that return useful non-boolean values can be used?
+Or false for failure and everything else for success
+(so something can successfully return undefined/null)?
+I'm open to any of these options.
+
+
+#### Examples
+
+```js
+````
+
+
+#### Built-in Custom Matchers
+
+All of the classes for primitive types
+(Boolean, String, Number, BigInt)
+expose a built-in Symbol.matcher static method,
+matching if and only if the matchable is an object of that type,
+or a primitive corresponding to that type
+(using brand-checking to check objects,
+so boxed values from other windows will still match).
+The return value of a successful match
+(for the purpose of [extractor patterns](#extractor-patterns))
+is an iterator containing the (possibly auto-unboxed) primitive value.
+
+All other platform objects also expose built-in Symbol.matcher methods,
+matching if and only if the matchable is of the same type
+(again using brand-checking to verify, similar to Array.isArray()).
+The built-in matcher is treated as always returning `true` or `false`.
+(We'll define this in the WebIDL spec.
+WebIDL may grow a way to override the matcher for a class
+and let it provide something more useful.)
+
+Userland classes auto-define a default custom matcher
+*if* a `Symbol.customMatcher` method is not present in the class definition.
+This is just:
+
+```js
+[Symbol.customMatcher](subject) {
+  return subject instanceof MyClass;
+}
+```
+
+Note: The only prototype-based way to put a custom matcher on every class by default
+would be to put it on `Function.prototype`.
+That then blocks us from allowing boolean predicates as custom matchers,
+as there is *no dependable way* to tell apart functions from constructors.
+(You can't even rely on the existence of a constructor slot,
+as many built-ins are defined to have one that just throws.)
+This approach
+(installing a custom matcher if it's not present in the class definition)
+mirrors the behavior of constructor methods in class definitions,
+and doesn't interfere with other functions.
+However, if this is deemed unacceptable,
+we could pursue other approaches,
+like having a prefix keyword to indicate a "boolean predicate pattern"
+so we can tell it apart from a custom matcher pattern.
+
+
+### Regex Patterns
+
+A regex pattern is a regex literal,
+representing a test that the subject,
+when stringified,
+successfully matches the regex.
+
+Regex patterns do not introduce bindings.
+
+A regex pattern can be followed by a parenthesized pattern list,
+identical to [custom matchers](#custom-matchers).
+See that section for details on how this works.
+Regex patterns can introduce bindings in this form,
+identically to custom matchers.
+
+#### Examples
+
+```js
+````
+
+
+### Binding Patterns
+
+A `let`, `const`, or `var` keyword followed by a valid variable name
+(identical to binding statements anywhere else).
+Binding statements don't represent a test at all
+(they always succeed),
+but they introduce a binding,
+binding the subject to the given name
+with the given variable semantics.
+
+#### Examples
+
+```js
+````
+
+
+### Void Patterns
+
+The keyword `void` is a pattern
+that always matches,
+and does nothing else.
+It's useful in structure patterns,
+when you want to test for the existence of a property
+without caring what its value is.
+
+Void patterns never introduce bindings.
+
+Issue: This pattern isn't approved by the full champions group,
+but has been discussed.
+Most pattern-matching languages have something for this;
+without it, you have to use a binding pattern and just ignore the result,
+or create a no-op always-succeeds custom matcher object.
+
+#### Examples
+
+```js
+````
+
+
+## Structure Patterns
+
+Structure patterns let you test the structure of the subject
+(its properties, its length, etc)
+and then recurse into that structure with additional matcher patterns.
+
+### Array Patterns
+
+A comma-separated list of zero or more patterns, surrounded by square brackets.
+It represents a test that:
+
+1. The subject is iterable.
+2. The subject contains exactly as many iteration items
+  as the length of the array pattern.
+3. Each item matches the associated sub-pattern.
+
+For example, `when ["foo", {bar}]` will match
+when the subject is an iterable with exactly two items,
+the first item is the string `"foo"`,
+and the second item has a `bar` property.
+
+The final item in the array pattern can optionally be a "rest pattern":
+either a literal `...`,
+or a `...` followed by another pattern.
+In either case, the presence of a rest pattern relaxes the length test
+(2 in the list above)
+to merely check that the subject has *at least* as many items
+as the array pattern,
+ignoring the rest pattern.
+That is, `[a, b, ...]` will only match a subject
+who contains 2 or more items.
+
+If the `...` is followed by a pattern,
+like `[a, b, ...let c]`,
+then the iterator is fully exhausted,
+all the leftover items are collected into an `Array`,
+and that array is then applied as the subject of the rest pattern's test.
+
+Note: The above implies that `[a, b]` will pull three items from the subject:
+two to match against the sub-patterns,
+and a third to verify that the subject doesn't *have* a third item.
+`[a, b, ...]` will pull only two items from the subject,
+to match agaisnt the sub-patterns.
+`[a, b, ...c]` will exhaust the subject's iterator,
+verifying it has at least two items
+(to match against the sub-patterns)
+and then pulling the rest to match against the rest pattern.
+
+Array patterns introduce all bindings introduced by their sub-patterns,
+in order.
+
+#### Examples
+
+```js
+````
+
+#### Array Pattern Caching
+
+To allow for idiomatic uses of generators
+and other "single-shot" iterators
+to be reasonably matched against several array patterns,
+the iterators and their results are cached over the scope of the match construct.
+
+Specifically, whenever a matchable is matched against an array pattern,
+the matchable is used as the key in a cache,
+whose value is the iterator obtained from the matchable,
+and all items pulled from the matchable by an array pattern.
+
+Whenever something would be matched against an array pattern,
+the cache is first checked,
+and the already-pulled items stored in the cache are used for the pattern,
+with new items pulled from the iterator only if necessary.
+
+For example:
+
+```js
+function* integers(to) {
+  for(var i = 1; i <= to; i++) yield i;
+}
+
+const fiveIntegers = integers(5);
+match (fiveIntegers) {
+  when [let a]:
+    console.log(`found one int: ${a}`);
+    // Matching a generator against an array pattern.
+    // Obtain the iterator (which is just the generator itself),
+    // then pull two items:
+    // one to match against the `a` pattern (which succeeds),
+    // the second to verify the iterator only has one item
+    // (which fails).
+  when [let a, let b]:
+    console.log(`found two ints: ${a} and ${b}`);
+    // Matching against an array pattern again.
+    // The generator object has already been cached,
+    // so we fetch the cached results.
+    // We need three items in total;
+    // two to check against the patterns,
+    // and the third to verify the iterator has only two items.
+    // Two are already in the cache,
+    // so we’ll just pull one more (and fail the pattern).
+  default: console.log("more than two ints");
+}
+console.log([...fiveIntegers]);
+// logs [4, 5]
+// The match construct pulled three elements from the generator,
+// so there’s two leftover afterwards.
+```
+
+When execution of the match construct finishes, all cached iterators are closed.
+
+
+### Object Patterns
+
+A comma-separated list of zero or more "object pattern clauses", wrapped in curly braces.
+Each "object pattern clause" is either `<key>`, `let/var/const <ident>` or `<key>: <pattern>`,
+where `<key>` is an identifier or a computed-key expression like `[Symbol.foo]`.
+It represents a test that the subject:
+
+1. Has every specified property on its prototype chain.
+2. If the key has an associated sub-pattern,
+  then the value of that property matches the sub-pattern.
+
+If the object pattern clause is `let/var/const <ident>`,
+it's interpreted as equivalent to `<ident>: let/var/const ident`.
+
+That is, `when {foo, let bar, baz: "qux"}`
+is equivalent to `when {foo: void, bar: let bar, baz: "qux"}`:
+it tests that the subject has `foo`, `bar`, and `baz` properties,
+introduces a `bar` binding for the value of the `bar` property,
+and verifies that the value of the `baz` property is the string `"qux"`.
+
+Additionally, object patterns can contain a "rest pattern":
+a `...` followed by a pattern.
+Unlike array patterns, a lone `...` is not valid in an object pattern
+(since there's no strict check to relax).
+If the rest pattern exists,
+then all *own properties*
+that aren't already matched by object pattern clauses
+are collected into a fresh object,
+which is then matched against the rest pattern.
+(This matches the behavior of object destructuring.)
+
+Object patterns introduce all bindings introduced by their sub-patterns,
+in order.
+
+#### Examples
+
+```js
+````
+
+#### Object Pattern Caching
+
+Similar to [array pattern caching](#array-pattern-caching),
+object patterns cache their results over the scope of the match construct,
+so that multiple clauses don’t observably retrieve the same property multiple times.
+
+(Unlike array pattern caching,
+which is necessary for this proposal to work with iterators,
+object pattern caching is a nice-to-have.
+It does guard against some weirdness like non-idempotent getters
+(including, notably, getters that return iterators),
+and helps make idempotent-but-expensive getters usable in pattern matching
+without contortions,
+but mostly it’s just for conceptual consistency.)
+
+Whenever a matchable is matched against an object pattern,
+for each property name in the object pattern,
+a `(<matchable>, <property name>)` tuple is used as the key in a cache,
+whose value is the value of the property.
+
+Whenever something would be matched against an object pattern,
+the cache is first checked,
+and if the matchable and that property name are already in the cache,
+the value is retrieved from cache instead of by a fresh Get against the matchable.
+
+For example:
+
+```js
+const randomItem = {
+  get numOrString() { return Math.random() < .5 ? 1 : "1"; }
+};
+
+match (randomItem) {
+  when {numOrString: Number}:
+    console.log("Only matches half the time.");
+    // Whether the pattern matches or not,
+    // we cache the (randomItem, "numOrString") pair
+    // with the result.
+  when {numOrString: String}:
+    console.log("Guaranteed to match the other half of the time.");
+    // Since (randomItem, "numOrString") has already been cached,
+    // we reuse the result here;
+    // if it was a string for the first clause,
+    // it’s the same string here.
+}
+```
+
+Issue: This potentially introduces a lot more caching,
+and the major use-case is just making sure that iterator caching
+works both at the top-level and when nested in an object.
+Expensive or non-idempotent getters benefit,
+but that's a much less important benefit.
+This caching *is* potentially droppable,
+but it will mean that we only cache iterables at the top level.
+
+### Extractor Patterns
+
+A dotted-ident followed by a parenthesized "argument list"
+containing the same syntax as an [array matcher](#array-matcher).
+Represents a combination of a [custom matcher pattern](#custom-matcher-pattern)
+and an [array pattern](#array-patterns):
+the custom matcher pattern is matched against the subject,
+and if that succeeds,
+the array pattern is matched against the custom matcher's return value.
+
+For this purpose, a `true` return value
+is treated as an empty iterator.
+(It will match `foo()` or `foo(...)`,
+but will fail `foo(a)`.)
+
+Extractor patterns introduce the bindings from their "argument list",
+identically to how array matchers work.
+
+Issue: Extractor patterns are harder to use with existing functions,
+since they have to return their result as an iterator,
+which isn't as common as just returning the useful value immediately.
+Maybe if the return value isn't `true`/`false`,
+and not an iterable
+(or maybe, more strictly, not an `Array`?),
+then it's interpreted as the first item of an iterable?
+That is, returning `2` would be the same as returning `[2]`.
+This would also relieve some of the pressure on the plain variable-pattern custom matchers
+possibly wanting to return non-bool values,
+because you could deal with that in the extractor syntax instead,
+possibly with a `...` to just ignore the result.
+
+
+#### Examples
+
+```js
+class Option {
+  constructor() { throw new TypeError(); }
+}
+Option.Some = class extends Option {
+  constructor(value) { self.value = value; }
+  map(cb) { return new Option.Some(cb(this.value)); }
+  // etc
+  static [Symbol.customMatcher](subject) {
+    if(subject instanceof Option.Some) return [subject.value];
+    return false;
+  }
+}
+Option.None = class extends Option {
+  constructor() { }
+  map(cb) { return this; }
+  // Use the default custom matcher,
+  // which just checks that the subject matches the class.
+}
+
+let val = Option.Some(5);
+match(val) {
+  when Object.Some(String and let a): console.log(`Got a string "${a}".`);
+  when Object.Some(Number and let a): console.log(`Got a number ${a}.`);
+  when Object.Some(void): console.log(`Got something unexpected.`);
+  // Or `Object.Some` or `Object.Some(...)`, either works.
+  // `Object.Some()` will never match, as it always returns a value.
+  when Object.None(): console.log(`Operation failed.`);
+  // or `Object.None`, either works
+  default: console.log(`Didn't get an Option at all.`)
+}
+```
+
+Issue: We don't have an easy way to get access to the "built-in" custom matcher,
+so the above falls back to doing an instanceof test
+(rather than the technically more correct branding test
+that the built-in one does).
+To work "properly" I'd have to define the class without a custom matcher,
+then pull off the custom matcher,
+save it to a local variable,
+and define a new custom matcher that invokes the original one
+and returns the `[subject.value]` on success.
+That's a silly amount of work for correctness.
+
+
+### Regex Extractor Patterns
+
+[Regex patterns](#regex-patterns) can similarly be written with an "argument list",
+like an [extractor pattern](#extractor-patterns),
+and are interpreted the same way.
+For this purpose,
+on a successful match
+the "return value" (what's matched against the array pattern)
+is an iterator whose items are the regex result object,
+followed by each of the positive numbered groups in the regex result
+(that is, skipping the "0" group that represents the entire match).
+
+#### Examples
+
+```js
+match (arithmeticStr) {
+  when /(?<left>\d+) \+ (?<right>\d+)/({groups:{let left, let right}}):
+    // Using named capture groups
+    processAddition(left, right);
+  when /(\d+) \* (\d+)/(void, let left, let right):
+    // Using positional capture groups
+    processMultiplication(left, right);
+  default: ...
+}
+````
+
+Issue: Previously, named capture groups automatically established bindings.
+Now that we have other ways to extract the groups (and other parts),
+we've removed that to simplify the proposal.
+Doing so means we don't have to decide what type of binding they establish,
+which is nice,
+but it is a little more verbose as you're repeating the capture group name.
+
+
+## Combinator Patterns
+
+Sometimes you need to match multiple patterns on a single value,
+or pass a value that matches any of several patterns,
+or just negate a pattern.
+All of these can be achieved with combinator patterns.
+
+### And Patterns
+
+Two or more patterns, each separated by the keyword `and`.
+This represents a test
+that the subject passes *all* of the sub-patterns.
+
+Short-circuiting applies; if any sub-pattern fails to match the subject,
+matching stops immediately.
+
+And patterns introduce all the bindings from their sub-patterns,
+in order.
+
+### Or Patterns
+
+Two or more patterns, each separated by the keyword `or`.
+This represents a test
+that the subject passes *at least one* of the sub-patterns.
+
+Short-circuiting applies; if any sub-pattern successfully matches the subject,
+matching stops immediately.
+
+Or patterns introduce all the bindings from the successful sub-pattern.
+They also introduce all non-conflicting bindings
+from their unsuccessful or skipped sub-patterns
+(that is, any that don't have the same name as a binding from the successful pattern),
+but bound to `undefined`.
+
+### Not Patterns
+
+A pattern preceded by the keyword `not`.
+This represents a test that the subject *does not* match the sub-pattern.
+
+Not patterns never introduce any bindings.
+
+
 
 # Code samples
 
@@ -249,172 +913,7 @@ elements to `pages` using a [**rest pattern**](#rest-pattern).
 ([Rest patterns](#rest-pattern) can also be used in objects, with the expected
 semantics.)
 
-## Bindings from regex patterns with named capture groups
 
-```jsx
-match (arithmeticStr) {
-  when (/(?<left>\d+) \+ (?<right>\d+)/): process(left, right);
-  when (/(\d+) \* (\d+)/ with [, left, right]): process(left, right);
-  default: ...
-}
-```
-
-This sample is a contrived arithmetic expression parser which uses
-[regex patterns](#regex-patterns).
-
-The first clause matches integer addition expressions, using named capture
-groups for each of the operands. The RHS is able to see the named capture groups
-as bindings.
-
-(These magic bindings will only work with **literal**
-[regex patterns](#regex-patterns). If a regex with named capture groups is
-passed into an [interpolation pattern](#interpolation-pattern), the RHS will see
-no magic bindings. It’s very important (e.g. for code analysis tools) that
-bindings only be introduced where the name is locally present.)
-
-The second clause matches integer multiplication expressions, but without named
-capture groups. Regexes (both literals and references inside
-[interpolation patterns](#interpolation-patterns)) implement the
-[custom matcher protocol](#custom-matcher-protocol), which makes the return
-value of
-[`String.prototype.match`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/match)
-available to the [`with` operator](#with-chaining).
-
-(Regexes are a major motivator for the
-[custom matcher protocol](#custom-matcher-protocol) ― while we could treat them
-as a special case, they’re just ordinary objects. If they can be used as a
-[pattern](#regex-pattern), then userland objects should be able to do this as
-well.)
-
-## Speaking of interpolations...
-
-```jsx
-const LF = 0x0a;
-const CR = 0x0d;
-
-match (nextChar()) {
-  when (${LF}): ...
-  when (${CR}): ...
-  default: ...
-}
-```
-
-Here we see the [**interpolation operator**](#interpolation-pattern) (`${}`),
-which escapes from "pattern mode" syntax to "expression mode" syntax. It is
-conceptually very similar to using `${}` in template strings.
-
-Written as just `LF`, `LF` is an [identifier pattern](#identifier-pattern),
-which would always match regardless of the value of the [matchable](#matchable)
-(`nextChar()`) and bind it to the given name (`LF`), shadowing the outer
-`const LF = 0x0a` declaration at the top.
-
-Written as `${LF}`, `LF` is evaluated as an expression, which results in the
-primitive `Number` value `0x0a`. This value is then treated as a
-[literal Number pattern](#primitive-pattern), and the [clause](#clause) matches
-if the [matchable](#matchable) is `0x0a`. The RHS sees no new bindings.
-
-## [Custom matcher protocol](#custom-matcher-protocol) interpolations
-
-```jsx
-class Option {
-  #value;
-  #hasValue = false;
-
-  constructor (hasValue, value) {
-    this.#hasValue = !!hasValue;
-    if (hasValue) {
-      this.#value = value;
-    }
-  }
-
-  get value() {
-    if (this.#hasValue) return this.#value;
-    throw new Exception('Can’t get the value of an Option.None.');
-  }
-
-  static Some(val) {
-    return new Option(true, val);
-  }
-
-  static None() {
-    return new Option(false);
-  }
-
-  static {
-    Option.Some[Symbol.matcher] = (val) => ({
-      matched: #hasValue in val && val.#hasValue,
-      value: #value in val && val.#value,
-    });
-
-    Option.None[Symbol.matcher] = (val) => ({
-      matched: #hasValue in val && !val.#hasValue
-    });
-  }
-}
-
-match (result) {
-  when (${Option.Some} with val): console.log(val);
-  when (${Option.None}): console.log("none");
-}
-```
-
-In this sample implementation of the common "Option" type,
-the expressions inside `${}` are the static "constructors" `Option.Some` and `Option.None`,
-which have a `Symbol.matcher` method. That method is invoked with the
-[matchable](#matchable) (`result`) as its sole argument. The
-[interpolation pattern](#interpolation-pattern) is considered to have matched if
-the `Symbol.matcher` method returns an object with a truthy `matched` property.
-Any other return value (including `true` by itself) indicates a failed match. (A
-thrown error percolates up the expression tree, as usual.)
-
-The [interpolation pattern](#interpolation-pattern) can optionally chain into
-another pattern using [`with` chaining](#with-chaining), which matches against
-the `value` property of the object returned by the `Symbol.matcher` method;
-in this case, it allows `Option.Some` to expose the value inside of the `Option`.
-
-Dynamic custom matchers can readily be created, opening a world of
-possibilities:
-
-```jsx
-function asciiCI(str) {
-  return {
-    [Symbol.matcher](matchable) {
-      return {
-        matched: str.toLowerCase() == matchable.toLowerCase()
-      };
-    }
-  }
-}
-
-match (cssProperty) {
-  when ({ name: name and ${asciiCI("color")}, value }):
-    console.log("color: " + value);
-    // matches if `name` is an ASCII case-insensitive match
-    // for "color", so `{name:"COLOR", value:"red"} would match.
-}
-```
-
-## Built-in custom matchers
-
-```jsx
-match (value) {
-  when (${Number}): ...
-  when (${BigInt}): ...
-  when (${String}): ...
-  when (${Array}): ...
-  default: ...
-}
-```
-
-All the built-in classes come with a predefined `Symbol.matcher` method which
-uses
-[brand check semantics](https://github.com/tc39/how-we-work/blob/master/terminology.md#brand-check)
-to determine if the incoming [matchable](#matchable) is of that type. If so, the
-[matchable](#matchable) is returned under the `value` key.
-
-Brand checks allow for predictable results across realms. So, for example,
-arrays from other windows will still successfully match the `${Array}` pattern,
-similar to `Array.isArray()`.
 
 ## Motivating examples
 
