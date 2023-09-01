@@ -812,6 +812,20 @@ This represents a test that the subject *does not* match the sub-pattern.
 
 Not patterns never introduce any bindings.
 
+### Combining Combinator Patterns
+
+Combinator patterns cannot be combined at the same "level";
+there is no precedence relationship between them.
+Instead, parentheses must be used to explicitly provide an ordering.
+
+That is, `foo and bar or baz` is a syntax error;
+it must be written `(foo and bar) or baz`
+or `foo and (bar or baz)`.
+
+Similarly, `not foo and bar` is a syntax error;
+it must be written `(not foo) and bar`
+or `not (foo and bar)`.
+
 
 
 # Code samples
