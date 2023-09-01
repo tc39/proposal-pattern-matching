@@ -40,7 +40,7 @@ However, wanting to take different actions
 based on patterns in a given value
 is a very common desire:
 do X if the value has a `foo` property,
-do `Y` if it contains three or more items,
+do Y if it contains three or more items,
 etc.
 
 ### Current Approaches
