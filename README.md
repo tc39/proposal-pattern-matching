@@ -381,6 +381,10 @@ representing a test that the subject,
 when stringified,
 successfully matches the regex.
 
+(Technically, this just invokes the `RegExp[Symbol.customMatcher]` method;
+that is, `when /foo/` and `let re = /foo/; ... when re`
+are identical in behavior wrt built-in fiddling.)
+
 Regex patterns do not introduce bindings.
 
 A regex pattern can be followed by a parenthesized pattern list,
