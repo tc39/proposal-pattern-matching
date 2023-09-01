@@ -331,7 +331,7 @@ I'm open to any of these options.
 
 All of the classes for primitive types
 (Boolean, String, Number, BigInt)
-expose a built-in Symbol.matcher static method,
+expose a built-in Symbol.customMatcher static method,
 matching if and only if the matchable is an object of that type,
 or a primitive corresponding to that type
 (using brand-checking to check objects,
@@ -340,7 +340,7 @@ The return value of a successful match
 (for the purpose of [extractor patterns](#extractor-patterns))
 is an iterator containing the (possibly auto-unboxed) primitive value.
 
-All other platform objects also expose built-in Symbol.matcher methods,
+All other platform objects also expose built-in Symbol.customMatcher methods,
 matching if and only if the matchable is of the same type
 (again using brand-checking to verify, similar to Array.isArray()).
 The built-in matcher is treated as always returning `true` or `false`.
@@ -1089,15 +1089,15 @@ An arbitrary JS expression wrapped in `${}`, just like in template literals. For
 example, `${myVariable}`, `${"foo-" + restOfString}`, or `${getValue()}`.
 
 At runtime, the expression inside the `${}` is evaluated. If it resolves to an
-object with a method named `Symbol.matcher`, that method is invoked, and
+object with a method named `Symbol.customMatcher`, that method is invoked, and
 matching proceeds with the [custom matcher protocol](#custom-matcher-protocol)
 semantics. If it resolves to anything else (typically a primitive, a `Symbol`,
-or an object without a `Symbol.matcher` function), then the pattern matches if
+or an object without a `Symbol.customMatcher` function), then the pattern matches if
 the [matchable](#matchable) is
 [`SameValue`](https://tc39.es/ecma262/#sec-samevalue) with the result.
 
 Interpolation patterns can use [`with`-chaining](#with-chaining) to further
-match against the `value` key of the object returned by the `Symbol.matcher`
+match against the `value` key of the object returned by the `Symbol.customMatcher`
 method.
 
 ### Array Pattern
@@ -1282,10 +1282,10 @@ match (randomItem) {
 ## Custom Matcher Protocol
 
 When the expression inside an [interpolation pattern](#interpolation-pattern)
-evaluates to an object with a `Symbol.matcher` method, that method is called
+evaluates to an object with a `Symbol.customMatcher` method, that method is called
 with the [matchable](#matchable) as its sole argument.
 
-To implement the `Symbol.matcher` method, the developer must return an object
+To implement the `Symbol.customMatcher` method, the developer must return an object
 with a `matched` property. If that property is truthy, the pattern matches; if
 that value is falsy, the pattern does not match. In the case of a successful
 match, the matched value must be made available on a `value` property of the
@@ -1294,13 +1294,13 @@ return object.
 ### Built-in Custom Matchers
 
 All of the classes for primitive types (`Boolean`, `String`, `Number`, `BigInt`)
-expose a built-in `Symbol.matcher` method, matching if and only if the
+expose a built-in `Symbol.customMatcher` method, matching if and only if the
 [matchable](#matchable) is an object of that type, or a primitive corresponding
 to that type (using brand-checking to check objects, so boxed values from other
 windows will still match). The `value` property of the returned object is the
 (possibly auto-unboxed) primitive value.
 
-All other platform objects also expose built-in `Symbol.matcher` methods,
+All other platform objects also expose built-in `Symbol.customMatcher` methods,
 matching if and only if the [matchable](#matchable) is of the same type (again
 using brand-checking to verify, similar to `Array.isArray()`). The `value`
 property of the returned object is the [matchable](#matchable) itself.
@@ -1311,7 +1311,7 @@ this style:
 
 ```jsx
 class Foo {
-  static [Symbol.matcher](value) {
+  static [Symbol.customMatcher](value) {
     return {
       matched: value instanceof Foo,
       value,
@@ -1345,7 +1345,7 @@ For example:
 
 ```jsx
 class MyClass = {
-  static [Symbol.matcher](matchable) {
+  static [Symbol.customMatcher](matchable) {
     return {
       matched: matchable === 3,
       value: { a: 1, b: { c: 2 } },
