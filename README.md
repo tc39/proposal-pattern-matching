@@ -669,19 +669,6 @@ but will fail `foo(a)`.)
 Extractor patterns introduce the bindings from their "argument list",
 identically to how array matchers work.
 
-Issue: Extractor patterns are harder to use with existing functions,
-since they have to return their result as an iterator,
-which isn't as common as just returning the useful value immediately.
-Maybe if the return value isn't `true`/`false`,
-and not an iterable
-(or maybe, more strictly, not an `Array`?),
-then it's interpreted as the first item of an iterable?
-That is, returning `2` would be the same as returning `[2]`.
-This would also relieve some of the pressure on the plain variable-pattern custom matchers
-possibly wanting to return non-bool values,
-because you could deal with that in the extractor syntax instead,
-possibly with a `...` to just ignore the result.
-
 
 #### Examples
 
