@@ -432,6 +432,9 @@ Most pattern-matching languages have something for this;
 without it, you have to use a binding pattern and just ignore the result,
 or create a no-op always-succeeds custom matcher object.
 
+Issue: We should *probably* sync this with destructuring too:
+`const [void, void, a] = ...;` to only bind the third value from the array.
+
 #### Examples
 
 ```js
