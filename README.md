@@ -232,6 +232,23 @@ so a `1` value will not match a `"1"` pattern.)
 
 Primitive patterns never introduce bindings.
 
+Issue: `Infinity`, `NaN`, and `undefined` are, technically,
+variables that just have default values set globally.
+You can override their bindings locally
+(tho this is done approximately *never*).
+In theory we *could* just treat these as [variable patterns](#variable-patterns).
+Currently this proposal treats them specially,
+ignoring any potential local rebindings;
+this makes them consistent with `null`,
+and also means we can do `-Infinity`
+without having to expand unary-minus
+to be usable on all variable patterns.
+If this is a significant committee issue, however,
+we should indeed just allow unary-plus and unary-minus
+on variable patterns,
+and then remove the special-casing of these three values.
+
+
 #### Examples
 
 ```js
