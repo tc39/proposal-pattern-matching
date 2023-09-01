@@ -570,7 +570,7 @@ a `...` followed by a pattern.
 Unlike array patterns, a lone `...` is not valid in an object pattern
 (since there's no strict check to relax).
 If the rest pattern exists,
-then all *own properties*
+then all *enumerable own properties*
 that aren't already matched by object pattern clauses
 are collected into a fresh object,
 which is then matched against the rest pattern.
