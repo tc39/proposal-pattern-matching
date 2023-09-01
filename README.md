@@ -286,7 +286,7 @@ then it is a "custom matcher".
 If the object has a `Symbol.customMatcher` property:
 1. If that property's value is a function,
   then that function is the "custom matcher function".
-2. Otherwise executing this matcher throws a XXXError.
+2. Otherwise executing this matcher throws a TypeError.
 
 Otherwise, if the object is a function,
 it's the "custom matcher function".
