@@ -476,7 +476,7 @@ Note: The above implies that `[a, b]` will pull three items from the subject:
 two to match against the sub-patterns,
 and a third to verify that the subject doesn't *have* a third item.
 `[a, b, ...]` will pull only two items from the subject,
-to match agaisnt the sub-patterns.
+to match against the sub-patterns.
 `[a, b, ...c]` will exhaust the subject's iterator,
 verifying it has at least two items
 (to match against the sub-patterns)
