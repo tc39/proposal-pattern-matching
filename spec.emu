@@ -257,7 +257,7 @@ contributors:
         1. Let _matchableRef_ be ? Evaluation of |Expression|.
         1. Let _matchable_ be ? GetValue(_matchableRef_).
         1. If |MatchClauses| is not present, throw a *TypeError* exception.
-        1. Let _cacheGroup_ be ! Construct(%WeakMap%, a new empty List).
+        1. Let _cacheGroup_ be ! Construct(%Map%, a new empty List).
         1. Let _iterators_ be ! Construct(%Set%, a new empty List).
         1. Perform ! CreateDataPropertyOrThrow(_cacheGroup_, *"IteratorToClose"*, iterators).
         1. Let _result_ be Completion(MatchClausesEvaluation of |MatchClauses| with argument _matchable_ and _cacheGroup_).
@@ -277,7 +277,7 @@ contributors:
       <h1>
         Runtime Semantics: MatchClausesEvaluation (
           _matchable_: an ECMAScript language value,
-          _cacheGroup_: a %WeakMap%,
+          _cacheGroup_: a %Map%,
         ): either a normal completion containing a Boolean or an abrupt completion
       </h1>
       <dl class="header">
@@ -301,7 +301,7 @@ contributors:
       <h1>
         Runtime Semantics: MatchClauseEvaluation (
           _matchable_: an ECMAScript language value,
-          _cacheGroup_: a %WeakMap%,
+          _cacheGroup_: a %Map%,
         ): either a normal completion containing a Match Record or an abrupt completion
       </h1>
       <dl class="header">
@@ -367,7 +367,7 @@ contributors:
       <h1>
         Runtime Semantics: MatchPatternMatches (
           _matchable_: an ECMAScript language value,
-          _cacheGroup_: a %WeakMap%,
+          _cacheGroup_: a %Map%,
         ): either a normal completion containing a Boolean or an abrupt completion
       </h1>
       <dl class="header">
@@ -425,7 +425,7 @@ contributors:
       <h1>
         Runtime Semantics: CombinedMatchPatternMatches (
           _matchable_: an ECMAScript language value,
-          _cacheGroup_: a %WeakMap%,
+          _cacheGroup_: a %Map%,
         ): either a normal completion containing a Boolean or an abrupt completion
       </h1>
       <dl class="header">
@@ -451,7 +451,7 @@ contributors:
       <h1>
         Runtime Semantics: InterpolationPatternMatches (
           _matchable_: an ECMAScript language value,
-          _cacheGroup_: a %WeakMap%,
+          _cacheGroup_: a %Map%,
         ): either a normal completion containing a Boolean or an abrupt completion
       </h1>
       <dl class="header">
@@ -481,7 +481,7 @@ contributors:
       <h1>
         Runtime Semantics: NearLiteralMatchPatternMatches (
           _matchable_: an ECMAScript language value,
-          _cacheGroup_: a %WeakMap%,
+          _cacheGroup_: a %Map%,
         ): either a normal completion containing a Boolean or an abrupt completion
       </h1>
       <dl class="header">
@@ -581,7 +581,7 @@ contributors:
       <h1>
         Runtime Semantics: DestructuringMatchPatternMatches (
           _matchable_: an ECMAScript language value,
-          _cacheGroup_: a %WeakMap%,
+          _cacheGroup_: a %Map%,
         ): either a normal completion containing a Boolean or an abrupt completion
       </h1>
       <dl class="header">
@@ -670,7 +670,7 @@ contributors:
       <h1>
         Runtime Semantics: MatchPropertyEvaluation (
           _matchable_: an ECMAScript language value,
-          _cacheGroup_: a %WeakMap%,
+          _cacheGroup_: a %Map%,
         ): either a normal completion containing either ~not-matched~ or a List, or a throw completion
       </h1>
       <dl class="header">
@@ -717,7 +717,7 @@ contributors:
       <h1>
         Runtime Semantics: MatchRestPropertyEvaluation (
           _matchable_: an ECMAScript language value,
-          _cacheGroup_: a %WeakMap%,
+          _cacheGroup_: a %Map%,
           _excludedNames_: a List,
         ): either a normal completion containing ~unused~ or an abrupt completion
       </h1>
@@ -739,7 +739,7 @@ contributors:
       <h1>
         Runtime Semantics: MatchElementEvaluation (
           _matchable_: an ECMAScript language value,
-          _cacheGroup_: a %WeakMap%,
+          _cacheGroup_: a %Map%,
           _counter_: a Record,
         ): either a normal completion containing a Boolean or an abrupt completion
       </h1>
@@ -877,21 +877,21 @@ contributors:
     <emu-clause id="sec-get-match-cache" type="abstract operation">
       <h1><ins>
         GetMatchCache (
-          _cacheGroup_: a WeakMap,
+          _cacheGroup_: a Map,
           _object_: an ECMAScript language value,
         ): an ECMAScript language value
       </ins></h1>
       <dl class="header">
       </dl>
       <emu-alg>
-        1. If ! Call(%WeakMap.prototype.has%, _cacheGroup_, « _object_ ») is *true*, then
-          1. Return ! Call(%WeakMap.prototype.get%, _cacheGroup_, « _object_ »).
+        1. If ! Call(%Map.prototype.has%, _cacheGroup_, « _object_ ») is *true*, then
+          1. Return ! Call(%Map.prototype.get%, _cacheGroup_, « _object_ »).
         1. Let _cache_ be OrdinaryObjectCreate(*null*).
         1. Perform ! CreateDataPropertyOrThrow(_cache_, *"Has"*, ! Construct(%Set%, *undefined*, a new empty List)).
         1. Perform ! CreateDataPropertyOrThrow(_cache_, *"Get"*, ! Construct(%Map%, *undefined*, a new empty List)).
         1. Perform ! CreateDataPropertyOrThrow(_cache_, *"Iterator"*, *undefined*).
         1. Perform ! CreateDataPropertyOrThrow(_cache_, *"IteratedItems"*, ! ArrayCreate(0)).
-        1. Perform ! Call(%WeakMap.prototype.set%, _cacheGroup_, « _object_, _cache_ »).
+        1. Perform ! Call(%Map.prototype.set%, _cacheGroup_, « _object_, _cache_ »).
         1. Return _cache_.
       </emu-alg>
       <emu-note>
@@ -902,7 +902,7 @@ contributors:
     <emu-clause id="sec-match-cached-has-property" type="abstract operation">
       <h1><ins>
         MatchCachedHasProperty (
-          _cacheGroup_: a WeakMap,
+          _cacheGroup_: a Map,
           _object_: an ECMAScript language value,
           _propertyName_: a property key,
         ): either a normal completion containing a Boolean or an abrupt completion
@@ -911,10 +911,10 @@ contributors:
       </dl>
       <emu-alg>
         1. Let _cache_ be ! Get(GetMatchCache(_cacheGroup_, _object_), *"Has"*).
-        1. Let _cachedResult_ be ! Call(%WeakMap.prototype.get%, _cache_, « _propertyName_ »).
+        1. Let _cachedResult_ be ! Call(%Map.prototype.get%, _cache_, « _propertyName_ »).
         1. If Type(_cachedResult_) is Boolean, return _cachedResult_.
         1. Let _result_ be ? HasProperty(_object_, _propertyName_).
-        1. Perform ! Call(%WeakMap.prototype.set%, _cache_, « _propertyName_, _result_ »).
+        1. Perform ! Call(%Map.prototype.set%, _cache_, « _propertyName_, _result_ »).
         1. Return _result_.
       </emu-alg>
     </emu-clause>
@@ -922,7 +922,7 @@ contributors:
     <emu-clause id="sec-match-cached-get" type="abstract operation">
       <h1><ins>
         MatchCachedGet (
-          _cacheGroup_: a WeakMap,
+          _cacheGroup_: a Map,
           _object_: an ECMAScript language value,
           _propertyName_: a property key,
         ): either a normal completion containing an ECMAScript language value or an abrupt completion
@@ -942,7 +942,7 @@ contributors:
     <emu-clause id="sec-match-cached-is-iterable" type="abstract operation">
       <h1><ins>
         MatchCachedIsIterable (
-          _cacheGroup_: a WeakMap,
+          _cacheGroup_: a Map,
           _object_: an ECMAScript language value,
         ): either a normal completion containing a Boolean or an abrupt completion
       </ins></h1>
@@ -958,7 +958,7 @@ contributors:
     <emu-clause id="sec-match-cached-get-iterator" type="abstract operation">
       <h1><ins>
         MatchCachedGetIterator (
-          _cacheGroup_: a WeakMap,
+          _cacheGroup_: a Map,
           _object_: an ECMAScript language value,
         ): either a normal completion containing an Iterator Record or an abrupt completion
       </ins></h1>
@@ -980,7 +980,7 @@ contributors:
     <emu-clause id="sec-match-cached-iterator-step" type="abstract operation">
       <h1><ins>
         MatchCachedIteratorStep (
-          _cacheGroup_: a WeakMap,
+          _cacheGroup_: a Map,
           _iterator_: an Iterator Record,
         ): either a normal completion containing a Match Record or an abrupt completion
       </ins></h1>
@@ -1007,7 +1007,7 @@ contributors:
     <emu-clause id="sec-match-cached-get-iterator-nth-item" type="abstract operation">
       <h1><ins>
         MatchCachedGetIteratorNthItem (
-          _cacheGroup_: a WeakMap,
+          _cacheGroup_: a Map,
           _iterator_: an Iterator Record,
           _n_: a Number,
         ): either a normal completion containing a Match Record or an abrupt completion
@@ -1027,7 +1027,7 @@ contributors:
     <emu-clause id="sec-match-iterator-length-match" type="abstract operation">
       <h1><ins>
         MatchIteratorLengthMatch (
-          _cacheGroup_: a WeakMap,
+          _cacheGroup_: a Map,
           _matchable_: an ECMAScript language value,
           _lastIndex_: a Number,
         ): either a normal completion containing a Boolean or an abrupt completion
@@ -1114,7 +1114,7 @@ contributors:
     </emu-grammar>
     <emu-alg>
       1. Let _matchable_ be ? Evaluation of |RelationalExpression|.
-      1. Let _cacheGroup_ be ! Construct(%WeakMap%, a new empty List).
+      1. Let _cacheGroup_ be ! Construct(%Map%, a new empty List).
       1. Let _oldEnv_ be the running execution context's LexicalEnvironment.
       1. Let _matchEnv_ be NewDeclarativeEnvironment(_oldEnv_).
       1. Set the running execution context's LexicalEnvironment to _matchEnv_.
