@@ -146,79 +146,86 @@ contributors:
           `default` `:` Expression
 
         MatchPattern :
-          CombinedMatchPattern
-          InterpolationPattern
-          IdentifierMatchPattern
           NearLiteralMatchPattern
-          ObjectMatchPattern
+          MemberExpressionMatchPattern
+          ExtractorMatchPattern
+          BindingIdentifierMatchPattern
           ArrayMatchPattern
+          ObjectMatchPattern
+          CombinedMatchPattern
           `(` MatchPattern `)`
 
-        CombinedMatchPattern:
-          MatchPattern `or` MatchPattern
-          MatchPattern `and` MatchPattern
-
-        InterpolationPattern:
-          `${` Expression `}` `with` MatchPattern
-          `${` Expression `}`
-
-        IdentifierMatchPattern :
-          Identifier
-
         NearLiteralMatchPattern :
+          `NaN`
+          `+`? `Infinity`
+          `-` `Infinity`
+          `undefined`
           NullLiteral
           BooleanLiteral
-          NumericLiteral
+          `+`? NumericLiteral
+          `-` NumericLiteral
           StringLiteral
-          RegularExpressionLiteral `with` MatchPattern
           RegularExpressionLiteral
           TemplateLiteral[~Tagged]
-          `+` NumericLiteral
-          `-` NumericLiteral
-          `+` `Infinity`
-          `-` `Infinity`
-          `+` `NaN`
-          `-` `NaN`
+
+        MemberExpressionMatchPattern :
+          IdentifierReference
+          MemberExpressionPattern `.` IdentifierName
+
+        ExtractorMatchPattern :
+          RegularExpressionLiteral `(` ExtractorPatternList `)`
+          MemberExpressionPattern `(` ExtractorPatternList `)`
+
+        ExtractorPatternList :
+          MatchPattern
+          `...` MatchPattern
+          ExtractorPatternList `,` MatchPattern
+          ExtractorPatternList `,` `...` MatchPattern
+
+        BindingIdentifierMatchPattern :
+          `var` BindingIdentifier
+          `let` BindingIdentifier
+          `const` BindingIdentifier
+
+        ArrayMatchPattern :
+          `[` Elision? ArrayMatchPatternRestElement? `]`
+          `[` ArrayMatchPatternElementList `]`
+          `[` ArrayMatchPatternElementList `,` Elision? ArrayMatchPatternRestElement? `]`
 
         ObjectMatchPattern :
           `{` `}`
           `{` MatchRestProperty `}`
-          `{` MatchPropertyList `}`
-          `{` MatchPropertyList `,` MatchRestProperty? `}`
+          `{` ObjectMatchPatternPropertyList `}`
+          `{` ObjectMatchPatternPropertyList `,` MatchRestProperty? `}`
 
-        ArrayMatchPattern :
-          `[` Elision? MatchRestElement? `]`
-          `[` MatchElementList `]`
-          `[` MatchElementList `,` Elision? MatchRestElement? `]`
+        CombinedMatchPattern:
+          MatchPattern `or` MatchPattern
+          MatchPattern `and` MatchPattern
+          `not` MatchPattern
 
-        MatchRestProperty :
-          `...` IdentifierMatchPattern
+        ArrayMatchPatternElementList :
+          ArrayMatchPatternElisionElement
+          ArrayMatchPatternElementList `,` ArrayMatchPatternElisionElement
 
-        MatchPropertyList :
-          MatchProperty
-          MatchPropertyList `,` MatchProperty
-
-        MatchElementList :
-          MatchElisionElement
-          MatchElementList `,` MatchElisionElement
-
-        MatchElisionElement :
+        ArrayMatchPatternElisionElement :
           Elision? MatchPattern
 
-        MatchProperty :
-          IdentifierMatchPattern
-          PropertyName `:` MatchPattern
-
-        MatchRestElement :
+        ArrayMatchPatternRestElement :
           `...` MatchPattern?
 
+        ObjectMatchPatternPropertyList :
+          ObjectMatchPatternProperty
+          ObjectMatchPatternPropertyList `,` ObjectMatchPatternProperty
+
+        ObjectMatchPatternProperty :
+          BindingIdentifier
+          BindingIdentifierMatchPattern
+          PropertyName `?`? `:` MatchPattern
+
+        MatchRestProperty :
+          `...` MatchPattern
+
       </emu-grammar>
-      <emu-note>
-        `undefined`, `NaN`, and `Infinity` are covered by the |IdentifierMatchPattern|, but `+NaN`, `-NaN`, `+Infinity`, and `-Infinity` are covered by the |NearLiteralMatchPattern|.
-      </emu-note>
-      <emu-note>
-        No |Initializer| is allowed in the current syntax. See <a href="https://github.com/tc39/proposal-pattern-matching/#default-values">https://github.com/tc39/proposal-pattern-matching/#default-values</a>
-      </emu-note>
     </emu-clause>
     <emu-clause id="sec-match-expression-early-errors">
       <h1><ins>Static Semantics: Early Errors</ins></h1>
@@ -233,18 +240,11 @@ contributors:
         <li>It is a Syntax Error if any other clauses follow the `default` `:` clause.</li>
       </ul>
       <emu-grammar>
-        NearLiteralMatchPattern :
-          RegularExpressionLiteral `with` MatchPattern
-      </emu-grammar>
-      <ul>
-        <li>It is a Syntax Error if the named capture group inside |RegularExpressionLiteral| cannot be covered by |Identifier|. For example, <code>/a(?&lt;if&gt;.+)/</code> is a syntax error when used in match pattern.</li>
-      </ul>
-      <emu-grammar>
         MatchPattern :
           CombinedMatchPattern
       </emu-grammar>
       <ul>
-        <li>It is a Syntax Error if the combined match pattern has both `or` and `and` at the same level without a `()`. For example, `a or b and c` is an early error, `a or (b and c)` or `(a or b) and c` is okay.</li>
+        <li>It is a Syntax Error if the combined match pattern has both `not`, `or` and `and` at the same level without a `()`. For example, `a or b and c` is an early error, `a or (b and c)` or `(a or b) and c` is okay.</li>
       </ul>
     </emu-clause>
     <emu-clause id="sec-match-expression-runtime-semantics">
@@ -604,20 +604,20 @@ contributors:
         1. Return *true*.
       </emu-alg>
       <emu-grammar>
-        ObjectMatchPattern : `{` MatchPropertyList `}`
+        ObjectMatchPattern : `{` ObjectMatchPatternPropertyList `}`
       </emu-grammar>
       <emu-alg>
         1. If Type(_matchable_) is not Object, return *false*.
-        1. Let _result_ be ? MatchPropertyEvaluation of |MatchPropertyList| with arguments _matchable_ and _cacheGroup_.
+        1. Let _result_ be ? ObjectMatchPatternPropertyEvaluation of |ObjectMatchPatternPropertyList| with arguments _matchable_ and _cacheGroup_.
         1. If _result_ is a List, return *true*.
         1. Return *false*.
       </emu-alg>
       <emu-grammar>
-        ObjectMatchPattern : `{` MatchPropertyList `,` MatchRestProperty? `}`
+        ObjectMatchPattern : `{` ObjectMatchPatternPropertyList `,` MatchRestProperty? `}`
       </emu-grammar>
       <emu-alg>
         1. If Type(_matchable_) is not Object, return *false*.
-        1. Let _result_ be ? MatchPropertyEvaluation of |MatchPropertyList| with arguments _matchable_ and _cacheGroup_.
+        1. Let _result_ be ? ObjectMatchPatternPropertyEvaluation of |ObjectMatchPatternPropertyList| with arguments _matchable_ and _cacheGroup_.
         1. If _result_ is ~not-matched~, return *false*.
         1. Assert: _result_ is a List.
         1. Let _excludedNames_ be _result_.
@@ -628,7 +628,7 @@ contributors:
         1. Return _result_.
       </emu-alg>
       <emu-grammar>
-        ArrayMatchPattern : `[` Elision? MatchRestElement? `]`
+        ArrayMatchPattern : `[` Elision? ArrayMatchPatternRestElement? `]`
       </emu-grammar>
       <emu-alg>
         1. If ? MatchCachedIsIterable(_cacheGroup_, _matchable_) is *false*, return *false*.
@@ -636,39 +636,39 @@ contributors:
         1. If |Elision| is present, then
           1. Let _result_ be ? MatchElementEvaluation of |Elision| with arguments _matchable_, _cacheGroup_ and _index_.
           1. If _result_ is *false*, return *false*.
-        1. If |MatchRestElement| is present, then
-          1. Return ? MatchElementEvaluation of |MatchRestElement| with arguments _matchable_, _cacheGroup_ and _index_.
+        1. If |ArrayMatchPatternRestElement| is present, then
+          1. Return ? MatchElementEvaluation of |ArrayMatchPatternRestElement| with arguments _matchable_, _cacheGroup_ and _index_.
         1. Return ? MatchIteratorLengthMatch(_cacheGroup_, _matchable_, index.[[LastIndex]]).
       </emu-alg>
       <emu-grammar>
-        ArrayMatchPattern : `[` MatchElementList `]`
+        ArrayMatchPattern : `[` ArrayMatchPatternElementList `]`
       </emu-grammar>
       <emu-alg>
         1. If ? MatchCachedIsIterable(_cacheGroup_, _matchable_) is *false*, return *false*.
         1. Let _index_ be Record { [[LastIndex]]: -1 }.
-        1. Let _result_ be ? MatchElementEvaluation of |MatchElementList| with arguments _matchable_, _cacheGroup_ and _index_.
+        1. Let _result_ be ? MatchElementEvaluation of |ArrayMatchPatternElementList| with arguments _matchable_, _cacheGroup_ and _index_.
         1. If _result_ is *false*, return *false*.
         1. Return ? MatchIteratorLengthMatch(_cacheGroup_, _matchable_, index.[[LastIndex]]).
       </emu-alg>
       <emu-grammar>
-        ArrayMatchPattern : `[` MatchElementList `,` Elision? MatchRestElement? `]`
+        ArrayMatchPattern : `[` ArrayMatchPatternElementList `,` Elision? ArrayMatchPatternRestElement? `]`
       </emu-grammar>
       <emu-alg>
         1. If ? MatchCachedIsIterable(_cacheGroup_, _matchable_) is *false*, return *false*.
         1. Let _index_ be Record { [[LastIndex]]: -1 }.
-        1. Let _result_ be ? MatchElementEvaluation of |MatchElementList| with arguments _matchable_, _cacheGroup_ and _index_.
+        1. Let _result_ be ? MatchElementEvaluation of |ArrayMatchPatternElementList| with arguments _matchable_, _cacheGroup_ and _index_.
         1. If _result_ is *false*, return *false*.
         1. If |Elision| is present, then
           1. Let _result2_ be ? MatchElementEvaluation of |Elision| with arguments _matchable_, _cacheGroup_ and _index_.
           1. If _result2_ is *false*, return *false*.
-        1. If |MatchRestElement| is present, then
-          1. Return ? MatchElementEvaluation of |MatchRestElement| with arguments _matchable_, _cacheGroup_ and _index_.
+        1. If |ArrayMatchPatternRestElement| is present, then
+          1. Return ? MatchElementEvaluation of |ArrayMatchPatternRestElement| with arguments _matchable_, _cacheGroup_ and _index_.
         1. Return ? MatchIteratorLengthMatch(_cacheGroup_, _matchable_, index.[[LastIndex]]).
       </emu-alg>
     </emu-clause>
     <emu-clause id="sec-match-property-evaluation" type="sdo">
       <h1>
-        Runtime Semantics: MatchPropertyEvaluation (
+        Runtime Semantics: ObjectMatchPatternPropertyEvaluation (
           _matchable_: an ECMAScript language value,
           _cacheGroup_: a %Map%,
         ): either a normal completion containing either ~not-matched~ or a List, or a throw completion
@@ -676,23 +676,23 @@ contributors:
       <dl class="header">
       </dl>
       <emu-grammar>
-        MatchPropertyList : MatchProperty
+        ObjectMatchPatternPropertyList : ObjectMatchPatternProperty
       </emu-grammar>
       <emu-alg>
-        1. Return ? MatchPropertyEvaluation of |MatchProperty| with arguments _matchable_ and _cacheGroup_.
+        1. Return ? ObjectMatchPatternPropertyEvaluation of |ObjectMatchPatternProperty| with arguments _matchable_ and _cacheGroup_.
       </emu-alg>
       <emu-grammar>
-        MatchPropertyList : MatchPropertyList `,` MatchProperty
+        ObjectMatchPatternPropertyList : ObjectMatchPatternPropertyList `,` ObjectMatchPatternProperty
       </emu-grammar>
       <emu-alg>
-        1. Let _result_ be ? MatchPropertyEvaluation of |MatchPropertyList| with arguments _matchable_ and _cacheGroup_.
+        1. Let _result_ be ? ObjectMatchPatternPropertyEvaluation of |ObjectMatchPatternPropertyList| with arguments _matchable_ and _cacheGroup_.
         1. If _result_ is ~not-matched~, return *false*.
-        1. Let _result2_ be ? MatchPropertyEvaluation of |MatchProperty| with arguments _matchable_ and _cacheGroup_.
+        1. Let _result2_ be ? ObjectMatchPatternPropertyEvaluation of |ObjectMatchPatternProperty| with arguments _matchable_ and _cacheGroup_.
         1. If _result2_ is ~not-matched~, return *false*.
         1. Return the list-concatenation of _result_ and _result2_.
       </emu-alg>
       <emu-grammar>
-        MatchProperty : IdentifierMatchPattern
+        ObjectMatchPatternProperty : IdentifierMatchPattern
       </emu-grammar>
       <emu-alg>
         1. Let _identifier_ be the |Identifier| that is covered by |IdentifierMatchPattern|.
@@ -703,7 +703,7 @@ contributors:
         1. Return *true*.
       </emu-alg>
       <emu-grammar>
-        MatchProperty : PropertyName `:` MatchPattern
+        ObjectMatchPatternProperty : PropertyName `:` MatchPattern
       </emu-grammar>
       <emu-alg>
         1. Let _propKey_ be ? Evaluation of |PropertyName|.
@@ -746,7 +746,7 @@ contributors:
       <dl class="header">
       </dl>
       <emu-grammar>
-        MatchRestElement : `...` MatchPattern?
+        ArrayMatchPatternRestElement : `...` MatchPattern?
       </emu-grammar>
       <emu-alg>
         1. If |MatchPattern| is not present, return *true*.
@@ -761,21 +761,21 @@ contributors:
           1. Set _n_ to _n_ + 1.
       </emu-alg>
       <emu-grammar>
-        MatchElementList : MatchElisionElement
+        ArrayMatchPatternElementList : ArrayMatchPatternElisionElement
       </emu-grammar>
       <emu-alg>
-        1. Return ? MatchElementEvaluation of |MatchElisionElement| with arguments _matchable_, _cacheGroup_, and _counter_.
+        1. Return ? MatchElementEvaluation of |ArrayMatchPatternElisionElement| with arguments _matchable_, _cacheGroup_, and _counter_.
       </emu-alg>
       <emu-grammar>
-        MatchElementList : MatchElementList `,` MatchElisionElement
+        ArrayMatchPatternElementList : ArrayMatchPatternElementList `,` ArrayMatchPatternElisionElement
       </emu-grammar>
       <emu-alg>
-        1. Let _result_ be ? MatchElementEvaluation of |MatchElementList| with arguments _matchable_, _cacheGroup_, and _counter_.
+        1. Let _result_ be ? MatchElementEvaluation of |ArrayMatchPatternElementList| with arguments _matchable_, _cacheGroup_, and _counter_.
         1. If _result_ is *false*, return *false*.
-        1. Return ? MatchElementEvaluation of |MatchElisionElement| with arguments _matchable_, _cacheGroup_, and _counter_.
+        1. Return ? MatchElementEvaluation of |ArrayMatchPatternElisionElement| with arguments _matchable_, _cacheGroup_, and _counter_.
       </emu-alg>
       <emu-grammar>
-        MatchElisionElement : Elision? MatchPattern
+        ArrayMatchPatternElisionElement : Elision? MatchPattern
       </emu-grammar>
       <emu-alg>
         1. If |Elision| is present, then
