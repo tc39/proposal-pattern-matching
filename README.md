@@ -576,7 +576,7 @@ Each "object pattern clause" is either `<key>`, `let/var/const <ident>` or `<key
 where `<key>` is an identifier or a computed-key expression like `[Symbol.foo]`.
 It represents a test that the subject:
 
-1. Has every specified property on its prototype chain.
+1. Has every specified property in its prototype chain.
 2. If the key has an associated sub-pattern,
   then the value of that property matches the sub-pattern.
 
