@@ -290,7 +290,7 @@ Variable patterns never introduce bindings.
 #### Examples
 
 ```js
-````
+```
 
 
 ### Custom Matchers
