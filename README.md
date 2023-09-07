@@ -413,7 +413,7 @@ identically to custom matchers.
 #### Examples
 
 ```js
-````
+```
 
 
 ### Binding Patterns
