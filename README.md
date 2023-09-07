@@ -347,7 +347,7 @@ I'm open to any of these options.
 #### Built-in Custom Matchers
 
 All of the classes for primitive types
-(Boolean, String, Number, BigInt)
+(Boolean, String, Number, BigInt, Symbol)
 expose a built-in Symbol.customMatcher static method,
 matching if and only if the matchable is an object of that type,
 or a primitive corresponding to that type
