@@ -252,7 +252,7 @@ and then remove the special-casing of these three values.
 #### Examples
 
 ```js
-````
+```
 
 
 ### Variable Patterns
