@@ -614,7 +614,7 @@ the same as ones coming from skipped `or` patterns.
 #### Examples
 
 ```js
-````
+```
 
 #### Object Pattern Caching
 
