@@ -429,7 +429,7 @@ with the given variable semantics.
 #### Examples
 
 ```js
-````
+```
 
 
 ### Void Patterns
