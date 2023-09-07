@@ -455,7 +455,7 @@ Issue: We should *probably* sync this with destructuring too:
 #### Examples
 
 ```js
-````
+```
 
 
 ## Structure Patterns
