@@ -185,7 +185,7 @@ as local bindings for use by other code.
 Matcher patterns can be divided into three general varieties:
 * Value patterns, which test that the subject matches some criteria, like "is the string `"foo"`" or "matches the variable `bar`".
 * Structure patterns, which test the subject matches some structural criteria like "has the property `foo`" or "is at least length 3", and also let you recursively apply additional matchers to parts of that structure.
-* Combinator patterns, which let you match several patterns in parallel on the same subject, with simple boolean and/or logic.
+* Combinator patterns, which let you match several patterns in parallel on the same subject, with simple boolean `and`/`or` logic.
 
 ## Value Matchers
 
