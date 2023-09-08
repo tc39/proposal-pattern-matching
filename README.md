@@ -20,12 +20,20 @@
 - Tab Atkins-Bittner (Google, [@tabatkins](https://twitter.com/tabatkins))
 
 ## Table of Contents
-1. [Introduction](#introduction)
+2. [Introduction](#introduction)
   1. [Problem](#problem)
+    1. [Current Approaches](#current-approaches)
   2. [Priorities for a solution](#priorities-for-a-solution)
+    1. [_Pattern_ matching](#pattern-matching)
+    2. [Subsumption of `switch`](#subsumption-of-switch)
+    3. [Be better than `switch`](#be-better-than-switch)
+    4. [Expression semantics](#expression-semantics)
+    5. [Exhaustiveness and ordering](#exhaustiveness-and-ordering)
+    6. [User extensibility](#user-extensibility)
   3. [Prior Art](#prior-art)
-2. [Specification](#specification)
-3. [Matcher Patterns](#matcher-patterns)
+    1. [Userland matching](#userland-matching)
+3. [Specification](#specification)
+4. [Matcher Patterns](#matcher-patterns)
   1. [Value Matchers](#value-matchers)
     1. [Primitive Pattern](#primitive-pattern)
     2. [Variable Patterns](#variable-patterns)
@@ -43,7 +51,12 @@
     2. [Or Patterns](#or-patterns)
     3. [Not Patterns](#not-patterns)
     4. [Combining Combinator Patterns](#combining-combinator-patterns)
-4. [Code samples](#code-samples)
+  4. [Guard Patterns](#guard-patterns)
+5. [Bindings](#bindings)
+6. [`match` expression](#match-expression)
+7. [`is` operator](#is-operator)
+  1. [Bindings](#bindings)
+8. [Code samples](#code-samples)
   1. [General terminology](#general-terminology)
     1. [match expression](#match-expression)
     2. [is expression](#is-expression)
@@ -52,7 +65,7 @@
   4. [Motivating examples](#motivating-examples)
   5. [](#)
   6. [](#)
-5. [Old Proposal](#proposal)
+9. [Old Proposal](#old-proposal)
   1. [Match construct](#match-construct)
   2. [Matchable](#matchable)
   3. [Clause](#clause)
@@ -73,7 +86,7 @@
   7. [Pattern combinators](#pattern-combinators)
   8. [Parenthesizing Patterns](#parenthesizing-patterns)
   9. [is expression](#is-expression)
-6. [Possible future enhancements](#possible-future-enhancements)
+10. [Possible future enhancements](#possible-future-enhancements)
   1. [`async match`](#async-match)
   2. [Nil pattern](#nil-pattern)
   3. [Default Values](#default-values)
@@ -83,6 +96,7 @@
   7. [Chaining guards](#chaining-guards)
   8. [`or` on when clauses](#or-on-when-clauses)
   9. [Implementations](#implementations)
+
 
 
 # Introduction
@@ -896,6 +910,39 @@ it must be written `(not foo) and bar`
 or `not (foo and bar)`.
 
 
+## Guard Patterns
+
+A guard pattern has the syntax `if(<expression>)`,
+and represents a test that the expression is truthy.
+This is an arbitrary JS expression,
+*not* a pattern.
+
+Guard patterns do not introduce any bindings.
+
+# Bindings
+
+Issue: fill in.
+Basics are that,
+when something establishes a binding,
+that binding is visible to all patterns further in.
+For example, `{status} and if(status >= 300)`.
+
+# `match` expression
+
+Issue: Define the `match(){}` expression.
+
+# `is` operator
+
+Issue: Define the `x is pattern` operator.
+
+## Bindings
+
+Issue: Define how bindings from the pattern
+escape into outer scopes,
+when used as a normal expression,
+in `if()`, in `for()`, in `while()`, etc.
+
+
 
 # Code samples
 
@@ -1086,7 +1133,9 @@ Concise conditional logic in JSX (via
 </Fetch>
 ```
 
-# Proposal
+# Old Proposal
+
+Kept around for the moment for comparison purposes.
 
 ## Match construct
 
