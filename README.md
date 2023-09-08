@@ -783,18 +783,28 @@ All of these can be achieved with combinator patterns.
 Two or more patterns, each separated by the keyword `and`.
 This represents a test
 that the subject passes *all* of the sub-patterns.
+Any pattern can be
+(and in some cases must be, see [combining combinators](#combining-combinator-patterns))
+wrapped in parentheses.
 
 Short-circuiting applies; if any sub-pattern fails to match the subject,
 matching stops immediately.
 
 And patterns introduce all the bindings from their sub-patterns,
 in order.
+They also introduce all non-conflicting bindings
+from their skipped sub-patterns
+(that is, any that don't have the same name as a binding from a successful pattern),
+but bound to `undefined`.
 
 ### Or Patterns
 
 Two or more patterns, each separated by the keyword `or`.
 This represents a test
 that the subject passes *at least one* of the sub-patterns.
+Any pattern can be
+(and in some cases must be, see [combining combinators](#combining-combinator-patterns))
+wrapped in parentheses.
 
 Short-circuiting applies; if any sub-pattern successfully matches the subject,
 matching stops immediately.
@@ -809,8 +819,11 @@ but bound to `undefined`.
 
 A pattern preceded by the keyword `not`.
 This represents a test that the subject *does not* match the sub-pattern.
+The pattern can be
+(and in some cases must be, see [combining combinators](#combining-combinator-patterns))
+wrapped in parentheses.
 
-Not patterns never introduce any bindings.
+`not` patterns introduce all the binding from their sub-pattern.
 
 ### Combining Combinator Patterns
 
