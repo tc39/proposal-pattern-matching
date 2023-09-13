@@ -132,18 +132,19 @@ contributors:
       <h1>Syntax</h1>
       <emu-note type="editor">Work in progress.</emu-note>
       <emu-grammar type="definition">
-        MatchExpression ::
+        MatchExpression :
           `match` [no LineTerminator here] `(` Expression `)` [no LineTerminator here] `{` MatchClauses? `}`
+          `match` [no LineTerminator here] `(` Expression `)` [no LineTerminator here] `{` MatchClauses `,`? `}`
 
         MatchClauses :
           MatchClause
-          MatchClauses MatchClause
+          MatchClauses `,` MatchClause
 
         MatchClause :
-          `when` `(` MatchPattern `)` `if` `(` Expression `)` `:` Expression
-          `when` `(` MatchPattern `)` `:` Expression
-          `if` `(` Expression `)` `:` Expression
-          `default` `:` Expression
+          `when` `(` MatchPattern `)` `if` `(` Expression `)` `:` AssignmentExpression
+          `when` `(` MatchPattern `)` `:` AssignmentExpression
+          `if` `(` Expression `)` `:` AssignmentExpression
+          `default` `:` AssignmentExpression
 
         MatchPattern :
           NearLiteralMatchPattern
