@@ -332,12 +332,18 @@ excluding those that are already primitives like `null`.
 The syntax is meant to align with Decorators,
 which does not allow `[]` access or other syntax by default.
 
-Issue: Decoraters allows `@(...)` to let you run arbitrary expressions
+Issue: Decorators allow `@(...)` to let you run arbitrary expressions
 to obtain a decorator.
-Do we need something for this?
-The previous `${...}` syntax allowed for it.
-Or can we allow `[]` in the name?
-Maybe just containing primitives, like `foo["can't write this with dotted syntax"]`?
+I think we do need to either define a similar escape hatch,
+or expand our grammar a little bit further.
+Right now you can't, say, match against `val[someSymbol]`,
+which means we're implicitly encouraging string-based property designs.
+Previously, we had `${expression here}` to allow for this.
+But maybe just "idents, dots, and brackets" are sufficient.
+And string literals in those brackets too,
+to allow `val["weird property name"]`?
+If you put the string in a variable beforehand you can just write
+`val[weirdPropertyName]`
 
 A variable pattern resolves the identifier against the visible bindings
 (see [Bindings](#bindings) for details).
