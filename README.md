@@ -233,17 +233,17 @@ A list of community libraries that provide similar matching functionality:
 This proposal introduces three new concepts to Javascript:
 
 * the "matcher pattern",
-  a new DSL closely related to destructuring patterns,
-  which allows recursively testing the structure and contents of a value
-  in multiple ways at once,
-  and extracting some of that structure into local bindings at the same time
+    a new DSL closely related to destructuring patterns,
+    which allows recursively testing the structure and contents of a value
+    in multiple ways at once,
+    and extracting some of that structure into local bindings at the same time
 * the `match(){}` expression,
-  a general replacement for the `switch` statement
-  that uses matcher patterns
-  to resolve to one of several values,
+    a general replacement for the `switch` statement
+    that uses matcher patterns
+    to resolve to one of several values,
 * the `is` boolean operator,
-  which allows for one-off testing of a value against a matcher pattern,
-  potentially also introducing bindings from that test into the local environment.
+    which allows for one-off testing of a value against a matcher pattern,
+    potentially also introducing bindings from that test into the local environment.
 
 
 # Matcher Patterns
@@ -285,8 +285,8 @@ which represent expressions that function as literals to authors:
 * `NaN`
 * `Infinity` (with `+` or `-` prefixes as well)
 * untagged template literals
-  (See [Bindings](#bindings) for details on what bindings are visible
-  to the interpolation expressions.)
+    (See [Bindings](#bindings) for details on what bindings are visible
+    to the interpolation expressions.)
 
 The one exception to `SameValue` matching semantics
 is that the pattern `0` is matched using `SameValueZero` semantics.
@@ -370,7 +370,7 @@ then it is a "custom matcher".
 
 If the object has a `Symbol.customMatcher` property:
 1. If that property's value is a function,
-  then that function is the "custom matcher function".
+    then that function is the "custom matcher function".
 2. Otherwise executing this matcher throws a TypeError.
 
 Otherwise, if the object is a function,
