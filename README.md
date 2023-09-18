@@ -1455,7 +1455,10 @@ match (fiveIntegers) {
   default: console.log("more than two ints");
 }
 console.log([...fiveIntegers]);
-// logs [4, 5]
+// logs:
+// "more than two ints"
+// [4, 5]
+//
 // The match construct pulled three elements from the generator,
 // so there’s two leftover afterwards.
 ```
