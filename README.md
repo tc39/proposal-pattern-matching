@@ -300,8 +300,6 @@ correctly matching NaN values against NaN patterns;
 it does not do any implicit type coercion,
 so a `1` value will not match a `"1"` pattern.)
 
-Primitive patterns never introduce bindings.
-
 Issue: `Infinity`, `NaN`, and `undefined` are, technically,
 variables that just have default values set globally.
 You can override their bindings locally
@@ -353,8 +351,6 @@ a variable holding an array will only match that exact array,
 via object equivalence;
 it is not equivalent to an [array pattern](#array-patterns)
 doing a structural match.
-
-Variable patterns never introduce bindings.
 
 
 #### Examples
@@ -472,13 +468,9 @@ successfully matches the regex.
 that is, `when /foo/` and `let re = /foo/; ... when re`
 are identical in behavior wrt built-in fiddling.)
 
-Regex patterns do not introduce bindings.
-
 A regex pattern can be followed by a parenthesized pattern list,
 identical to [custom matchers](#custom-matchers).
 See that section for details on how this works.
-Regex patterns can introduce bindings in this form,
-identically to custom matchers.
 
 #### Examples
 
@@ -490,16 +482,103 @@ identically to custom matchers.
 
 A `let`, `const`, or `var` keyword followed by a valid variable name
 (identical to binding statements anywhere else).
-Binding statements don't represent a test at all
-(they always succeed),
-but they introduce a binding,
+Binding patterns always match,
+and additionally introduce a binding,
 binding the subject to the given name
-with the given variable semantics.
+with the given binding semantics.
+
+
+#### Binding Behavior Details
+
+As with normal binding statements,
+the bindings introduced by binding patterns
+are established in the nearest block scope
+(for `let`/`const`)
+or the nearest function scope (for `var`).
+
+Bindings are established according to their *presence* in a pattern;
+whether or not the binding pattern itself is ever executed is irrelevant.
+(For example, `[1, 2] is ["foo", let foo]`
+will still establish a `foo` binding in the block scope,
+despite the first pattern failing to match
+and thus skipping the binding pattern.)
+
+Standard TDZ rules apply before the binding pattern is actually executed.
+(For example, `when [x, let x]` is an early `ReferenceError`,
+since the `x` binding has not yet been initialized
+when the first pattern is run
+and attempts to dereference `x`.)
+
+Unlike standard binding rules,
+within the scope of an entire top-level pattern,
+a given name can appear in multiple binding patterns,
+as long as all instances use the same binding type keyword.
+It is a runtime `ReferenceError`
+if more than one of these binding patterns actually execute, however
+(with one exception - see [`or` patterns](#or-patterns)).
+(This behavior has precedent:
+it was previously the case that named capture groups
+had to be completely unique within a regexp.
+Now they're allowed to be repeated
+as long as they're in different branches of an alternative,
+like `/foo(?<part>.*)|(?<part>.*)foo/`.)
+
 
 #### Examples
 
 ```js
+(x or [let y]) and (z or {key: let y})
 ```
+
+Valid at parse-time: both binding patterns name `y`
+with `let` semantics.
+This establishes a `y` binding in the nearest block scope.
+
+If x *or* z matches, but not both,
+then `y` gets bound appropriately.
+If neither matches, `y` remains uninitialized
+(so it's a runtime ReferenceError to use it).
+If both match, a runtime ReferenceError is thrown
+while executing the second `let y` pattern,
+as its binding has already been initialized.
+
+```js
+(x or [let y]) and (z or {key: const y})
+```
+Early ReferenceError, as `y` is being bound twice
+with differing semantics.
+
+```js
+x and let y and z and if(y == "foo")
+```
+Valid at parse-time, establishes a `y` binding in block scope.
+
+If x doesn't match,
+`y` remains uninitialized,
+but the guard pattern is also skipped,
+so no runtime error (yet).
+If z doesn't match,
+`y` is initialized to the match subject,
+but the `if()` test never runs.
+
+```js
+[let x and String] or {length: let x}
+```
+Valid at parse-time, establishes an `x` binding.
+
+[`or` pattern](#or-patterns) semantics allow overriding an already-initialized binding,
+if that binding came from an earlier failed sub-pattern,
+to avoid forcing authors to awkwardly arrange their binding patterns
+after the fallible tests.
+
+So in this example, if passed an object like `[5]`,
+it will pass the initial length check,
+execute the `let x` pattern and bind it to `5`,
+then fail the `String` pattern,
+as the subject is a `Number`.
+It will then continue to the next `or` sub-pattern,
+and successfully bind `x` to 1,
+as the existing binding was initialized in a failed sub-pattern.
 
 
 ### Void Patterns
@@ -510,8 +589,6 @@ and does nothing else.
 It's useful in structure patterns,
 when you want to test for the existence of a property
 without caring what its value is.
-
-Void patterns never introduce bindings.
 
 Issue: This pattern isn't approved by the full champions group,
 but has been discussed.
@@ -543,6 +620,11 @@ It represents a test that:
 2. The subject contains exactly as many iteration items
   as the length of the array pattern.
 3. Each item matches the associated sub-pattern.
+
+Issue: do we special-case array-likes here
+(objects with a `length` property)
+for a faster length test,
+or just use the iteration protocol on all subjects?
 
 For example, `when ["foo", {bar}]` will match
 when the subject is an iterable with exactly two items,
@@ -576,8 +658,18 @@ verifying it has at least two items
 (to match against the sub-patterns)
 and then pulling the rest to match against the rest pattern.
 
-Array patterns introduce all bindings introduced by their sub-patterns,
-in order.
+Array pattern execution order is as follows:
+
+1. Obtain an iterator from the subject. Return failure if this fails.
+2. For each expected item up to the number of sub-patterns (ignoring the rest pattern, if present):
+    1. Pull one item from the iterator. Return failure if this fails.
+    2. Execute the corresponding pattern. Return failure if this doesn't match.
+3. If there is no rest pattern, pull one more item from the iterator, verifying that it's a `{done: true}` result. If so, return success; if not, return failure.
+4. If there is a `...` rest pattern, return success.
+5. If there is a `...<pattern>` rest pattern, pull the remaining items of the iterator into a fresh `Array`, then match the pattern against that. If it matches, return success; otherwise return failure.
+
+Issue: Or should we pull all the necessary values from the iterator first,
+*then* do all the matchers?
 
 #### Examples
 
@@ -648,10 +740,12 @@ It represents a test that the subject:
 
 1. Has every specified property in its prototype chain.
 2. If the key has an associated sub-pattern,
-  then the value of that property matches the sub-pattern.
+    then the value of that property matches the sub-pattern.
 
-If the object pattern clause is `let/var/const <ident>`,
-it's interpreted as equivalent to `<ident>: let/var/const ident`.
+A `<key>` object pattern clause
+is exactly equivalent to `<key>: void`.
+A `let/var/const <ident>` object pattern clause
+is exactly equivalent to `<ident>: let/var/const <ident>`.
 
 That is, `when {foo, let bar, baz: "qux"}`
 is equivalent to `when {foo: void, bar: let bar, baz: "qux"}`:
@@ -670,9 +764,6 @@ are collected into a fresh object,
 which is then matched against the rest pattern.
 (This matches the behavior of object destructuring.)
 
-Object patterns introduce all bindings introduced by their sub-patterns,
-in order.
-
 Issue: Do we want a `key?: pattern` pattern clause as well?
 Makes it an optional test -
 *if* the subject has this property,
@@ -680,6 +771,19 @@ verify that it matches the pattern.
 If the pattern is skipped because the property doesn't exist,
 treat any bindings coming from the pattern
 the same as ones coming from skipped `or` patterns.
+
+Object pattern execution order is as follows:
+
+1. For each non-rest object pattern clause `key: sub-pattern`, in source order:
+    1. Check that the subject has the property `key`. If it doesn't, return failure.
+    2. Get the value of the `key` property, and match it against `sub-pattern`. If that fails to match, return failure.
+2. If there's a rest pattern clause,
+    collect all enumerable own properties of the subject
+    that weren't tested in the previous step,
+    and put them into a fresh `Object`.
+    Match that against the rest pattern.
+    If that fails, return failure.
+3. Return success.
 
 #### Examples
 
@@ -756,8 +860,17 @@ is treated as an empty iterator.
 (It will match `foo()` or `foo(...)`,
 but will fail `foo(a)`.)
 
-Extractor patterns introduce the bindings from their "argument list",
-identically to how array matchers work.
+Given an extractor pattern `<name>(<arglist>)`,
+the execution order is as follows:
+
+1. Match `<name>` against subject as a [custom matcher pattern](#custom-matchers),
+    but allow any truthy value to represent success
+    (not just `true`).
+    If it failed to match, return failure.
+2. Match `[<arglist>]` against the return value from the previous step;
+    that is, pretend `<arglist>` was the contents of an [array matcher](#array-matchers).
+    If the match succeeds, return success;
+    otherwise, return failure.
 
 
 #### Examples
@@ -788,7 +901,8 @@ match(val) {
   when Object.Some(Number and let a): console.log(`Got a number ${a}.`);
   when Object.Some(void): console.log(`Got something unexpected.`);
   // Or `Object.Some` or `Object.Some(...)`, either works.
-  // `Object.Some()` will never match, as it always returns a value.
+  // `Object.Some()` will never match, as the return value
+  // is a 1-item array, which doesn't match `[]`
   when Object.None(): console.log(`Operation failed.`);
   // or `Object.None`, either works
   default: console.log(`Didn't get an Option at all.`)
@@ -818,6 +932,10 @@ the "return value" (what's matched against the array pattern)
 is an iterator whose items are the regex result object,
 followed by each of the positive numbered groups in the regex result
 (that is, skipping the "0" group that represents the entire match).
+
+Execution order is identical to [extractor patterns](#extractor-patterns),
+except the first part is matched as a [regex pattern](#regex-patterns),
+and the second part's subject is as defined above.
 
 #### Examples
 
@@ -860,12 +978,11 @@ wrapped in parentheses.
 Short-circuiting applies; if any sub-pattern fails to match the subject,
 matching stops immediately.
 
-And patterns introduce all the bindings from their sub-patterns,
-in order.
-They also introduce all non-conflicting bindings
-from their skipped sub-patterns
-(that is, any that don't have the same name as a binding from a successful pattern),
-but bound to `undefined`.
+`and` pattern execution order is as follows:
+
+1. For each sub-pattern, in source order, match the subject against the sub-pattern. If that fails to match, return failure.
+2. Return success.
+
 
 ### Or Patterns
 
@@ -879,11 +996,20 @@ wrapped in parentheses.
 Short-circuiting applies; if any sub-pattern successfully matches the subject,
 matching stops immediately.
 
-Or patterns introduce all the bindings from the successful sub-pattern.
-They also introduce all non-conflicting bindings
-from their unsuccessful or skipped sub-patterns
-(that is, any that don't have the same name as a binding from the successful pattern),
-but bound to `undefined`.
+`or` pattern execution order is as follows:
+
+1. For each sub-pattern, in source order, match the subject against the sub-pattern. If that successfully matches, return success.
+2. Return failure.
+
+Note: As defined in [Binding Behavior Details](#binding-behavior-details),
+a [binding pattern](#binding-patterns) in a failed sub-pattern
+can be overridden by a binding pattern in a later sub-pattern
+without error.
+That is, `[let foo] or {length: let foo}` is valid
+both at parse-time and run-time,
+even tho the `foo` binding is potentially initialized twice
+(given a subject like `[1, 2]`).
+
 
 ### Not Patterns
 
@@ -893,7 +1019,6 @@ The pattern can be
 (and in some cases must be, see [combining combinators](#combining-combinator-patterns))
 wrapped in parentheses.
 
-`not` patterns introduce all the binding from their sub-pattern.
 
 ### Combining Combinator Patterns
 
@@ -917,15 +1042,7 @@ and represents a test that the expression is truthy.
 This is an arbitrary JS expression,
 *not* a pattern.
 
-Guard patterns do not introduce any bindings.
 
-# Bindings
-
-Issue: fill in.
-Basics are that,
-when something establishes a binding,
-that binding is visible to all patterns further in.
-For example, `{status} and if(status >= 300)`.
 
 # `match` expression
 
