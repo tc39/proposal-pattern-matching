@@ -1326,7 +1326,7 @@ Additionally, some expressions that are _almost_ literals, and function as
 literals in people’s heads, are allowed:
 
 - `undefined`, matching the undefined value
-- numeric literals preceded by an unary `+` or `-`, like `-1`
+- numeric literals preceded by a unary `+` or `-`, like `-1`
 - `NaN`
 - `Infinity` (with `+` or `-` prefixes as well)
 - untagged template literals, with the interpolation expressions seeing only the
