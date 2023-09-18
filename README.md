@@ -1566,7 +1566,7 @@ return object.
 
 ### Built-in Custom Matchers
 
-All of the classes for primitive types (`Boolean`, `String`, `Number`, `BigInt`)
+All of the classes for primitive types (`Boolean`, `String`, `Number`, `BigInt`, `Symbol`)
 expose a built-in `Symbol.customMatcher` method, matching if and only if the
 [matchable](#matchable) is an object of that type, or a primitive corresponding
 to that type (using brand-checking to check objects, so boxed values from other
