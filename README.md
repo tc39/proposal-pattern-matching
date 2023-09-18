@@ -370,17 +370,8 @@ doing a structural match.
 ### Custom Matchers
 
 If the object that the variable pattern resolves to
-either has a `Symbol.customMatcher` property in its prototype chain,
-or is a function,
+has a `Symbol.customMatcher` property in its prototype chain,
 then it is a "custom matcher".
-
-If the object has a `Symbol.customMatcher` property:
-1. If that property's value is a function,
-    then that function is the "custom matcher function".
-2. Otherwise executing this matcher throws a TypeError.
-
-Otherwise, if the object is a function,
-it's the "custom matcher function".
 
 To determine whether the pattern matches or not,
 the custom matcher function is invoked
@@ -398,9 +389,6 @@ it passes the error up.
 Note: [Extractor patterns](#extractor-patterns) use the identical machinery,
 but allow further matching against the returned value,
 rather than being limited to just returning true/false.
-
-Note: In other words,
-*any* boolean predicate is immediately usable as a custom matcher.
 
 Issue: I'm being strict here about possible return values
 to allow for safer future extension.
@@ -420,34 +408,62 @@ I'm open to any of these options.
 
 #### Built-in Custom Matchers
 
+Several JS objects have custom matchers installed on them by default.
+
 All of the classes for primitive types
 (Boolean, String, Number, BigInt, Symbol)
 expose a built-in Symbol.customMatcher static method,
-matching if and only if the matchable is an object of that type,
-or a primitive corresponding to that type
-(using brand-checking to check objects,
-so boxed values from other windows will still match).
+matching if and only if the matchable is
+a primitive corresponding to that type.
 The return value of a successful match
 (for the purpose of [extractor patterns](#extractor-patterns))
 is an iterator containing the (possibly auto-unboxed) primitive value.
 
-All other platform objects also expose built-in Symbol.customMatcher methods,
-matching if and only if the matchable is of the same type
-(again using brand-checking to verify, similar to Array.isArray()).
+```js
+class Boolean {
+    static [Symbol.customMatcher](subject) {
+        return typeof subject == "boolean";
+    }
+}
+/* et cetera for the other primitives */
+```
+
+`Function.prototype` has a custom matcher
+that invokes the function as a predicate
+and returns the return value.
+
+```js
+Function.prototype[Symbol.customMatcher] = function(subject) {
+    return this(subject);
+}
+```
+
+All classes for platform objects expose a static `Symbol.customMatcher` method,
+which tests if the subject is of the specified type
+(using brand-checking to verify, similar to `Array.isArray()`).
 The built-in matcher is treated as always returning `true` or `false`.
 (We'll define this in the WebIDL spec.
 WebIDL may grow a way to override the matcher for a class
 and let it provide something more useful.)
 
 Userland classes auto-define a default custom matcher
-*if* a `Symbol.customMatcher` method is not present in the class definition.
-This is just:
+*if* a `Symbol.customMatcher` static method is not present in the class definition.
+This is effectively:
 
 ```js
-[Symbol.customMatcher](subject) {
-  return subject instanceof MyClass;
+class MyClass {
+    #__unique_name_here__;
+    static [Symbol.customMatcher](subject) {
+        return #__unique_name_here__ in subject;
+    }
 }
 ```
+
+Issue: Or should we just do an `instanceof` check?
+That's more easily spoofable,
+and the language already does brand checks in a bunch of places now.
+If an author *wants* to make their class spoofable,
+they can define the custom matcher themselves.
 
 Note: The only prototype-based way to put a custom matcher on every class by default
 would be to put it on `Function.prototype`.
