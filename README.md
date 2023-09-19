@@ -21,82 +21,58 @@
 
 ## Table of Contents
 1. [ECMAScript Pattern Matching](#ecmascript-pattern-matching)
-	1. [[Status](https://tc39.github.io/process-document/)](#statushttpstc39githubioprocess-document)
+    1. [[Status](https://tc39.github.io/process-document/)](#statushttpstc39githubioprocess-document)
+    2. [Table of Contents](#table-of-contents)
 2. [Introduction](#introduction)
-	1. [Problem](#problem)
-		1. [Current Approaches](#current-approaches)
-	2. [Priorities for a solution](#priorities-for-a-solution)
-		1. [_Pattern_ matching](#pattern-matching)
-		2. [Subsumption of `switch`](#subsumption-of-switch)
-		3. [Be better than `switch`](#be-better-than-switch)
-		4. [Expression semantics](#expression-semantics)
-		5. [Exhaustiveness and ordering](#exhaustiveness-and-ordering)
-		6. [User extensibility](#user-extensibility)
-	3. [Prior Art](#prior-art)
-		1. [Userland matching](#userland-matching)
+    1. [Problem](#problem)
+        1. [Current Approaches](#current-approaches)
+    2. [Priorities for a solution](#priorities-for-a-solution)
+        1. [_Pattern_ matching](#pattern-matching)
+        2. [Subsumption of `switch`](#subsumption-of-switch)
+        3. [Be better than `switch`](#be-better-than-switch)
+        4. [Expression semantics](#expression-semantics)
+        5. [Exhaustiveness and ordering](#exhaustiveness-and-ordering)
+        6. [User extensibility](#user-extensibility)
+    3. [Prior Art](#prior-art)
+        1. [Userland matching](#userland-matching)
 3. [Specification](#specification)
 4. [Matcher Patterns](#matcher-patterns)
-	1. [Value Matchers](#value-matchers)
-		1. [Primitive Pattern](#primitive-pattern)
-		2. [Variable Patterns](#variable-patterns)
-		3. [Custom Matchers](#custom-matchers)
-		4. [Regex Patterns](#regex-patterns)
-		5. [Binding Patterns](#binding-patterns)
-		6. [Void Patterns](#void-patterns)
-	2. [Structure Patterns](#structure-patterns)
-		1. [Array Patterns](#array-patterns)
-		2. [Object Patterns](#object-patterns)
-		3. [Extractor Patterns](#extractor-patterns)
-		4. [Regex Extractor Patterns](#regex-extractor-patterns)
-	3. [Combinator Patterns](#combinator-patterns)
-		1. [And Patterns](#and-patterns)
-		2. [Or Patterns](#or-patterns)
-		3. [Not Patterns](#not-patterns)
-		4. [Combining Combinator Patterns](#combining-combinator-patterns)
-	4. [Guard Patterns](#guard-patterns)
+    1. [Value Matchers](#value-matchers)
+        1. [Primitive Pattern](#primitive-pattern)
+        2. [Variable Patterns](#variable-patterns)
+        3. [Custom Matchers](#custom-matchers)
+        4. [Regex Patterns](#regex-patterns)
+        5. [Binding Patterns](#binding-patterns)
+        6. [Void Patterns](#void-patterns)
+    2. [Structure Patterns](#structure-patterns)
+        1. [Array Patterns](#array-patterns)
+        2. [Object Patterns](#object-patterns)
+        3. [Extractor Patterns](#extractor-patterns)
+        4. [Regex Extractor Patterns](#regex-extractor-patterns)
+    3. [Combinator Patterns](#combinator-patterns)
+        1. [And Patterns](#and-patterns)
+        2. [Or Patterns](#or-patterns)
+        3. [Not Patterns](#not-patterns)
+        4. [Combining Combinator Patterns](#combining-combinator-patterns)
+    4. [Guard Patterns](#guard-patterns)
 5. [`match` expression](#match-expression)
+    1. [Bindings](#bindings)
+    2. [Examples](#examples)
+    3. [](#)
+    4. [Statement Vs Expression](#statement-vs-expression)
 6. [`is` operator](#is-operator)
-	1. [Bindings](#bindings)
-7. [Code samples](#code-samples)
-	1. [General terminology](#general-terminology)
-		1. [match expression](#match-expression)
-		2. [is expression](#is-expression)
-	2. [More on combinators](#more-on-combinators)
-	3. [Array length checking](#array-length-checking)
-	4. [Motivating examples](#motivating-examples)
-	5. [](#)
-	6. [](#)
-8. [Old Proposal](#old-proposal)
-	1. [Match construct](#match-construct)
-	2. [Matchable](#matchable)
-	3. [Clause](#clause)
-		1. [TODO: LHS](#todo-lhs)
-		2. [TODO: RHS](#todo-rhs)
-	4. [Guard](#guard)
-	5. [Pattern](#pattern)
-		1. [Primitive Pattern](#primitive-pattern)
-		2. [Identifier Pattern](#identifier-pattern)
-		3. [Regex Pattern](#regex-pattern)
-		4. [Interpolation pattern](#interpolation-pattern)
-		5. [Array Pattern](#array-pattern)
-		6. [Object Pattern](#object-pattern)
-		7. [TODO: Rest pattern](#todo-rest-pattern)
-	6. [Custom Matcher Protocol](#custom-matcher-protocol)
-		1. [Built-in Custom Matchers](#built-in-custom-matchers)
-		2. [`with` chaining](#with-chaining)
-	7. [Pattern combinators](#pattern-combinators)
-	8. [Parenthesizing Patterns](#parenthesizing-patterns)
-	9. [is expression](#is-expression)
-9. [Possible future enhancements](#possible-future-enhancements)
-	1. [`async match`](#async-match)
-	2. [Nil pattern](#nil-pattern)
-	3. [Default Values](#default-values)
-	4. [Dedicated renaming syntax](#dedicated-renaming-syntax)
-	5. [Destructuring enhancements](#destructuring-enhancements)
-	6. [Integration with `catch`](#integration-with-catch)
-	7. [Chaining guards](#chaining-guards)
-	8. [`or` on when clauses](#or-on-when-clauses)
-	9. [Implementations](#implementations)
+    1. [Bindings](#bindings)
+7. [Motivating examples](#motivating-examples)
+    1. [](#)
+    2. [](#)
+8. [Possible future enhancements](#possible-future-enhancements)
+    1. [`async match`](#async-match)
+    2. [Default Values](#default-values)
+    3. [Destructuring enhancements](#destructuring-enhancements)
+    4. [Integration with `catch`](#integration-with-catch)
+    5. [Chaining guards](#chaining-guards)
+    6. [Implementations](#implementations)
+
 
 
 
@@ -698,7 +674,31 @@ Issue: Or should we pull all the necessary values from the iterator first,
 #### Examples
 
 ```js
+match (res) {
+  when isEmpty: ...;
+  when {data: [let page] }: ...;
+  when {data: [let frontPage, ...let pages] }: ...;
+  default: ...;
+}
 ```
+
+[**Array patterns**](#array-patterns) implicitly check the length of the subject.
+
+The first arm is a [variable pattern](#variable-patterns),
+invoking the default `Function.prototype` custom matcher
+which calls `isEmpty(res)`
+and matches if that returns `true`.
+
+The second arm is an [object pattern](#object-patterns)
+which contains an [array pattern](#array-patterns),
+which matches if `data` has exactly one element,
+and binds that element to `page` for the RHS.
+
+The third arm matches if `data` has **at least one** element,
+binding that first element to `frontPage`,
+and binding an array of any remaining elements to `pages`
+using a rest pattern.
+
 
 #### Array Pattern Caching
 
@@ -1070,31 +1070,74 @@ This is an arbitrary JS expression,
 
 # `match` expression
 
-Issue: Define the `match(){}` expression.
+`match` expressions are a new type of expression
+that makes use of [patterns](#patterns)
+to select one of several expressions to resolve to.
 
-# `is` operator
+A match expression looks like:
 
-Issue: Define the `x is pattern` operator.
+```js
+match(<subject-expression>) {
+    when <pattern>: <value-expression>;
+    when <pattern>: <value-expression>;
+    ...
+    default: <value-expression>;
+}
+```
+
+That is, the `match` head contains a `<subject-expression>`,
+which is an arbitrary JS expression
+that evaluates to a "subject".
+
+The `match` block contains zero or more "match arms",
+consisting of:
+* the keyword `when`
+* a [pattern](#patterns)
+* a literal colon
+* an arbitrary JS expression
+* a semicolon (yes, required)
+
+After the match arms,
+it can optionally contain default a "default arm",
+consisting of:
+* the keyword `default`
+* a literal colon
+* an arbitrary JS expression
+* a semicolon
+
+After obtaining the subject,
+each match arm is tested in turn,
+matching the subject against the arm's pattern.
+If the match is successful,
+the arm's expression is evaluated,
+and the `match` expression resolves to that result.
+
+If all match arms fail to match,
+and there is a default arm,
+the default arm's expression is evaluated,
+and the `match` expression resolves to that result.
+If there is no default arm,
+the `match` expression throws a `TypeError`.
 
 ## Bindings
 
-Issue: Define how bindings from the pattern
-escape into outer scopes,
-when used as a normal expression,
-in `if()`, in `for()`, in `while()`, etc.
+The `<subject-expression>` is part of the nearest block scope.
 
+Each match arm and the default arm
+are independent nested block scopes,
+covering both the pattern and the expression of the arm.
+(That is, different arms can't see each other's bindings,
+and the bindings don't escape the `match` expression.
+Within each arm, they shadow the outer scope's bindings.)
 
-
-# Code samples
-
-## General terminology
+## Examples
 
 ```jsx
 match (res) {
-  when ({ status: 200, body, ...rest }): handleData(body, rest)
-  when ({ status, destination: url }) if (300 <= status && status < 400):
+  when { status: 200, let body, ...let rest }: handleData(body, rest)
+  when { const status, destination: let url } and if (300 <= status && status < 400):
     handleRedirect(url)
-  when ({ status: 500 }) if (!this.hasRetried): do {
+  when { status: 500 } and if (!this.hasRetried): do {
     retry(req);
     this.hasRetried = true;
   }
@@ -1102,110 +1145,121 @@ match (res) {
 }
 ```
 
-### match expression
+This example tests a "response" object against several patterns,
+branching based on the `.status` property,
+and extracting different parts from the response in each branch
+to process in various handler functions.
 
-- The whole block beginning with the `match` keyword, is the
-  [**match construct**](#match-construct).
-- `res` is the [**matchable**](#matchable). This can be any expression.
-- There are four [**clauses**](#clause) in this example: three `when` clauses,
-  and one `default` clause.
-- A [clause](#clause) consists of a left-hand side (LHS) and a right-hand side
-  (RHS), separated by a colon (`:`).
-- The LHS can begin with the `when` or `default` keywords.
-  - The `when` keyword must be followed by a [**pattern**](#pattern) in
-    parentheses. Each of the [`when` clauses](#clause) here contain
-    [**object patterns**](#object-pattern).
-  - The parenthesized pattern may be followed by a [**guard**](#guard), which
-    consists of the `if` keyword, and a condition (any expression) in
-    parentheses. [Guards](#guard) provide a space for additional logic when
-    [patterns](#pattern) aren’t expressive enough.
-  - An explicit `default` [clause](#clause) handles the "no match" scenario by
-    always matching. It must always appear last when present, as any
-    [clauses](#clause) after an `default` are unreachable.
-- The RHS is any expression. It will be evaluated if the LHS successfully
-  matches, and the result will be the value of the entire
-  [match construct](#match-construct).
-
-  - We assume that
-    [`do` expressions](https://github.com/tc39/proposal-do-expressions) will
-    mature soon, which will allow users to put multiple statements in an RHS; today,
-    that requires an
-    [IIFE](https://developer.mozilla.org/en-US/docs/Glossary/IIFE).
-
-### is expression
+-----
 
 ```js
-const problematic = res is { status: 500 };
-if (problematic) logger.report(res);
-```
-
-- A new [RelationalExpression](https://tc39.es/ecma262/#prod-RelationalExpression) like `a instanceof b` and `a in b`, but for patterns.
-- LHS is an expression, and RHS is a [**pattern**](#pattern).
-
-## More on combinators
-
-```jsx
 match (command) {
-  when ([ 'go', dir and ('north' or 'east' or 'south' or 'west')]): go(dir);
-  when ([ 'take', item and /[a-z]+ ball/ and { weight }]): take(item);
+  when ['go', let dir and ('north' or 'east' or 'south' or 'west')]: go(dir);
+  when ['take', /[a-z]+ ball/ and {let weight}: takeBall(weight);
   default: lookAround()
 }
 ```
 
 This sample is a contrived parser for a text-based adventure game.
 
-The first clause matches if the command is an array with exactly two items. The
-first must be exactly the string `'go'`, and the second must be one of the given
-cardinal directions. Note the use of the
-[**and combinator**](#pattern-combinators) to bind the second item in the
-array to `dir` using an [**identifier pattern**](#identifier-pattern) before
-verifying (using the [or combinator](#pattern-combinators)) that it’s one of the
-given directions.
+The first match arm matches if the command is an array with exactly two items.
+The first must be exactly the string `'go'`,
+and the second must be one of the given cardinal directions.
+Note the use of the [**and pattern**](#and-patterns)
+to bind the second item in the array to `dir`
+using a [**binding pattern**](#binding-patterns)
+before verifying (using the [or pattern](#or-patterns))
+that it’s one of the given directions.
 
-(Note that there is intentionally no precedence relationship between the pattern
-operators, such as `and`, `or`, or `with`; parentheses must be used to group
-[patterns](#pattern) using different operators at the same level.)
+The second match arm is slightly more complex.
+First, a [regex pattern](#regex-patterns) is used
+to verify that the object stringifies to `"something ball"`,
+then an [object patterns](#object-patterns)
+verifies that it has a `.weight` property
+and binds it to `weight`,
+so that the weight is available to the arm's expression.
 
-The second [clause](#clause) showcases a more complex use of the
-[and combinator](#pattern-combinators). First is an
-[identifier pattern](#identifier-pattern) that binds the second item in the
-array to `item`. Then, there’s a [regex pattern](#regex-pattern) that checks if
-the item is a `"something ball"`. Last is an [object pattern](#object-pattern),
-which checks that the item has a `weight` property (which, combined with the
-previous pattern, means that the item must be an exotic string object), and
-makes that binding available to the RHS.
+## Statement Vs Expression
 
-## Array length checking
+For maximum expressivity,
+the `match` expression is an expression, not a statement.
+This allows for easy use in expression contexts
+like `return match(val){...}`.
 
-```jsx
-match (res) {
-  if (isEmpty(res)): ...
-  when ({ data: [page] }): ...
-  when ({ data: [frontPage, ...pages] }): ...
-  default: { ... }
+It can, of course, be used in statement context,
+as in the first example above.
+However, the match arms still contain expressions only.
+
+It is *expected* that do-expressions will allow
+for match arms to execute statements
+(again, as in the first example above).
+If that proposal does not end up advancing,
+a future iteration of this proposal will include some way
+to have a match arm contain statements.
+(Probably just by inlining do-expr's functionality.)
+
+# `is` operator
+
+The `is` operator is a new boolean operator,
+of the form `<subject-expression> is <pattern>`.
+It returns a boolean result,
+indicating whether the subject matched the pattern or not.
+
+## Bindings
+
+Bindings established in the pattern of an `is`
+are visible in the nearest block scope,
+as defined in [Binding Patterns](#binding-patterns).
+
+This includes when used in the head of an `if()` statement:
+
+```js
+function foo(x) {
+    if(x is [let head, ...let rest]) {
+        console.log(head, rest);
+    } else {
+        // `head` and `rest` are defined here,
+        // but will throw a ReferenceError if dereferenced,
+        // since if the pattern failed
+        // the binding patterns must not have been executed.
+    }
+}
+
+function bar(x) {
+    if(x is not {let necessaryProperty}) {
+        // Pattern succeeded, because `x.necessaryProperty`
+        // doesn't exist.
+        return;
+    }
+    // Here the pattern failed because `x.necessaryProperty`
+    // *does* exist, so the binding pattern was executed,
+    // and the `necessaryProperty` binding is visible here.
+    console.log(necessaryProperty);
 }
 ```
 
-[**Array patterns**](#array-pattern) implicitly check the length of the incoming
-[matchable](#matchable).
+When used in the head of a `for()`,
+the usual binding scopes apply:
+the bindings are scoped to the `for()` head+block,
+and in the case of `for-of`,
+are copied to the inner per-iteration binding scopes.
 
-The first [clause](#clause) is a bare [guard](#guard), which matches if the
-condition is truthy.
-
-The second [clause](#clause) is an [object pattern](#object-pattern) which
-contains an [array pattern](#array-pattern), which matches if `data` has exactly
-one element, and binds that element to `page` for the RHS.
-
-The third [clause](#clause) matches if `data` has **at least one** element,
-binding that first element to `frontPage`, and binding an array of any remaining
-elements to `pages` using a [**rest pattern**](#rest-pattern).
-
-([Rest patterns](#rest-pattern) can also be used in objects, with the expected
-semantics.)
-
+`while` and `do-while` do not currently have any special scoping rules
+for things in their heads.
+We propose that they adopt the same rules as `for-of` blocks:
+the head is in a new scope surrounding the rule,
+and its bindings are copied to a per-iteration scope
+surrounding the `{}` block.
+For do-while,
+the bindings are TDZ on the first iteration,
+before the head is executed.
 
 
-## Motivating examples
+
+
+
+
+# Motivating examples
 
 Below are selected situations where we expect pattern matching will be widely
 used. As such, we want to optimize the ergonomics of such cases to the best of
@@ -1216,11 +1270,11 @@ Matching `fetch()` responses:
 ```jsx
 const res = await fetch(jsonService)
 match (res) {
-  when ({ status: 200, headers: { 'Content-Length': s } }):
+  when { status: 200, headers: { 'Content-Length': let s } }:
     console.log(`size is ${s}`);
-  when ({ status: 404 }):
+  when { status: 404 }:
     console.log('JSON not found');
-  when ({ status }) if (status >= 400): do {
+  when { let status } and if (status >= 400): do {
     throw new RequestError(res);
   }
 };
@@ -1234,11 +1288,11 @@ More concise, more functional handling of Redux reducers (compare with
 ```jsx
 function todosReducer(state = initialState, action) {
   return match (action) {
-    when ({ type: 'set-visibility-filter', payload: visFilter }):
+    when { type: 'set-visibility-filter', payload: let visFilter }:
       { ...state, visFilter }
-    when ({ type: 'add-todo', payload: text }):
+    when { type: 'add-todo', payload: let text }:
       { ...state, todos: [...state.todos, { text, completed: false }] }
-    when ({ type: 'toggle-todo', payload: index }): do {
+    when { type: 'toggle-todo', payload: let index }: do {
       const newTodos = state.todos.map((todo, i) => {
         return i !== index ? todo : {
           ...todo,
@@ -1264,471 +1318,16 @@ Concise conditional logic in JSX (via
 ```jsx
 <Fetch url={API_URL}>
   {props => match (props) {
-    when ({ loading }): <Loading />
-    when ({ error }): do {
+    when {loading}: <Loading />;
+    when {let error}: do {
       console.err("something bad happened");
       <Error error={error} />
-    }
-    when ({ data }): <Page data={data} />
+    };
+    when {let data}: <Page data={data} />;
   }}
 </Fetch>
 ```
 
-# Old Proposal
-
-Kept around for the moment for comparison purposes.
-
-## Match construct
-
-Refers to the entire `match (...) { ... }` expression. Evaluates to the RHS of
-the first [clause](#clause) to match, or throws a TypeError if none match.
-
-## Matchable
-
-The value a [pattern](#pattern) is matched against. The top-level matchable
-shows up in `match (matchable) { ... }`, and is used for each clause as the
-initial matchable.
-
-[Destructuring patterns](#array-pattern) can pull values out of a matchable,
-using these sub-values as matchables for their own nested [patterns](#pattern).
-For example, matching against `["foo"]` will confirm the matchable itself is an
-array-like with one item, then treat the first item as a matchable against the
-`"foo"` [primitive pattern](#primitive-pattern).
-
-## Clause
-
-One "arm" of the [match construct](#match-construct)’s contents, consisting of
-an LHS (left-hand side) and an RHS (right-hand side), separated by a colon (`:`).
-
-The LHS can look like:
-
-- `when (<pattern>)`, which matches its [pattern](#pattern) against the
-  top-level [matchable](#matchable);
-- `if (<expr>)`, which matches if the `<expr>` is truthy;
-- `when (<pattern>) if (<expr>)`, which does both;
-- `default`, which always succeeds but must be the final clause.
-
-The RHS is an arbitrary JS expression, which the whole
-[match construct](#match-construct) resolves to if the LHS successfully matches.
-
-(There is
-[an open issue](https://github.com/tc39/proposal-pattern-matching/issues/181)
-about whether there should be some separator syntax between the LHS and RHS.)
-
-The LHS’s patterns, if any, can introduce variable bindings which are visible to
-the guard and the RHS of the same clause. Bindings are not visible across
-clauses. Each pattern describes what bindings, if any, it introduces.
-
-### TODO: LHS
-
-### TODO: RHS
-
-## Guard
-
-The `if (<expr>)` part of a clause. The `<expr>` sees bindings present at the
-start of the [match construct](#match-construct); if the clause began with a
-`when (<pattern>)`, it additionally sees the bindings introduced by the
-[pattern](#pattern).
-
-## Pattern
-
-There are several types of patterns:
-
-### Primitive Pattern
-
-Boolean literals, numeric literals, string literals, and the null literal.
-
-Additionally, some expressions that are _almost_ literals, and function as
-literals in people’s heads, are allowed:
-
-- `undefined`, matching the undefined value
-- numeric literals preceded by a unary `+` or `-`, like `-1`
-- `NaN`
-- `Infinity` (with `+` or `-` prefixes as well)
-- untagged template literals, with the interpolation expressions seeing only the
-  bindings present at the start of the [match construct](#match-construct).
-
-These match if the [matchable](#matchable) is
-[`SameValue`](https://tc39.es/ecma262/#sec-samevalue) with them,
-with one exception:
-if the pattern is the literal `0` (without the unary prefix operators `+0` or `-0`),
-it is instead compared with [`SameValueZero`](https://tc39.es/ecma262/#sec-samevaluezero).
-
-(That is, `+0` and `-0` only match positive and negative zero, respectively,
-while `0` matches both zeroes without regard for the sign.)
-
-They do not introduce bindings.
-
-### Identifier Pattern
-
-Any identifier that isn’t a [primitive matcher](#primitive-matcher), such as
-`foo`. These always match, and bind the [matchable](#matchable) to the given
-binding name.
-
-### Regex Pattern
-
-A regular expression literal.
-
-The [matchable](#matchable) is stringified, and the pattern matches if the
-string matches the regex. If the regex defines named capture groups, those names
-are introduced as bindings, bound to the captured substrings. Regex patterns can
-use [`with`-chaining](#with-chaining) to further match a pattern against the
-regex’s match result.
-
-### Interpolation pattern
-
-An arbitrary JS expression wrapped in `${}`, just like in template literals. For
-example, `${myVariable}`, `${"foo-" + restOfString}`, or `${getValue()}`.
-
-At runtime, the expression inside the `${}` is evaluated. If it resolves to an
-object with a method named `Symbol.customMatcher`, that method is invoked, and
-matching proceeds with the [custom matcher protocol](#custom-matcher-protocol)
-semantics. If it resolves to anything else (typically a primitive, a `Symbol`,
-or an object without a `Symbol.customMatcher` function), then the pattern matches if
-the [matchable](#matchable) is
-[`SameValue`](https://tc39.es/ecma262/#sec-samevalue) with the result.
-
-Interpolation patterns can use [`with`-chaining](#with-chaining) to further
-match against the `value` key of the object returned by the `Symbol.customMatcher`
-method.
-
-### Array Pattern
-
-A comma-separated list of zero or more patterns or holes, wrapped in square
-brackets, like `["foo", a, {bar}]`. "Holes" are just nothing (or whitespace),
-like `[,,thirdItem]`.
-The final item can optionally be either a "rest pattern",
-looking like `...`,
-or a "binding rest pattern",
-looking like `...<identifier>`.
-(Aka, an array pattern looks like array destructuring,
-save for the addition of the "rest pattern" variant.)
-
-First, an iterator is obtained from the [matchable](#matchable): if the
-[matchable](#matchable) is itself iterable (exposes a `[Symbol.iterator]`
-method) that is used; if it’s array-like, an array iterator is used.
-
-Then, items are pulled from the iterator, and matched against the array
-pattern’s corresponding nested patterns. (Holes always match, introducing no
-bindings.) If any of these matches fail, the entire array pattern fails to
-match.
-
-If the array pattern ends in a binding rest pattern,
-the remainder of the iterator is pulled into an Array,
-and bound to the identifier from the binding rest pattern,
-just like in array destructuring.
-
-If the array pattern does _not_ end in a rest pattern (binding or otherwise),
-the iterator must match the array pattern’s length:
-one final item is pulled from the iterator,
-and if it succeeds (rather than closing the iterator),
-the array pattern fails to match.
-
-The array pattern introduces all the bindings introduced by its nested patterns,
-plus the binding introduced by its binding rest pattern, if present.
-
-Bindings introduced by earlier nested patterns
-are visible to later nested patterns in the same array pattern.
-(For example, `[a, ${a}]`) will match
-only if the second item in the array is identical to the first item.)
-
-#### Array Pattern Caching
-
-To allow for idiomatic uses of generators and other "single-shot" iterators to
-be reasonably matched against several array patterns, the iterators and their
-results are cached over the scope of the [match construct](#match-construct).
-
-Specifically, whenever a [matchable](#matchable) is matched against an array
-pattern, the [matchable](#matchable) is used as the key in a cache, whose value
-is the iterator obtained from the [matchable](#matchable), and all items pulled
-from the [matchable](#matchable) by an array pattern.
-
-Whenever something would be matched against an array pattern, the cache is first
-checked, and the already-pulled items stored in the cache are used for the
-pattern, with new items pulled from the iterator only if necessary.
-
-For example:
-
-```js
-function* integers(to) {
-  for(var i = 1; i <= to; i++) yield i;
-}
-
-const fiveIntegers = integers(5);
-match (fiveIntegers) {
-  when([a]):
-    console.log(`found one int: ${a}`);
-    // Matching a generator against an array pattern.
-    // Obtain the iterator (which is just the generator itself),
-    // then pull two items:
-    // one to match against the `a` pattern (which succeeds),
-    // the second to verify the iterator only has one item
-    // (which fails).
-  when([a, b]):
-    console.log(`found two ints: ${a} and ${b}`);
-    // Matching against an array pattern again.
-    // The generator object has already been cached,
-    // so we fetch the cached results.
-    // We need three items in total;
-    // two to check against the patterns,
-    // and the third to verify the iterator has only two items.
-    // Two are already in the cache,
-    // so we’ll just pull one more (and fail the pattern).
-  default: console.log("more than two ints");
-}
-console.log([...fiveIntegers]);
-// logs:
-// "more than two ints"
-// [4, 5]
-//
-// The match construct pulled three elements from the generator,
-// so there’s two leftover afterwards.
-```
-
-When execution of the match construct finishes,
-all cached iterators are closed.
-
-
-### Object Pattern
-
-A comma-separated list of zero or more "object pattern clauses", wrapped in
-curly braces, like `{x: "foo", y, z: {bar}}`. Each "object pattern clause" is
-either an `<identifier>`, or a `<key>: <pattern>` pair, where `<key>` is an
-`<identifier>` or a computed-key expression like `[Symbol.foo]`. The final item
-can be a "rest pattern", looking like `...<identifier>`. (Aka, it looks like
-object destructuring.)
-
-For each object pattern clause, the [matchable](#matchable) must contain a
-property matching the key, and the value of that property must match the
-corresponding pattern; if either of these fail for any object pattern clause,
-the entire object pattern fails to match.
-
-Plain `<identifier>` object pattern clauses are treated as if they were written
-`<identifier>: <identifier>` (just like destructuring); that is, the
-[matchable](#matchable) must have the named property, and the property’s value
-is then bound to that name due to being matched against an
-[identifier pattern](#identifier-pattern).
-
-If the object pattern ends in a [TODO: rest pattern], all of the
-[matchable](#matchable)’s own keys that weren’t explicitly matched are bound
-into a fresh `Object`, just like destructuring or array patterns.
-
-Unlike array patterns, the lack of a final rest pattern imposes no additional
-constraints; `{foo}` will match the object `{foo: 1, bar:2}`, binding `foo` to
-`1` and ignoring the other key.
-
-The object pattern introduces all the bindings introduced by its nested
-patterns, plus the binding introduced by its rest pattern, if present.
-
-Bindings introduced by earlier nested patterns
-are visible to later nested patterns in the same object pattern.
-(For example, `{a, b:${a}}`) will match
-only if the `b` property item in the object is identical to the `a` property's value.)
-Ordering is important, however, so `{b:${a}, a}` does *not* mean the same thing;
-instead, the `${a}` resolves based on whatever `a` binding might exist from earlier in the pattern,
-or outside the match construct entirely.
-
-#### Object Pattern Caching
-
-Similar to [array pattern caching](#array-pattern-caching), object patterns
-cache their results over the scope of the [match construct](#match-construct),
-so that multiple [clauses](#clause) don’t observably retrieve the same property
-multiple times.
-
-(Unlike array pattern caching, which is _necessary_ for this proposal to work
-with iterators, object pattern caching is a nice-to-have. It does guard against
-some weirdness like non-idempotent getters, and helps make
-idempotent-but-expensive getters usable in pattern matching without contortions,
-but mostly it’s just for conceptual consistency.)
-
-Whenever a [matchable](#matchable) is matched against an object pattern, for
-each property name in the object pattern, a `(<matchable>, <property name>)`
-tuple is used as the key in a cache, whose value is the value of the property.
-
-Whenever something would be matched against an object pattern, the cache is
-first checked, and if the [matchable](#matchable) and that property name are
-already in the cache, the value is retrieved from cache instead of by a fresh
-`Get` against the [matchable](#matchable).
-
-For example:
-
-```js
-const randomItem = {
-  get numOrString() { return Math.random() < .5 ? 1 : "1"; }
-};
-
-match (randomItem) {
-  when({numOrString: ${Number}}):
-    console.log("Only matches half the time.");
-    // Whether the pattern matches or not,
-    // we cache the (randomItem, "numOrString") pair
-    // with the result.
-  when({numOrString: ${String}}):
-    console.log("Guaranteed to match the other half of the time.");
-    // Since (randomItem, "numOrString") has already been cached,
-    // we reuse the result here;
-    // if it was a string for the first clause,
-    // it’s the same string here.
-}
-```
-
-### TODO: Rest pattern
-
-## Custom Matcher Protocol
-
-When the expression inside an [interpolation pattern](#interpolation-pattern)
-evaluates to an object with a `Symbol.customMatcher` method, that method is called
-with the [matchable](#matchable) as its sole argument.
-
-To implement the `Symbol.customMatcher` method, the developer must return an object
-with a `matched` property. If that property is truthy, the pattern matches; if
-that value is falsy, the pattern does not match. In the case of a successful
-match, the matched value must be made available on a `value` property of the
-return object.
-
-### Built-in Custom Matchers
-
-All of the classes for primitive types (`Boolean`, `String`, `Number`, `BigInt`, `Symbol`)
-expose a built-in `Symbol.customMatcher` method, matching if and only if the
-[matchable](#matchable) is an object of that type, or a primitive corresponding
-to that type (using brand-checking to check objects, so boxed values from other
-windows will still match). The `value` property of the returned object is the
-(possibly auto-unboxed) primitive value.
-
-All other platform objects also expose built-in `Symbol.customMatcher` methods,
-matching if and only if the [matchable](#matchable) is of the same type (again
-using brand-checking to verify, similar to `Array.isArray()`). The `value`
-property of the returned object is the [matchable](#matchable) itself.
-
-Userland classes do _not_ define a default custom matcher (for both
-[practical and technical reasons](https://github.com/tc39/proposal-pattern-matching/issues/231)), but it is very simple to define one in
-this style:
-
-```jsx
-class Foo {
-  static [Symbol.customMatcher](value) {
-    return {
-      matched: value instanceof Foo,
-      value,
-    };
-  }
-}
-```
-
-### `with` chaining
-
-An [interpolation pattern](#interpolation-pattern) or a
-[regex pattern](#regex-pattern) (referred to as the "parent pattern" for the
-rest of this section) _may_ also have a `with <pattern>` suffix, allowing you to
-provide further patterns to match against the parent pattern’s result.
-
-The `with` pattern is only invoked if the parent pattern successfully matches.
-Any bindings introduced by the `with` pattern are added to the bindings from the
-parent pattern, with the `with` pattern’s values overriding the parent pattern’s
-value if the same bindings appear in both.
-
-The parent pattern defines what the [matchable](#matchable) will be for the
-`with` pattern:
-
-- for regex patterns, the regex’s match object is used
-- for interpolation patterns that did not invoke the custom matcher protocol,
-  the [matchable](#matchable) itself is used
-- for interpolation patterns that _did_ invoke the custom matcher protocol, the
-  value of the `value` property on the result object is used
-
-For example:
-
-```jsx
-class MyClass = {
-  static [Symbol.customMatcher](matchable) {
-    return {
-      matched: matchable === 3,
-      value: { a: 1, b: { c: 2 } },
-    };
-  }
-};
-
-match (3) {
-  when (${MyClass}): true; // matches, doesn’t use the result
-  when (${MyClass} with {a, b: {c}}): do {
-    // passes the custom matcher,
-    // then further applies an object pattern to the result’s value
-    assert(a === 1);
-    assert(c === 2);
-  }
-}
-```
-
-or
-
-```jsx
-match ("foobar") {
-  when (/foo(.*)/ with [, suffix]):
-    console.log(suffix);
-    // logs "bar", since the match result
-    // is an array-like containing the whole match
-    // followed by the groups.
-    // note the hole at the start of the array matcher
-    // ignoring the first item,
-    // which is the entire match "foobar".
-}
-```
-
-## Pattern combinators
-
-Two or more [patterns](#pattern) can be combined with `or` or `and` to form a
-single larger pattern.
-
-A sequence of `or`-separated [patterns](#pattern) have short-circuiting "or"
-semantics: the **or [pattern](#pattern)** matches if any of the nested
-[patterns](#pattern) match, and stops executing as soon as one of its nested
-[patterns](#pattern) matches. It introduces all the bindings introduced by its
-nested [patterns](#pattern), but only the _values_ from its first successfully
-matched [pattern](#pattern); bindings introduced by other [patterns](#pattern)
-(either failed matches, or [patterns](#pattern) past the first successful match)
-are bound to `undefined`.
-
-A sequence of `and`-separated [patterns](#pattern) have short-circuiting "and"
-semantics: the **and [pattern](#pattern)** matches if all of the nested
-[patterns](#pattern) match, and stops executing as soon as one of its nested
-[patterns](#pattern) fails to match. It introduces all the bindings introduced
-by its nested [patterns](#pattern), with later [patterns](#pattern) providing
-the value for a given binding if multiple [patterns](#pattern) would introduce
-that binding.
-
-Note that `and` can idiomatically be used to bind a [matchable](#matchable) and
-still allow it to be further matched against additional [patterns](#pattern).
-For examle, `when (foo and [bar, baz]) ...` matches the [matchable](#matchable)
-against both the `foo` [identifier pattern](#identifier-pattern) (binding it to
-`foo` for the RHS) _and_ against the `[bar, baz]`
-[array pattern](#array-pattern).
-
-Bindings introduced by earlier nested patterns
-are visible to later nested patterns in the same combined pattern.
-(For example, `(a and ${console.log(a)||a})`) will bind the matchable to `a`,
-and then log it.)
-
-(Note: the `and` and `or` spellings of these operators are preferred by the champions group,
-but we'd be okay with spelling them `&` and `|` if the committee prefers.
-
-## Parenthesizing Patterns
-
-The pattern syntaxes do not have a precedence relationship with each other. Any
-multi-token patterns (`and`, `or`, `${...} with ...`) appearing at the same
-"nesting level" are a syntax error; parentheses must be used to to specify their
-relationship to each other instead.
-
-For example, `when ("foo" or "bar" and val) ...` is a syntax error; it must be
-written as `when ("foo" or ("bar" and val)) ...` or `when (("foo" or "bar") and val)`
-instead. Similarly, `when (${Foo} with bar and baz) ...` is a syntax error; it
-must be written as `when (${Foo} with (bar and baz)) ...` (binding the custom
-match result to both `bar` and `baz`) or `when ((${Foo} with bar) and baz) ...`
-(binding the custom match result to `bar`, and the _original_
-[matchable](#matchable) to `baz`).
-
-## is expression
-
-Refers to the `expr is pattern` expression. Evaluates to a boolean to indicate if the LHS matches the RHS.
 
 # Possible future enhancements
 
@@ -1741,29 +1340,11 @@ However, just like `async do` expressions, there’s uses of being able to use
 
 ```jsx
 async match (await matchable) {
-  when ({ a }): await a;
-  when ({ b }): b.then(() => 42);
+  when { let a }: await a;
+  when { let b }: b.then(() => 42);
   default: await somethingThatRejects();
 } // produces a Promise
 ```
-
-## Nil pattern
-
-```jsx
-match (someArr) {
-  when ([_, _, someVal]): ...
-}
-```
-
-Most languages that have structural pattern matching have the concept of a "nil
-matcher", which fills a hole in a data structure without creating a binding.
-
-In JS, the primary use-case would be skipping spaces in arrays. This is already
-covered in destructuring by simply omitting an identifier of any kind in between
-the commas.
-
-With that in mind, and also with the extremely contentious nature, we would only
-pursue this if we saw strong support for it.
 
 ## Default Values
 
@@ -1779,18 +1360,6 @@ distinguish it from surrounding patterns?
 
 This would bring us into closer alignment with destructuring, which is nice.
 
-## Dedicated renaming syntax
-
-Right now, to bind a value in the middle of a pattern but continue to match on
-it, you use `and` to run both an [identifier pattern](#identifier-pattern) and a
-further [pattern](#pattern) on the same value, like `when(arr and [item]): ...`.
-
-Langs like Haskell and Rust have a dedicated syntax for this, spelled `@`; if we
-adopted this, the above could be written as `when(arr @ [item]): ...`.
-
-Since this would introduce no new functionality, just a dedicated syntactic form
-for a common operation and some amount of concordance with other languages,
-we’re not pursuing this as part of the base proposal.
 
 ## Destructuring enhancements
 
@@ -1818,8 +1387,10 @@ Some reasonable use-cases require repetition of patterns today, like:
 
 ```js
 match (res) {
-  when ({ pages, data }) if (pages > 1): console.log("multiple pages")
-  when ({ pages, data }) if (pages === 1): console.log("one page")
+  when { let pages, let data } and if (pages > 1):
+    console.log("multiple pages")
+  when { let pages, let data } and if (pages === 1):
+    console.log("one page")
   default: console.log("no pages")
 }
 ```
@@ -1832,9 +1403,9 @@ The above would then be written as:
 
 ```js
 match (res) {
-  when ({ pages, data }) match {
-    if (pages > 1): console.log("multiple pages")
-    if (pages === 1): console.log("one page")
+  when { let pages, let data } match {
+    when if(pages > 1): console.log("multiple pages")
+    when if(pages === 1): console.log("one page")
     // if pages == 0, no clauses succeed in the child match,
     // so the parent clause fails as well,
     // and we advance to the outer `default`
@@ -1843,7 +1414,7 @@ match (res) {
 }
 ```
 
-Note the lack of [matchable](#matchable) in the child (just `match {...}`), to
+Note the lack of a `<subject-expression>` in the child (just `match {...}`), to
 signify that it’s chaining from the `when` rather than just being part an
 independent match construct in the RHS (which would, instead, throw if none of
 the clauses match):
@@ -1864,32 +1435,6 @@ match (res) {
 The presence or absence of the separator colon also distinguishes these cases,
 of course.
 
-## `or` on when clauses
-
-There might be some cases that requires different `when + if` guards with the same RHS.
-
-```js
-// current
-match (expr()) {
-    when ({ type: 'a', version, ...rest }) if (isAcceptableTypeVersion(version)):
-        a_long_expression_do_something_with_rest
-    when ({ kind: 'a', version, ...rest }) if (isAcceptableKindVersion(version)):
-        a_long_expression_do_something_with_rest
-}
-```
-
-Today this case can be resolved by extracting `a_long_expression_do_something_with_rest` to a function,
-but if cases above are very common, we may also allows `or` to be used on the when clause,
-and the code above becomes:
-
-```js
-// current
-match (expr()) {
-    when ({ type: 'a', version, ...rest }) if (isAcceptableTypeVersion(version))
-    or when ({ kind: 'a', version, ...rest }) if (isAcceptableKindVersion(version)):
-        a_long_expression_do_something_with_rest
-}
-```
 
 <!--
 ## Implementations
