@@ -143,7 +143,6 @@ contributors:
         MatchClause :
           `when` `(` MatchPattern `)` `if` `(` Expression `)` `:` AssignmentExpression
           `when` `(` MatchPattern `)` `:` AssignmentExpression
-          `if` `(` Expression `)` `:` AssignmentExpression
           `default` `:` AssignmentExpression
 
         MatchPattern :
@@ -154,6 +153,7 @@ contributors:
           ArrayMatchPattern
           ObjectMatchPattern
           CombinedMatchPattern
+          IfMatchPattern
           `(` MatchPattern `)`
 
         NearLiteralMatchPattern :
@@ -203,6 +203,9 @@ contributors:
           MatchPattern `or` MatchPattern
           MatchPattern `and` MatchPattern
           `not` MatchPattern
+
+        IfMatchPattern:
+          `if` `(` Expression `)`
 
         ArrayMatchPatternElementList :
           ArrayMatchPatternElisionElement
@@ -378,12 +381,6 @@ contributors:
       </emu-grammar>
       <emu-alg>
         1. Return ? CombinedMatchPatternMatches of |CombinedMatchPattern| with arguments _matchable_ and _cacheGroup_.
-      </emu-alg>
-      <emu-grammar>
-        MatchPattern : InterpolationPattern
-      </emu-grammar>
-      <emu-alg>
-        1. Return ? InterpolationPatternMatches of |InterpolationPattern| with arguments _matchable_ and _cacheGroup_.
       </emu-alg>
       <emu-grammar>
         MatchPattern : IdentifierMatchPattern
