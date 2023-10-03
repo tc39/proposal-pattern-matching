@@ -390,7 +390,7 @@ All of the classes for primitive types
 (Boolean, String, Number, BigInt, Symbol)
 expose a built-in Symbol.customMatcher static method,
 matching if and only if the matchable is
-a primitive corresponding to that type.
+a primitive (or a boxed object) corresponding to that type
 The return value of a successful match
 (for the purpose of [extractor patterns](#extractor-patterns))
 is an iterator containing the (possibly auto-unboxed) primitive value.
