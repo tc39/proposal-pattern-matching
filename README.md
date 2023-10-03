@@ -902,21 +902,22 @@ the execution order is as follows:
 ```js
 class Option {
   constructor() { throw new TypeError(); }
-}
-Option.Some = class extends Option {
-  constructor(value) { self.value = value; }
-  map(cb) { return new Option.Some(cb(this.value)); }
-  // etc
-  static [Symbol.customMatcher](subject) {
-    if(subject instanceof Option.Some) return [subject.value];
-    return false;
-  }
-}
-Option.None = class extends Option {
-  constructor() { }
-  map(cb) { return this; }
-  // Use the default custom matcher,
-  // which just checks that the subject matches the class.
+  static Some = class extends Option {
+    constructor(value) { this.value = value; }
+    map(cb) { return new Option.Some(cb(this.value)); }
+    // etc
+    static [Symbol.customMatcher](subject) {
+      if (subject instanceof Option.Some) { return [subject.value]; }
+      return false;
+    }
+  };
+
+  static None = class extends Option {
+    constructor() { }
+    map(cb) { return this; }
+    // Use the default custom matcher,
+    // which just checks that the subject matches the class.
+  };
 }
 
 let val = Option.Some(5);
