@@ -799,7 +799,7 @@ the same as ones coming from skipped `or` patterns.
 Object pattern execution order is as follows:
 
 1. For each non-rest object pattern clause `key: sub-pattern`, in source order:
-    1. Check that the subject has the property `key`. If it doesn't, return failure.
+    1. Check that the subject has the property `key` (using `in`, or `HasProperty()`, semantics). If it doesn't, return failure.
     2. Get the value of the `key` property, and match it against `sub-pattern`. If that fails to match, return failure.
 2. If there's a rest pattern clause,
     collect all enumerable own properties of the subject
