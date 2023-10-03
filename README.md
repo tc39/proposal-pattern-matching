@@ -1389,10 +1389,10 @@ Some reasonable use-cases require repetition of patterns today, like:
 ```js
 match (res) {
   when { let pages, let data } and if (pages > 1):
-    console.log("multiple pages")
+    console.log("multiple pages");
   when { let pages, let data } and if (pages === 1):
-    console.log("one page")
-  default: console.log("no pages")
+    console.log("one page");
+  default: console.log("no pages");
 }
 ```
 
