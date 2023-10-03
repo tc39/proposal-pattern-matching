@@ -1180,7 +1180,7 @@ verifies that it has a `.weight` property
 and binds it to `weight`,
 so that the weight is available to the arm's expression.
 
-## Statement Vs Expression
+## Statement vs Expression
 
 For maximum expressivity,
 the `match` expression is an expression, not a statement.
