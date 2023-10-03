@@ -1290,9 +1290,9 @@ More concise, more functional handling of Redux reducers (compare with
 function todosReducer(state = initialState, action) {
   return match (action) {
     when { type: 'set-visibility-filter', payload: let visFilter }:
-      { ...state, visFilter }
+      { ...state, visFilter };
     when { type: 'add-todo', payload: let text }:
-      { ...state, todos: [...state.todos, { text, completed: false }] }
+      { ...state, todos: [...state.todos, { text, completed: false }] };
     when { type: 'toggle-todo', payload: let index }: do {
       const newTodos = state.todos.map((todo, i) => {
         return i !== index ? todo : {
