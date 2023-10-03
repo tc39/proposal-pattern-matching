@@ -257,7 +257,7 @@ Additionally, several "near-literal" expressions can be used,
 which represent expressions that function as literals to authors:
 
 * `undefined`, matching the undefined value
-* numeric literals preceded by an unary `+` or `-`, like `-1`
+* numeric literals preceded by a unary `+` or `-`, like `-1`
 * `NaN`
 * `Infinity` (with `+` or `-` prefixes as well)
 * untagged template literals
