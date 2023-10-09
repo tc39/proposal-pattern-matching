@@ -260,9 +260,11 @@ which represent expressions that function as literals to authors:
 * numeric literals preceded by a unary `+` or `-`, like `-1`
 * `NaN`
 * `Infinity` (with `+` or `-` prefixes as well)
-* untagged template literals
-    (See [Bindings](#bindings) for details on what bindings are visible
-    to the interpolation expressions.)
+* untagged template literals with no interpolation placeholders.
+    (Tagged literals, like `` foo`bar` ``,
+    and literals with interpolation, like `` `foo ${bar}` ``,
+    are both invalid syntax at this level.
+    We may make them valid in the future.)
 
 The one exception to `SameValue` matching semantics
 is that the pattern `0` is matched using `SameValueZero` semantics.
