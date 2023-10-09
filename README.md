@@ -618,12 +618,7 @@ It represents a test that:
   as the length of the array pattern.
 3. Each item matches the associated sub-pattern.
 
-Issue: do we special-case array-likes here
-(objects with a `length` property)
-for a faster length test,
-or just use the iteration protocol on all subjects?
-
-For example, `when ["foo", {bar}]` will match
+For example, `["foo", {bar}]` will match
 when the subject is an iterable with exactly two items,
 the first item is the string `"foo"`,
 and the second item has a `bar` property.
