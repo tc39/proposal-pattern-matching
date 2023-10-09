@@ -1370,15 +1370,30 @@ to one would need to work for the other.
 Allow a `catch` statement to conditionally catch an exception, saving a level of
 indentation:
 
-```jsx
+```js
 try {
   throw new TypeError('a');
 } catch match (e) {
-  if (e instanceof RangeError): ...;
-  when (/^abc$/): ...;
-  default: do { throw e; }; // default behavior
+  when RangeError: ...;
+  when /^abc$/: ...;
+  // unmatched, default to rethrowing e
 }
 ```
+
+Or possibly just allow an `is` check in the catch head:
+
+```js
+try {
+  throw new TypeError('a');
+} catch (e is RangeError) {
+    ...
+} catch (e is /^abc$/) {
+    ...
+}
+```
+
+(In both cases, the name used for the subject automatically creates a binding,
+same as `catch (e)` does today.)
 
 ## Chaining guards
 
