@@ -973,7 +973,8 @@ match (arithmeticStr) {
 }
 ```
 
-Issue: Previously, named capture groups automatically established bindings.
+Issue: In a previous version of this proposal,
+named capture groups automatically established bindings.
 Now that we have other ways to extract the groups (and other parts),
 we've removed that to simplify the proposal.
 Doing so means we don't have to decide what type of binding they establish,
