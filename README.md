@@ -1423,11 +1423,11 @@ Some reasonable use-cases require repetition of patterns today, like:
 
 ```js
 match (res) {
-  when { let pages, let data } and if (pages > 1):
-    console.log("multiple pages");
-  when { let pages, let data } and if (pages === 1):
-    console.log("one page");
-  default: console.log("no pages");
+  when { status: 200 or 201, let pages, let data } and if (pages > 1):
+    handlePagedData(pages, data);
+  when { status: 200 or 201, let pages, let data } and if (pages === 1):
+    handleSinglePage(data);
+  default: handleError(res);
 }
 ```
 
@@ -1439,14 +1439,14 @@ The above would then be written as:
 
 ```js
 match (res) {
-  when { let pages, let data } match {
-    when if(pages > 1): console.log("multiple pages");
-    when if(pages === 1): console.log("one page");
-    // if pages == 0, no clauses succeed in the child match,
-    // so the parent clause fails as well,
-    // and we advance to the outer `default`
-  }
-  default: console.log("no pages");
+  when { status: 200 or 201, let data } match {
+    when { pages: 1 }: handleSinglePage(data);
+    when { pages: >= 2 and let pages }: handlePagedData(pages, data);
+  };
+  default: handleError(res);
+  // runs if the status indicated an error,
+  // or if the data didn't match one of the above cases,
+  // notably if pages == 0
 }
 ```
 
@@ -1457,14 +1457,14 @@ the clauses match):
 
 ```js
 match (res) {
-  when ({ pages, data }): match (0) {
-    if(pages > 1): console.log("multiple pages");
-    if(pages === 1): console.log("one page");
+  when { status: 200 or 201, let data }: match(res) {
+    when { pages: 1}: handleSinglePage(data);
+    when { pages: >= 2 and let pages}: handlePagedData(pages, data);
     // just an RHS, so if pages == 0,
     // the inner construct fails to match anything
     // and throws a TypeError
-  }
-  default: console.log("no pages");
+  };
+  default: handleError(res);
 }
 ```
 
