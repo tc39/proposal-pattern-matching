@@ -1133,13 +1133,13 @@ Within each arm, they shadow the outer scope's bindings.)
 
 ```jsx
 match (res) {
-  when { status: 200, let body, ...let rest }: handleData(body, rest)
+  when { status: 200, let body, ...let rest }: handleData(body, rest);
   when { const status, destination: let url } and if (300 <= status && status < 400):
-    handleRedirect(url)
+    handleRedirect(url);
   when { status: 500 } and if (!this.hasRetried): do {
     retry(req);
     this.hasRetried = true;
-  }
+  };
   default: throwSomething();
 }
 ```
@@ -1374,9 +1374,9 @@ indentation:
 try {
   throw new TypeError('a');
 } catch match (e) {
-  if (e instanceof RangeError): ...
-  when (/^abc$/): ...
-  default: do { throw e; } // default behavior
+  if (e instanceof RangeError): ...;
+  when (/^abc$/): ...;
+  default: do { throw e; }; // default behavior
 }
 ```
 
@@ -1403,13 +1403,13 @@ The above would then be written as:
 ```js
 match (res) {
   when { let pages, let data } match {
-    when if(pages > 1): console.log("multiple pages")
-    when if(pages === 1): console.log("one page")
+    when if(pages > 1): console.log("multiple pages");
+    when if(pages === 1): console.log("one page");
     // if pages == 0, no clauses succeed in the child match,
     // so the parent clause fails as well,
     // and we advance to the outer `default`
   }
-  default: console.log("no pages")
+  default: console.log("no pages");
 }
 ```
 
@@ -1421,13 +1421,13 @@ the clauses match):
 ```js
 match (res) {
   when ({ pages, data }): match (0) {
-    if(pages > 1): console.log("multiple pages")
-    if(pages === 1): console.log("one page")
+    if(pages > 1): console.log("multiple pages");
+    if(pages === 1): console.log("one page");
     // just an RHS, so if pages == 0,
     // the inner construct fails to match anything
     // and throws a TypeError
   }
-  default: console.log("no pages")
+  default: console.log("no pages");
 }
 ```
 
