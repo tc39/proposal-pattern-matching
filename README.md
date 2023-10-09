@@ -391,7 +391,7 @@ Several JS objects have custom matchers installed on them by default.
 All of the classes for primitive types
 (Boolean, String, Number, BigInt, Symbol)
 expose a built-in Symbol.customMatcher static method,
-matching if and only if the matchable is
+matching if and only if the subject is
 a primitive (or a boxed object) corresponding to that type
 The return value of a successful match
 (for the purpose of [extractor patterns](#extractor-patterns))
@@ -699,10 +699,10 @@ and other "single-shot" iterators
 to be reasonably matched against several array patterns,
 the iterators and their results are cached over the scope of the match construct.
 
-Specifically, whenever a matchable is matched against an array pattern,
-the matchable is used as the key in a cache,
-whose value is the iterator obtained from the matchable,
-and all items pulled from the matchable by an array pattern.
+Specifically, whenever a subject is matched against an array pattern,
+the subject is used as the key in a cache,
+whose value is the iterator obtained from the subject,
+and all items pulled from the subject by an array pattern.
 
 Whenever something would be matched against an array pattern,
 the cache is first checked,
@@ -813,15 +813,15 @@ and helps make idempotent-but-expensive getters usable in pattern matching
 without contortions,
 but mostly it’s just for conceptual consistency.)
 
-Whenever a matchable is matched against an object pattern,
+Whenever a subject is matched against an object pattern,
 for each property name in the object pattern,
-a `(<matchable>, <property name>)` tuple is used as the key in a cache,
+a `(<subject>, <property name>)` tuple is used as the key in a cache,
 whose value is the value of the property.
 
 Whenever something would be matched against an object pattern,
 the cache is first checked,
-and if the matchable and that property name are already in the cache,
-the value is retrieved from cache instead of by a fresh Get against the matchable.
+and if the subject and that property name are already in the cache,
+the value is retrieved from cache instead of by a fresh Get against the subject.
 
 For example:
 
@@ -1337,8 +1337,8 @@ If the `match` construct appears inside a context where `await` is allowed,
 However, just like `async do` expressions, there’s uses of being able to use
 `await` and produce a Promise, even when not already inside an `async function`.
 
-```jsx
-async match (await matchable) {
+```js
+async match (await subject) {
   when { let a }: await a;
   when { let b }: b.then(() => 42);
   default: await somethingThatRejects();
