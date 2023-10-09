@@ -440,6 +440,19 @@ and the language already does brand checks in a bunch of places now.
 If an author *wants* to make their class spoofable,
 they can define the custom matcher themselves.
 
+`RegExp.prototype` has a custom matcher
+that executes the regexp on the subject,
+and matches if the match was successful:
+
+```js
+RegExp.prototype[Symbol.customMatcher] = function(subject) {
+    const result = this.exec(subject);
+    return !!result;
+    /* tho actually the return value is more complex;
+       see Regex Extractor Patterns, below */
+}
+```
+
 
 ### Regex Patterns
 
@@ -448,7 +461,7 @@ representing a test that the subject,
 when stringified,
 successfully matches the regex.
 
-(Technically, this just invokes the `RegExp[Symbol.customMatcher]` method;
+(Technically, this just invokes the `RegExp.prototype[Symbol.customMatcher]` method;
 that is, `x is /foo/;` and `let re = /foo/; x is re;`
 are identical in behavior wrt built-in fiddling.)
 
@@ -945,6 +958,19 @@ followed by each of the positive numbered groups in the regex result
 Execution order is identical to [extractor patterns](#extractor-patterns),
 except the first part is matched as a [regex pattern](#regex-patterns),
 and the second part's subject is as defined above.
+
+The full definition of the `RegExp.prototype` custom matcher is thus:
+
+```js
+RegExp.prototype[Symbol.customMatcher] = function(subject) {
+    const result = this.exec(subject);
+    if(result) {
+        return [result, ...result.slice(1)];
+    } else {
+        return false;
+    }
+}
+```
 
 #### Examples
 
