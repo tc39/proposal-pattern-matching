@@ -1345,6 +1345,28 @@ async match (await subject) {
 } // produces a Promise
 ```
 
+## Relational Patterns
+
+Currently there are patterns for expressing various types of equality,
+and kinda an instanceof (for custom matchers against a class).
+We could express more types of operator-based checks,
+like:
+
+```js
+match(val) {
+    when < 10: console.log("small");
+    when >= 10 and < 20: console.log("mid");
+    default: "large";
+}
+```
+
+Generally, all the binary boolean operators could be used,
+with the subject as the implicit LHS of the operator.
+
+(This would slightly tie our hands on future syntax expansions for patterns,
+but it's unlikely we'd ever *want* to reuse existing operators
+in a way that's different from how they work in expression contexts.)
+
 ## Default Values
 
 Destructuring can supply a default value with `= <expr>` which is used when a
