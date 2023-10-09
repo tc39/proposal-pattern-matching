@@ -405,56 +405,38 @@ class Boolean {
 ```
 
 `Function.prototype` has a custom matcher
-that invokes the function as a predicate
-and returns the return value.
+that checks if the function has an `[[IsClassConstructor]]` slot
+(meaning it's the `constructor()` function from a `class` block);
+if so, it tests whether the subject is an object of that class
+(using brand-checking to verify, similar to `Array.isArray()`);
+if not, it invokes the function as a predicate,
+passing it the subject,
+and returns the return value:
 
 ```js
+/* roughly */
 Function.prototype[Symbol.customMatcher] = function(subject) {
-    return this(subject);
-}
-```
-
-All classes for platform objects expose a static `Symbol.customMatcher` method,
-which tests if the subject is of the specified type
-(using brand-checking to verify, similar to `Array.isArray()`).
-The built-in matcher is treated as always returning `true` or `false`.
-(We'll define this in the WebIDL spec.
-WebIDL may grow a way to override the matcher for a class
-and let it provide something more useful.)
-
-Userland classes auto-define a default custom matcher
-*if* a `Symbol.customMatcher` static method is not present in the class definition.
-This is effectively:
-
-```js
-class MyClass {
-    #__unique_name_here__;
-    static [Symbol.customMatcher](subject) {
-        return #__unique_name_here__ in subject;
+    if(isClassConstructor(this)) {
+        return hasCorrectBrand(this, subject);
+    } else {
+        return this(subject);
     }
 }
 ```
 
-Issue: Or should we just do an `instanceof` check?
+This way, predicate functions
+(that return `true` or `false`)
+can be used directly as matchers,
+like `x is upperAlpha`,
+and classes can also be used directly as matchers
+to test if objects are of that class,
+like `x is Option.Some`.
+
+Issue: Or should we just do an `instanceof` check for the class check?
 That's more easily spoofable,
 and the language already does brand checks in a bunch of places now.
 If an author *wants* to make their class spoofable,
 they can define the custom matcher themselves.
-
-Note: The only prototype-based way to put a custom matcher on every class by default
-would be to put it on `Function.prototype`.
-That then blocks us from allowing boolean predicates as custom matchers,
-as there is *no dependable way* to tell apart functions from constructors.
-(You can't even rely on the existence of a constructor slot,
-as many built-ins are defined to have one that just throws.)
-This approach
-(installing a custom matcher if it's not present in the class definition)
-mirrors the behavior of constructor methods in class definitions,
-and doesn't interfere with other functions.
-However, if this is deemed unacceptable,
-we could pursue other approaches,
-like having a prefix keyword to indicate a "boolean predicate pattern"
-so we can tell it apart from a custom matcher pattern.
 
 
 ### Regex Patterns
