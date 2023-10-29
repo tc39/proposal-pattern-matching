@@ -36,6 +36,49 @@ contributors:
 </style>
 
 <p>Work in progress. Before continuing, please read the&nbsp;<emu-xref href="#sec-notes" title></emu-xref>.</p>
+
+<emu-clause id="sec-ecmascript-data-types-and-values" aoid="Type" number="6">
+  <h1>ECMAScript Data Types and Values</h1>
+  <emu-clause id="sec-ecmascript-language-types">
+    <h1>ECMAScript Language Types</h1>
+
+    <emu-clause id="sec-ecmascript-language-types-symbol-type" number="5">
+      <h1>The Symbol Type</h1>
+      <emu-clause id="sec-well-known-symbols">
+        <h1>Well-Known Symbols</h1>
+        <emu-table id="table-1" caption="Well-known Symbols">
+          <table>
+            <tbody>
+            <tr>
+              <th>
+                Specification Name
+              </th>
+              <th>
+                [[Description]]
+              </th>
+              <th>
+                Value and Purpose
+              </th>
+            </tr>
+            <tr>
+              <td>
+                <ins><dfn>@@customMatcher</dfn></ins>
+              </td>
+              <td>
+                <ins>`"Symbol.customMatcher"`</ins>
+              </td>
+              <td>
+                <ins>A method that performs custom pattern matching semantics. Called by the semantics of the pattern matching features.</ins>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </emu-table>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
 <emu-clause id="sec-pattern-matching" number="30">
   <h1><ins>Pattern Matching</ins></h1>
 
@@ -265,7 +308,9 @@ contributors:
         1. Let _expr_ be the |MemberExpression| that is covered by |PatternMatchingMemberExpression|.
         1. Let _ref_ be ? Evaluation of _expr_.
         1. Let _value_ be ? GetValue(_ref_).
-        1. Return SameValueZero(_subject_, _value_).
+        1. Let _result_ be ? InvokeCustomMatcher(_value_, _subject_, ~boolean~).
+        1. Assert: _result_ is a Boolean.
+        1. Return _result_.
       </emu-alg>
     </emu-clause>
 
@@ -324,6 +369,41 @@ contributors:
   </emu-clause>
   <emu-clause id="sec-abstract-operations-for-pattern-matching">
     <h1>Abstract Operations for Pattern Matching</h1>
+
+    <emu-clause id="sec-invoke-custom-matcher" type="abstract operation">
+      <h1><ins>
+        InvokeCustomMatcher (
+          _matcher_: an ECMAScript language value,
+          _subject_: an ECMAScript language value,
+          _kind_: ~boolean~ or ~list~,
+        ): either a normal completion containing either a Boolean or an Iterator Record, or an abrupt completion
+      </ins></h1>
+      <dl class="header">
+      </dl>
+      <emu-alg>
+        1. If _matcher_ is not an Object, then
+          1. Return SameValueZero(_matcher_, _subject_).
+        1. Let _f_ be ? Get(_matcher_, @@customMatcher).
+        1. If IsCallable(_matcher_) is *false*, throw a *TypeError* exception.
+        1. If _kind_ is ~boolean~, let _hint_ be *"boolean"*.
+        1. Else, let _hint_ be *"list"*.
+        1. Let _result_ be ? Call(_f_, _matcher_, « _subject_, _hint_ »).
+        1. If _result_ is *false*, return *false*.
+        1. Else if _result_ is *true* and _kind_ is ~boolean~, return *true*.
+        1. Else if _result_ is not an Object, throw a *TypeError* exception.
+        1. Let _iterator_ be ? GetIterator(_result_, ~sync~).
+        1. If _kind_ is ~boolean~, then
+          1. Perform ? IteratorClose(_iterator_, a normal completion with a value of unused).
+          1. Return *true*.
+        1. Return _iterator_.
+      </emu-alg>
+      <emu-note type="editor">
+        The hint parameter is not a consensus in the champion group yet. This design is to solve <a href="https://github.com/tc39/proposal-pattern-matching/issues/253" target="_blank">runtime performance concerns about custom matchers</a>. The <a href="https://github.com/tc39/proposal-extractors" target="_blank">extractor proposal</a> may add a new hint ~object~ for the following syntax.
+        <pre><code class="javascript">
+          const Point{ x, y } = expr;
+        </code></pre>
+      </emu-note>
+    </emu-clause>
   </emu-clause>
 </emu-clause>
 
