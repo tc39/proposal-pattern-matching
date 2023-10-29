@@ -25,6 +25,14 @@ contributors:
   emu-note[code] pre {
     margin: 0;
   }
+  pre.inline {
+    display: inline;
+  }
+  pre.inline code {
+    display: inline;
+    font-style: italic;
+    text-decoration: underline;
+  }
 </style>
 
 <p>Work in progress. Before continuing, please read the&nbsp;<emu-xref href="#sec-notes" title></emu-xref>.</p>
@@ -36,9 +44,11 @@ contributors:
     <h2>Syntax</h2>
     <emu-grammar type="definition">
       MatchPattern[Yield, Await] :
+        `(` MatchPattern[?Yield, ?Await] `)`
         PrimitivePattern
         MemberExpressionPattern[?Yield, ?Await]
         UnaryAlgebraicPattern[?Yield, ?Await]
+        CombinedMatchPattern[?Yield, ?Await]
     </emu-grammar>
 
     <!-- #region PrimitivePattern -->
@@ -120,6 +130,60 @@ contributors:
       </code></pre>
     </emu-note>
     <!-- endregion -->
+
+    <!-- #region CombinedMatchPattern -->
+    <emu-grammar type="definition">
+      CombinedMatchPattern[Yield, Await] :
+        MatchPattern[?Yield, ?Await] `and` MatchPattern[?Yield, ?Await]
+        MatchPattern[?Yield, ?Await] `or` MatchPattern[?Yield, ?Await]
+        `not` MatchPattern[?Yield, ?Await]
+    </emu-grammar>
+    <emu-note code>
+      <pre><code class="javascript">
+        value is not 0;
+        value is "true" or "yes";
+      </code></pre>
+    </emu-note>
+    <!-- endregion -->
+
+    <emu-clause id="sec-match-patterns-early-errors">
+      <h1>Static Semantics: Early Errors</h1>
+      <emu-grammar>
+        CombinedMatchPattern :
+          MatchPattern `and` MatchPattern
+      </emu-grammar>
+      <ul>
+        <li>It is a Syntax Error if either of |MatchPattern| is a |CombinedMatchPattern| and does not match this production.</li>
+      </ul>
+      <emu-grammar>
+        CombinedMatchPattern :
+          MatchPattern `or` MatchPattern
+      </emu-grammar>
+      <ul>
+        <li>It is a Syntax Error if either of |MatchPattern| is a |CombinedMatchPattern| and does not match this production.</li>
+      </ul>
+      <emu-grammar>
+        CombinedMatchPattern :
+          `not` MatchPattern
+      </emu-grammar>
+      <ul>
+        <li>It is a Syntax Error if the |MatchPattern| is a |CombinedMatchPattern|.</li>
+      </ul>
+      <emu-note code><pre><code class="javascript">
+        value is a and b and c; // no Syntax Error
+        value is a or b or c; // no Syntax Error
+
+        value is a and b or c; // Syntax Error
+        value is (a and b) or c; // no Syntax Error
+        value is a and (b or c); // no Syntax Error
+
+        value is not not a; // Syntax Error
+        value is not (not a); // no Syntax Error
+
+        value is not a or b; // Syntax Error
+        value is not (a or b); // no Syntax Error
+      </code></pre></emu-note>
+    </emu-clause>
   </emu-clause>
   <emu-clause id="sec-match-pattern-semantics">
     <h1>Match Pattern Semantics</h1>
@@ -132,6 +196,12 @@ contributors:
       </h1>
       <dl class="header">
       </dl>
+      <emu-grammar>
+        MatchPattern : `(` MatchPattern `)`
+      </emu-grammar>
+      <emu-alg>
+        1. Return ? MatchPatternMatches of |MatchPattern| with arguments _subject_.
+      </emu-alg>
       <emu-grammar>
         MatchPattern : PrimitivePattern
       </emu-grammar>
@@ -149,6 +219,12 @@ contributors:
       </emu-grammar>
       <emu-alg>
         1. Return ? UnaryAlgebraicPatternMatches of |UnaryAlgebraicPattern| with arguments _subject_.
+      </emu-alg>
+      <emu-grammar>
+        MatchPattern : CombinedMatchPattern
+      </emu-grammar>
+      <emu-alg>
+        1. Return ? CombinedMatchPatternMatches of |CombinedMatchPattern| with arguments _subject_.
       </emu-alg>
     </emu-clause>
 
@@ -209,6 +285,40 @@ contributors:
         1. Let _ref_ be ? Evaluation of _expr_.
         1. Let _value_ be ? GetValue(_ref_).
         1. Return SameValue(_subject_, _value_).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-combined-match-pattern-matches" type="sdo">
+      <h1>
+        Runtime Semantics: CombinedMatchPatternMatches (
+          _subject_: an ECMAScript language value,
+        ): either a normal completion containing a Boolean or an abrupt completion
+      </h1>
+      <dl class="header">
+      </dl>
+      <emu-grammar>
+        CombinedMatchPattern : MatchPattern `and` MatchPattern
+      </emu-grammar>
+      <emu-alg>
+        1. Let _leftMatches_ be ? MatchPatternMatches of the first |MatchPattern| with arguments _subject_.
+        1. If _leftMatches_ is *false*, return *false*.
+        1. Return ? MatchPatternMatches of the second |MatchPattern| with arguments _subject_.
+      </emu-alg>
+      <emu-grammar>
+        CombinedMatchPattern : MatchPattern `or` MatchPattern
+      </emu-grammar>
+      <emu-alg>
+        1. Let _leftMatches_ be ? MatchPatternMatches of the first |MatchPattern| with arguments _subject_.
+        1. If _leftMatches_ is *true*, return *true*.
+        1. Return ? MatchPatternMatches of the second |MatchPattern| with arguments _subject_.
+      </emu-alg>
+      <emu-grammar>
+        CombinedMatchPattern : `not` MatchPattern
+      </emu-grammar>
+      <emu-alg>
+        1. Let _matches_ be ? MatchPatternMatches of |MatchPattern| with arguments _subject_.
+        1. If _matches_ is *true*, return *false*.
+        1. Return *true*.
       </emu-alg>
     </emu-clause>
   </emu-clause>
