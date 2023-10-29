@@ -28,6 +28,85 @@ contributors:
 </style>
 
 <p>Work in progress. Before continuing, please read the&nbsp;<emu-xref href="#sec-notes" title></emu-xref>.</p>
+<emu-clause id="sec-pattern-matching" number="30">
+  <h1><ins>Pattern Matching</ins></h1>
+
+  <emu-clause id="sec-match-patterns">
+    <h1>Match Patterns</h1>
+    <h2>Syntax</h2>
+    <emu-grammar type="definition">
+      MatchPattern :
+        PrimitivePattern
+    </emu-grammar>
+
+    <emu-grammar type="definition">
+      PrimitivePattern :
+        Literal
+        NoSubstitutionTemplate
+    </emu-grammar>
+    <emu-note code>
+      <pre><code class="javascript">
+        value is null;
+        value is true;
+        value is 1_000_000;
+        value is "string";
+        value is `line 1
+        line 2`;
+      </code></pre>
+    </emu-note>
+    <emu-note type="editor">
+      Preserve the interpolation syntax for (1) <a href="https://github.com/tc39/proposal-pattern-matching/pull/293#discussion_r1350757767" target="_blank">concerns about arbitrary expression interpolation</a> and (2) <a target="_blank" href="https://www.typescriptlang.org/docs/handbook/2/template-literal-types.html#inference-with-template-literals">intuitive string matching</a>.
+      For example, match `"com.example:method()"` by
+      <pre><code class="javascript">
+        when `${isPackageName and let pkg}:${isIdentifier and let method}()`: ...,
+      </code></pre>
+    </emu-note>
+  </emu-clause>
+  <emu-clause id="sec-match-pattern-semantics">
+    <h1>Match Pattern Semantics</h1>
+
+    <emu-clause id="sec-match-pattern-matches" type="sdo">
+      <h1>
+        Runtime Semantics: MatchPatternMatches (
+          _subject_: an ECMAScript language value,
+        ): either a normal completion containing a Boolean or an abrupt completion
+      </h1>
+      <dl class="header">
+      </dl>
+      <emu-grammar>
+        MatchPattern : PrimitivePattern
+      </emu-grammar>
+      <emu-alg>
+        1. Return PrimitivePatternMatches of |PrimitivePattern| with arguments _subject_.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-primitive-pattern-matches" type="sdo">
+      <h1>
+        Runtime Semantics: PrimitivePatternMatches (
+          _subject_: an ECMAScript language value,
+        ): a Boolean
+      </h1>
+      <dl class="header">
+      </dl>
+      <emu-grammar>
+        PrimitivePattern : Literal
+      </emu-grammar>
+      <emu-alg>
+        1. Return SameValue(_subject_, ! Evaluation of |Literal|).
+      </emu-alg>
+      <emu-grammar>
+        PrimitivePattern : NoSubstitutionTemplate
+      </emu-grammar>
+      <emu-alg>
+        1. Return SameValue(_subject_, ! Evaluation of |NoSubstitutionTemplate|).
+      </emu-alg>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-abstract-operations-for-pattern-matching">
+    <h1>Abstract Operations for Pattern Matching</h1>
+  </emu-clause>
+</emu-clause>
 
 <emu-clause id="sec-notes">
   <h1>Editor's notes</h1>

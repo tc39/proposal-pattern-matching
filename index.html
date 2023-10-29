@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/styles/base16/solarized-light.min.css"><link rel="stylesheet" href="assets/ecmarkup.css"><link rel="stylesheet" href="./spec.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 <script src="./spec.js"></script>
-<title>Pattern Matching</title><script src="assets/ecmarkup.js?cache=NgxzPplH" defer=""></script></head><body><div id="shortcuts-help">
+<title>Pattern Matching</title><script src="assets/ecmarkup.js?cache=DUDL-AOT" defer=""></script></head><body><div id="shortcuts-help">
 <ul>
   <li><span>Toggle shortcuts help</span><code>?</code></li>
   <li><span>Toggle "can call user code" annotations</span><code>u</code></li>
@@ -12,7 +12,7 @@
 </ul></div><div id="menu-toggle"><svg xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%; stroke:currentColor" viewBox="0 0 120 120">
       <title>Menu</title>
       <path stroke-width="10" stroke-linecap="round" d="M30,60 h60  M30,30 m0,5 h60  M30,90 m0,-5 h60"></path>
-    </svg></div><div id="menu-spacer" class="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-notes" title="Editor's notes"><span class="secnum">1</span> Editor's notes</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-notes-layering" title="Layering"><span class="secnum">1.1</span> Layering</a></li><li><span class="item-toggle-none"></span><a href="#sec-notes-code-example" title="Code example"><span class="secnum">1.2</span> Code example</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 1 Draft / October 29, 2023</h1><h1 class="title">Pattern Matching</h1>
+    </svg></div><div id="menu-spacer" class="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-pattern-matching" title="Pattern Matching"><span class="secnum">30</span> <ins>Pattern Matching</ins></a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-match-patterns" title="Match Patterns"><span class="secnum">30.1</span> Match Patterns</a></li><li><span class="item-toggle">+</span><a href="#sec-match-pattern-semantics" title="Match Pattern Semantics"><span class="secnum">30.2</span> Match Pattern Semantics</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-match-pattern-matches" title="Runtime Semantics: MatchPatternMatches"><span class="secnum">30.2.1</span> RS: MatchPatternMatches</a></li><li><span class="item-toggle-none"></span><a href="#sec-primitive-pattern-matches" title="Runtime Semantics: PrimitivePatternMatches"><span class="secnum">30.2.2</span> RS: PrimitivePatternMatches</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-abstract-operations-for-pattern-matching" title="Abstract Operations for Pattern Matching"><span class="secnum">30.3</span> Abstract Operations for Pattern Matching</a></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-notes" title="Editor's notes"><span class="secnum">31</span> Editor's notes</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-notes-layering" title="Layering"><span class="secnum">31.1</span> Layering</a></li><li><span class="item-toggle-none"></span><a href="#sec-notes-code-example" title="Code example"><span class="secnum">31.2</span> Code example</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 1 Draft / October 29, 2023</h1><h1 class="title">Pattern Matching</h1>
 <style>
   emu-note[code] > .note {
     font-size: 0;
@@ -27,11 +27,79 @@
 </style>
 
 <p>Work in progress. Before continuing, please read the&nbsp;<emu-xref href="#sec-notes" title="" id="_ref_0"><a href="#sec-notes">Editor's notes</a></emu-xref>.</p>
+<emu-clause id="sec-pattern-matching" number="30">
+  <h1><span class="secnum">30</span> <ins>Pattern Matching</ins></h1>
+
+  <emu-clause id="sec-match-patterns">
+    <h1><span class="secnum">30.1</span> Match Patterns</h1>
+    <h2>Syntax</h2>
+    <emu-grammar type="definition"><emu-production name="MatchPattern" id="prod-MatchPattern">
+    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="sgh9k7d8" id="prod-NnfvhTBM">
+        <emu-nt id="_ref_2"><a href="#prod-PrimitivePattern">PrimitivePattern</a></emu-nt>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+
+    <emu-grammar type="definition"><emu-production name="PrimitivePattern" id="prod-PrimitivePattern">
+    <emu-nt><a href="#prod-PrimitivePattern">PrimitivePattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="kul-a19e" id="prod-lZG2aTTb">
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-Literal">Literal</a></emu-nt>
+    </emu-rhs>
+    <emu-rhs a="e_otk8es" id="prod-rqU7_eLx">
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-NoSubstitutionTemplate">NoSubstitutionTemplate</a></emu-nt>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-note code=""><span class="note">Note</span><div class="note-contents">
+      <pre><code class="javascript hljs">value is <span class="hljs-literal">null</span>;
+value is <span class="hljs-literal">true</span>;
+value is <span class="hljs-number">1_000_000</span>;
+value is <span class="hljs-string">"string"</span>;
+value is <span class="hljs-string">`line 1
+line 2`</span>;</code></pre>
+    </div></emu-note>
+    <emu-note type="editor"><span class="note">Editor's Note</span><div class="note-contents">
+      Preserve the interpolation syntax for (1) <a href="https://github.com/tc39/proposal-pattern-matching/pull/293#discussion_r1350757767" target="_blank">concerns about arbitrary expression interpolation</a> and (2) <a target="_blank" href="https://www.typescriptlang.org/docs/handbook/2/template-literal-types.html#inference-with-template-literals">intuitive string matching</a>.
+      For example, match <code>"com.example:method()"</code> by
+      <pre><code class="javascript hljs">when <span class="hljs-string">`<span class="hljs-subst">${isPackageName and <span class="hljs-keyword">let</span> pkg}</span>:<span class="hljs-subst">${isIdentifier and <span class="hljs-keyword">let</span> method}</span>()`</span>: ...,</code></pre>
+    </div></emu-note>
+  </emu-clause>
+  <emu-clause id="sec-match-pattern-semantics">
+    <h1><span class="secnum">30.2</span> Match Pattern Semantics</h1>
+
+    <emu-clause id="sec-match-pattern-matches" type="sdo" aoid="MatchPatternMatches">
+      <h1><span class="secnum">30.2.1</span> Runtime Semantics: MatchPatternMatches</h1>
+      <p>The <emu-xref href="#sec-algorithm-conventions-syntax-directed-operations"><a href="https://tc39.es/ecma262/#sec-algorithm-conventions-syntax-directed-operations">syntax-directed operation</a></emu-xref> MatchPatternMatches takes argument <var>subject</var> (an <emu-xref href="#sec-ecmascript-language-types"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>) and returns either a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion containing</a></emu-xref> a Boolean or an <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">abrupt completion</a></emu-xref>. It is defined piecewise over the following productions:</p>
+      <emu-grammar><emu-production name="MatchPattern" collapsed="">
+    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="sgh9k7d8" id="prod-6fPS70C2"><emu-nt id="_ref_3"><a href="#prod-PrimitivePattern">PrimitivePattern</a></emu-nt></emu-rhs>
+</emu-production>
+</emu-grammar>
+      <emu-alg><ol><li>Return <emu-xref aoid="PrimitivePatternMatches" id="_ref_1"><a href="#sec-primitive-pattern-matches">PrimitivePatternMatches</a></emu-xref> of <emu-nt id="_ref_4"><a href="#prod-PrimitivePattern">PrimitivePattern</a></emu-nt> with arguments <var>subject</var>.</li></ol></emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-primitive-pattern-matches" type="sdo" aoid="PrimitivePatternMatches">
+      <h1><span class="secnum">30.2.2</span> Runtime Semantics: PrimitivePatternMatches</h1>
+      <p>The <emu-xref href="#sec-algorithm-conventions-syntax-directed-operations"><a href="https://tc39.es/ecma262/#sec-algorithm-conventions-syntax-directed-operations">syntax-directed operation</a></emu-xref> PrimitivePatternMatches takes argument <var>subject</var> (an <emu-xref href="#sec-ecmascript-language-types"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>) and returns a Boolean. It is defined piecewise over the following productions:</p>
+      <emu-grammar><emu-production name="PrimitivePattern" collapsed="">
+    <emu-nt><a href="#prod-PrimitivePattern">PrimitivePattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="kul-a19e" id="prod-mlLTmHeP"><emu-nt><a href="https://tc39.es/ecma262/#prod-Literal">Literal</a></emu-nt></emu-rhs>
+</emu-production>
+</emu-grammar>
+      <emu-alg><ol><li>Return <emu-xref aoid="SameValue"><a href="https://tc39.es/ecma262/#sec-samevalue">SameValue</a></emu-xref>(<var>subject</var>, !&nbsp;<emu-xref aoid="Evaluation"><a href="https://tc39.es/ecma262/#sec-evaluation">Evaluation</a></emu-xref> of <emu-nt><a href="https://tc39.es/ecma262/#prod-Literal">Literal</a></emu-nt>).</li></ol></emu-alg>
+      <emu-grammar><emu-production name="PrimitivePattern" collapsed="">
+    <emu-nt><a href="#prod-PrimitivePattern">PrimitivePattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="e_otk8es" id="prod-eFLzsKUd"><emu-nt><a href="https://tc39.es/ecma262/#prod-NoSubstitutionTemplate">NoSubstitutionTemplate</a></emu-nt></emu-rhs>
+</emu-production>
+</emu-grammar>
+      <emu-alg><ol><li>Return <emu-xref aoid="SameValue"><a href="https://tc39.es/ecma262/#sec-samevalue">SameValue</a></emu-xref>(<var>subject</var>, !&nbsp;<emu-xref aoid="Evaluation"><a href="https://tc39.es/ecma262/#sec-evaluation">Evaluation</a></emu-xref> of <emu-nt><a href="https://tc39.es/ecma262/#prod-NoSubstitutionTemplate">NoSubstitutionTemplate</a></emu-nt>).</li></ol></emu-alg>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-abstract-operations-for-pattern-matching">
+    <h1><span class="secnum">30.3</span> Abstract Operations for Pattern Matching</h1>
+  </emu-clause>
+</emu-clause>
 
 <emu-clause id="sec-notes">
-  <h1><span class="secnum">1</span> Editor's notes</h1>
+  <h1><span class="secnum">31</span> Editor's notes</h1>
   <emu-clause id="sec-notes-layering">
-    <h1><span class="secnum">1.1</span> Layering</h1>
+    <h1><span class="secnum">31.1</span> Layering</h1>
     <p>The pattern-matching champion group designed this proposal with a layering approach. It does not mean the proposal is an MVP. The champion group wishes to ship the proposal as a whole when possible, but we can drop some features if there is strong pushback from the committee.</p>
     <p>This approach allows the champion group to consider how all features combine and also how the proposal should behave if any of the features are missing.</p>
     <p>A feature will have a note if</p>
@@ -41,7 +109,7 @@
     </ul>
   </emu-clause>
   <emu-clause id="sec-notes-code-example">
-    <h1><span class="secnum">1.2</span> Code example</h1>
+    <h1><span class="secnum">31.2</span> Code example</h1>
     <p>The code example in the patterns section will be in one of the forms:</p>
     <pre><code class="javascript hljs">value is &lt;pattern&gt;;
 when &lt;pattern&gt;: ...,</code></pre>
