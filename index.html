@@ -1530,7 +1530,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 let sdoMap = JSON.parse(`{}`);
-let biblio = JSON.parse(`{"refsByClause":{},"entries":[{"type":"clause","id":"sec-copyright-and-software-license","title":"Copyright & Software License","titleHTML":"Copyright &amp; Software License","number":"A"}]}`);
+let biblio = JSON.parse(`{"refsByClause":{"sec-intro":["_ref_0"]},"entries":[{"type":"clause","id":"sec-notes-layering","titleHTML":"Layering","number":"1.1"},{"type":"clause","id":"sec-notes-code-example","titleHTML":"Code example","number":"1.2"},{"type":"clause","id":"sec-notes","titleHTML":"Editor's notes","number":"1","referencingIds":["_ref_0"]},{"type":"clause","id":"sec-copyright-and-software-license","title":"Copyright & Software License","titleHTML":"Copyright &amp; Software License","number":"A"}]}`);
 ;let usesMultipage = false</script><style>/* IBM Plex fonts (Latin subset) have been downloaded from Google Fonts and modified to add support back in for the `zero` substitution (slashed zeroes) */
 
 /* https://fonts.googleapis.com/css2?family=IBM%20Plex%20Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap */
@@ -2909,8 +2909,51 @@ li.menu-search-result-term:before {
 </ul></div><div id="menu-toggle"><svg xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%; stroke:currentColor" viewBox="0 0 120 120">
       <title>Menu</title>
       <path stroke-width="10" stroke-linecap="round" d="M30,60 h60  M30,30 m0,5 h60  M30,90 m0,-5 h60"></path>
-    </svg></div><div id="menu-spacer" class="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 1 Draft / September 19, 2023</h1><h1 class="title">Pattern Matching</h1>
-<emu-annex id="sec-copyright-and-software-license">
+    </svg></div><div id="menu-spacer" class="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-notes" title="Editor's notes"><span class="secnum">1</span> Editor's notes</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-notes-layering" title="Layering"><span class="secnum">1.1</span> Layering</a></li><li><span class="item-toggle-none"></span><a href="#sec-notes-code-example" title="Code example"><span class="secnum">1.2</span> Code example</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 1 Draft / September 19, 2023</h1><h1 class="title">Pattern Matching</h1>
+<style>
+  emu-note[code] > .note {
+    font-size: 0;
+  }
+  emu-note[code] > .note::before {
+    content: "Example";
+    font-size: 18px;
+  }
+  emu-note[code] pre {
+    margin: 0;
+  }
+</style>
+
+<p>Work in progress. Before continuing, please read the&nbsp;<emu-xref href="#sec-notes" title="" id="_ref_0"><a href="#sec-notes">Editor's notes</a></emu-xref>.</p>
+
+<emu-clause id="sec-notes">
+  <h1><span class="secnum">1</span> Editor's notes</h1>
+  <emu-clause id="sec-notes-layering">
+    <h1><span class="secnum">1.1</span> Layering</h1>
+    <p>The pattern-matching champion group designed this proposal with a layering approach. It does not mean the proposal is an MVP. The champion group wishes to ship the proposal as a whole when possible, but we can drop some features if there is strong pushback from the committee.</p>
+    <p>This approach allows the champion group to consider how all features combine and also how the proposal should behave if any of the features are missing.</p>
+    <p>A feature will have a note if</p>
+    <ul>
+      <li>it is a convenient feature instead of a necessary feature.</li>
+      <li>not all champion group members represent the hope to include it.</li>
+    </ul>
+  </emu-clause>
+  <emu-clause id="sec-notes-code-example">
+    <h1><span class="secnum">1.2</span> Code example</h1>
+    <p>The code example in the patterns section will be in one of the forms:</p>
+    <pre><code class="javascript hljs">value is &lt;pattern&gt;;
+when &lt;pattern&gt;: ...,</code></pre>
+    <p>The first form is an expression that can be used in any expression position.</p>
+    <pre><code class="javascript hljs"><span class="hljs-keyword">const</span> isOk = response is { <span class="hljs-attr">ok</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">status</span>: &gt; <span class="hljs-number">100</span> and &lt; <span class="hljs-number">400</span> };</code></pre>
+    <p>The second form is a clause of the match expression that is only available inside a match expression.</p>
+    <pre><code class="javascript hljs"><span class="hljs-keyword">const</span> type = <span class="hljs-title function_">match</span>(<span class="hljs-params">expr</span>) {
+  { <span class="hljs-attr">ok</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">status</span>: &gt; <span class="hljs-number">100</span> and &lt; <span class="hljs-number">400</span> }: <span class="hljs-string">"ok"</span>,
+  { <span class="hljs-attr">ok</span>: <span class="hljs-literal">false</span>, <span class="hljs-attr">status</span>: <span class="hljs-number">404</span> }: <span class="hljs-string">"not found"</span>,
+  <span class="hljs-attr">default</span>: <span class="hljs-string">"unknown"</span>,
+};</code></pre>
+    <p>The "when" <emu-xref href="#sec-keywords-and-reserved-words"><a href="https://tc39.es/ecma262/#sec-keywords-and-reserved-words">keyword</a></emu-xref> was removed, but for the readability of code examples, "when" is kept.</p>
+    <p>This document prefers the <code>is</code> form unless the declaration pattern (<code>let x</code>) appears.</p>
+  </emu-clause>
+</emu-clause><emu-annex id="sec-copyright-and-software-license">
       <h1><span class="secnum">A</span> Copyright &amp; Software License</h1>
       
       <h2>Copyright Notice</h2>
@@ -2929,4 +2972,5 @@ li.menu-search-result-term:before {
 
 <p>THIS SOFTWARE IS PROVIDED BY THE ECMA INTERNATIONAL "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL ECMA INTERNATIONAL BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
 
-    </emu-annex></div></body>
+    </emu-annex>
+</div></body>

@@ -14,3 +14,53 @@ contributors:
   - Ross Kirsling
   - Tab Atkins
 </pre>
+<style>
+  emu-note[code] > .note {
+    font-size: 0;
+  }
+  emu-note[code] > .note::before {
+    content: "Example";
+    font-size: 18px;
+  }
+  emu-note[code] pre {
+    margin: 0;
+  }
+</style>
+
+<p>Work in progress. Before continuing, please read the&nbsp;<emu-xref href="#sec-notes" title></emu-xref>.</p>
+
+<emu-clause id="sec-notes">
+  <h1>Editor's notes</h1>
+  <emu-clause id="sec-notes-layering">
+    <h1>Layering</h1>
+    <p>The pattern-matching champion group designed this proposal with a layering approach. It does not mean the proposal is an MVP. The champion group wishes to ship the proposal as a whole when possible, but we can drop some features if there is strong pushback from the committee.</p>
+    <p>This approach allows the champion group to consider how all features combine and also how the proposal should behave if any of the features are missing.</p>
+    <p>A feature will have a note if</p>
+    <ul>
+      <li>it is a convenient feature instead of a necessary feature.</li>
+      <li>not all champion group members represent the hope to include it.</li>
+    </ul>
+  </emu-clause>
+  <emu-clause id="sec-notes-code-example">
+    <h1>Code example</h1>
+    <p>The code example in the patterns section will be in one of the forms:</p>
+    <pre><code class="javascript">
+      value is &lt;pattern&gt;;
+      when &lt;pattern&gt;: ...,
+    </code></pre>
+    <p>The first form is an expression that can be used in any expression position.</p>
+    <pre><code class="javascript">
+      const isOk = response is { ok: true, status: &gt; 100 and &lt; 400 };
+    </code></pre>
+    <p>The second form is a clause of the match expression that is only available inside a match expression.</p>
+    <pre><code class="javascript">
+      const type = match(expr) {
+        { ok: true, status: &gt; 100 and &lt; 400 }: "ok",
+        { ok: false, status: 404 }: "not found",
+        default: "unknown",
+      };
+    </code></pre>
+    <p>The "when" keyword was removed, but for the readability of code examples, "when" is kept.</p>
+    <p>This document prefers the `is` form unless the declaration pattern (`let x`) appears.</p>
+  </emu-clause>
+</emu-clause>
