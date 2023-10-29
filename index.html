@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/styles/base16/solarized-light.min.css"><link rel="stylesheet" href="assets/ecmarkup.css"><link rel="stylesheet" href="./spec.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 <script src="./spec.js"></script>
-<title>Pattern Matching</title><script src="assets/ecmarkup.js?cache=NJPaYXhi" defer=""></script></head><body><div id="shortcuts-help">
+<title>Pattern Matching</title><script src="assets/ecmarkup.js?cache=LtAQ5icy" defer=""></script></head><body><div id="shortcuts-help">
 <ul>
   <li><span>Toggle shortcuts help</span><code>?</code></li>
   <li><span>Toggle "can call user code" annotations</span><code>u</code></li>
@@ -12,7 +12,7 @@
 </ul></div><div id="menu-toggle"><svg xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%; stroke:currentColor" viewBox="0 0 120 120">
       <title>Menu</title>
       <path stroke-width="10" stroke-linecap="round" d="M30,60 h60  M30,30 m0,5 h60  M30,90 m0,-5 h60"></path>
-    </svg></div><div id="menu-spacer" class="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-ecmascript-data-types-and-values" title="ECMAScript Data Types and Values"><span class="secnum">6</span> ECMAScript Data Types and Values</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-ecmascript-language-types" title="ECMAScript Language Types"><span class="secnum">6.1</span> ECMAScript Language Types</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-ecmascript-language-types-symbol-type" title="The Symbol Type"><span class="secnum">6.1.5</span> The Symbol Type</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-well-known-symbols" title="Well-Known Symbols"><span class="secnum">6.1.5.1</span> Well-Known Symbols</a></li></ol></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-pattern-matching" title="Pattern Matching"><span class="secnum">30</span> <ins>Pattern Matching</ins></a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-match-patterns" title="Match Patterns"><span class="secnum">30.1</span> Match Patterns</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-match-patterns-early-errors" title="Static Semantics: Early Errors"><span class="secnum">30.1.1</span> SS: Early Errors</a></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-match-pattern-semantics" title="Match Pattern Semantics"><span class="secnum">30.2</span> Match Pattern Semantics</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-match-pattern-matches" title="Runtime Semantics: MatchPatternMatches"><span class="secnum">30.2.1</span> RS: MatchPatternMatches</a></li><li><span class="item-toggle-none"></span><a href="#sec-primitive-pattern-matches" title="Runtime Semantics: PrimitivePatternMatches"><span class="secnum">30.2.2</span> RS: PrimitivePatternMatches</a></li><li><span class="item-toggle-none"></span><a href="#sec-member-expression-pattern-matches" title="Runtime Semantics: MemberExpressionPatternMatches"><span class="secnum">30.2.3</span> RS: MemberExpressionPatternMatches</a></li><li><span class="item-toggle-none"></span><a href="#sec-unary-algebraic-pattern-matches" title="Runtime Semantics: UnaryAlgebraicPatternMatches"><span class="secnum">30.2.4</span> RS: UnaryAlgebraicPatternMatches</a></li><li><span class="item-toggle-none"></span><a href="#sec-combined-match-pattern-matches" title="Runtime Semantics: CombinedMatchPatternMatches"><span class="secnum">30.2.5</span> RS: CombinedMatchPatternMatches</a></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-abstract-operations-for-pattern-matching" title="Abstract Operations for Pattern Matching"><span class="secnum">30.3</span> Abstract Operations for Pattern Matching</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-invoke-custom-matcher" title="InvokeCustomMatcher ( matcher, subject, kind )"><span class="secnum">30.3.1</span> <ins>InvokeCustomMatcher ( <var>matcher</var>, <var>subject</var>, <var>kind</var> )</ins></a></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-notes" title="Editor's notes"><span class="secnum">31</span> Editor's notes</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-notes-layering" title="Layering"><span class="secnum">31.1</span> Layering</a></li><li><span class="item-toggle-none"></span><a href="#sec-notes-code-example" title="Code example"><span class="secnum">31.2</span> Code example</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 1 Draft / October 29, 2023</h1><h1 class="title">Pattern Matching</h1>
+    </svg></div><div id="menu-spacer" class="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle-none"></span><a href="#welcome" title="Welcome"><span class="secnum">1</span> Welcome</a></li><li><span class="item-toggle">+</span><a href="#sec-ecmascript-data-types-and-values" title="ECMAScript Data Types and Values"><span class="secnum">6</span> ECMAScript Data Types and Values</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-ecmascript-language-types" title="ECMAScript Language Types"><span class="secnum">6.1</span> ECMAScript Language Types</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-ecmascript-language-types-symbol-type" title="The Symbol Type"><span class="secnum">6.1.5</span> The Symbol Type</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-well-known-symbols" title="Well-Known Symbols"><span class="secnum">6.1.5.1</span> Well-Known Symbols</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-object-internal-methods-and-internal-slots" title="Object Internal Methods and Internal Slots"><span class="secnum">6.1.7</span> Object Internal Methods and Internal Slots</a></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-abstract-operations" title="Abstract Operations"><span class="secnum">7</span> Abstract Operations</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-operations-on-objects" title="Operations on Objects"><span class="secnum">7.3</span> Operations on Objects</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-initializeinstance" title="InitializeInstanceElements ( O, constructor )"><span class="secnum">7.3.34</span> InitializeInstanceElements ( <var>O</var>, <var>constructor</var> )</a></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-ecmascript-language-functions-and-classes" title="ECMAScript Language: Functions and Classes"><span class="secnum">15</span> ECMAScript Language: Functions and Classes</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-class-definitions" title="Class Definitions"><span class="secnum">15.7</span> Class Definitions</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-runtime-semantics-classdefinitionevaluation" title="Runtime Semantics: ClassDefinitionEvaluation"><span class="secnum">15.7.14</span> RS: ClassDefinitionEvaluation</a></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-fundamental-objects" title="Fundamental Objects"><span class="secnum">20</span> Fundamental Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-object-objects" title="Object Objects"><span class="secnum">20.1</span> Object Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-object-constructor" title="Properties of the Object Constructor"><span class="secnum">20.1.2</span> Properties of the Object Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-object-@@custommatcher" title="Object [ @@customMatcher ] ( subject, hint )"><span class="secnum">20.1.2.24</span> Object [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-function-objects" title="Function Objects"><span class="secnum">20.2</span> Function Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-function-constructor" title="Properties of the Function Constructor"><span class="secnum">20.2.2</span> Properties of the Function Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-function-@@custommatcher" title="Function [ @@customMatcher ] ( subject, hint )"><span class="secnum">20.2.2.2</span> Function [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-function-prototype-object" title="Properties of the Function Prototype Object"><span class="secnum">20.2.3</span> Properties of the Function Prototype Object</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-function.prototype-@@custommatcher" title="Function [ @@customMatcher ] ( subject, hint )"><span class="secnum">20.2.3.7</span> Function [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-boolean-objects" title="Boolean Objects"><span class="secnum">20.3</span> Boolean Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-boolean-constructor" title="Properties of the Boolean Constructor"><span class="secnum">20.3.2</span> Properties of the Boolean Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-boolean-@@custommatcher" title="Boolean [ @@customMatcher ] ( subject, hint )"><span class="secnum">20.3.2.2</span> Boolean [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-symbol-objects" title="Symbol Objects"><span class="secnum">20.4</span> Symbol Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-symbol-constructor" title="Properties of the Symbol Constructor"><span class="secnum">20.4.2</span> Properties of the Symbol Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-symbol.custommatcher" title="Symbol.customMatcher"><span class="secnum">20.4.2.17</span> Symbol.customMatcher</a></li><li><span class="item-toggle-none"></span><a href="#sec-symbol-@@custommatcher" title="Symbol [ @@customMatcher ] ( subject, hint )"><span class="secnum">20.4.2.18</span> Symbol [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-error-objects" title="Error Objects"><span class="secnum">20.5</span> Error Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-error-constructor" title="The Error Constructor"><span class="secnum">20.5.1</span> The Error Constructor</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-error-constructors" title="Properties of the Error Constructor"><span class="secnum">20.5.1.2</span> Properties of the Error Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-error-@@custommatcher" title="Error [ @@customMatcher ] ( subject, hint )"><span class="secnum">20.5.1.2.1</span> Error [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-numbers-and-dates" title="Numbers and Dates"><span class="secnum">21</span> Numbers and Dates</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-number-objects" title="Number Objects"><span class="secnum">21.1</span> Number Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-number-constructor" title="Properties of the Number Constructor"><span class="secnum">21.1.2</span> Properties of the Number Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-number-@@custommatcher" title="Number [ @@customMatcher ] ( subject, hint )"><span class="secnum">21.1.2.16</span> Number [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-bigint-objects" title="BigInt Objects"><span class="secnum">21.2</span> BigInt Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-bigint-constructor" title="Properties of the BigInt Constructor"><span class="secnum">21.2.2</span> Properties of the BigInt Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-bigint-@@custommatcher" title="BigInt [ @@customMatcher ] ( subject, hint )"><span class="secnum">21.2.2.4</span> BigInt [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-date-objects" title="Date Objects"><span class="secnum">21.4</span> Date Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-date-constructor" title="Properties of the Date Constructor"><span class="secnum">21.4.3</span> Properties of the Date Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-date-@@custommatcher" title="Date [ @@customMatcher ] ( subject, hint )"><span class="secnum">21.4.3.5</span> Date [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-text-processing" title="Text Processing"><span class="secnum">22</span> Text Processing</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-string-objects" title="String Objects"><span class="secnum">22.1</span> String Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-string-constructor" title="Properties of the String Constructor"><span class="secnum">22.1.2</span> Properties of the String Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-string-@@custommatcher" title="String [ @@customMatcher ] ( subject, hint )"><span class="secnum">22.1.2.5</span> String [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-regexp-regular-expression-objects" title="RegExp (Regular Expression) Objects"><span class="secnum">22.2</span> RegExp (Regular Expression) Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-regexp-constructor" title="Properties of the RegExp Constructor"><span class="secnum">22.2.5</span> Properties of the RegExp Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-regexp-@@custommatcher" title="RegExp [ @@customMatcher ] ( subject, hint )"><span class="secnum">22.2.5.3</span> RegExp [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-regexp-prototype-object" title="Properties of the RegExp Prototype Object"><span class="secnum">22.2.6</span> Properties of the RegExp Prototype Object</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-regexp.prototype-@@custommatcher" title="RegExp.prototype [ @@customMatcher ] ( subject, hint )"><span class="secnum">22.2.6.20</span> RegExp.prototype [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-indexed-collections" title="Indexed Collections"><span class="secnum">23</span> Indexed Collections</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-array-objects" title="Array Objects"><span class="secnum">23.1</span> Array Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-array-constructor" title="Properties of the Array Constructor"><span class="secnum">23.1.2</span> Properties of the Array Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-array-@@custommatcher" title="Array [ @@customMatcher ] ( subject, hint )"><span class="secnum">23.1.2.6</span> Array [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-typedarray-objects" title="TypedArray Objects"><span class="secnum">23.2</span> TypedArray Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-typedarray-constructors" title="Properties of the TypedArray Constructors"><span class="secnum">23.2.6</span> Properties of the <var>TypedArray</var> Constructors</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-_typedarray_-@@custommatcher" title="TypedArray [ @@customMatcher ] ( subject, hint )"><span class="secnum">23.2.6.3</span> <var>TypedArray</var> [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-keyed-collections" title="Keyed Collections"><span class="secnum">24</span> Keyed Collections</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-map-objects" title="Map Objects"><span class="secnum">24.1</span> Map Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-map-constructor" title="Properties of the Map Constructor"><span class="secnum">24.1.2</span> Properties of the Map Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-map-@@custommatcher" title="Map [ @@customMatcher ] ( subject, hint )"><span class="secnum">24.1.2.3</span> Map [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-set-objects" title="Set Objects"><span class="secnum">24.2</span> Set Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-set-constructor" title="Properties of the Set Constructor"><span class="secnum">24.2.2</span> Properties of the Set Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-set-@@custommatcher" title="Set [ @@customMatcher ] ( subject, hint )"><span class="secnum">24.2.2.3</span> Set [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-weakmap-objects" title="WeakMap Objects"><span class="secnum">24.3</span> WeakMap Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-weakmap-constructor" title="Properties of the WeakMap Constructor"><span class="secnum">24.3.2</span> Properties of the WeakMap Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-weakmap-@@custommatcher" title="WeakMap [ @@customMatcher ] ( subject, hint )"><span class="secnum">24.3.2.2</span> WeakMap [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-weakset-objects" title="WeakSet Objects"><span class="secnum">24.4</span> WeakSet Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-weakset-constructor" title="Properties of the WeakSet Constructor"><span class="secnum">24.4.2</span> Properties of the WeakSet Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-weakset-@@custommatcher" title="WeakSet [ @@customMatcher ] ( subject, hint )"><span class="secnum">24.4.2.2</span> WeakSet [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-structured-data" title="Structured Data"><span class="secnum">25</span> Structured Data</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-arraybuffer-objects" title="ArrayBuffer Objects"><span class="secnum">25.1</span> ArrayBuffer Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-arraybuffer-constructor" title="Properties of the ArrayBuffer Constructor"><span class="secnum">25.1.5</span> Properties of the ArrayBuffer Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-arraybuffer-@@custommatcher" title="ArrayBuffer [ @@customMatcher ] ( subject, hint )"><span class="secnum">25.1.5.4</span> ArrayBuffer [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-sharedarraybuffer-objects" title="SharedArrayBuffer Objects"><span class="secnum">25.2</span> SharedArrayBuffer Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-sharedarraybuffer-constructor" title="Properties of the SharedArrayBuffer Constructor"><span class="secnum">25.2.4</span> Properties of the SharedArrayBuffer Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-sharedarraybuffer-@@custommatcher" title="SharedArrayBuffer [ @@customMatcher ] ( subject, hint )"><span class="secnum">25.2.4.3</span> SharedArrayBuffer [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-dataview-objects" title="DataView Objects"><span class="secnum">25.3</span> DataView Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-dataview-constructor" title="Properties of the DataView Constructor"><span class="secnum">25.3.3</span> Properties of the DataView Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-dataview-@@custommatcher" title="DataView [ @@customMatcher ] ( subject, hint )"><span class="secnum">25.3.3.2</span> DataView [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-json-object" title="The JSON Object"><span class="secnum">25.5</span> The JSON Object</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-json-@@custommatcher" title="JSON [ @@customMatcher ] ( subject, hint )"><span class="secnum">25.5.4</span> JSON [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-managing-memory" title="Managing Memory"><span class="secnum">26</span> Managing Memory</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-weak-ref-objects" title="WeakRef Objects"><span class="secnum">26.1</span> WeakRef Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-weak-ref-constructor" title="Properties of the WeakRef Constructor"><span class="secnum">26.1.2</span> Properties of the WeakRef Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-weakref-@@custommatcher" title="WeakRef [ @@customMatcher ] ( subject, hint )"><span class="secnum">26.1.2.2</span> WeakRef [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-finalization-registry-objects" title="FinalizationRegistry Objects"><span class="secnum">26.2</span> FinalizationRegistry Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-finalization-registry-constructor" title="Properties of the FinalizationRegistry Constructor"><span class="secnum">26.2.2</span> Properties of the FinalizationRegistry Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-finalizationregistry-@@custommatcher" title="FinalizationRegistry [ @@customMatcher ] ( subject, hint )"><span class="secnum">26.2.2.2</span> FinalizationRegistry [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-control-abstraction-objects" title="Control Abstraction Objects"><span class="secnum">27</span> Control Abstraction Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-promise-objects" title="Promise Objects"><span class="secnum">27.2</span> Promise Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-properties-of-the-promise-constructor" title="Properties of the Promise Constructor"><span class="secnum">27.2.4</span> Properties of the Promise Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-promise-@@custommatcher" title="Promise [ @@customMatcher ] ( subject, hint )"><span class="secnum">27.2.4.9</span> Promise [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-reflection" title="Reflection"><span class="secnum">28</span> Reflection</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-proxy-objects" title="Proxy Objects"><span class="secnum">28.2</span> Proxy Objects</a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-proxy-constructor" title="The Proxy Constructor"><span class="secnum">28.2.1</span> The Proxy Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-proxy-@@custommatcher" title="Proxy [ @@customMatcher ] ( subject, hint )"><span class="secnum">28.2.1.2</span> Proxy [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></li></ol></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-pattern-matching" title="Pattern Matching"><span class="secnum">30</span> <ins>Pattern Matching</ins></a><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-match-patterns" title="Match Patterns"><span class="secnum">30.1</span> Match Patterns</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-match-patterns-early-errors" title="Static Semantics: Early Errors"><span class="secnum">30.1.1</span> SS: Early Errors</a></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-match-pattern-semantics" title="Match Pattern Semantics"><span class="secnum">30.2</span> Match Pattern Semantics</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-match-pattern-matches" title="Runtime Semantics: MatchPatternMatches"><span class="secnum">30.2.1</span> RS: MatchPatternMatches</a></li><li><span class="item-toggle-none"></span><a href="#sec-primitive-pattern-matches" title="Runtime Semantics: PrimitivePatternMatches"><span class="secnum">30.2.2</span> RS: PrimitivePatternMatches</a></li><li><span class="item-toggle-none"></span><a href="#sec-member-expression-pattern-matches" title="Runtime Semantics: MemberExpressionPatternMatches"><span class="secnum">30.2.3</span> RS: MemberExpressionPatternMatches</a></li><li><span class="item-toggle-none"></span><a href="#sec-unary-algebraic-pattern-matches" title="Runtime Semantics: UnaryAlgebraicPatternMatches"><span class="secnum">30.2.4</span> RS: UnaryAlgebraicPatternMatches</a></li><li><span class="item-toggle-none"></span><a href="#sec-combined-match-pattern-matches" title="Runtime Semantics: CombinedMatchPatternMatches"><span class="secnum">30.2.5</span> RS: CombinedMatchPatternMatches</a></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-abstract-operations-for-pattern-matching" title="Abstract Operations for Pattern Matching"><span class="secnum">30.3</span> Abstract Operations for Pattern Matching</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-invoke-custom-matcher" title="InvokeCustomMatcher ( matcher, subject, kind )"><span class="secnum">30.3.1</span> <ins>InvokeCustomMatcher ( <var>matcher</var>, <var>subject</var>, <var>kind</var> )</ins></a></li><li><span class="item-toggle-none"></span><a href="#sec-validatecustommatcherhint" title="ValidateCustomMatcherHint ( hint [ , kind ] )"><span class="secnum">30.3.2</span> ValidateCustomMatcherHint ( <var>hint</var> [ , <var>kind</var> ] )</a></li></ol></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-notes" title="Editor's notes"><span class="secnum">31</span> Editor's notes</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-notes-layering" title="Layering"><span class="secnum">31.1</span> Layering</a></li><li><span class="item-toggle-none"></span><a href="#sec-notes-code-example" title="Code example"><span class="secnum">31.2</span> Code example</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 1 Draft / October 29, 2023</h1><h1 class="title">Pattern Matching</h1>
 <style>
   emu-note[code] > .note {
     font-size: 0;
@@ -32,11 +32,26 @@
     font-style: italic;
     text-decoration: underline;
   }
+  body.folded .fold {
+    display: none;
+  }
 </style>
 
-<p>Work in progress. Before continuing, please read the&nbsp;<emu-xref href="#sec-notes" title="" id="_ref_0"><a href="#sec-notes">Editor's notes</a></emu-xref>.</p>
+<emu-clause id="welcome">
+  <h1><span class="secnum">1</span> Welcome</h1>
+  <p>Work in progress. Before continuing, please read the <emu-xref href="#sec-notes" title="" id="_ref_0"><a href="#sec-notes">Editor's notes</a></emu-xref>.</p>
+  <p>Most of the trivia (built-in matchers) is folded. Some non-trivia sections you might be interested in:</p>
+  <ul>
+    <li><emu-xref title="" href="#sec-function-@@custommatcher" id="_ref_1"><a href="#sec-function-@@custommatcher">Function [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></emu-xref></li>
+    <li><emu-xref title="" href="#sec-json-@@custommatcher" id="_ref_2"><a href="#sec-json-@@custommatcher">JSON [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</a></emu-xref></li>
+    <li><emu-xref title="" href="#sec-initializeinstance" id="_ref_3"><a href="#sec-initializeinstance">InitializeInstanceElements ( <var>O</var>, <var>constructor</var> )</a></emu-xref></li>
+    <li><emu-xref title="" href="#sec-runtime-semantics-classdefinitionevaluation" id="_ref_4"><a href="#sec-runtime-semantics-classdefinitionevaluation">Runtime Semantics: ClassDefinitionEvaluation</a></emu-xref></li>
+  </ul>
+  <button id="expand">Click to expand the hidden sections.</button>
+  <script defer="" async="" src="./assets/expand.js"></script>
+</emu-clause>
 
-<emu-clause id="sec-ecmascript-data-types-and-values" aoid="Type" number="6">
+<emu-clause class="fold" id="sec-ecmascript-data-types-and-values" aoid="Type" number="6">
   <h1><span class="secnum">6</span> ECMAScript Data Types and Values</h1>
   <emu-clause id="sec-ecmascript-language-types">
     <h1><span class="secnum">6.1</span> ECMAScript Language Types</h1>
@@ -75,6 +90,444 @@
         </figure></emu-table>
       </emu-clause>
     </emu-clause>
+    <emu-clause id="sec-object-internal-methods-and-internal-slots" number="7">
+      <h1><span class="secnum">6.1.7</span> Object Internal Methods and Internal Slots</h1>
+      <p><ins>All objects have an internal slot named <var class="field">[[ConstructedBy]]</var>, which is a <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.es/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref> of <emu-xref href="#sec-ecmascript-language-types" id="_ref_5"><a href="#sec-ecmascript-language-types">ECMAScript language values</a></emu-xref>. This <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.es/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref> represents the origin of the object. Initially, it is an empty <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.es/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref>.</ins></p>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-abstract-operations" number="7">
+  <h1><span class="secnum">7</span> Abstract Operations</h1>
+  <emu-clause id="sec-operations-on-objects" number="3">
+    <h1><span class="secnum">7.3</span> Operations on Objects</h1>
+    <emu-clause oldids="sec-initializeinstanceelements" id="sec-initializeinstance" type="abstract operation" number="34" aoid="InitializeInstanceElements"><span id="sec-initializeinstanceelements"></span>
+      <h1><span class="secnum">7.3.34</span> InitializeInstanceElements ( <var>O</var>, <var>constructor</var> )</h1>
+      <p>The abstract operation InitializeInstanceElements takes arguments <var>O</var> (an Object) and <var>constructor</var> (an ECMAScript <emu-xref href="#function-object"><a href="https://tc39.es/ecma262/#function-object">function object</a></emu-xref>) and returns either a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion containing</a></emu-xref> <emu-const>unused</emu-const> or a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">throw completion</a></emu-xref>. It performs the following steps when called:</p>
+      <emu-alg><ol><li>Let <var>methods</var> be the value of <var>constructor</var>.<var class="field">[[PrivateMethods]]</var>.</li><li>For each <emu-xref href="#sec-privateelement-specification-type"><a href="https://tc39.es/ecma262/#sec-privateelement-specification-type">PrivateElement</a></emu-xref> <var>method</var> of <var>methods</var>, do<ol><li>Perform ?&nbsp;<emu-xref aoid="PrivateMethodOrAccessorAdd"><a href="https://tc39.es/ecma262/#sec-privatemethodoraccessoradd">PrivateMethodOrAccessorAdd</a></emu-xref>(<var>O</var>, <var>method</var>).</li></ol></li><li>Let <var>fields</var> be the value of <var>constructor</var>.<var class="field">[[Fields]]</var>.</li><li>For each element <var>fieldRecord</var> of <var>fields</var>, do<ol><li>Perform ?&nbsp;<emu-xref aoid="DefineField"><a href="https://tc39.es/ecma262/#sec-definefield" class="e-user-code">DefineField</a></emu-xref>(<var>O</var>, <var>fieldRecord</var>).</li></ol></li><li><ins>Append <var>constructor</var> to <var>O</var>.<var class="field">[[ConstructedBy]]</var>.</ins></li><li>Return <emu-const>unused</emu-const>.</li></ol></emu-alg>
+      <emu-note><span class="note">Note</span><div class="note-contents">The <var class="field">[[ConstructedBy]]</var> field also contains normal functions, but it is inaccessible because this field is used with functions that have a truthy <var class="field">[[IsClassConstructor]]</var> field. An implementation may omit the append of normal functions.</div></emu-note>
+      <emu-note type="editor"><span class="note">Editor's Note</span><div class="note-contents">Rename this AO to <dfn tabindex="-1">InitializeInstance</dfn>.</div></emu-note>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-ecmascript-language-functions-and-classes" number="15">
+  <h1><span class="secnum">15</span> ECMAScript Language: Functions and Classes</h1>
+  <emu-clause id="sec-class-definitions" number="7">
+    <h1><span class="secnum">15.7</span> Class Definitions</h1>
+    <emu-clause id="sec-runtime-semantics-classdefinitionevaluation" type="sdo" number="14" aoid="ClassDefinitionEvaluation">
+      <h1><span class="secnum">15.7.14</span> Runtime Semantics: ClassDefinitionEvaluation</h1>
+      <p>The <emu-xref href="#sec-algorithm-conventions-syntax-directed-operations"><a href="https://tc39.es/ecma262/#sec-algorithm-conventions-syntax-directed-operations">syntax-directed operation</a></emu-xref> ClassDefinitionEvaluation takes arguments <var>classBinding</var> (a String or <emu-val>undefined</emu-val>) and <var>className</var> (a <emu-xref href="#sec-object-type"><a href="https://tc39.es/ecma262/#sec-object-type">property key</a></emu-xref> or a <emu-xref href="#sec-private-names"><a href="https://tc39.es/ecma262/#sec-private-names">Private Name</a></emu-xref>) and returns either a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion containing</a></emu-xref> a <emu-xref href="#function-object"><a href="https://tc39.es/ecma262/#function-object">function object</a></emu-xref> or an <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">abrupt completion</a></emu-xref>.</p>
+      <emu-note type="editor"><span class="note">Editor's Note</span><div class="note-contents">See <a href="https://github.com/tc39/ecma262/pull/3212/files" target="_blank">Editorial: call MakeClassConstructor on default class constructor</a>.</div></emu-note>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-fundamental-objects" number="20">
+  <h1><span class="secnum">20</span> Fundamental Objects</h1>
+  <emu-clause id="sec-object-objects" number="1">
+    <h1><span class="secnum">20.1</span> Object Objects</h1>
+    <emu-clause id="sec-properties-of-the-object-constructor" number="2">
+      <h1><span class="secnum">20.1.2</span> Properties of the Object Constructor</h1>
+      <emu-clause id="sec-object-@@custommatcher" number="24">
+        <h1><span class="secnum">20.1.2.24</span> Object [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_6"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>, <emu-const>boolean</emu-const>).</li><li>If <var>subject</var> <emu-xref href="#sec-object-type"><a href="https://tc39.es/ecma262/#sec-object-type">is not an Object</a></emu-xref>, return <emu-val>false</emu-val>.</li><li>Return <emu-val>true</emu-val>.</li></ol></emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-function-objects" number="2">
+    <h1><span class="secnum">20.2</span> Function Objects</h1>
+    <emu-clause id="sec-properties-of-the-function-constructor" number="2">
+      <h1><span class="secnum">20.2.2</span> Properties of the Function Constructor</h1>
+      <emu-clause id="sec-function-@@custommatcher" number="2">
+        <h1><span class="secnum">20.2.2.2</span> Function [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_7"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>, <emu-const>boolean</emu-const>).</li><li>Return <emu-xref aoid="IsCallable"><a href="https://tc39.es/ecma262/#sec-iscallable">IsCallable</a></emu-xref>(<var>subject</var>).</li></ol></emu-alg>
+      </emu-clause>
+    </emu-clause>
+    <emu-clause id="sec-properties-of-the-function-prototype-object" number="3">
+      <h1><span class="secnum">20.2.3</span> Properties of the Function Prototype Object</h1>
+      <emu-clause id="sec-function.prototype-@@custommatcher" number="7">
+        <h1><span class="secnum">20.2.3.7</span> Function [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_8"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>).</li><li>Let <var>func</var> be the <emu-val>this</emu-val> value.</li><li>If <emu-xref aoid="IsCallable"><a href="https://tc39.es/ecma262/#sec-iscallable">IsCallable</a></emu-xref>(<var>func</var>) is false, throw a <emu-val>TypeError</emu-val> exception.</li><li>If <var>func</var> does not have a <var class="field">[[IsClassConstructor]]</var> internal slot or <var>func</var>.<var class="field">[[IsClassConstructor]]</var> is <emu-val>false</emu-val>, return ?&nbsp;<emu-xref aoid="Call"><a href="https://tc39.es/ecma262/#sec-call" class="e-user-code">Call</a></emu-xref>(<var>func</var>, <emu-val>null</emu-val>, « <var>subject</var>, <var>hint</var>&nbsp;»).</li><li><emu-xref href="#assert"><a href="https://tc39.es/ecma262/#assert">Assert</a></emu-xref>: <var>func</var> is a <emu-xref href="#constructor"><a href="https://tc39.es/ecma262/#constructor">constructor</a></emu-xref> function.</li><li>If <var>subject</var>.<var class="field">[[ConstructedBy]]</var> contains <var>func</var>, return <emu-val>true</emu-val>.</li><li>Return <emu-val>false</emu-val>.</li></ol></emu-alg>
+        <emu-note code=""><span class="note">Note</span><div class="note-contents">
+          <pre><code class="javascript hljs"><span class="hljs-keyword">class</span> <span class="hljs-title class_">C</span> {}
+c is C; <span class="hljs-comment">// true, by private-field semantics</span>
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">f</span>(<span class="hljs-params"></span>) {}
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">F</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">f</span> {}
+<span class="hljs-keyword">const</span> i = <span class="hljs-keyword">new</span> <span class="hljs-title function_">F</span>();
+i is F; <span class="hljs-comment">// true, by private-field semantics</span>
+i is f; <span class="hljs-comment">// TypeError because f(i, "boolean") returns undefined</span>
+
+expr is <span class="hljs-title class_">Array</span>.<span class="hljs-property">isArray</span>; <span class="hljs-comment">// true, by Array.isArray(expr)</span></code></pre>
+        </div></emu-note>
+        <emu-note type="editor"><span class="note">Editor's Note</span><div class="note-contents">
+          Not every champion group agrees with private-field-like brand check semantics.
+          There are
+          <a href="https://github.com/tc39/proposal-pattern-matching/pull/293#issuecomment-1725097699" target="_blank">performance concerns</a>,
+          <a href="https://github.com/tc39/proposal-pattern-matching/pull/293#issuecomment-1725097699" target="_blank">"hackable" concerns</a>, and
+          <a href="https://github.com/tc39/proposal-pattern-matching/pull/293#issuecomment-1725097699" target="_blank">interaction with @@hasInstance concerns</a>.
+          Another approach is to use <code>instanceof</code> semantics.
+        </div></emu-note>
+        <emu-note type="editor"><span class="note">Editor's Note</span><div class="note-contents">
+          The <code>this</code> context is lost in this case: <pre class="inline"><code class="javascript hljs">x is obj.<span class="hljs-property">equal</span>;</code></pre>. <code>obj.equal</code> is called without a <emu-val>this</emu-val> value.
+        </div></emu-note>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-boolean-objects" number="3">
+    <h1><span class="secnum">20.3</span> Boolean Objects</h1>
+    <emu-clause id="sec-properties-of-the-boolean-constructor" number="2">
+      <h1><span class="secnum">20.3.2</span> Properties of the Boolean Constructor</h1>
+      <emu-clause id="sec-boolean-@@custommatcher" number="2">
+        <h1><span class="secnum">20.3.2.2</span> Boolean [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_9"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>).</li><li>If <var>subject</var> <emu-xref href="#sec-ecmascript-language-types-boolean-type"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types-boolean-type">is not a Boolean</a></emu-xref> and does not have a <var class="field">[[BooleanData]]</var> internal slot, return <emu-val>false</emu-val>.</li><li>If <var>hint</var> is <emu-val>"boolean"</emu-val>, return <emu-val>true</emu-val>.</li><li>If <var>subject</var> <emu-xref href="#sec-ecmascript-language-types-boolean-type"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types-boolean-type">is a Boolean</a></emu-xref>, return <emu-xref aoid="CreateArrayFromList"><a href="https://tc39.es/ecma262/#sec-createarrayfromlist">CreateArrayFromList</a></emu-xref>(« <var>subject</var>&nbsp;»).</li><li>Return <emu-xref aoid="CreateArrayFromList"><a href="https://tc39.es/ecma262/#sec-createarrayfromlist">CreateArrayFromList</a></emu-xref>(« <var>subject</var>.<var class="field">[[BooleanData]]</var>&nbsp;»).</li></ol></emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-symbol-objects" number="4">
+    <h1><span class="secnum">20.4</span> Symbol Objects</h1>
+    <emu-clause id="sec-properties-of-the-symbol-constructor" number="2">
+      <h1><span class="secnum">20.4.2</span> Properties of the Symbol Constructor</h1>
+      <emu-clause id="sec-symbol.custommatcher" number="17">
+        <h1><span class="secnum">20.4.2.17</span> Symbol.customMatcher</h1>
+        <p>The initial value of <code>Symbol.customMatcher</code> is the well-known symbol <emu-xref href="#sec-well-known-symbols" id="_ref_10"><a href="#sec-well-known-symbols">@@customMatcher</a></emu-xref> (<emu-xref href="#table-well-known-symbols"><a href="https://tc39.es/ecma262/#table-well-known-symbols">Table 1</a></emu-xref>).</p>
+        <p>This property has the attributes { <var class="field">[[Writable]]</var>: <emu-val>false</emu-val>, <var class="field">[[Enumerable]]</var>: <emu-val>false</emu-val>, <var class="field">[[Configurable]]</var>: <emu-val>false</emu-val> }.</p>
+      </emu-clause>
+      <emu-clause id="sec-symbol-@@custommatcher">
+        <h1><span class="secnum">20.4.2.18</span> Symbol [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_11"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>).</li><li>If <var>subject</var> <emu-xref href="#sec-ecmascript-language-types-symbol-type" id="_ref_12"><a href="#sec-ecmascript-language-types-symbol-type">is not a Symbol</a></emu-xref> and does not have a <var class="field">[[SymbolData]]</var> internal slot, return <emu-val>false</emu-val>.</li><li>If <var>hint</var> is <emu-val>"boolean"</emu-val>, return <emu-val>true</emu-val>.</li><li>If <var>subject</var> <emu-xref href="#sec-ecmascript-language-types-symbol-type" id="_ref_13"><a href="#sec-ecmascript-language-types-symbol-type">is a Symbol</a></emu-xref>, return <emu-xref aoid="CreateArrayFromList"><a href="https://tc39.es/ecma262/#sec-createarrayfromlist">CreateArrayFromList</a></emu-xref>(« <var>subject</var>&nbsp;»).</li><li>Return <emu-xref aoid="CreateArrayFromList"><a href="https://tc39.es/ecma262/#sec-createarrayfromlist">CreateArrayFromList</a></emu-xref>(« <var>subject</var>.<var class="field">[[SymbolData]]</var>&nbsp;»).</li></ol></emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-error-objects" number="5">
+    <h1><span class="secnum">20.5</span> Error Objects</h1>
+    <emu-clause id="sec-error-constructor" number="1">
+      <h1><span class="secnum">20.5.1</span> The Error Constructor</h1>
+      <emu-clause id="sec-properties-of-the-error-constructors" number="2">
+        <h1><span class="secnum">20.5.1.2</span> Properties of the Error Constructor</h1>
+        <emu-clause id="sec-error-@@custommatcher">
+            <h1><span class="secnum">20.5.1.2.1</span> Error [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+            <p>This function performs the following steps when called:</p>
+            <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_14"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>, <emu-const>boolean</emu-const>).</li><li>If <var>subject</var> does not have a <var class="field">[[ErrorData]]</var> internal slot, return <emu-val>false</emu-val>.</li><li>Return <emu-val>true</emu-val>.</li></ol></emu-alg>
+        </emu-clause>
+        <emu-note type="editor"><span class="note">Editor's Note</span><div class="note-contents">
+          Built-in subclasses of the Error class do not have their own internal slot,
+          so they inherit the <emu-xref href="#sec-well-known-symbols" id="_ref_15"><a href="#sec-well-known-symbols">@@customMatcher</a></emu-xref> method,
+          which means code like <pre class="inline"><code class="javascript hljs">err is <span class="hljs-title class_">TypeError</span>;</code></pre>
+          matches any kind of Error like <code>RangeError</code>.
+          This is not a consensus in the champion group.
+        </div></emu-note>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-numbers-and-dates" number="21">
+  <h1><span class="secnum">21</span> Numbers and Dates</h1>
+  <emu-clause id="sec-number-objects" number="1">
+    <h1><span class="secnum">21.1</span> Number Objects</h1>
+    <emu-clause id="sec-properties-of-the-number-constructor" number="2">
+      <h1><span class="secnum">21.1.2</span> Properties of the Number Constructor</h1>
+      <emu-clause id="sec-number-@@custommatcher" number="16">
+        <h1><span class="secnum">21.1.2.16</span> Number [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_16"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>).</li><li>If <var>subject</var> <emu-xref href="#sec-ecmascript-language-types-number-type"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types-number-type">is not a Number</a></emu-xref> and does not have a <var class="field">[[NumberData]]</var> internal slot, return <emu-val>false</emu-val>.</li><li>If <var>hint</var> is <emu-val>"boolean"</emu-val>, return <emu-val>true</emu-val>.</li><li>If <var>subject</var> <emu-xref href="#sec-ecmascript-language-types-number-type"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types-number-type">is a Number</a></emu-xref>, return <emu-xref aoid="CreateArrayFromList"><a href="https://tc39.es/ecma262/#sec-createarrayfromlist">CreateArrayFromList</a></emu-xref>(« <var>subject</var>&nbsp;»).</li><li>Return <emu-xref aoid="CreateArrayFromList"><a href="https://tc39.es/ecma262/#sec-createarrayfromlist">CreateArrayFromList</a></emu-xref>(« <var>subject</var>.<var class="field">[[NumberData]]</var>&nbsp;»).</li></ol></emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-bigint-objects" number="2">
+    <h1><span class="secnum">21.2</span> BigInt Objects</h1>
+    <emu-clause id="sec-properties-of-the-bigint-constructor" number="2">
+      <h1><span class="secnum">21.2.2</span> Properties of the BigInt Constructor</h1>
+      <emu-clause id="sec-bigint-@@custommatcher" number="4">
+        <h1><span class="secnum">21.2.2.4</span> BigInt [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_17"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>).</li><li>If <var>subject</var> <emu-xref href="#sec-ecmascript-language-types-bigint-type"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types-bigint-type">is not a BigInt</a></emu-xref> and does not have a <var class="field">[[BigIntData]]</var> internal slot, return <emu-val>false</emu-val>.</li><li>If <var>hint</var> is <emu-val>"boolean"</emu-val>, return <emu-val>true</emu-val>.</li><li>If <var>subject</var> <emu-xref href="#sec-ecmascript-language-types-bigint-type"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types-bigint-type">is a BigInt</a></emu-xref>, return <emu-xref aoid="CreateArrayFromList"><a href="https://tc39.es/ecma262/#sec-createarrayfromlist">CreateArrayFromList</a></emu-xref>(« <var>subject</var>&nbsp;»).</li><li>Return <emu-xref aoid="CreateArrayFromList"><a href="https://tc39.es/ecma262/#sec-createarrayfromlist">CreateArrayFromList</a></emu-xref>(« <var>subject</var>.<var class="field">[[BigIntData]]</var>&nbsp;»).</li></ol></emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-date-objects" number="4">
+    <h1><span class="secnum">21.4</span> Date Objects</h1>
+    <emu-clause id="sec-properties-of-the-date-constructor" number="3">
+      <h1><span class="secnum">21.4.3</span> Properties of the Date Constructor</h1>
+      <emu-clause id="sec-date-@@custommatcher" number="5">
+        <h1><span class="secnum">21.4.3.5</span> Date [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_18"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>, <emu-const>boolean</emu-const>).</li><li>If <var>subject</var> does not have a <var class="field">[[DateValue]]</var> internal slot, return <emu-val>false</emu-val>.</li><li>Return <emu-val>true</emu-val>.</li></ol></emu-alg>
+        <emu-note type="editor"><span class="note">Editor's Note</span><div class="note-contents">It's possible to provide an extractor semantics to match <pre class="inline"><code class="javascript hljs">date is <span class="hljs-title class_">Date</span>(year, month, day, hour, minute, second, millisecond);</code></pre></div></emu-note>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-text-processing" number="22">
+  <h1><span class="secnum">22</span> Text Processing</h1>
+  <emu-clause id="sec-string-objects" number="1">
+    <h1><span class="secnum">22.1</span> String Objects</h1>
+    <emu-clause id="sec-properties-of-the-string-constructor" number="2">
+      <h1><span class="secnum">22.1.2</span> Properties of the String Constructor</h1>
+      <emu-clause id="sec-string-@@custommatcher" number="5">
+        <h1><span class="secnum">22.1.2.5</span> String [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_19"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>).</li><li>If <var>subject</var> <emu-xref href="#sec-ecmascript-language-types-string-type"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types-string-type">is not a String</a></emu-xref> and does not have a <var class="field">[[StringData]]</var> internal slot, return <emu-val>false</emu-val>.</li><li>If <var>hint</var> is <emu-val>"boolean"</emu-val>, return <emu-val>true</emu-val>.</li><li>If <var>subject</var> <emu-xref href="#sec-ecmascript-language-types-string-type"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types-string-type">is a String</a></emu-xref>, return <emu-xref aoid="CreateArrayFromList"><a href="https://tc39.es/ecma262/#sec-createarrayfromlist">CreateArrayFromList</a></emu-xref>(« <var>subject</var>&nbsp;»).</li><li>Return <emu-xref aoid="CreateArrayFromList"><a href="https://tc39.es/ecma262/#sec-createarrayfromlist">CreateArrayFromList</a></emu-xref>(« <var>subject</var>.<var class="field">[[StringData]]</var>&nbsp;»).</li></ol></emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-regexp-regular-expression-objects" number="2">
+    <h1><span class="secnum">22.2</span> RegExp (Regular Expression) Objects</h1>
+    <emu-clause id="sec-properties-of-the-regexp-constructor" number="5">
+      <h1><span class="secnum">22.2.5</span> Properties of the RegExp Constructor</h1>
+      <emu-clause id="sec-regexp-@@custommatcher" number="3">
+        <h1><span class="secnum">22.2.5.3</span> RegExp [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_20"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>, <emu-const>boolean</emu-const>).</li><li>If ?&nbsp;<emu-xref aoid="IsRegExp"><a href="https://tc39.es/ecma262/#sec-isregexp" class="e-user-code">IsRegExp</a></emu-xref>(<var>subject</var>) is <emu-val>false</emu-val>, return <emu-val>false</emu-val>.</li><li>Return <emu-val>true</emu-val>.</li></ol></emu-alg>
+        <emu-note><span class="note">Note</span><div class="note-contents">
+          <emu-xref aoid="IsRegExp"><a href="https://tc39.es/ecma262/#sec-isregexp">IsRegExp</a></emu-xref> returns <emu-val>true</emu-val> for objects that have a truthy <emu-xref href="#sec-well-known-symbols" id="_ref_21"><a href="#sec-well-known-symbols">@@match</a></emu-xref> property. Do we want that?
+        </div></emu-note>
+      </emu-clause>
+    </emu-clause>
+    <emu-clause id="sec-properties-of-the-regexp-prototype-object" number="6">
+      <h1><span class="secnum">22.2.6</span> Properties of the RegExp Prototype Object</h1>
+      <emu-clause id="sec-regexp.prototype-@@custommatcher" number="20">
+        <h1><span class="secnum">22.2.6.20</span> RegExp.prototype [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_22"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>, <emu-const>boolean</emu-const>).</li><li>Let <var>regexp</var> be <emu-val>this</emu-val> value.</li><li>If <var>hint</var> is <emu-val>"boolean"</emu-val>, return ?&nbsp;<emu-xref aoid="Call"><a href="https://tc39.es/ecma262/#sec-call" class="e-user-code">Call</a></emu-xref>(%RegExp.prototype.test%, <var>regexp</var>, « <var>subject</var>&nbsp;»).</li><li>Let <var>isRegExp</var> be ?&nbsp;<emu-xref aoid="IsRegExp"><a href="https://tc39.es/ecma262/#sec-isregexp" class="e-user-code">IsRegExp</a></emu-xref>(<var>regexp</var>).</li><li>If <var>isRegExp</var> is <emu-val>true</emu-val>, then<ol><li>Let <var>flags</var> be ?&nbsp;<emu-xref aoid="Get"><a href="https://tc39.es/ecma262/#sec-get-o-p" class="e-user-code">Get</a></emu-xref>(<var>regexp</var>, "flags").</li><li>Perform ?&nbsp;<emu-xref aoid="RequireObjectCoercible"><a href="https://tc39.es/ecma262/#sec-requireobjectcoercible">RequireObjectCoercible</a></emu-xref>(<var>flags</var>).</li><li>If ?&nbsp;<emu-xref aoid="ToString"><a href="https://tc39.es/ecma262/#sec-tostring" class="e-user-code">ToString</a></emu-xref>(<var>flags</var>) contain <emu-val>"g"</emu-val>, return ?&nbsp;<emu-xref aoid="Call"><a href="https://tc39.es/ecma262/#sec-call" class="e-user-code">Call</a></emu-xref>(%String.prototype.matchAll%, <var>subject</var>, « <var>regexp</var>&nbsp;»).</li></ol></li><li>Let <var>result</var> be ?&nbsp;<emu-xref aoid="Call"><a href="https://tc39.es/ecma262/#sec-call" class="e-user-code">Call</a></emu-xref>(%String.prototype.match%, <var>subject</var>, « <var>regexp</var>&nbsp;»).</li><li>Return <emu-xref aoid="CreateArrayFromList"><a href="https://tc39.es/ecma262/#sec-createarrayfromlist">CreateArrayFromList</a></emu-xref>(« <var>result</var>&nbsp;»).</li></ol></emu-alg>
+        <emu-note code=""><span class="note">Note</span><div class="note-contents">
+          <pre><code class="javascript hljs"><span class="hljs-keyword">let</span> regex = <span class="hljs-regexp">/(?&gt;id&lt;\d+)-?/g</span>
+<span class="hljs-string">'012-345'</span> is <span class="hljs-title function_">regex</span>([<span class="hljs-string">"012-"</span>, <span class="hljs-string">"012"</span>], { <span class="hljs-attr">groups</span>: { <span class="hljs-attr">id</span>: <span class="hljs-string">"345"</span> } });
+<span class="hljs-comment">// true, match with matchAll</span>
+
+<span class="hljs-keyword">let</span> regex2 = <span class="hljs-regexp">/(?\d+)-?/</span>
+<span class="hljs-string">'012-345'</span> is <span class="hljs-title function_">regex</span>({ <span class="hljs-attr">groups</span>: { <span class="hljs-attr">id</span>: <span class="hljs-string">"012"</span> } });
+<span class="hljs-comment">// true, match with match</span></code></pre>
+        </div></emu-note>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-indexed-collections" number="23">
+  <h1><span class="secnum">23</span> Indexed Collections</h1>
+  <emu-clause id="sec-array-objects" number="1">
+    <h1><span class="secnum">23.1</span> Array Objects</h1>
+    <emu-clause id="sec-properties-of-the-array-constructor" number="2">
+      <h1><span class="secnum">23.1.2</span> Properties of the Array Constructor</h1>
+      <emu-clause id="sec-array-@@custommatcher" number="6">
+        <h1><span class="secnum">23.1.2.6</span> Array [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_23"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>).</li><li>If ?&nbsp;<emu-xref aoid="IsArray"><a href="https://tc39.es/ecma262/#sec-isarray">IsArray</a></emu-xref>(<var>subject</var>) is <emu-val>false</emu-val>, return <emu-val>false</emu-val>.</li><li>If <var>hint</var> is <emu-val>"boolean"</emu-val>, return <emu-val>true</emu-val>.</li><li>Return <var>subject</var>.</li></ol></emu-alg>
+        <emu-note type="editor"><span class="note">Editor's Note</span><div class="note-contents">
+          It's possible to provide an extractor semantics to convert <var>subject</var> by <code>Array.from</code>.
+          <pre><code class="javascript hljs">({ <span class="hljs-attr">length</span>: <span class="hljs-number">2</span>, <span class="hljs-number">0</span>: <span class="hljs-number">1</span>, <span class="hljs-number">1</span>: <span class="hljs-number">2</span> } is <span class="hljs-title class_">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)); <span class="hljs-comment">// true?</span></code></pre>
+        </div></emu-note>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-typedarray-objects" number="2">
+    <h1><span class="secnum">23.2</span> TypedArray Objects</h1>
+    <emu-clause id="sec-properties-of-the-typedarray-constructors" number="6">
+      <h1><span class="secnum">23.2.6</span> Properties of the <var>TypedArray</var> Constructors</h1>
+      <emu-clause id="sec-_typedarray_-@@custommatcher" number="3">
+        <h1><span class="secnum">23.2.6.3</span> <var>TypedArray</var> [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_24"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>).</li><li>If <var>subject</var> does not have a <var class="field">[[TypedArrayName]]</var> internal slot or <var>subject</var>.<var class="field">[[TypedArrayName]]</var> is not <var>TypedArray</var>, return <emu-val>false</emu-val>.</li><li>If <var>hint</var> is <emu-val>"boolean"</emu-val>, return <emu-val>true</emu-val>.</li><li>Return <var>subject</var>.</li></ol></emu-alg>
+        <emu-note code=""><span class="note">Note</span><div class="note-contents">
+          <pre><code class="javascript hljs"><span class="hljs-keyword">const</span> isPNG = binary is <span class="hljs-title class_">Uint</span>8<span class="hljs-built_in">Array</span>(
+  <span class="hljs-number">0x89</span>, <span class="hljs-number">0x50</span>, <span class="hljs-number">0x4E</span>, <span class="hljs-number">0x47</span>,
+  <span class="hljs-number">0x0D</span>, <span class="hljs-number">0x0A</span>, <span class="hljs-number">0x1A</span>, <span class="hljs-number">0x0A</span>, ...
+); <span class="hljs-comment">// the ... is necessary otherwise it will only match a length-8 binary.</span></code></pre>
+        </div></emu-note>
+        <emu-note type="editor"><span class="note">Editor's Note</span><div class="note-contents">
+          It's possible to provide an extractor semantics to convert <var>subject</var> into different view.
+          <pre><code class="javascript hljs"><span class="hljs-keyword">new</span> <span class="hljs-title class_">Uint</span>8<span class="hljs-built_in">Array</span>(<span class="hljs-number">256</span>) is <span class="hljs-title class_">Int</span>8<span class="hljs-built_in">Array</span>(<span class="hljs-number">0</span>); <span class="hljs-comment">// true?</span></code></pre>
+        </div></emu-note>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-keyed-collections" number="24">
+  <h1><span class="secnum">24</span> Keyed Collections</h1>
+  <emu-clause id="sec-map-objects" number="1">
+    <h1><span class="secnum">24.1</span> Map Objects</h1>
+    <emu-clause id="sec-properties-of-the-map-constructor" number="2">
+      <h1><span class="secnum">24.1.2</span> Properties of the Map Constructor</h1>
+      <emu-clause id="sec-map-@@custommatcher" number="3">
+        <h1><span class="secnum">24.1.2.3</span> Map [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_25"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>).</li><li>If <var>subject</var> does not have a <var class="field">[[MapData]]</var> internal slot, return <emu-val>false</emu-val>.</li><li>If <var>hint</var> is <emu-val>"boolean"</emu-val>, return <emu-val>true</emu-val>.</li><li>Return <var>subject</var>.</li></ol></emu-alg>
+        <emu-note type="editor"><span class="note">Editor's Note</span><div class="note-contents">
+          A Map can be iterated, but is it meaningful to do so in pattern matching?
+          Because <pre class="inline"><code class="javascript hljs">x is <span class="hljs-title class_">Map</span>([a, b], [c, d])</code></pre> is an ordered match.
+        </div></emu-note>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-set-objects" number="2">
+    <h1><span class="secnum">24.2</span> Set Objects</h1>
+    <emu-clause id="sec-properties-of-the-set-constructor" number="2">
+      <h1><span class="secnum">24.2.2</span> Properties of the Set Constructor</h1>
+      <emu-clause id="sec-set-@@custommatcher" number="3">
+        <h1><span class="secnum">24.2.2.3</span> Set [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_26"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>).</li><li>If <var>subject</var> does not have a <var class="field">[[SetData]]</var> internal slot, return <emu-val>false</emu-val>.</li><li>If <var>hint</var> is <emu-val>"boolean"</emu-val>, return <emu-val>true</emu-val>.</li><li>Return <var>subject</var>.</li></ol></emu-alg>
+        <emu-note type="editor"><span class="note">Editor's Note</span><div class="note-contents">
+          A Set can be iterated, but is it meaningful to do so in pattern matching?
+          Because <pre class="inline"><code class="javascript hljs">x is <span class="hljs-title class_">Set</span>(a, b, c, d)</code></pre> is an ordered match.
+        </div></emu-note>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-weakmap-objects" number="3">
+    <h1><span class="secnum">24.3</span> WeakMap Objects</h1>
+    <emu-clause id="sec-properties-of-the-weakmap-constructor" number="2">
+      <h1><span class="secnum">24.3.2</span> Properties of the WeakMap Constructor</h1>
+      <emu-clause id="sec-weakmap-@@custommatcher" number="2">
+        <h1><span class="secnum">24.3.2.2</span> WeakMap [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_27"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>, <emu-const>boolean</emu-const>).</li><li>If <var>subject</var> does not have a <var class="field">[[WeakMapData]]</var> internal slot, return <emu-val>false</emu-val>.</li><li>Return <emu-val>true</emu-val>.</li></ol></emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-weakset-objects" number="4">
+    <h1><span class="secnum">24.4</span> WeakSet Objects</h1>
+    <emu-clause id="sec-properties-of-the-weakset-constructor" number="2">
+      <h1><span class="secnum">24.4.2</span> Properties of the WeakSet Constructor</h1>
+      <emu-clause id="sec-weakset-@@custommatcher" number="2">
+        <h1><span class="secnum">24.4.2.2</span> WeakSet [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_28"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>, <emu-const>boolean</emu-const>).</li><li>If <var>subject</var> does not have a <var class="field">[[WeakSetData]]</var> internal slot, return <emu-val>false</emu-val>.</li><li>Return <emu-val>true</emu-val>.</li></ol></emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-structured-data" number="25">
+  <h1><span class="secnum">25</span> Structured Data</h1>
+  <emu-clause id="sec-arraybuffer-objects" number="1">
+    <h1><span class="secnum">25.1</span> ArrayBuffer Objects</h1>
+    <emu-clause id="sec-properties-of-the-arraybuffer-constructor" number="5">
+      <h1><span class="secnum">25.1.5</span> Properties of the ArrayBuffer Constructor</h1>
+      <emu-clause id="sec-arraybuffer-@@custommatcher" number="4">
+        <h1><span class="secnum">25.1.5.4</span> ArrayBuffer [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_29"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>, <emu-const>boolean</emu-const>).</li><li>If <var>subject</var> has a <var class="field">[[ArrayBufferData]]</var> internal slot, return <emu-val>true</emu-val>.</li><li>Return <emu-val>false</emu-val>.</li></ol></emu-alg>
+      </emu-clause>
+      <emu-note type="editor"><span class="note">Editor's Note</span><div class="note-contents">
+        It is possible to provide an extractor semantics to match the buffer property from a TypedArray.
+        <pre><code class="javascript hljs">u8 is <span class="hljs-title class_">ArrayBuffer</span>(buf);</code></pre>
+      </div></emu-note>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-sharedarraybuffer-objects" number="2">
+    <h1><span class="secnum">25.2</span> SharedArrayBuffer Objects</h1>
+    <emu-clause id="sec-properties-of-the-sharedarraybuffer-constructor" number="4">
+      <h1><span class="secnum">25.2.4</span> Properties of the SharedArrayBuffer Constructor</h1>
+      <emu-clause id="sec-sharedarraybuffer-@@custommatcher" number="3">
+        <h1><span class="secnum">25.2.4.3</span> SharedArrayBuffer [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_30"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>, <emu-const>boolean</emu-const>).</li><li>If <var>subject</var> does not have a <var class="field">[[ArrayBufferData]]</var> internal slot, return <emu-val>false</emu-val>.</li><li>Return <emu-xref aoid="IsSharedArrayBuffer"><a href="https://tc39.es/ecma262/#sec-issharedarraybuffer">IsSharedArrayBuffer</a></emu-xref>(<var>subject</var>).</li></ol></emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-dataview-objects" number="3">
+    <h1><span class="secnum">25.3</span> DataView Objects</h1>
+    <emu-clause id="sec-properties-of-the-dataview-constructor" number="3">
+      <h1><span class="secnum">25.3.3</span> Properties of the DataView Constructor</h1>
+      <emu-clause id="sec-dataview-@@custommatcher" number="2">
+        <h1><span class="secnum">25.3.3.2</span> DataView [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_31"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>, <emu-const>boolean</emu-const>).</li><li>If <var>subject</var> does not have a <var class="field">[[DataView]]</var> internal slot, return <emu-val>false</emu-val>.</li><li>Return <emu-val>true</emu-val>.</li></ol></emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-json-object" number="5">
+    <h1><span class="secnum">25.5</span> The JSON Object</h1>
+    <emu-clause id="sec-json-@@custommatcher" number="4">
+      <h1><span class="secnum">25.5.4</span> JSON [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+      <p>This function performs the following steps when called:</p>
+      <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_32"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>).</li><li>Let <var>jsonString</var> be ?&nbsp;<emu-xref aoid="ToString"><a href="https://tc39.es/ecma262/#sec-tostring" class="e-user-code">ToString</a></emu-xref>(<var>subject</var>).</li><li>If !&nbsp;<emu-xref aoid="Call"><a href="https://tc39.es/ecma262/#sec-call">Call</a></emu-xref>(%JSON.canParse%, <emu-val>undefined</emu-val>, « <var>jsonString</var>&nbsp;») is <emu-val>false</emu-val>, return <emu-val>false</emu-val>.</li><li>If <var>hint</var> is <emu-val>"boolean"</emu-val>, return <emu-val>true</emu-val>.</li><li>Return <emu-xref aoid="CreateArrayFromList"><a href="https://tc39.es/ecma262/#sec-createarrayfromlist">CreateArrayFromList</a></emu-xref>(« !&nbsp;<emu-xref aoid="Call"><a href="https://tc39.es/ecma262/#sec-call">Call</a></emu-xref>(%JSON.parse%, <emu-val>undefined</emu-val>, « <var>jsonString</var>&nbsp;»)&nbsp;»).</li></ol></emu-alg>
+    </emu-clause>
+    <emu-note type="editor"><span class="note">Editor's Note</span><div class="note-contents">
+      This is not a consensus in the champion group.
+      See the <a href="https://github.com/Jack-Works/proposal-json-canParse/blob/main/README.md" target="_blank"><code>JSON.canParse</code> proposal</a>.
+      <pre><code class="javascript hljs">x is <span class="hljs-title function_">JSON</span>({ <span class="hljs-attr">type</span>: <span class="hljs-number">1</span> }); <span class="hljs-comment">// matches string '{ "type": 1 }'</span></code></pre>
+    </div></emu-note>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-managing-memory" number="26">
+  <h1><span class="secnum">26</span> Managing Memory</h1>
+  <emu-clause id="sec-weak-ref-objects" number="1">
+    <h1><span class="secnum">26.1</span> WeakRef Objects</h1>
+    <emu-clause id="sec-properties-of-the-weak-ref-constructor" number="2">
+      <h1><span class="secnum">26.1.2</span> Properties of the WeakRef Constructor</h1>
+      <emu-clause id="sec-weakref-@@custommatcher" number="2">
+        <h1><span class="secnum">26.1.2.2</span> WeakRef [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_33"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>).</li><li>If <var>subject</var> does not have a <var class="field">[[WeakRefTarget]]</var> internal slot, return <emu-val>false</emu-val>.</li><li>If <var>hint</var> is <emu-val>"boolean"</emu-val>, return <emu-val>true</emu-val>.</li><li>Return <emu-xref aoid="CreateArrayFromList"><a href="https://tc39.es/ecma262/#sec-createarrayfromlist">CreateArrayFromList</a></emu-xref>(« <emu-xref aoid="WeakRefDeref"><a href="https://tc39.es/ecma262/#sec-weakrefderef">WeakRefDeref</a></emu-xref>(<var>subject</var>)&nbsp;»).</li></ol></emu-alg>
+        <emu-note code=""><span class="note">Note</span><div class="note-contents">
+          <pre><code class="javascript hljs">expr is <span class="hljs-title class_">WeakRef</span>({ <span class="hljs-attr">type</span>: <span class="hljs-number">1</span> });</code></pre>
+        </div></emu-note>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-finalization-registry-objects" number="2">
+    <h1><span class="secnum">26.2</span> FinalizationRegistry Objects</h1>
+    <emu-clause id="sec-properties-of-the-finalization-registry-constructor" number="2">
+      <h1><span class="secnum">26.2.2</span> Properties of the FinalizationRegistry Constructor</h1>
+      <emu-clause id="sec-finalizationregistry-@@custommatcher" number="2">
+        <h1><span class="secnum">26.2.2.2</span> FinalizationRegistry [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_34"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>, <emu-const>boolean</emu-const>).</li><li>If <var>subject</var> does not have a <var class="field">[[CleanupCallback]]</var> internal slot, return <emu-val>false</emu-val>.</li><li>Return <emu-val>true</emu-val>.</li></ol></emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-control-abstraction-objects" number="27">
+  <h1><span class="secnum">27</span> Control Abstraction Objects</h1>
+  <emu-clause id="sec-promise-objects" number="2">
+    <h1><span class="secnum">27.2</span> Promise Objects</h1>
+    <emu-clause id="sec-properties-of-the-promise-constructor" number="4">
+      <h1><span class="secnum">27.2.4</span> Properties of the Promise Constructor</h1>
+      <emu-clause id="sec-promise-@@custommatcher" number="9">
+        <h1><span class="secnum">27.2.4.9</span> Promise [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Perform ?&nbsp;<emu-xref aoid="ValidateCustomMatcherHint" id="_ref_35"><a href="#sec-validatecustommatcherhint">ValidateCustomMatcherHint</a></emu-xref>(<var>hint</var>, <emu-const>boolean</emu-const>).</li><li>Return <emu-xref aoid="IsPromise"><a href="https://tc39.es/ecma262/#sec-ispromise">IsPromise</a></emu-xref>(<var>subject</var>).</li></ol></emu-alg>
+      </emu-clause>
+      <emu-note type="editor"><span class="note">Editor's Note</span><div class="note-contents">
+        It is possible to provide an extractor semantics to convert a Promise-like into a real Promise.
+        <pre><code class="javascript hljs">when <span class="hljs-title class_">Promise</span>(<span class="hljs-keyword">let</span> promise): ..., <span class="hljs-comment">// converted with Promise.resolve(value)</span></code></pre>
+      </div></emu-note>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-reflection" number="28">
+  <h1><span class="secnum">28</span> Reflection</h1>
+  <emu-clause id="sec-proxy-objects" number="2">
+    <h1><span class="secnum">28.2</span> Proxy Objects</h1>
+    <emu-clause id="sec-proxy-constructor" number="1">
+      <h1><span class="secnum">28.2.1</span> The Proxy Constructor</h1>
+      <emu-clause id="sec-proxy-@@custommatcher" number="2">
+        <h1><span class="secnum">28.2.1.2</span> Proxy [ @@customMatcher ] ( <var>subject</var>, <var>hint</var> )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg><ol><li>Throw a <emu-val>TypeError</emu-val> exception.</li></ol></emu-alg>
+      </emu-clause>
+      <emu-note type="editor"><span class="note">Editor's Note</span><div class="note-contents">
+        If this method does not exist,
+        <pre class="inline"><code class="javascript hljs">x is <span class="hljs-title class_">Proxy</span></code></pre> actually does <code>x === Proxy</code>.
+        To avoid confusion, this method throws.
+        This is not a consensus in the champion group.
+      </div></emu-note>
+    </emu-clause>
   </emu-clause>
 </emu-clause>
 
@@ -87,20 +540,20 @@
     <emu-grammar type="definition"><emu-production name="MatchPattern" params="Yield, Await" id="prod-MatchPattern">
     <emu-nt params="Yield, Await"><a href="#prod-MatchPattern">MatchPattern</a><emu-mods><emu-params>[Yield, Await]</emu-params></emu-mods></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="iwqh9pom" id="prod-KUcUUgsn">
         <emu-t>(</emu-t>
-        <emu-nt params="?Yield, ?Await" id="_ref_20"><a href="#prod-MatchPattern">MatchPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+        <emu-nt params="?Yield, ?Await" id="_ref_56"><a href="#prod-MatchPattern">MatchPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
         <emu-t>)</emu-t>
     </emu-rhs>
     <emu-rhs a="sgh9k7d8" id="prod-NnfvhTBM">
-        <emu-nt id="_ref_21"><a href="#prod-PrimitivePattern">PrimitivePattern</a></emu-nt>
+        <emu-nt id="_ref_57"><a href="#prod-PrimitivePattern">PrimitivePattern</a></emu-nt>
     </emu-rhs>
     <emu-rhs a="y46cfqhm" id="prod-dtu4srcz">
-        <emu-nt params="?Yield, ?Await" id="_ref_22"><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+        <emu-nt params="?Yield, ?Await" id="_ref_58"><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
     </emu-rhs>
     <emu-rhs a="6m-vwede" id="prod-en0pW04U">
-        <emu-nt params="?Yield, ?Await" id="_ref_23"><a href="#prod-UnaryAlgebraicPattern">UnaryAlgebraicPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+        <emu-nt params="?Yield, ?Await" id="_ref_59"><a href="#prod-UnaryAlgebraicPattern">UnaryAlgebraicPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
     </emu-rhs>
     <emu-rhs a="_7vcs4wd" id="prod-LAj8DpMp">
-        <emu-nt params="?Yield, ?Await" id="_ref_24"><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+        <emu-nt params="?Yield, ?Await" id="_ref_60"><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
     </emu-rhs>
 </emu-production>
 </emu-grammar>
@@ -133,7 +586,7 @@ line 2`</span>;</code></pre>
     <!-- #region MemberExpressionPattern -->
     <emu-grammar type="definition"><emu-production name="MemberExpressionPattern" params="Yield, Await" id="prod-MemberExpressionPattern">
     <emu-nt params="Yield, Await"><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a><emu-mods><emu-params>[Yield, Await]</emu-params></emu-mods></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="uxdrsrnt" id="prod-G4gXeSPg">
-        <emu-nt params="?Yield, ?Await" id="_ref_25"><a href="#prod-PatternMatchingMemberExpression">PatternMatchingMemberExpression</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+        <emu-nt params="?Yield, ?Await" id="_ref_61"><a href="#prod-PatternMatchingMemberExpression">PatternMatchingMemberExpression</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
     </emu-rhs>
 </emu-production>
 <emu-production name="PatternMatchingMemberExpression" params="Yield, Await" id="prod-PatternMatchingMemberExpression">
@@ -141,7 +594,7 @@ line 2`</span>;</code></pre>
         <emu-nt params="?Yield, ?Await"><a href="https://tc39.es/ecma262/#prod-IdentifierReference">IdentifierReference</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
     </emu-rhs>
     <emu-rhs a="czfvorss">
-        <emu-nt params="?Yield, ?Await" id="_ref_26"><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+        <emu-nt params="?Yield, ?Await" id="_ref_62"><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
         <emu-t>.</emu-t>
         <emu-nt><a href="https://tc39.es/ecma262/#prod-IdentifierName">IdentifierName</a></emu-nt>
     </emu-rhs>
@@ -152,7 +605,7 @@ line 2`</span>;</code></pre>
 value is <span class="hljs-title class_">Math</span>.<span class="hljs-property">PI</span>;</code></pre>
     </div></emu-note>
     <emu-note type="editor"><span class="note">Editor's Note</span><div class="note-contents">
-      The <emu-nt id="_ref_27"><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a></emu-nt> <code>.</code> <emu-nt><a href="https://tc39.es/ecma262/#prod-IdentifierName">IdentifierName</a></emu-nt> production is removable.
+      The <emu-nt id="_ref_63"><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a></emu-nt> <code>.</code> <emu-nt><a href="https://tc39.es/ecma262/#prod-IdentifierName">IdentifierName</a></emu-nt> production is removable.
       <pre><code class="javascript hljs">value is <span class="hljs-title class_">Math</span>.<span class="hljs-property">PI</span>;
 <span class="hljs-comment">// can be written as:</span>
 <span class="hljs-keyword">const</span> { <span class="hljs-variable constant_">PI</span> } = <span class="hljs-title class_">Math</span>;
@@ -167,11 +620,11 @@ value is <span class="hljs-variable constant_">PI</span>;</code></pre>
     <emu-grammar type="definition"><emu-production name="UnaryAlgebraicPattern" params="Yield, Await" id="prod-UnaryAlgebraicPattern">
     <emu-nt params="Yield, Await"><a href="#prod-UnaryAlgebraicPattern">UnaryAlgebraicPattern</a><emu-mods><emu-params>[Yield, Await]</emu-params></emu-mods></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="qi2orlde">
         <emu-t>+</emu-t>
-        <emu-nt params="?Yield, ?Await" id="_ref_28"><a href="#prod-PatternMatchingMemberExpression">PatternMatchingMemberExpression</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+        <emu-nt params="?Yield, ?Await" id="_ref_64"><a href="#prod-PatternMatchingMemberExpression">PatternMatchingMemberExpression</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
     </emu-rhs>
     <emu-rhs a="vdzozs8g">
         <emu-t>-</emu-t>
-        <emu-nt params="?Yield, ?Await" id="_ref_29"><a href="#prod-PatternMatchingMemberExpression">PatternMatchingMemberExpression</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+        <emu-nt params="?Yield, ?Await" id="_ref_65"><a href="#prod-PatternMatchingMemberExpression">PatternMatchingMemberExpression</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
     </emu-rhs>
     <emu-rhs a="1epwai_f">
         <emu-t>+</emu-t>
@@ -200,18 +653,18 @@ value is negInf;</code></pre>
     <!-- #region CombinedMatchPattern -->
     <emu-grammar type="definition"><emu-production name="CombinedMatchPattern" params="Yield, Await" id="prod-CombinedMatchPattern">
     <emu-nt params="Yield, Await"><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a><emu-mods><emu-params>[Yield, Await]</emu-params></emu-mods></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="ao53rdyl" id="prod-a_2cW9fV">
-        <emu-nt params="?Yield, ?Await" id="_ref_30"><a href="#prod-MatchPattern">MatchPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+        <emu-nt params="?Yield, ?Await" id="_ref_66"><a href="#prod-MatchPattern">MatchPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
         <emu-t>and</emu-t>
-        <emu-nt params="?Yield, ?Await" id="_ref_31"><a href="#prod-MatchPattern">MatchPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+        <emu-nt params="?Yield, ?Await" id="_ref_67"><a href="#prod-MatchPattern">MatchPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
     </emu-rhs>
     <emu-rhs a="nhqoi23u" id="prod-BMX8uZDG">
-        <emu-nt params="?Yield, ?Await" id="_ref_32"><a href="#prod-MatchPattern">MatchPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+        <emu-nt params="?Yield, ?Await" id="_ref_68"><a href="#prod-MatchPattern">MatchPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
         <emu-t>or</emu-t>
-        <emu-nt params="?Yield, ?Await" id="_ref_33"><a href="#prod-MatchPattern">MatchPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+        <emu-nt params="?Yield, ?Await" id="_ref_69"><a href="#prod-MatchPattern">MatchPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
     </emu-rhs>
     <emu-rhs a="qryeevni" id="prod-4IhLPseH">
         <emu-t>not</emu-t>
-        <emu-nt params="?Yield, ?Await" id="_ref_34"><a href="#prod-MatchPattern">MatchPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+        <emu-nt params="?Yield, ?Await" id="_ref_70"><a href="#prod-MatchPattern">MatchPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
     </emu-rhs>
 </emu-production>
 </emu-grammar>
@@ -225,35 +678,35 @@ value is <span class="hljs-string">"true"</span> or <span class="hljs-string">"y
       <h1><span class="secnum">30.1.1</span> Static Semantics: Early Errors</h1>
       <emu-grammar><emu-production name="CombinedMatchPattern">
     <emu-nt><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="4lmqei0y">
-        <emu-nt id="_ref_35"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt id="_ref_71"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
         <emu-t>and</emu-t>
-        <emu-nt id="_ref_36"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt id="_ref_72"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
     </emu-rhs>
 </emu-production>
 </emu-grammar>
       <ul>
-        <li>It is a Syntax Error if either of <emu-nt id="_ref_37"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> is a <emu-nt id="_ref_38"><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a></emu-nt> and does not match this production.</li>
+        <li>It is a Syntax Error if either of <emu-nt id="_ref_73"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> is a <emu-nt id="_ref_74"><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a></emu-nt> and does not match this production.</li>
       </ul>
       <emu-grammar><emu-production name="CombinedMatchPattern">
     <emu-nt><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="9wuvrand">
-        <emu-nt id="_ref_39"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt id="_ref_75"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
         <emu-t>or</emu-t>
-        <emu-nt id="_ref_40"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt id="_ref_76"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
     </emu-rhs>
 </emu-production>
 </emu-grammar>
       <ul>
-        <li>It is a Syntax Error if either of <emu-nt id="_ref_41"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> is a <emu-nt id="_ref_42"><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a></emu-nt> and does not match this production.</li>
+        <li>It is a Syntax Error if either of <emu-nt id="_ref_77"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> is a <emu-nt id="_ref_78"><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a></emu-nt> and does not match this production.</li>
       </ul>
       <emu-grammar><emu-production name="CombinedMatchPattern">
     <emu-nt><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="_ieabtbd">
         <emu-t>not</emu-t>
-        <emu-nt id="_ref_43"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt id="_ref_79"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
     </emu-rhs>
 </emu-production>
 </emu-grammar>
       <ul>
-        <li>It is a Syntax Error if the <emu-nt id="_ref_44"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> is a <emu-nt id="_ref_45"><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a></emu-nt>.</li>
+        <li>It is a Syntax Error if the <emu-nt id="_ref_80"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> is a <emu-nt id="_ref_81"><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a></emu-nt>.</li>
       </ul>
       <emu-note code=""><span class="note">Note</span><div class="note-contents"><pre><code class="javascript hljs">value is a and b and c; <span class="hljs-comment">// no Syntax Error</span>
 value is a or b or c; <span class="hljs-comment">// no Syntax Error</span>
@@ -274,41 +727,41 @@ value is not (a or b); <span class="hljs-comment">// no Syntax Error</span></cod
 
     <emu-clause id="sec-match-pattern-matches" type="sdo" aoid="MatchPatternMatches">
       <h1><span class="secnum">30.2.1</span> Runtime Semantics: MatchPatternMatches</h1>
-      <p>The <emu-xref href="#sec-algorithm-conventions-syntax-directed-operations"><a href="https://tc39.es/ecma262/#sec-algorithm-conventions-syntax-directed-operations">syntax-directed operation</a></emu-xref> MatchPatternMatches takes argument <var>subject</var> (an <emu-xref href="#sec-ecmascript-language-types" id="_ref_1"><a href="#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>) and returns either a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion containing</a></emu-xref> a Boolean or an <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">abrupt completion</a></emu-xref>. It is defined piecewise over the following productions:</p>
+      <p>The <emu-xref href="#sec-algorithm-conventions-syntax-directed-operations"><a href="https://tc39.es/ecma262/#sec-algorithm-conventions-syntax-directed-operations">syntax-directed operation</a></emu-xref> MatchPatternMatches takes argument <var>subject</var> (an <emu-xref href="#sec-ecmascript-language-types" id="_ref_36"><a href="#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>) and returns either a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion containing</a></emu-xref> a Boolean or an <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">abrupt completion</a></emu-xref>. It is defined piecewise over the following productions:</p>
       <emu-grammar><emu-production name="MatchPattern" collapsed="">
     <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="59hl_iep" id="prod-U80C8biY">
         <emu-t>(</emu-t>
-        <emu-nt id="_ref_46"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt id="_ref_82"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
         <emu-t>)</emu-t>
     </emu-rhs>
 </emu-production>
 </emu-grammar>
-      <emu-alg><ol><li>Return ?&nbsp;<emu-xref aoid="MatchPatternMatches" id="_ref_2"><a href="#sec-match-pattern-matches" class="e-user-code">MatchPatternMatches</a></emu-xref> of <emu-nt id="_ref_47"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> with arguments <var>subject</var>.</li></ol></emu-alg>
+      <emu-alg><ol><li>Return ?&nbsp;<emu-xref aoid="MatchPatternMatches" id="_ref_37"><a href="#sec-match-pattern-matches" class="e-user-code">MatchPatternMatches</a></emu-xref> of <emu-nt id="_ref_83"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> with arguments <var>subject</var>.</li></ol></emu-alg>
       <emu-grammar><emu-production name="MatchPattern" collapsed="">
-    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="sgh9k7d8" id="prod-6fPS70C2"><emu-nt id="_ref_48"><a href="#prod-PrimitivePattern">PrimitivePattern</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="sgh9k7d8" id="prod-6fPS70C2"><emu-nt id="_ref_84"><a href="#prod-PrimitivePattern">PrimitivePattern</a></emu-nt></emu-rhs>
 </emu-production>
 </emu-grammar>
-      <emu-alg><ol><li>Return <emu-xref aoid="PrimitivePatternMatches" id="_ref_3"><a href="#sec-primitive-pattern-matches">PrimitivePatternMatches</a></emu-xref> of <emu-nt id="_ref_49"><a href="#prod-PrimitivePattern">PrimitivePattern</a></emu-nt> with arguments <var>subject</var>.</li></ol></emu-alg>
+      <emu-alg><ol><li>Return <emu-xref aoid="PrimitivePatternMatches" id="_ref_38"><a href="#sec-primitive-pattern-matches">PrimitivePatternMatches</a></emu-xref> of <emu-nt id="_ref_85"><a href="#prod-PrimitivePattern">PrimitivePattern</a></emu-nt> with arguments <var>subject</var>.</li></ol></emu-alg>
       <emu-grammar><emu-production name="MatchPattern" collapsed="">
-    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="zftkm5nb" id="prod-vBMoWeeV"><emu-nt id="_ref_50"><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="zftkm5nb" id="prod-vBMoWeeV"><emu-nt id="_ref_86"><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a></emu-nt></emu-rhs>
 </emu-production>
 </emu-grammar>
-      <emu-alg><ol><li>Return ?&nbsp;<emu-xref aoid="MemberExpressionPatternMatches" id="_ref_4"><a href="#sec-member-expression-pattern-matches" class="e-user-code">MemberExpressionPatternMatches</a></emu-xref> of <emu-nt id="_ref_51"><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a></emu-nt> with arguments <var>subject</var>.</li></ol></emu-alg>
+      <emu-alg><ol><li>Return ?&nbsp;<emu-xref aoid="MemberExpressionPatternMatches" id="_ref_39"><a href="#sec-member-expression-pattern-matches" class="e-user-code">MemberExpressionPatternMatches</a></emu-xref> of <emu-nt id="_ref_87"><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a></emu-nt> with arguments <var>subject</var>.</li></ol></emu-alg>
       <emu-grammar><emu-production name="MatchPattern" collapsed="">
-    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="gq_1p9nv" id="prod-MW-Egi0C"><emu-nt id="_ref_52"><a href="#prod-UnaryAlgebraicPattern">UnaryAlgebraicPattern</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="gq_1p9nv" id="prod-MW-Egi0C"><emu-nt id="_ref_88"><a href="#prod-UnaryAlgebraicPattern">UnaryAlgebraicPattern</a></emu-nt></emu-rhs>
 </emu-production>
 </emu-grammar>
-      <emu-alg><ol><li>Return ?&nbsp;<emu-xref aoid="UnaryAlgebraicPatternMatches" id="_ref_5"><a href="#sec-unary-algebraic-pattern-matches" class="e-user-code">UnaryAlgebraicPatternMatches</a></emu-xref> of <emu-nt id="_ref_53"><a href="#prod-UnaryAlgebraicPattern">UnaryAlgebraicPattern</a></emu-nt> with arguments <var>subject</var>.</li></ol></emu-alg>
+      <emu-alg><ol><li>Return ?&nbsp;<emu-xref aoid="UnaryAlgebraicPatternMatches" id="_ref_40"><a href="#sec-unary-algebraic-pattern-matches" class="e-user-code">UnaryAlgebraicPatternMatches</a></emu-xref> of <emu-nt id="_ref_89"><a href="#prod-UnaryAlgebraicPattern">UnaryAlgebraicPattern</a></emu-nt> with arguments <var>subject</var>.</li></ol></emu-alg>
       <emu-grammar><emu-production name="MatchPattern" collapsed="">
-    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="zldm3trl" id="prod-EquXXU0V"><emu-nt id="_ref_54"><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="zldm3trl" id="prod-EquXXU0V"><emu-nt id="_ref_90"><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a></emu-nt></emu-rhs>
 </emu-production>
 </emu-grammar>
-      <emu-alg><ol><li>Return ?&nbsp;<emu-xref aoid="CombinedMatchPatternMatches" id="_ref_6"><a href="#sec-combined-match-pattern-matches" class="e-user-code">CombinedMatchPatternMatches</a></emu-xref> of <emu-nt id="_ref_55"><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a></emu-nt> with arguments <var>subject</var>.</li></ol></emu-alg>
+      <emu-alg><ol><li>Return ?&nbsp;<emu-xref aoid="CombinedMatchPatternMatches" id="_ref_41"><a href="#sec-combined-match-pattern-matches" class="e-user-code">CombinedMatchPatternMatches</a></emu-xref> of <emu-nt id="_ref_91"><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a></emu-nt> with arguments <var>subject</var>.</li></ol></emu-alg>
     </emu-clause>
 
     <emu-clause id="sec-primitive-pattern-matches" type="sdo" aoid="PrimitivePatternMatches">
       <h1><span class="secnum">30.2.2</span> Runtime Semantics: PrimitivePatternMatches</h1>
-      <p>The <emu-xref href="#sec-algorithm-conventions-syntax-directed-operations"><a href="https://tc39.es/ecma262/#sec-algorithm-conventions-syntax-directed-operations">syntax-directed operation</a></emu-xref> PrimitivePatternMatches takes argument <var>subject</var> (an <emu-xref href="#sec-ecmascript-language-types" id="_ref_7"><a href="#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>) and returns a Boolean. It is defined piecewise over the following productions:</p>
+      <p>The <emu-xref href="#sec-algorithm-conventions-syntax-directed-operations"><a href="https://tc39.es/ecma262/#sec-algorithm-conventions-syntax-directed-operations">syntax-directed operation</a></emu-xref> PrimitivePatternMatches takes argument <var>subject</var> (an <emu-xref href="#sec-ecmascript-language-types" id="_ref_42"><a href="#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>) and returns a Boolean. It is defined piecewise over the following productions:</p>
       <emu-grammar><emu-production name="PrimitivePattern" collapsed="">
     <emu-nt><a href="#prod-PrimitivePattern">PrimitivePattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="kul-a19e" id="prod-mlLTmHeP"><emu-nt><a href="https://tc39.es/ecma262/#prod-Literal">Literal</a></emu-nt></emu-rhs>
 </emu-production>
@@ -323,52 +776,52 @@ value is not (a or b); <span class="hljs-comment">// no Syntax Error</span></cod
 
     <emu-clause id="sec-member-expression-pattern-matches" type="sdo" aoid="MemberExpressionPatternMatches">
       <h1><span class="secnum">30.2.3</span> Runtime Semantics: MemberExpressionPatternMatches</h1>
-      <p>The <emu-xref href="#sec-algorithm-conventions-syntax-directed-operations"><a href="https://tc39.es/ecma262/#sec-algorithm-conventions-syntax-directed-operations">syntax-directed operation</a></emu-xref> MemberExpressionPatternMatches takes argument <var>subject</var> (an <emu-xref href="#sec-ecmascript-language-types" id="_ref_8"><a href="#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>) and returns either a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion containing</a></emu-xref> a Boolean or an <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">abrupt completion</a></emu-xref>. It is defined piecewise over the following productions:</p>
+      <p>The <emu-xref href="#sec-algorithm-conventions-syntax-directed-operations"><a href="https://tc39.es/ecma262/#sec-algorithm-conventions-syntax-directed-operations">syntax-directed operation</a></emu-xref> MemberExpressionPatternMatches takes argument <var>subject</var> (an <emu-xref href="#sec-ecmascript-language-types" id="_ref_43"><a href="#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>) and returns either a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion containing</a></emu-xref> a Boolean or an <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">abrupt completion</a></emu-xref>. It is defined piecewise over the following productions:</p>
       <emu-grammar><emu-production name="MemberExpressionPattern" collapsed="">
-    <emu-nt><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="887ylmg0" id="prod--tiCo4Kg"><emu-nt id="_ref_56"><a href="#prod-PatternMatchingMemberExpression">PatternMatchingMemberExpression</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="887ylmg0" id="prod--tiCo4Kg"><emu-nt id="_ref_92"><a href="#prod-PatternMatchingMemberExpression">PatternMatchingMemberExpression</a></emu-nt></emu-rhs>
 </emu-production>
 </emu-grammar>
-      <emu-alg><ol><li>Let <var>expr</var> be the <emu-nt><a href="https://tc39.es/ecma262/#prod-MemberExpression">MemberExpression</a></emu-nt> that is <emu-xref href="#sec-syntactic-grammar"><a href="https://tc39.es/ecma262/#sec-syntactic-grammar">covered</a></emu-xref> by <emu-nt id="_ref_57"><a href="#prod-PatternMatchingMemberExpression">PatternMatchingMemberExpression</a></emu-nt>.</li><li>Let <var>ref</var> be ?&nbsp;<emu-xref aoid="Evaluation"><a href="https://tc39.es/ecma262/#sec-evaluation" class="e-user-code">Evaluation</a></emu-xref> of <var>expr</var>.</li><li>Let <var>value</var> be ?&nbsp;<emu-xref aoid="GetValue"><a href="https://tc39.es/ecma262/#sec-getvalue" class="e-user-code">GetValue</a></emu-xref>(<var>ref</var>).</li><li>Let <var>result</var> be ?&nbsp;<emu-xref aoid="InvokeCustomMatcher" id="_ref_9"><a href="#sec-invoke-custom-matcher" class="e-user-code">InvokeCustomMatcher</a></emu-xref>(<var>value</var>, <var>subject</var>, <emu-const>boolean</emu-const>).</li><li><emu-xref href="#assert"><a href="https://tc39.es/ecma262/#assert">Assert</a></emu-xref>: <var>result</var> <emu-xref href="#sec-ecmascript-language-types-boolean-type"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types-boolean-type">is a Boolean</a></emu-xref>.</li><li>Return <var>result</var>.</li></ol></emu-alg>
+      <emu-alg><ol><li>Let <var>expr</var> be the <emu-nt><a href="https://tc39.es/ecma262/#prod-MemberExpression">MemberExpression</a></emu-nt> that is <emu-xref href="#sec-syntactic-grammar"><a href="https://tc39.es/ecma262/#sec-syntactic-grammar">covered</a></emu-xref> by <emu-nt id="_ref_93"><a href="#prod-PatternMatchingMemberExpression">PatternMatchingMemberExpression</a></emu-nt>.</li><li>Let <var>ref</var> be ?&nbsp;<emu-xref aoid="Evaluation"><a href="https://tc39.es/ecma262/#sec-evaluation" class="e-user-code">Evaluation</a></emu-xref> of <var>expr</var>.</li><li>Let <var>value</var> be ?&nbsp;<emu-xref aoid="GetValue"><a href="https://tc39.es/ecma262/#sec-getvalue" class="e-user-code">GetValue</a></emu-xref>(<var>ref</var>).</li><li>Let <var>result</var> be ?&nbsp;<emu-xref aoid="InvokeCustomMatcher" id="_ref_44"><a href="#sec-invoke-custom-matcher" class="e-user-code">InvokeCustomMatcher</a></emu-xref>(<var>value</var>, <var>subject</var>, <emu-const>boolean</emu-const>).</li><li><emu-xref href="#assert"><a href="https://tc39.es/ecma262/#assert">Assert</a></emu-xref>: <var>result</var> <emu-xref href="#sec-ecmascript-language-types-boolean-type"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types-boolean-type">is a Boolean</a></emu-xref>.</li><li>Return <var>result</var>.</li></ol></emu-alg>
     </emu-clause>
 
     <emu-clause id="sec-unary-algebraic-pattern-matches" type="sdo" aoid="UnaryAlgebraicPatternMatches">
       <h1><span class="secnum">30.2.4</span> Runtime Semantics: UnaryAlgebraicPatternMatches</h1>
-      <p>The <emu-xref href="#sec-algorithm-conventions-syntax-directed-operations"><a href="https://tc39.es/ecma262/#sec-algorithm-conventions-syntax-directed-operations">syntax-directed operation</a></emu-xref> UnaryAlgebraicPatternMatches takes argument <var>subject</var> (an <emu-xref href="#sec-ecmascript-language-types" id="_ref_10"><a href="#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>) and returns either a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion containing</a></emu-xref> a Boolean or an <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">abrupt completion</a></emu-xref>. It is defined piecewise over the following productions:</p>
+      <p>The <emu-xref href="#sec-algorithm-conventions-syntax-directed-operations"><a href="https://tc39.es/ecma262/#sec-algorithm-conventions-syntax-directed-operations">syntax-directed operation</a></emu-xref> UnaryAlgebraicPatternMatches takes argument <var>subject</var> (an <emu-xref href="#sec-ecmascript-language-types" id="_ref_45"><a href="#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>) and returns either a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion containing</a></emu-xref> a Boolean or an <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">abrupt completion</a></emu-xref>. It is defined piecewise over the following productions:</p>
       <emu-grammar><emu-production name="UnaryAlgebraicPattern">
 <emu-nt><a href="#prod-UnaryAlgebraicPattern">UnaryAlgebraicPattern</a></emu-nt> <emu-geq>:</emu-geq> </emu-production>
 </emu-grammar>
-      <emu-alg><ol><li>Let <var>expr</var> be the <emu-nt><a href="https://tc39.es/ecma262/#prod-MemberExpression">MemberExpression</a></emu-nt> that is <emu-xref href="#sec-syntactic-grammar"><a href="https://tc39.es/ecma262/#sec-syntactic-grammar">covered</a></emu-xref> by <emu-nt id="_ref_58"><a href="#prod-UnaryAlgebraicPattern">UnaryAlgebraicPattern</a></emu-nt>.</li><li>Let <var>ref</var> be ?&nbsp;<emu-xref aoid="Evaluation"><a href="https://tc39.es/ecma262/#sec-evaluation" class="e-user-code">Evaluation</a></emu-xref> of <var>expr</var>.</li><li>Let <var>value</var> be ?&nbsp;<emu-xref aoid="GetValue"><a href="https://tc39.es/ecma262/#sec-getvalue" class="e-user-code">GetValue</a></emu-xref>(<var>ref</var>).</li><li>Return <emu-xref aoid="SameValue"><a href="https://tc39.es/ecma262/#sec-samevalue">SameValue</a></emu-xref>(<var>subject</var>, <var>value</var>).</li></ol></emu-alg>
+      <emu-alg><ol><li>Let <var>expr</var> be the <emu-nt><a href="https://tc39.es/ecma262/#prod-MemberExpression">MemberExpression</a></emu-nt> that is <emu-xref href="#sec-syntactic-grammar"><a href="https://tc39.es/ecma262/#sec-syntactic-grammar">covered</a></emu-xref> by <emu-nt id="_ref_94"><a href="#prod-UnaryAlgebraicPattern">UnaryAlgebraicPattern</a></emu-nt>.</li><li>Let <var>ref</var> be ?&nbsp;<emu-xref aoid="Evaluation"><a href="https://tc39.es/ecma262/#sec-evaluation" class="e-user-code">Evaluation</a></emu-xref> of <var>expr</var>.</li><li>Let <var>value</var> be ?&nbsp;<emu-xref aoid="GetValue"><a href="https://tc39.es/ecma262/#sec-getvalue" class="e-user-code">GetValue</a></emu-xref>(<var>ref</var>).</li><li>Return <emu-xref aoid="SameValue"><a href="https://tc39.es/ecma262/#sec-samevalue">SameValue</a></emu-xref>(<var>subject</var>, <var>value</var>).</li></ol></emu-alg>
     </emu-clause>
 
     <emu-clause id="sec-combined-match-pattern-matches" type="sdo" aoid="CombinedMatchPatternMatches">
       <h1><span class="secnum">30.2.5</span> Runtime Semantics: CombinedMatchPatternMatches</h1>
-      <p>The <emu-xref href="#sec-algorithm-conventions-syntax-directed-operations"><a href="https://tc39.es/ecma262/#sec-algorithm-conventions-syntax-directed-operations">syntax-directed operation</a></emu-xref> CombinedMatchPatternMatches takes argument <var>subject</var> (an <emu-xref href="#sec-ecmascript-language-types" id="_ref_11"><a href="#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>) and returns either a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion containing</a></emu-xref> a Boolean or an <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">abrupt completion</a></emu-xref>. It is defined piecewise over the following productions:</p>
+      <p>The <emu-xref href="#sec-algorithm-conventions-syntax-directed-operations"><a href="https://tc39.es/ecma262/#sec-algorithm-conventions-syntax-directed-operations">syntax-directed operation</a></emu-xref> CombinedMatchPatternMatches takes argument <var>subject</var> (an <emu-xref href="#sec-ecmascript-language-types" id="_ref_46"><a href="#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>) and returns either a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion containing</a></emu-xref> a Boolean or an <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">abrupt completion</a></emu-xref>. It is defined piecewise over the following productions:</p>
       <emu-grammar><emu-production name="CombinedMatchPattern" collapsed="">
     <emu-nt><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="4lmqei0y" id="prod-TGrK8XcZ">
-        <emu-nt id="_ref_59"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt id="_ref_95"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
         <emu-t>and</emu-t>
-        <emu-nt id="_ref_60"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt id="_ref_96"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
     </emu-rhs>
 </emu-production>
 </emu-grammar>
-      <emu-alg><ol><li>Let <var>leftMatches</var> be ?&nbsp;<emu-xref aoid="MatchPatternMatches" id="_ref_12"><a href="#sec-match-pattern-matches" class="e-user-code">MatchPatternMatches</a></emu-xref> of the first <emu-nt id="_ref_61"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> with arguments <var>subject</var>.</li><li>If <var>leftMatches</var> is <emu-val>false</emu-val>, return <emu-val>false</emu-val>.</li><li>Return ?&nbsp;<emu-xref aoid="MatchPatternMatches" id="_ref_13"><a href="#sec-match-pattern-matches" class="e-user-code">MatchPatternMatches</a></emu-xref> of the second <emu-nt id="_ref_62"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> with arguments <var>subject</var>.</li></ol></emu-alg>
+      <emu-alg><ol><li>Let <var>leftMatches</var> be ?&nbsp;<emu-xref aoid="MatchPatternMatches" id="_ref_47"><a href="#sec-match-pattern-matches" class="e-user-code">MatchPatternMatches</a></emu-xref> of the first <emu-nt id="_ref_97"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> with arguments <var>subject</var>.</li><li>If <var>leftMatches</var> is <emu-val>false</emu-val>, return <emu-val>false</emu-val>.</li><li>Return ?&nbsp;<emu-xref aoid="MatchPatternMatches" id="_ref_48"><a href="#sec-match-pattern-matches" class="e-user-code">MatchPatternMatches</a></emu-xref> of the second <emu-nt id="_ref_98"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> with arguments <var>subject</var>.</li></ol></emu-alg>
       <emu-grammar><emu-production name="CombinedMatchPattern" collapsed="">
     <emu-nt><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="9wuvrand" id="prod-hYdo8hkU">
-        <emu-nt id="_ref_63"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt id="_ref_99"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
         <emu-t>or</emu-t>
-        <emu-nt id="_ref_64"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt id="_ref_100"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
     </emu-rhs>
 </emu-production>
 </emu-grammar>
-      <emu-alg><ol><li>Let <var>leftMatches</var> be ?&nbsp;<emu-xref aoid="MatchPatternMatches" id="_ref_14"><a href="#sec-match-pattern-matches" class="e-user-code">MatchPatternMatches</a></emu-xref> of the first <emu-nt id="_ref_65"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> with arguments <var>subject</var>.</li><li>If <var>leftMatches</var> is <emu-val>true</emu-val>, return <emu-val>true</emu-val>.</li><li>Return ?&nbsp;<emu-xref aoid="MatchPatternMatches" id="_ref_15"><a href="#sec-match-pattern-matches" class="e-user-code">MatchPatternMatches</a></emu-xref> of the second <emu-nt id="_ref_66"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> with arguments <var>subject</var>.</li></ol></emu-alg>
+      <emu-alg><ol><li>Let <var>leftMatches</var> be ?&nbsp;<emu-xref aoid="MatchPatternMatches" id="_ref_49"><a href="#sec-match-pattern-matches" class="e-user-code">MatchPatternMatches</a></emu-xref> of the first <emu-nt id="_ref_101"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> with arguments <var>subject</var>.</li><li>If <var>leftMatches</var> is <emu-val>true</emu-val>, return <emu-val>true</emu-val>.</li><li>Return ?&nbsp;<emu-xref aoid="MatchPatternMatches" id="_ref_50"><a href="#sec-match-pattern-matches" class="e-user-code">MatchPatternMatches</a></emu-xref> of the second <emu-nt id="_ref_102"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> with arguments <var>subject</var>.</li></ol></emu-alg>
       <emu-grammar><emu-production name="CombinedMatchPattern" collapsed="">
     <emu-nt><a href="#prod-CombinedMatchPattern">CombinedMatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="_ieabtbd" id="prod-_QtiVeJ1">
         <emu-t>not</emu-t>
-        <emu-nt id="_ref_67"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
+        <emu-nt id="_ref_103"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
     </emu-rhs>
 </emu-production>
 </emu-grammar>
-      <emu-alg><ol><li>Let <var>matches</var> be ?&nbsp;<emu-xref aoid="MatchPatternMatches" id="_ref_16"><a href="#sec-match-pattern-matches" class="e-user-code">MatchPatternMatches</a></emu-xref> of <emu-nt id="_ref_68"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> with arguments <var>subject</var>.</li><li>If <var>matches</var> is <emu-val>true</emu-val>, return <emu-val>false</emu-val>.</li><li>Return <emu-val>true</emu-val>.</li></ol></emu-alg>
+      <emu-alg><ol><li>Let <var>matches</var> be ?&nbsp;<emu-xref aoid="MatchPatternMatches" id="_ref_51"><a href="#sec-match-pattern-matches" class="e-user-code">MatchPatternMatches</a></emu-xref> of <emu-nt id="_ref_104"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> with arguments <var>subject</var>.</li><li>If <var>matches</var> is <emu-val>true</emu-val>, return <emu-val>false</emu-val>.</li><li>Return <emu-val>true</emu-val>.</li></ol></emu-alg>
     </emu-clause>
   </emu-clause>
   <emu-clause id="sec-abstract-operations-for-pattern-matching">
@@ -376,12 +829,18 @@ value is not (a or b); <span class="hljs-comment">// no Syntax Error</span></cod
 
     <emu-clause id="sec-invoke-custom-matcher" type="abstract operation" aoid="InvokeCustomMatcher">
       <h1><span class="secnum">30.3.1</span> <ins>InvokeCustomMatcher ( <var>matcher</var>, <var>subject</var>, <var>kind</var> )</ins></h1>
-      <p>The abstract operation InvokeCustomMatcher takes arguments <var>matcher</var> (an <emu-xref href="#sec-ecmascript-language-types" id="_ref_17"><a href="#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>), <var>subject</var> (an <emu-xref href="#sec-ecmascript-language-types" id="_ref_18"><a href="#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>), and <var>kind</var> (<emu-const>boolean</emu-const> or <emu-const>list</emu-const>) and returns either a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion containing</a></emu-xref> either a Boolean or an <emu-xref href="#sec-iterator-records"><a href="https://tc39.es/ecma262/#sec-iterator-records">Iterator Record</a></emu-xref>, or an <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">abrupt completion</a></emu-xref>. It performs the following steps when called:</p>
-      <emu-alg><ol><li>If <var>matcher</var> <emu-xref href="#sec-object-type"><a href="https://tc39.es/ecma262/#sec-object-type">is not an Object</a></emu-xref>, then<ol><li>Return <emu-xref aoid="SameValueZero"><a href="https://tc39.es/ecma262/#sec-samevaluezero">SameValueZero</a></emu-xref>(<var>matcher</var>, <var>subject</var>).</li></ol></li><li>Let <var>f</var> be ?&nbsp;<emu-xref aoid="Get"><a href="https://tc39.es/ecma262/#sec-get-o-p" class="e-user-code">Get</a></emu-xref>(<var>matcher</var>, <emu-xref href="#sec-well-known-symbols" id="_ref_19"><a href="#sec-well-known-symbols">@@customMatcher</a></emu-xref>).</li><li>If <emu-xref aoid="IsCallable"><a href="https://tc39.es/ecma262/#sec-iscallable">IsCallable</a></emu-xref>(<var>matcher</var>) is <emu-val>false</emu-val>, throw a <emu-val>TypeError</emu-val> exception.</li><li>If <var>kind</var> is <emu-const>boolean</emu-const>, let <var>hint</var> be <emu-val>"boolean"</emu-val>.</li><li>Else, let <var>hint</var> be <emu-val>"list"</emu-val>.</li><li>Let <var>result</var> be ?&nbsp;<emu-xref aoid="Call"><a href="https://tc39.es/ecma262/#sec-call" class="e-user-code">Call</a></emu-xref>(<var>f</var>, <var>matcher</var>, « <var>subject</var>, <var>hint</var>&nbsp;»).</li><li>If <var>result</var> is <emu-val>false</emu-val>, return <emu-val>false</emu-val>.</li><li>Else if <var>result</var> is <emu-val>true</emu-val> and <var>kind</var> is <emu-const>boolean</emu-const>, return <emu-val>true</emu-val>.</li><li>Else if <var>result</var> <emu-xref href="#sec-object-type"><a href="https://tc39.es/ecma262/#sec-object-type">is not an Object</a></emu-xref>, throw a <emu-val>TypeError</emu-val> exception.</li><li>Let <var>iterator</var> be ?&nbsp;<emu-xref aoid="GetIterator"><a href="https://tc39.es/ecma262/#sec-getiterator" class="e-user-code">GetIterator</a></emu-xref>(<var>result</var>, <emu-const>sync</emu-const>).</li><li>If <var>kind</var> is <emu-const>boolean</emu-const>, then<ol><li>Perform ?&nbsp;<emu-xref aoid="IteratorClose"><a href="https://tc39.es/ecma262/#sec-iteratorclose" class="e-user-code">IteratorClose</a></emu-xref>(<var>iterator</var>, a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion</a></emu-xref> with a value of unused).</li><li>Return <emu-val>true</emu-val>.</li></ol></li><li>Return <var>iterator</var>.</li></ol></emu-alg>
+      <p>The abstract operation InvokeCustomMatcher takes arguments <var>matcher</var> (an <emu-xref href="#sec-ecmascript-language-types" id="_ref_52"><a href="#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>), <var>subject</var> (an <emu-xref href="#sec-ecmascript-language-types" id="_ref_53"><a href="#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>), and <var>kind</var> (<emu-const>boolean</emu-const> or <emu-const>list</emu-const>) and returns either a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion containing</a></emu-xref> either a Boolean or an <emu-xref href="#sec-iterator-records"><a href="https://tc39.es/ecma262/#sec-iterator-records">Iterator Record</a></emu-xref>, or an <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">abrupt completion</a></emu-xref>. It performs the following steps when called:</p>
+      <emu-alg><ol><li>If <var>matcher</var> <emu-xref href="#sec-object-type"><a href="https://tc39.es/ecma262/#sec-object-type">is not an Object</a></emu-xref>, then<ol><li>Return <emu-xref aoid="SameValueZero"><a href="https://tc39.es/ecma262/#sec-samevaluezero">SameValueZero</a></emu-xref>(<var>matcher</var>, <var>subject</var>).</li></ol></li><li>Let <var>f</var> be ?&nbsp;<emu-xref aoid="Get"><a href="https://tc39.es/ecma262/#sec-get-o-p" class="e-user-code">Get</a></emu-xref>(<var>matcher</var>, <emu-xref href="#sec-well-known-symbols" id="_ref_54"><a href="#sec-well-known-symbols">@@customMatcher</a></emu-xref>).</li><li>If <emu-xref aoid="IsCallable"><a href="https://tc39.es/ecma262/#sec-iscallable">IsCallable</a></emu-xref>(<var>matcher</var>) is <emu-val>false</emu-val>, throw a <emu-val>TypeError</emu-val> exception.</li><li>If <var>kind</var> is <emu-const>boolean</emu-const>, let <var>hint</var> be <emu-val>"boolean"</emu-val>.</li><li>Else, let <var>hint</var> be <emu-val>"list"</emu-val>.</li><li>Let <var>result</var> be ?&nbsp;<emu-xref aoid="Call"><a href="https://tc39.es/ecma262/#sec-call" class="e-user-code">Call</a></emu-xref>(<var>f</var>, <var>matcher</var>, « <var>subject</var>, <var>hint</var>&nbsp;»).</li><li>If <var>result</var> is <emu-val>false</emu-val>, return <emu-val>false</emu-val>.</li><li>Else if <var>result</var> is <emu-val>true</emu-val> and <var>kind</var> is <emu-const>boolean</emu-const>, return <emu-val>true</emu-val>.</li><li>Else if <var>result</var> <emu-xref href="#sec-object-type"><a href="https://tc39.es/ecma262/#sec-object-type">is not an Object</a></emu-xref>, throw a <emu-val>TypeError</emu-val> exception.</li><li>Let <var>iterator</var> be ?&nbsp;<emu-xref aoid="GetIterator"><a href="https://tc39.es/ecma262/#sec-getiterator" class="e-user-code">GetIterator</a></emu-xref>(<var>result</var>, <emu-const>sync</emu-const>).</li><li>If <var>kind</var> is <emu-const>boolean</emu-const>, then<ol><li>Perform ?&nbsp;<emu-xref aoid="IteratorClose"><a href="https://tc39.es/ecma262/#sec-iteratorclose" class="e-user-code">IteratorClose</a></emu-xref>(<var>iterator</var>, a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion</a></emu-xref> with a value of unused).</li><li>Return <emu-val>true</emu-val>.</li></ol></li><li>Return <var>iterator</var>.</li></ol></emu-alg>
       <emu-note type="editor"><span class="note">Editor's Note</span><div class="note-contents">
         The hint parameter is not a consensus in the champion group yet. This design is to solve <a href="https://github.com/tc39/proposal-pattern-matching/issues/253" target="_blank">runtime performance concerns about custom matchers</a>. The <a href="https://github.com/tc39/proposal-extractors" target="_blank">extractor proposal</a> may add a new hint <emu-const>object</emu-const> for the following syntax.
         <pre><code class="javascript hljs"><span class="hljs-keyword">const</span> <span class="hljs-title class_">Point</span>{ x, y } = expr;</code></pre>
       </div></emu-note>
+    </emu-clause>
+
+    <emu-clause id="sec-validatecustommatcherhint" type="abstract operation" aoid="ValidateCustomMatcherHint">
+        <h1><span class="secnum">30.3.2</span> ValidateCustomMatcherHint ( <var>hint</var> [ , <var>kind</var> ] )</h1>
+        <p>The abstract operation ValidateCustomMatcherHint takes argument <var>hint</var> (an <emu-xref href="#sec-ecmascript-language-types" id="_ref_55"><a href="#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>) and optional argument <var>kind</var> (<emu-const>boolean</emu-const> or <emu-const>list</emu-const>) and returns either a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion containing</a></emu-xref> <emu-const>unused</emu-const> or a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">throw completion</a></emu-xref>. It performs the following steps when called:</p>
+        <emu-alg><ol><li>If <var>hint</var> is not <emu-val>"boolean"</emu-val> or <emu-val>"list"</emu-val>, throw a <emu-val>TypeError</emu-val> exception.</li><li>If <var>kind</var> is not present, return <emu-const>unused</emu-const>.</li><li>If <var>hint</var> is <emu-val>"boolean"</emu-val> and <var>kind</var> is <emu-const>list</emu-const>, throw a <emu-val>TypeError</emu-val> exception.</li><li>If <var>hint</var> is <emu-val>"list"</emu-val> and <var>kind</var> is <emu-const>boolean</emu-const>, throw a <emu-val>TypeError</emu-val> exception.</li></ol></emu-alg>
     </emu-clause>
   </emu-clause>
 </emu-clause>

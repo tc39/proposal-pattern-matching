@@ -33,11 +33,26 @@ contributors:
     font-style: italic;
     text-decoration: underline;
   }
+  body.folded .fold {
+    display: none;
+  }
 </style>
 
-<p>Work in progress. Before continuing, please read the&nbsp;<emu-xref href="#sec-notes" title></emu-xref>.</p>
+<emu-clause id="welcome">
+  <h1>Welcome</h1>
+  <p>Work in progress. Before continuing, please read the <emu-xref href="#sec-notes" title></emu-xref>.</p>
+  <p>Most of the trivia (built-in matchers) is folded. Some non-trivia sections you might be interested in:</p>
+  <ul>
+    <li><emu-xref title href="#sec-function-@@custommatcher"></emu-xref></li>
+    <li><emu-xref title href="#sec-json-@@custommatcher"></emu-xref></li>
+    <li><emu-xref title href="#sec-initializeinstance"></emu-xref></li>
+    <li><emu-xref title href="#sec-runtime-semantics-classdefinitionevaluation"></emu-xref></li>
+  </ul>
+  <button id="expand">Click to expand the hidden sections.</button>
+  <script defer async src="./assets/expand.js"></script>
+</emu-clause>
 
-<emu-clause id="sec-ecmascript-data-types-and-values" aoid="Type" number="6">
+<emu-clause class="fold" id="sec-ecmascript-data-types-and-values" aoid="Type" number="6">
   <h1>ECMAScript Data Types and Values</h1>
   <emu-clause id="sec-ecmascript-language-types">
     <h1>ECMAScript Language Types</h1>
@@ -75,6 +90,613 @@ contributors:
           </table>
         </emu-table>
       </emu-clause>
+    </emu-clause>
+    <emu-clause id="sec-object-internal-methods-and-internal-slots" number="7">
+      <h1>Object Internal Methods and Internal Slots</h1>
+      <p><ins>All objects have an internal slot named [[ConstructedBy]], which is a List of ECMAScript language values. This List represents the origin of the object. Initially, it is an empty List.</ins></p>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-abstract-operations" number="7">
+  <h1>Abstract Operations</h1>
+  <emu-clause id="sec-operations-on-objects" number="3">
+    <h1>Operations on Objects</h1>
+    <emu-clause oldids="sec-initializeinstanceelements" id="sec-initializeinstance" type="abstract operation" number="34">
+      <h1>
+        InitializeInstanceElements (
+          _O_: an Object,
+          _constructor_: an ECMAScript function object,
+        ): either a normal completion containing ~unused~ or a throw completion
+      </h1>
+      <dl class="header">
+      </dl>
+      <emu-alg>
+        1. Let _methods_ be the value of _constructor_.[[PrivateMethods]].
+        1. For each PrivateElement _method_ of _methods_, do
+          1. Perform ? PrivateMethodOrAccessorAdd(_O_, _method_).
+        1. Let _fields_ be the value of _constructor_.[[Fields]].
+        1. For each element _fieldRecord_ of _fields_, do
+          1. Perform ? DefineField(_O_, _fieldRecord_).
+        1. <ins>Append _constructor_ to _O_.[[ConstructedBy]].</ins>
+        1. Return ~unused~.
+      </emu-alg>
+      <emu-note>The [[ConstructedBy]] field also contains normal functions, but it is inaccessible because this field is used with functions that have a truthy [[IsClassConstructor]] field. An implementation may omit the append of normal functions.</emu-note>
+      <emu-note type="editor">Rename this AO to <dfn>InitializeInstance</dfn>.</emu-note>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-ecmascript-language-functions-and-classes" number="15">
+  <h1>ECMAScript Language: Functions and Classes</h1>
+  <emu-clause id="sec-class-definitions" number="7">
+    <h1>Class Definitions</h1>
+    <emu-clause id="sec-runtime-semantics-classdefinitionevaluation" type="sdo" number="14">
+      <h1>
+        Runtime Semantics: ClassDefinitionEvaluation (
+          _classBinding_: a String or *undefined*,
+          _className_: a property key or a Private Name,
+        ): either a normal completion containing a function object or an abrupt completion
+      </h1>
+      <dl class="header">
+      </dl>
+      <emu-note type="editor">See <a href="https://github.com/tc39/ecma262/pull/3212/files" target="_blank">Editorial: call MakeClassConstructor on default class constructor</a>.</emu-note>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-fundamental-objects" number="20">
+  <h1>Fundamental Objects</h1>
+  <emu-clause id="sec-object-objects" number="1">
+    <h1>Object Objects</h1>
+    <emu-clause id="sec-properties-of-the-object-constructor" number="2">
+      <h1>Properties of the Object Constructor</h1>
+      <emu-clause id="sec-object-@@custommatcher" number="24">
+        <h1>Object [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
+          1. If _subject_ is not an Object, return *false*.
+          1. Return *true*.
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-function-objects" number="2">
+    <h1>Function Objects</h1>
+    <emu-clause id="sec-properties-of-the-function-constructor" number="2">
+      <h1>Properties of the Function Constructor</h1>
+      <emu-clause id="sec-function-@@custommatcher" number="2">
+        <h1>Function [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
+          1. Return IsCallable(_subject_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+    <emu-clause id="sec-properties-of-the-function-prototype-object" number="3">
+      <h1>Properties of the Function Prototype Object</h1>
+      <emu-clause id="sec-function.prototype-@@custommatcher" number="7">
+        <h1>Function [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_).
+          1. Let _func_ be the *this* value.
+          1. If IsCallable(_func_) is false, throw a *TypeError* exception.
+          1. If _func_ does not have a [[IsClassConstructor]] internal slot or _func_.[[IsClassConstructor]] is *false*, return ? Call(_func_, *null*, « _subject_, _hint_ »).
+          1. Assert: _func_ is a constructor function.
+          1. If _subject_.[[ConstructedBy]] contains _func_, return *true*.
+          1. Return *false*.
+        </emu-alg>
+        <emu-note code>
+          <pre><code class="javascript">
+            class C {}
+            c is C; // true, by private-field semantics
+
+            function f() {}
+            class F extends f {}
+            const i = new F();
+            i is F; // true, by private-field semantics
+            i is f; // TypeError because f(i, "boolean") returns undefined
+
+            expr is Array.isArray; // true, by Array.isArray(expr)
+          </code></pre>
+        </emu-note>
+        <emu-note type="editor">
+          Not every champion group agrees with private-field-like brand check semantics.
+          There are
+          <a href="https://github.com/tc39/proposal-pattern-matching/pull/293#issuecomment-1725097699" target="_blank">performance concerns</a>,
+          <a href="https://github.com/tc39/proposal-pattern-matching/pull/293#issuecomment-1725097699" target="_blank">"hackable" concerns</a>, and
+          <a href="https://github.com/tc39/proposal-pattern-matching/pull/293#issuecomment-1725097699" target="_blank">interaction with @@hasInstance concerns</a>.
+          Another approach is to use `instanceof` semantics.
+        </emu-note>
+        <emu-note type="editor">
+          The `this` context is lost in this case: <pre class="inline"><code class="javascript">x is obj.equal;</code></pre>. `obj.equal` is called without a *this* value.
+        </emu-note>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-boolean-objects" number="3">
+    <h1>Boolean Objects</h1>
+    <emu-clause id="sec-properties-of-the-boolean-constructor" number="2">
+      <h1>Properties of the Boolean Constructor</h1>
+      <emu-clause id="sec-boolean-@@custommatcher" number="2">
+        <h1>Boolean [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_).
+          1. If _subject_ is not a Boolean and does not have a [[BooleanData]] internal slot, return *false*.
+          1. If _hint_ is *"boolean"*, return *true*.
+          1. If _subject_ is a Boolean, return CreateArrayFromList(« _subject_ »).
+          1. Return CreateArrayFromList(« _subject_.[[BooleanData]] »).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-symbol-objects" number="4">
+    <h1>Symbol Objects</h1>
+    <emu-clause id="sec-properties-of-the-symbol-constructor" number="2">
+      <h1>Properties of the Symbol Constructor</h1>
+      <emu-clause id="sec-symbol.custommatcher" number="17">
+        <h1>Symbol.customMatcher</h1>
+        <p>The initial value of `Symbol.customMatcher` is the well-known symbol @@customMatcher (<emu-xref href="#table-well-known-symbols"></emu-xref>).</p>
+        <p>This property has the attributes { [[Writable]]: *false*, [[Enumerable]]: *false*, [[Configurable]]: *false* }.</p>
+      </emu-clause>
+      <emu-clause id="sec-symbol-@@custommatcher">
+        <h1>Symbol [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_).
+          1. If _subject_ is not a Symbol and does not have a [[SymbolData]] internal slot, return *false*.
+          1. If _hint_ is *"boolean"*, return *true*.
+          1. If _subject_ is a Symbol, return CreateArrayFromList(« _subject_ »).
+          1. Return CreateArrayFromList(« _subject_.[[SymbolData]] »).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-error-objects" number="5">
+    <h1>Error Objects</h1>
+    <emu-clause id="sec-error-constructor" number="1">
+      <h1>The Error Constructor</h1>
+      <emu-clause id="sec-properties-of-the-error-constructors" number="2">
+        <h1>Properties of the Error Constructor</h1>
+        <emu-clause id="sec-error-@@custommatcher">
+            <h1>Error [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+            <p>This function performs the following steps when called:</p>
+            <emu-alg>
+              1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
+              1. If _subject_ does not have a [[ErrorData]] internal slot, return *false*.
+              1. Return *true*.
+            </emu-alg>
+        </emu-clause>
+        <emu-note type="editor">
+          Built-in subclasses of the Error class do not have their own internal slot,
+          so they inherit the @@customMatcher method,
+          which means code like <pre class="inline"><code class="javascript">err is TypeError;</code></pre>
+          matches any kind of Error like `RangeError`.
+          This is not a consensus in the champion group.
+        </emu-note>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-numbers-and-dates" number="21">
+  <h1>Numbers and Dates</h1>
+  <emu-clause id="sec-number-objects" number="1">
+    <h1>Number Objects</h1>
+    <emu-clause id="sec-properties-of-the-number-constructor" number="2">
+      <h1>Properties of the Number Constructor</h1>
+      <emu-clause id="sec-number-@@custommatcher" number="16">
+        <h1>Number [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_).
+          1. If _subject_ is not a Number and does not have a [[NumberData]] internal slot, return *false*.
+          1. If _hint_ is *"boolean"*, return *true*.
+          1. If _subject_ is a Number, return CreateArrayFromList(« _subject_ »).
+          1. Return CreateArrayFromList(« _subject_.[[NumberData]] »).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-bigint-objects" number="2">
+    <h1>BigInt Objects</h1>
+    <emu-clause id="sec-properties-of-the-bigint-constructor" number="2">
+      <h1>Properties of the BigInt Constructor</h1>
+      <emu-clause id="sec-bigint-@@custommatcher" number="4">
+        <h1>BigInt [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_).
+          1. If _subject_ is not a BigInt and does not have a [[BigIntData]] internal slot, return *false*.
+          1. If _hint_ is *"boolean"*, return *true*.
+          1. If _subject_ is a BigInt, return CreateArrayFromList(« _subject_ »).
+          1. Return CreateArrayFromList(« _subject_.[[BigIntData]] »).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-date-objects" number="4">
+    <h1>Date Objects</h1>
+    <emu-clause id="sec-properties-of-the-date-constructor" number="3">
+      <h1>Properties of the Date Constructor</h1>
+      <emu-clause id="sec-date-@@custommatcher" number="5">
+        <h1>Date [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
+          1. If _subject_ does not have a [[DateValue]] internal slot, return *false*.
+          1. Return *true*.
+        </emu-alg>
+        <emu-note type="editor">It's possible to provide an extractor semantics to match <pre class="inline"><code class="javascript">
+          date is Date(year, month, day, hour, minute, second, millisecond);
+        </code></pre></emu-note>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-text-processing" number="22">
+  <h1>Text Processing</h1>
+  <emu-clause id="sec-string-objects" number="1">
+    <h1>String Objects</h1>
+    <emu-clause id="sec-properties-of-the-string-constructor" number="2">
+      <h1>Properties of the String Constructor</h1>
+      <emu-clause id="sec-string-@@custommatcher" number="5">
+        <h1>String [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_).
+          1. If _subject_ is not a String and does not have a [[StringData]] internal slot, return *false*.
+          1. If _hint_ is *"boolean"*, return *true*.
+          1. If _subject_ is a String, return CreateArrayFromList(« _subject_ »).
+          1. Return CreateArrayFromList(« _subject_.[[StringData]] »).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-regexp-regular-expression-objects" number="2">
+    <h1>RegExp (Regular Expression) Objects</h1>
+    <emu-clause id="sec-properties-of-the-regexp-constructor" number="5">
+      <h1>Properties of the RegExp Constructor</h1>
+      <emu-clause id="sec-regexp-@@custommatcher" number="3">
+        <h1>RegExp [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
+          1. If ? IsRegExp(_subject_) is *false*, return *false*.
+          1. Return *true*.
+        </emu-alg>
+        <emu-note>
+          IsRegExp returns *true* for objects that have a truthy @@match property. Do we want that?
+        </emu-note>
+      </emu-clause>
+    </emu-clause>
+    <emu-clause id="sec-properties-of-the-regexp-prototype-object" number="6">
+      <h1>Properties of the RegExp Prototype Object</h1>
+      <emu-clause id="sec-regexp.prototype-@@custommatcher" number="20">
+        <h1>RegExp.prototype [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
+          1. Let _regexp_ be *this* value.
+          1. If _hint_ is *"boolean"*, return ? Call(%RegExp.prototype.test%, _regexp_, « _subject_ »).
+          1. Let _isRegExp_ be ? IsRegExp(_regexp_).
+          1. If _isRegExp_ is *true*, then
+            1. Let _flags_ be ? Get(_regexp_, "flags").
+            1. Perform ? RequireObjectCoercible(_flags_).
+            1. If ? ToString(_flags_) contain *"g"*, return ? Call(%String.prototype.matchAll%, _subject_, « _regexp_ »).
+          1. Let _result_ be ? Call(%String.prototype.match%, _subject_, « _regexp_ »).
+          1. Return CreateArrayFromList(« _result_ »).
+        </emu-alg>
+        <emu-note code>
+          <pre><code class="javascript">
+            let regex = /(?&gt;id&lt;\d+)-?/g
+            '012-345' is regex(["012-", "012"], { groups: { id: "345" } });
+            // true, match with matchAll
+
+            let regex2 = /(?<id>\d+)-?/
+            '012-345' is regex({ groups: { id: "012" } });
+            // true, match with match
+          </code></pre>
+        </emu-note>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-indexed-collections" number="23">
+  <h1>Indexed Collections</h1>
+  <emu-clause id="sec-array-objects" number="1">
+    <h1>Array Objects</h1>
+    <emu-clause id="sec-properties-of-the-array-constructor" number="2">
+      <h1>Properties of the Array Constructor</h1>
+      <emu-clause id="sec-array-@@custommatcher" number="6">
+        <h1>Array [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_).
+          1. If ? IsArray(_subject_) is *false*, return *false*.
+          1. If _hint_ is *"boolean"*, return *true*.
+          1. Return _subject_.
+        </emu-alg>
+        <emu-note type="editor">
+          It's possible to provide an extractor semantics to convert _subject_ by `Array.from`.
+          <pre><code class="javascript">
+            ({ length: 2, 0: 1, 1: 2 } is Array(1, 2)); // true?
+          </code></pre>
+        </emu-note>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-typedarray-objects" number="2">
+    <h1>TypedArray Objects</h1>
+    <emu-clause id="sec-properties-of-the-typedarray-constructors" number="6">
+      <h1>Properties of the _TypedArray_ Constructors</h1>
+      <emu-clause id="sec-_typedarray_-@@custommatcher" number="3">
+        <h1>_TypedArray_ [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_).
+          1. If _subject_ does not have a [[TypedArrayName]] internal slot or _subject_.[[TypedArrayName]] is not _TypedArray_, return *false*.
+          1. If _hint_ is *"boolean"*, return *true*.
+          1. Return _subject_.
+        </emu-alg>
+        <emu-note code>
+          <pre><code class="javascript">
+            const isPNG = binary is Uint8Array(
+              0x89, 0x50, 0x4E, 0x47,
+              0x0D, 0x0A, 0x1A, 0x0A, ...
+            ); // the ... is necessary otherwise it will only match a length-8 binary.
+          </code></pre>
+        </emu-note>
+        <emu-note type="editor">
+          It's possible to provide an extractor semantics to convert _subject_ into different view.
+          <pre><code class="javascript">
+            new Uint8Array(256) is Int8Array(0); // true?
+          </code></pre>
+        </emu-note>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-keyed-collections" number="24">
+  <h1>Keyed Collections</h1>
+  <emu-clause id="sec-map-objects" number="1">
+    <h1>Map Objects</h1>
+    <emu-clause id="sec-properties-of-the-map-constructor" number="2">
+      <h1>Properties of the Map Constructor</h1>
+      <emu-clause id="sec-map-@@custommatcher" number="3">
+        <h1>Map [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_).
+          1. If _subject_ does not have a [[MapData]] internal slot, return *false*.
+          1. If _hint_ is *"boolean"*, return *true*.
+          1. Return _subject_.
+        </emu-alg>
+        <emu-note type="editor">
+          A Map can be iterated, but is it meaningful to do so in pattern matching?
+          Because <pre class="inline"><code class="javascript">x is Map([a, b], [c, d])</code></pre> is an ordered match.
+        </emu-note>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-set-objects" number="2">
+    <h1>Set Objects</h1>
+    <emu-clause id="sec-properties-of-the-set-constructor" number="2">
+      <h1>Properties of the Set Constructor</h1>
+      <emu-clause id="sec-set-@@custommatcher" number="3">
+        <h1>Set [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_).
+          1. If _subject_ does not have a [[SetData]] internal slot, return *false*.
+          1. If _hint_ is *"boolean"*, return *true*.
+          1. Return _subject_.
+        </emu-alg>
+        <emu-note type="editor">
+          A Set can be iterated, but is it meaningful to do so in pattern matching?
+          Because <pre class="inline"><code class="javascript">x is Set(a, b, c, d)</code></pre> is an ordered match.
+        </emu-note>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-weakmap-objects" number="3">
+    <h1>WeakMap Objects</h1>
+    <emu-clause id="sec-properties-of-the-weakmap-constructor" number="2">
+      <h1>Properties of the WeakMap Constructor</h1>
+      <emu-clause id="sec-weakmap-@@custommatcher" number="2">
+        <h1>WeakMap [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
+          1. If _subject_ does not have a [[WeakMapData]] internal slot, return *false*.
+          1. Return *true*.
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-weakset-objects" number="4">
+    <h1>WeakSet Objects</h1>
+    <emu-clause id="sec-properties-of-the-weakset-constructor" number="2">
+      <h1>Properties of the WeakSet Constructor</h1>
+      <emu-clause id="sec-weakset-@@custommatcher" number="2">
+        <h1>WeakSet [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
+          1. If _subject_ does not have a [[WeakSetData]] internal slot, return *false*.
+          1. Return *true*.
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-structured-data" number="25">
+  <h1>Structured Data</h1>
+  <emu-clause id="sec-arraybuffer-objects" number="1">
+    <h1>ArrayBuffer Objects</h1>
+    <emu-clause id="sec-properties-of-the-arraybuffer-constructor" number="5">
+      <h1>Properties of the ArrayBuffer Constructor</h1>
+      <emu-clause id="sec-arraybuffer-@@custommatcher" number="4">
+        <h1>ArrayBuffer [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
+          1. If _subject_ has a [[ArrayBufferData]] internal slot, return *true*.
+          1. Return *false*.
+        </emu-alg>
+      </emu-clause>
+      <emu-note type="editor">
+        It is possible to provide an extractor semantics to match the buffer property from a TypedArray.
+        <pre><code class="javascript">
+          u8 is ArrayBuffer(buf);
+        </code></pre>
+      </emu-note>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-sharedarraybuffer-objects" number="2">
+    <h1>SharedArrayBuffer Objects</h1>
+    <emu-clause id="sec-properties-of-the-sharedarraybuffer-constructor" number="4">
+      <h1>Properties of the SharedArrayBuffer Constructor</h1>
+      <emu-clause id="sec-sharedarraybuffer-@@custommatcher" number="3">
+        <h1>SharedArrayBuffer [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
+          1. If _subject_ does not have a [[ArrayBufferData]] internal slot, return *false*.
+          1. Return IsSharedArrayBuffer(_subject_).
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-dataview-objects" number="3">
+    <h1>DataView Objects</h1>
+    <emu-clause id="sec-properties-of-the-dataview-constructor" number="3">
+      <h1>Properties of the DataView Constructor</h1>
+      <emu-clause id="sec-dataview-@@custommatcher" number="2">
+        <h1>DataView [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
+          1. If _subject_ does not have a [[DataView]] internal slot, return *false*.
+          1. Return *true*.
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-json-object" number="5">
+    <h1>The JSON Object</h1>
+    <emu-clause id="sec-json-@@custommatcher" number="4">
+      <h1>JSON [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <p>This function performs the following steps when called:</p>
+      <emu-alg>
+        1. Perform ? ValidateCustomMatcherHint(_hint_).
+        1. Let _jsonString_ be ? ToString(_subject_).
+        1. If ! Call(%JSON.canParse%, *undefined*, « _jsonString_ ») is *false*, return *false*.
+        1. If _hint_ is *"boolean"*, return *true*.
+        1. Return CreateArrayFromList(« ! Call(%JSON.parse%, *undefined*, « _jsonString_ ») »).
+      </emu-alg>
+    </emu-clause>
+    <emu-note type="editor">
+      This is not a consensus in the champion group.
+      See the <a href="https://github.com/Jack-Works/proposal-json-canParse/blob/main/README.md" target="_blank">`JSON.canParse` proposal</a>.
+      <pre><code class="javascript">
+        x is JSON({ type: 1 }); // matches string '{ "type": 1 }'
+      </code></pre>
+    </emu-note>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-managing-memory" number="26">
+  <h1>Managing Memory</h1>
+  <emu-clause id="sec-weak-ref-objects" number="1">
+    <h1>WeakRef Objects</h1>
+    <emu-clause id="sec-properties-of-the-weak-ref-constructor" number="2">
+      <h1>Properties of the WeakRef Constructor</h1>
+      <emu-clause id="sec-weakref-@@custommatcher" number="2">
+        <h1>WeakRef [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_).
+          1. If _subject_ does not have a [[WeakRefTarget]] internal slot, return *false*.
+          1. If _hint_ is *"boolean"*, return *true*.
+          1. Return CreateArrayFromList(« WeakRefDeref(_subject_) »).
+        </emu-alg>
+        <emu-note code>
+          <pre><code class="javascript">
+            expr is WeakRef({ type: 1 });
+          </code></pre>
+        </emu-note>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+  <emu-clause id="sec-finalization-registry-objects" number="2">
+    <h1>FinalizationRegistry Objects</h1>
+    <emu-clause id="sec-properties-of-the-finalization-registry-constructor" number="2">
+      <h1>Properties of the FinalizationRegistry Constructor</h1>
+      <emu-clause id="sec-finalizationregistry-@@custommatcher" number="2">
+        <h1>FinalizationRegistry [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
+          1. If _subject_ does not have a [[CleanupCallback]] internal slot, return *false*.
+          1. Return *true*.
+        </emu-alg>
+      </emu-clause>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-control-abstraction-objects" number="27">
+  <h1>Control Abstraction Objects</h1>
+  <emu-clause id="sec-promise-objects" number="2">
+    <h1>Promise Objects</h1>
+    <emu-clause id="sec-properties-of-the-promise-constructor" number="4">
+      <h1>Properties of the Promise Constructor</h1>
+      <emu-clause id="sec-promise-@@custommatcher" number="9">
+        <h1>Promise [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
+          1. Return IsPromise(_subject_).
+        </emu-alg>
+      </emu-clause>
+      <emu-note type="editor">
+        It is possible to provide an extractor semantics to convert a Promise-like into a real Promise.
+        <pre><code class="javascript">
+          when Promise(let promise): ..., // converted with Promise.resolve(value)
+        </code></pre>
+      </emu-note>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-reflection" number="28">
+  <h1>Reflection</h1>
+  <emu-clause id="sec-proxy-objects" number="2">
+    <h1>Proxy Objects</h1>
+    <emu-clause id="sec-proxy-constructor" number="1">
+      <h1>The Proxy Constructor</h1>
+      <emu-clause id="sec-proxy-@@custommatcher" number="2">
+        <h1>Proxy [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Throw a *TypeError* exception.
+        </emu-alg>
+      </emu-clause>
+      <emu-note type="editor">
+        If this method does not exist,
+        <pre class="inline"><code class="javascript">x is Proxy</code></pre> actually does `x === Proxy`.
+        To avoid confusion, this method throws.
+        This is not a consensus in the champion group.
+      </emu-note>
     </emu-clause>
   </emu-clause>
 </emu-clause>
@@ -403,6 +1025,23 @@ contributors:
           const Point{ x, y } = expr;
         </code></pre>
       </emu-note>
+    </emu-clause>
+
+    <emu-clause id="sec-validatecustommatcherhint" type="abstract operation">
+        <h1>
+            ValidateCustomMatcherHint (
+                _hint_: an ECMAScript language value,
+                optional _kind_: ~boolean~ or ~list~,
+            ): either a normal completion containing ~unused~ or a throw completion
+        </h1>
+        <dl class="header">
+        </dl>
+        <emu-alg>
+            1. If _hint_ is not *"boolean"* or *"list"*, throw a *TypeError* exception.
+            1. If _kind_ is not present, return ~unused~.
+            1. If _hint_ is *"boolean"* and _kind_ is ~list~, throw a *TypeError* exception.
+            1. If _hint_ is *"list"* and _kind_ is ~boolean~, throw a *TypeError* exception.
+        </emu-alg>
     </emu-clause>
   </emu-clause>
 </emu-clause>
