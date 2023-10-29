@@ -35,10 +35,12 @@ contributors:
     <h1>Match Patterns</h1>
     <h2>Syntax</h2>
     <emu-grammar type="definition">
-      MatchPattern :
+      MatchPattern[Yield, Await] :
         PrimitivePattern
+        MemberExpressionPattern[?Yield, ?Await]
     </emu-grammar>
 
+    <!-- #region PrimitivePattern -->
     <emu-grammar type="definition">
       PrimitivePattern :
         Literal
@@ -61,6 +63,36 @@ contributors:
         when `${isPackageName and let pkg}:${isIdentifier and let method}()`: ...,
       </code></pre>
     </emu-note>
+    <!-- endregion -->
+
+    <!-- #region MemberExpressionPattern -->
+    <emu-grammar type="definition">
+      MemberExpressionPattern[Yield, Await] :
+        PatternMatchingMemberExpression[?Yield, ?Await]
+
+      PatternMatchingMemberExpression[Yield, Await] :
+        IdentifierReference[?Yield, ?Await]
+        MemberExpressionPattern[?Yield, ?Await] `.` IdentifierName
+    </emu-grammar>
+    <emu-note code>
+      <pre><code class="javascript">
+        value is undefined;
+        value is Math.PI;
+      </code></pre>
+    </emu-note>
+    <emu-note type="editor">
+      The |MemberExpressionPattern| `.` |IdentifierName| production is removable.
+      <pre><code class="javascript">
+        value is Math.PI;
+        // can be written as:
+        const { PI } = Math;
+        value is PI;
+      </code></pre>
+      It is similar to the <a href="https://tc39.es/proposal-decorators/#sec-new-syntax" target="_blank">DecoratorMemberExpression</a>.<br />
+      Should we allow `MemberExpressionPattern[expr]` to match with computed property names?<br />
+      Should we cache the `[[Get]]` call as we do in the object match patterns?
+    </emu-note>
+    <!-- endregion -->
   </emu-clause>
   <emu-clause id="sec-match-pattern-semantics">
     <h1>Match Pattern Semantics</h1>
@@ -78,6 +110,12 @@ contributors:
       </emu-grammar>
       <emu-alg>
         1. Return PrimitivePatternMatches of |PrimitivePattern| with arguments _subject_.
+      </emu-alg>
+      <emu-grammar>
+        MatchPattern : MemberExpressionPattern
+      </emu-grammar>
+      <emu-alg>
+        1. Return ? MemberExpressionPatternMatches of |MemberExpressionPattern| with arguments _subject_.
       </emu-alg>
     </emu-clause>
 
@@ -100,6 +138,25 @@ contributors:
       </emu-grammar>
       <emu-alg>
         1. Return SameValue(_subject_, ! Evaluation of |NoSubstitutionTemplate|).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-member-expression-pattern-matches" type="sdo">
+      <h1>
+        Runtime Semantics: MemberExpressionPatternMatches (
+          _subject_: an ECMAScript language value,
+        ): either a normal completion containing a Boolean or an abrupt completion
+      </h1>
+      <dl class="header">
+      </dl>
+      <emu-grammar>
+        MemberExpressionPattern : PatternMatchingMemberExpression
+      </emu-grammar>
+      <emu-alg>
+        1. Let _expr_ be the |MemberExpression| that is covered by |PatternMatchingMemberExpression|.
+        1. Let _ref_ be ? Evaluation of _expr_.
+        1. Let _value_ be ? GetValue(_ref_).
+        1. Return SameValue(_subject_, _value_).
       </emu-alg>
     </emu-clause>
   </emu-clause>
