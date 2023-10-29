@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/styles/base16/solarized-light.min.css"><link rel="stylesheet" href="assets/ecmarkup.css"><link rel="stylesheet" href="./spec.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 <script src="./spec.js"></script>
-<title>Pattern Matching</title><script src="assets/ecmarkup.js?cache=xx1P5mjE" defer=""></script></head><body><div id="shortcuts-help">
+<title>Pattern Matching</title><script src="assets/ecmarkup.js?cache=Cp8iQCqZ" defer=""></script></head><body><div id="shortcuts-help">
 <ul>
   <li><span>Toggle shortcuts help</span><code>?</code></li>
   <li><span>Toggle "can call user code" annotations</span><code>u</code></li>
@@ -12,7 +12,7 @@
 </ul></div><div id="menu-toggle"><svg xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%; stroke:currentColor" viewBox="0 0 120 120">
       <title>Menu</title>
       <path stroke-width="10" stroke-linecap="round" d="M30,60 h60  M30,30 m0,5 h60  M30,90 m0,-5 h60"></path>
-    </svg></div><div id="menu-spacer" class="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-pattern-matching" title="Pattern Matching"><span class="secnum">30</span> <ins>Pattern Matching</ins></a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-match-patterns" title="Match Patterns"><span class="secnum">30.1</span> Match Patterns</a></li><li><span class="item-toggle">+</span><a href="#sec-match-pattern-semantics" title="Match Pattern Semantics"><span class="secnum">30.2</span> Match Pattern Semantics</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-match-pattern-matches" title="Runtime Semantics: MatchPatternMatches"><span class="secnum">30.2.1</span> RS: MatchPatternMatches</a></li><li><span class="item-toggle-none"></span><a href="#sec-primitive-pattern-matches" title="Runtime Semantics: PrimitivePatternMatches"><span class="secnum">30.2.2</span> RS: PrimitivePatternMatches</a></li><li><span class="item-toggle-none"></span><a href="#sec-member-expression-pattern-matches" title="Runtime Semantics: MemberExpressionPatternMatches"><span class="secnum">30.2.3</span> RS: MemberExpressionPatternMatches</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-abstract-operations-for-pattern-matching" title="Abstract Operations for Pattern Matching"><span class="secnum">30.3</span> Abstract Operations for Pattern Matching</a></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-notes" title="Editor's notes"><span class="secnum">31</span> Editor's notes</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-notes-layering" title="Layering"><span class="secnum">31.1</span> Layering</a></li><li><span class="item-toggle-none"></span><a href="#sec-notes-code-example" title="Code example"><span class="secnum">31.2</span> Code example</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 1 Draft / October 29, 2023</h1><h1 class="title">Pattern Matching</h1>
+    </svg></div><div id="menu-spacer" class="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins</div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle">+</span><a href="#sec-pattern-matching" title="Pattern Matching"><span class="secnum">30</span> <ins>Pattern Matching</ins></a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-match-patterns" title="Match Patterns"><span class="secnum">30.1</span> Match Patterns</a></li><li><span class="item-toggle">+</span><a href="#sec-match-pattern-semantics" title="Match Pattern Semantics"><span class="secnum">30.2</span> Match Pattern Semantics</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-match-pattern-matches" title="Runtime Semantics: MatchPatternMatches"><span class="secnum">30.2.1</span> RS: MatchPatternMatches</a></li><li><span class="item-toggle-none"></span><a href="#sec-primitive-pattern-matches" title="Runtime Semantics: PrimitivePatternMatches"><span class="secnum">30.2.2</span> RS: PrimitivePatternMatches</a></li><li><span class="item-toggle-none"></span><a href="#sec-member-expression-pattern-matches" title="Runtime Semantics: MemberExpressionPatternMatches"><span class="secnum">30.2.3</span> RS: MemberExpressionPatternMatches</a></li><li><span class="item-toggle-none"></span><a href="#sec-unary-algebraic-pattern-matches" title="Runtime Semantics: UnaryAlgebraicPatternMatches"><span class="secnum">30.2.4</span> RS: UnaryAlgebraicPatternMatches</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-abstract-operations-for-pattern-matching" title="Abstract Operations for Pattern Matching"><span class="secnum">30.3</span> Abstract Operations for Pattern Matching</a></li></ol></li><li><span class="item-toggle">+</span><a href="#sec-notes" title="Editor's notes"><span class="secnum">31</span> Editor's notes</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-notes-layering" title="Layering"><span class="secnum">31.1</span> Layering</a></li><li><span class="item-toggle-none"></span><a href="#sec-notes-code-example" title="Code example"><span class="secnum">31.2</span> Code example</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 1 Draft / October 29, 2023</h1><h1 class="title">Pattern Matching</h1>
 <style>
   emu-note[code] > .note {
     font-size: 0;
@@ -35,10 +35,13 @@
     <h2>Syntax</h2>
     <emu-grammar type="definition"><emu-production name="MatchPattern" params="Yield, Await" id="prod-MatchPattern">
     <emu-nt params="Yield, Await"><a href="#prod-MatchPattern">MatchPattern</a><emu-mods><emu-params>[Yield, Await]</emu-params></emu-mods></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="sgh9k7d8" id="prod-NnfvhTBM">
-        <emu-nt id="_ref_3"><a href="#prod-PrimitivePattern">PrimitivePattern</a></emu-nt>
+        <emu-nt id="_ref_4"><a href="#prod-PrimitivePattern">PrimitivePattern</a></emu-nt>
     </emu-rhs>
     <emu-rhs a="y46cfqhm" id="prod-dtu4srcz">
-        <emu-nt params="?Yield, ?Await" id="_ref_4"><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+        <emu-nt params="?Yield, ?Await" id="_ref_5"><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+    </emu-rhs>
+    <emu-rhs a="6m-vwede" id="prod-en0pW04U">
+        <emu-nt params="?Yield, ?Await" id="_ref_6"><a href="#prod-UnaryAlgebraicPattern">UnaryAlgebraicPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
     </emu-rhs>
 </emu-production>
 </emu-grammar>
@@ -71,7 +74,7 @@ line 2`</span>;</code></pre>
     <!-- #region MemberExpressionPattern -->
     <emu-grammar type="definition"><emu-production name="MemberExpressionPattern" params="Yield, Await" id="prod-MemberExpressionPattern">
     <emu-nt params="Yield, Await"><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a><emu-mods><emu-params>[Yield, Await]</emu-params></emu-mods></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="uxdrsrnt" id="prod-G4gXeSPg">
-        <emu-nt params="?Yield, ?Await" id="_ref_5"><a href="#prod-PatternMatchingMemberExpression">PatternMatchingMemberExpression</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+        <emu-nt params="?Yield, ?Await" id="_ref_7"><a href="#prod-PatternMatchingMemberExpression">PatternMatchingMemberExpression</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
     </emu-rhs>
 </emu-production>
 <emu-production name="PatternMatchingMemberExpression" params="Yield, Await" id="prod-PatternMatchingMemberExpression">
@@ -79,7 +82,7 @@ line 2`</span>;</code></pre>
         <emu-nt params="?Yield, ?Await"><a href="https://tc39.es/ecma262/#prod-IdentifierReference">IdentifierReference</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
     </emu-rhs>
     <emu-rhs a="czfvorss">
-        <emu-nt params="?Yield, ?Await" id="_ref_6"><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+        <emu-nt params="?Yield, ?Await" id="_ref_8"><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
         <emu-t>.</emu-t>
         <emu-nt><a href="https://tc39.es/ecma262/#prod-IdentifierName">IdentifierName</a></emu-nt>
     </emu-rhs>
@@ -90,7 +93,7 @@ line 2`</span>;</code></pre>
 value is <span class="hljs-title class_">Math</span>.<span class="hljs-property">PI</span>;</code></pre>
     </div></emu-note>
     <emu-note type="editor"><span class="note">Editor's Note</span><div class="note-contents">
-      The <emu-nt id="_ref_7"><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a></emu-nt> <code>.</code> <emu-nt><a href="https://tc39.es/ecma262/#prod-IdentifierName">IdentifierName</a></emu-nt> production is removable.
+      The <emu-nt id="_ref_9"><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a></emu-nt> <code>.</code> <emu-nt><a href="https://tc39.es/ecma262/#prod-IdentifierName">IdentifierName</a></emu-nt> production is removable.
       <pre><code class="javascript hljs">value is <span class="hljs-title class_">Math</span>.<span class="hljs-property">PI</span>;
 <span class="hljs-comment">// can be written as:</span>
 <span class="hljs-keyword">const</span> { <span class="hljs-variable constant_">PI</span> } = <span class="hljs-title class_">Math</span>;
@@ -98,6 +101,40 @@ value is <span class="hljs-variable constant_">PI</span>;</code></pre>
       It is similar to the <a href="https://tc39.es/proposal-decorators/#sec-new-syntax" target="_blank">DecoratorMemberExpression</a>.<br>
       Should we allow <code>MemberExpressionPattern[expr]</code> to match with computed property names?<br>
       Should we cache the <code><var class="field">[[Get]]</var></code> call as we do in the object match patterns?
+    </div></emu-note>
+    <!-- endregion -->
+
+    <!-- #region UnaryAlgebraicPattern -->
+    <emu-grammar type="definition"><emu-production name="UnaryAlgebraicPattern" params="Yield, Await" id="prod-UnaryAlgebraicPattern">
+    <emu-nt params="Yield, Await"><a href="#prod-UnaryAlgebraicPattern">UnaryAlgebraicPattern</a><emu-mods><emu-params>[Yield, Await]</emu-params></emu-mods></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="qi2orlde">
+        <emu-t>+</emu-t>
+        <emu-nt params="?Yield, ?Await" id="_ref_10"><a href="#prod-PatternMatchingMemberExpression">PatternMatchingMemberExpression</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+    </emu-rhs>
+    <emu-rhs a="vdzozs8g">
+        <emu-t>-</emu-t>
+        <emu-nt params="?Yield, ?Await" id="_ref_11"><a href="#prod-PatternMatchingMemberExpression">PatternMatchingMemberExpression</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+    </emu-rhs>
+    <emu-rhs a="1epwai_f">
+        <emu-t>+</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-NumericLiteral">NumericLiteral</a></emu-nt>
+    </emu-rhs>
+    <emu-rhs a="u8w2p_fz">
+        <emu-t>-</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-NumericLiteral">NumericLiteral</a></emu-nt>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+    <emu-note code=""><span class="note">Note 3</span><div class="note-contents">
+      <pre><code class="javascript hljs">value is -<span class="hljs-number">0</span>; <span class="hljs-comment">// not matching `+0` and vice versa</span>
+value is -<span class="hljs-title class_">Infinity</span>;
+value is -<span class="hljs-title class_">Math</span>.<span class="hljs-property">PI</span>;</code></pre>
+    </div></emu-note>
+    <emu-note type="editor"><span class="note">Editor's Note</span><div class="note-contents">
+      This production is removable, but it will be harder to handle with <code>+0</code> and <code>-0</code>.
+      <pre><code class="javascript hljs">value is -<span class="hljs-title class_">Infinity</span>;
+<span class="hljs-comment">// can be written as:</span>
+<span class="hljs-keyword">const</span> negInf = -<span class="hljs-title class_">Infinity</span>;
+value is negInf;</code></pre>
     </div></emu-note>
     <!-- endregion -->
   </emu-clause>
@@ -108,15 +145,20 @@ value is <span class="hljs-variable constant_">PI</span>;</code></pre>
       <h1><span class="secnum">30.2.1</span> Runtime Semantics: MatchPatternMatches</h1>
       <p>The <emu-xref href="#sec-algorithm-conventions-syntax-directed-operations"><a href="https://tc39.es/ecma262/#sec-algorithm-conventions-syntax-directed-operations">syntax-directed operation</a></emu-xref> MatchPatternMatches takes argument <var>subject</var> (an <emu-xref href="#sec-ecmascript-language-types"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>) and returns either a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion containing</a></emu-xref> a Boolean or an <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">abrupt completion</a></emu-xref>. It is defined piecewise over the following productions:</p>
       <emu-grammar><emu-production name="MatchPattern" collapsed="">
-    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="sgh9k7d8" id="prod-6fPS70C2"><emu-nt id="_ref_8"><a href="#prod-PrimitivePattern">PrimitivePattern</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="sgh9k7d8" id="prod-6fPS70C2"><emu-nt id="_ref_12"><a href="#prod-PrimitivePattern">PrimitivePattern</a></emu-nt></emu-rhs>
 </emu-production>
 </emu-grammar>
-      <emu-alg><ol><li>Return <emu-xref aoid="PrimitivePatternMatches" id="_ref_1"><a href="#sec-primitive-pattern-matches">PrimitivePatternMatches</a></emu-xref> of <emu-nt id="_ref_9"><a href="#prod-PrimitivePattern">PrimitivePattern</a></emu-nt> with arguments <var>subject</var>.</li></ol></emu-alg>
+      <emu-alg><ol><li>Return <emu-xref aoid="PrimitivePatternMatches" id="_ref_1"><a href="#sec-primitive-pattern-matches">PrimitivePatternMatches</a></emu-xref> of <emu-nt id="_ref_13"><a href="#prod-PrimitivePattern">PrimitivePattern</a></emu-nt> with arguments <var>subject</var>.</li></ol></emu-alg>
       <emu-grammar><emu-production name="MatchPattern" collapsed="">
-    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="zftkm5nb" id="prod-vBMoWeeV"><emu-nt id="_ref_10"><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="zftkm5nb" id="prod-vBMoWeeV"><emu-nt id="_ref_14"><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a></emu-nt></emu-rhs>
 </emu-production>
 </emu-grammar>
-      <emu-alg><ol><li>Return ?&nbsp;<emu-xref aoid="MemberExpressionPatternMatches" id="_ref_2"><a href="#sec-member-expression-pattern-matches" class="e-user-code">MemberExpressionPatternMatches</a></emu-xref> of <emu-nt id="_ref_11"><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a></emu-nt> with arguments <var>subject</var>.</li></ol></emu-alg>
+      <emu-alg><ol><li>Return ?&nbsp;<emu-xref aoid="MemberExpressionPatternMatches" id="_ref_2"><a href="#sec-member-expression-pattern-matches" class="e-user-code">MemberExpressionPatternMatches</a></emu-xref> of <emu-nt id="_ref_15"><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a></emu-nt> with arguments <var>subject</var>.</li></ol></emu-alg>
+      <emu-grammar><emu-production name="MatchPattern" collapsed="">
+    <emu-nt><a href="#prod-MatchPattern">MatchPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="gq_1p9nv" id="prod-MW-Egi0C"><emu-nt id="_ref_16"><a href="#prod-UnaryAlgebraicPattern">UnaryAlgebraicPattern</a></emu-nt></emu-rhs>
+</emu-production>
+</emu-grammar>
+      <emu-alg><ol><li>Return ?&nbsp;<emu-xref aoid="UnaryAlgebraicPatternMatches" id="_ref_3"><a href="#sec-unary-algebraic-pattern-matches" class="e-user-code">UnaryAlgebraicPatternMatches</a></emu-xref> of <emu-nt id="_ref_17"><a href="#prod-UnaryAlgebraicPattern">UnaryAlgebraicPattern</a></emu-nt> with arguments <var>subject</var>.</li></ol></emu-alg>
     </emu-clause>
 
     <emu-clause id="sec-primitive-pattern-matches" type="sdo" aoid="PrimitivePatternMatches">
@@ -126,22 +168,31 @@ value is <span class="hljs-variable constant_">PI</span>;</code></pre>
     <emu-nt><a href="#prod-PrimitivePattern">PrimitivePattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="kul-a19e" id="prod-mlLTmHeP"><emu-nt><a href="https://tc39.es/ecma262/#prod-Literal">Literal</a></emu-nt></emu-rhs>
 </emu-production>
 </emu-grammar>
-      <emu-alg><ol><li>Return <emu-xref aoid="SameValue"><a href="https://tc39.es/ecma262/#sec-samevalue">SameValue</a></emu-xref>(<var>subject</var>, !&nbsp;<emu-xref aoid="Evaluation"><a href="https://tc39.es/ecma262/#sec-evaluation">Evaluation</a></emu-xref> of <emu-nt><a href="https://tc39.es/ecma262/#prod-Literal">Literal</a></emu-nt>).</li></ol></emu-alg>
+      <emu-alg><ol><li>Return <emu-xref aoid="SameValueZero"><a href="https://tc39.es/ecma262/#sec-samevaluezero">SameValueZero</a></emu-xref>(<var>subject</var>, !&nbsp;<emu-xref aoid="Evaluation"><a href="https://tc39.es/ecma262/#sec-evaluation">Evaluation</a></emu-xref> of <emu-nt><a href="https://tc39.es/ecma262/#prod-Literal">Literal</a></emu-nt>).</li></ol></emu-alg>
       <emu-grammar><emu-production name="PrimitivePattern" collapsed="">
     <emu-nt><a href="#prod-PrimitivePattern">PrimitivePattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="e_otk8es" id="prod-eFLzsKUd"><emu-nt><a href="https://tc39.es/ecma262/#prod-NoSubstitutionTemplate">NoSubstitutionTemplate</a></emu-nt></emu-rhs>
 </emu-production>
 </emu-grammar>
-      <emu-alg><ol><li>Return <emu-xref aoid="SameValue"><a href="https://tc39.es/ecma262/#sec-samevalue">SameValue</a></emu-xref>(<var>subject</var>, !&nbsp;<emu-xref aoid="Evaluation"><a href="https://tc39.es/ecma262/#sec-evaluation">Evaluation</a></emu-xref> of <emu-nt><a href="https://tc39.es/ecma262/#prod-NoSubstitutionTemplate">NoSubstitutionTemplate</a></emu-nt>).</li></ol></emu-alg>
+      <emu-alg><ol><li>Return <emu-xref aoid="SameValueNonNumber"><a href="https://tc39.es/ecma262/#sec-samevaluenonnumber">SameValueNonNumber</a></emu-xref>(<var>subject</var>, !&nbsp;<emu-xref aoid="Evaluation"><a href="https://tc39.es/ecma262/#sec-evaluation">Evaluation</a></emu-xref> of <emu-nt><a href="https://tc39.es/ecma262/#prod-NoSubstitutionTemplate">NoSubstitutionTemplate</a></emu-nt>).</li></ol></emu-alg>
     </emu-clause>
 
     <emu-clause id="sec-member-expression-pattern-matches" type="sdo" aoid="MemberExpressionPatternMatches">
       <h1><span class="secnum">30.2.3</span> Runtime Semantics: MemberExpressionPatternMatches</h1>
       <p>The <emu-xref href="#sec-algorithm-conventions-syntax-directed-operations"><a href="https://tc39.es/ecma262/#sec-algorithm-conventions-syntax-directed-operations">syntax-directed operation</a></emu-xref> MemberExpressionPatternMatches takes argument <var>subject</var> (an <emu-xref href="#sec-ecmascript-language-types"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>) and returns either a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion containing</a></emu-xref> a Boolean or an <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">abrupt completion</a></emu-xref>. It is defined piecewise over the following productions:</p>
       <emu-grammar><emu-production name="MemberExpressionPattern" collapsed="">
-    <emu-nt><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="887ylmg0" id="prod--tiCo4Kg"><emu-nt id="_ref_12"><a href="#prod-PatternMatchingMemberExpression">PatternMatchingMemberExpression</a></emu-nt></emu-rhs>
+    <emu-nt><a href="#prod-MemberExpressionPattern">MemberExpressionPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="887ylmg0" id="prod--tiCo4Kg"><emu-nt id="_ref_18"><a href="#prod-PatternMatchingMemberExpression">PatternMatchingMemberExpression</a></emu-nt></emu-rhs>
 </emu-production>
 </emu-grammar>
-      <emu-alg><ol><li>Let <var>expr</var> be the <emu-nt><a href="https://tc39.es/ecma262/#prod-MemberExpression">MemberExpression</a></emu-nt> that is <emu-xref href="#sec-syntactic-grammar"><a href="https://tc39.es/ecma262/#sec-syntactic-grammar">covered</a></emu-xref> by <emu-nt id="_ref_13"><a href="#prod-PatternMatchingMemberExpression">PatternMatchingMemberExpression</a></emu-nt>.</li><li>Let <var>ref</var> be ?&nbsp;<emu-xref aoid="Evaluation"><a href="https://tc39.es/ecma262/#sec-evaluation" class="e-user-code">Evaluation</a></emu-xref> of <var>expr</var>.</li><li>Let <var>value</var> be ?&nbsp;<emu-xref aoid="GetValue"><a href="https://tc39.es/ecma262/#sec-getvalue" class="e-user-code">GetValue</a></emu-xref>(<var>ref</var>).</li><li>Return <emu-xref aoid="SameValue"><a href="https://tc39.es/ecma262/#sec-samevalue">SameValue</a></emu-xref>(<var>subject</var>, <var>value</var>).</li></ol></emu-alg>
+      <emu-alg><ol><li>Let <var>expr</var> be the <emu-nt><a href="https://tc39.es/ecma262/#prod-MemberExpression">MemberExpression</a></emu-nt> that is <emu-xref href="#sec-syntactic-grammar"><a href="https://tc39.es/ecma262/#sec-syntactic-grammar">covered</a></emu-xref> by <emu-nt id="_ref_19"><a href="#prod-PatternMatchingMemberExpression">PatternMatchingMemberExpression</a></emu-nt>.</li><li>Let <var>ref</var> be ?&nbsp;<emu-xref aoid="Evaluation"><a href="https://tc39.es/ecma262/#sec-evaluation" class="e-user-code">Evaluation</a></emu-xref> of <var>expr</var>.</li><li>Let <var>value</var> be ?&nbsp;<emu-xref aoid="GetValue"><a href="https://tc39.es/ecma262/#sec-getvalue" class="e-user-code">GetValue</a></emu-xref>(<var>ref</var>).</li><li>Return <emu-xref aoid="SameValueZero"><a href="https://tc39.es/ecma262/#sec-samevaluezero">SameValueZero</a></emu-xref>(<var>subject</var>, <var>value</var>).</li></ol></emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-unary-algebraic-pattern-matches" type="sdo" aoid="UnaryAlgebraicPatternMatches">
+      <h1><span class="secnum">30.2.4</span> Runtime Semantics: UnaryAlgebraicPatternMatches</h1>
+      <p>The <emu-xref href="#sec-algorithm-conventions-syntax-directed-operations"><a href="https://tc39.es/ecma262/#sec-algorithm-conventions-syntax-directed-operations">syntax-directed operation</a></emu-xref> UnaryAlgebraicPatternMatches takes argument <var>subject</var> (an <emu-xref href="#sec-ecmascript-language-types"><a href="https://tc39.es/ecma262/#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>) and returns either a <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">normal completion containing</a></emu-xref> a Boolean or an <emu-xref href="#sec-completion-record-specification-type"><a href="https://tc39.es/ecma262/#sec-completion-record-specification-type">abrupt completion</a></emu-xref>. It is defined piecewise over the following productions:</p>
+      <emu-grammar><emu-production name="UnaryAlgebraicPattern">
+<emu-nt><a href="#prod-UnaryAlgebraicPattern">UnaryAlgebraicPattern</a></emu-nt> <emu-geq>:</emu-geq> </emu-production>
+</emu-grammar>
+      <emu-alg><ol><li>Let <var>expr</var> be the <emu-nt><a href="https://tc39.es/ecma262/#prod-MemberExpression">MemberExpression</a></emu-nt> that is <emu-xref href="#sec-syntactic-grammar"><a href="https://tc39.es/ecma262/#sec-syntactic-grammar">covered</a></emu-xref> by <emu-nt id="_ref_20"><a href="#prod-UnaryAlgebraicPattern">UnaryAlgebraicPattern</a></emu-nt>.</li><li>Let <var>ref</var> be ?&nbsp;<emu-xref aoid="Evaluation"><a href="https://tc39.es/ecma262/#sec-evaluation" class="e-user-code">Evaluation</a></emu-xref> of <var>expr</var>.</li><li>Let <var>value</var> be ?&nbsp;<emu-xref aoid="GetValue"><a href="https://tc39.es/ecma262/#sec-getvalue" class="e-user-code">GetValue</a></emu-xref>(<var>ref</var>).</li><li>Return <emu-xref aoid="SameValue"><a href="https://tc39.es/ecma262/#sec-samevalue">SameValue</a></emu-xref>(<var>subject</var>, <var>value</var>).</li></ol></emu-alg>
     </emu-clause>
   </emu-clause>
   <emu-clause id="sec-abstract-operations-for-pattern-matching">

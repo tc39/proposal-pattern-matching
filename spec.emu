@@ -38,6 +38,7 @@ contributors:
       MatchPattern[Yield, Await] :
         PrimitivePattern
         MemberExpressionPattern[?Yield, ?Await]
+        UnaryAlgebraicPattern[?Yield, ?Await]
     </emu-grammar>
 
     <!-- #region PrimitivePattern -->
@@ -93,6 +94,32 @@ contributors:
       Should we cache the `[[Get]]` call as we do in the object match patterns?
     </emu-note>
     <!-- endregion -->
+
+    <!-- #region UnaryAlgebraicPattern -->
+    <emu-grammar type="definition">
+      UnaryAlgebraicPattern[Yield, Await] :
+        `+` PatternMatchingMemberExpression[?Yield, ?Await]
+        `-` PatternMatchingMemberExpression[?Yield, ?Await]
+        `+` NumericLiteral
+        `-` NumericLiteral
+    </emu-grammar>
+    <emu-note code>
+      <pre><code class="javascript">
+        value is -0; // not matching `+0` and vice versa
+        value is -Infinity;
+        value is -Math.PI;
+      </code></pre>
+    </emu-note>
+    <emu-note type="editor">
+      This production is removable, but it will be harder to handle with `+0` and `-0`.
+      <pre><code class="javascript">
+        value is -Infinity;
+        // can be written as:
+        const negInf = -Infinity;
+        value is negInf;
+      </code></pre>
+    </emu-note>
+    <!-- endregion -->
   </emu-clause>
   <emu-clause id="sec-match-pattern-semantics">
     <h1>Match Pattern Semantics</h1>
@@ -117,6 +144,12 @@ contributors:
       <emu-alg>
         1. Return ? MemberExpressionPatternMatches of |MemberExpressionPattern| with arguments _subject_.
       </emu-alg>
+      <emu-grammar>
+        MatchPattern : UnaryAlgebraicPattern
+      </emu-grammar>
+      <emu-alg>
+        1. Return ? UnaryAlgebraicPatternMatches of |UnaryAlgebraicPattern| with arguments _subject_.
+      </emu-alg>
     </emu-clause>
 
     <emu-clause id="sec-primitive-pattern-matches" type="sdo">
@@ -131,13 +164,13 @@ contributors:
         PrimitivePattern : Literal
       </emu-grammar>
       <emu-alg>
-        1. Return SameValue(_subject_, ! Evaluation of |Literal|).
+        1. Return SameValueZero(_subject_, ! Evaluation of |Literal|).
       </emu-alg>
       <emu-grammar>
         PrimitivePattern : NoSubstitutionTemplate
       </emu-grammar>
       <emu-alg>
-        1. Return SameValue(_subject_, ! Evaluation of |NoSubstitutionTemplate|).
+        1. Return SameValueNonNumber(_subject_, ! Evaluation of |NoSubstitutionTemplate|).
       </emu-alg>
     </emu-clause>
 
@@ -154,6 +187,25 @@ contributors:
       </emu-grammar>
       <emu-alg>
         1. Let _expr_ be the |MemberExpression| that is covered by |PatternMatchingMemberExpression|.
+        1. Let _ref_ be ? Evaluation of _expr_.
+        1. Let _value_ be ? GetValue(_ref_).
+        1. Return SameValueZero(_subject_, _value_).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-unary-algebraic-pattern-matches" type="sdo">
+      <h1>
+        Runtime Semantics: UnaryAlgebraicPatternMatches (
+          _subject_: an ECMAScript language value,
+        ): either a normal completion containing a Boolean or an abrupt completion
+      </h1>
+      <dl class="header">
+      </dl>
+      <emu-grammar>
+        UnaryAlgebraicPattern
+      </emu-grammar>
+      <emu-alg>
+        1. Let _expr_ be the |MemberExpression| that is covered by |UnaryAlgebraicPattern|.
         1. Let _ref_ be ? Evaluation of _expr_.
         1. Let _value_ be ? GetValue(_ref_).
         1. Return SameValue(_subject_, _value_).
