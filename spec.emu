@@ -44,7 +44,6 @@ contributors:
   <p>Most of the trivia (built-in matchers) is folded. Some non-trivia sections you might be interested in:</p>
   <ul>
     <li><emu-xref title href="#sec-function-@@custommatcher"></emu-xref></li>
-    <li><emu-xref title href="#sec-json-@@custommatcher"></emu-xref></li>
     <li><emu-xref title href="#sec-initializeinstance"></emu-xref></li>
     <li><emu-xref title href="#sec-runtime-semantics-classdefinitionevaluation"></emu-xref></li>
   </ul>
@@ -178,15 +177,14 @@ contributors:
     <emu-clause id="sec-properties-of-the-function-prototype-object" number="3">
       <h1>Properties of the Function Prototype Object</h1>
       <emu-clause id="sec-function.prototype-@@custommatcher" number="7">
-        <h1>Function [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <h1>Function.prototype [ @@customMatcher ] ( _subject_, _hint_, _receiver_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_).
           1. Let _func_ be the *this* value.
           1. If IsCallable(_func_) is false, throw a *TypeError* exception.
-          1. If _func_ does not have a [[IsClassConstructor]] internal slot or _func_.[[IsClassConstructor]] is *false*, return ? Call(_func_, *null*, « _subject_, _hint_ »).
-          1. Assert: _func_ is a constructor function.
           1. If _subject_.[[ConstructedBy]] contains _func_, return *true*.
+          1. If _func_ does not have a [[IsClassConstructor]] internal slot or _func_.[[IsClassConstructor]] is *false*, return ? Call(_func_, _receiver_, « _subject_, _hint_ »).
           1. Return *false*.
         </emu-alg>
         <emu-note code>
@@ -198,7 +196,7 @@ contributors:
             class F extends f {}
             const i = new F();
             i is F; // true, by private-field semantics
-            i is f; // TypeError because f(i, "boolean") returns undefined
+            i is f; // true, by private-field semantics even if f is a normal function
 
             expr is Array.isArray; // true, by Array.isArray(expr)
           </code></pre>
@@ -210,9 +208,6 @@ contributors:
           <a href="https://github.com/tc39/proposal-pattern-matching/pull/293#issuecomment-1725097699" target="_blank">"hackable" concerns</a>, and
           <a href="https://github.com/tc39/proposal-pattern-matching/pull/293#issuecomment-1725097699" target="_blank">interaction with @@hasInstance concerns</a>.
           Another approach is to use `instanceof` semantics.
-        </emu-note>
-        <emu-note type="editor">
-          The `this` context is lost in this case: <pre class="inline"><code class="javascript">x is obj.equal;</code></pre>. `obj.equal` is called without a *this* value.
         </emu-note>
       </emu-clause>
     </emu-clause>
@@ -331,9 +326,6 @@ contributors:
           1. If _subject_ does not have a [[DateValue]] internal slot, return *false*.
           1. Return *true*.
         </emu-alg>
-        <emu-note type="editor">It's possible to provide an extractor semantics to match <pre class="inline"><code class="javascript">
-          date is Date(year, month, day, hour, minute, second, millisecond);
-        </code></pre></emu-note>
       </emu-clause>
     </emu-clause>
   </emu-clause>
@@ -394,11 +386,11 @@ contributors:
         </emu-alg>
         <emu-note code>
           <pre><code class="javascript">
-            let regex = /(?&gt;id&lt;\d+)-?/g
+            let regex = /(?&lt;id&gt;\d+)-?/g
             '012-345' is regex(["012-", "012"], { groups: { id: "345" } });
             // true, match with matchAll
 
-            let regex2 = /(?<id>\d+)-?/
+            let regex2 = /(?&lt;id&gt;\d+)-?/
             '012-345' is regex({ groups: { id: "012" } });
             // true, match with match
           </code></pre>
@@ -423,12 +415,6 @@ contributors:
           1. If _hint_ is *"boolean"*, return *true*.
           1. Return _subject_.
         </emu-alg>
-        <emu-note type="editor">
-          It's possible to provide an extractor semantics to convert _subject_ by `Array.from`.
-          <pre><code class="javascript">
-            ({ length: 2, 0: 1, 1: 2 } is Array(1, 2)); // true?
-          </code></pre>
-        </emu-note>
       </emu-clause>
     </emu-clause>
   </emu-clause>
@@ -453,12 +439,6 @@ contributors:
             ); // the ... is necessary otherwise it will only match a length-8 binary.
           </code></pre>
         </emu-note>
-        <emu-note type="editor">
-          It's possible to provide an extractor semantics to convert _subject_ into different view.
-          <pre><code class="javascript">
-            new Uint8Array(256) is Int8Array(0); // true?
-          </code></pre>
-        </emu-note>
       </emu-clause>
     </emu-clause>
   </emu-clause>
@@ -477,11 +457,18 @@ contributors:
           1. Perform ? ValidateCustomMatcherHint(_hint_).
           1. If _subject_ does not have a [[MapData]] internal slot, return *false*.
           1. If _hint_ is *"boolean"*, return *true*.
-          1. Return _subject_.
+          1. Return CreateArrayFromList(« _subject_ »).
         </emu-alg>
+        <emu-note code>
+          <pre><code class="javascript">
+            expr is Map([[1, 2], [3, 4]]);
+            // matches new Map([[1, 2], [3, 4]])
+            // but not new Map([[3, 4], [1, 2]])
+          </code></pre>
+        </emu-note>
         <emu-note type="editor">
           A Map can be iterated, but is it meaningful to do so in pattern matching?
-          Because <pre class="inline"><code class="javascript">x is Map([a, b], [c, d])</code></pre> is an ordered match.
+          Because <pre class="inline"><code class="javascript">x is Map([[a, b], [c, d]])</code></pre> is an ordered match.
         </emu-note>
       </emu-clause>
     </emu-clause>
@@ -497,8 +484,15 @@ contributors:
           1. Perform ? ValidateCustomMatcherHint(_hint_).
           1. If _subject_ does not have a [[SetData]] internal slot, return *false*.
           1. If _hint_ is *"boolean"*, return *true*.
-          1. Return _subject_.
+          1. Return CreateArrayFromList(« _subject_ »).
         </emu-alg>
+        <emu-note code>
+          <pre><code class="javascript">
+            expr is Set([1, 2, 3]);
+            // matches new Set([1, 2, 3])
+            // but not new Set([3, 2, 1])
+          </code></pre>
+        </emu-note>
         <emu-note type="editor">
           A Set can be iterated, but is it meaningful to do so in pattern matching?
           Because <pre class="inline"><code class="javascript">x is Set(a, b, c, d)</code></pre> is an ordered match.
@@ -553,12 +547,6 @@ contributors:
           1. Return *false*.
         </emu-alg>
       </emu-clause>
-      <emu-note type="editor">
-        It is possible to provide an extractor semantics to match the buffer property from a TypedArray.
-        <pre><code class="javascript">
-          u8 is ArrayBuffer(buf);
-        </code></pre>
-      </emu-note>
     </emu-clause>
   </emu-clause>
   <emu-clause id="sec-sharedarraybuffer-objects" number="2">
@@ -590,27 +578,6 @@ contributors:
         </emu-alg>
       </emu-clause>
     </emu-clause>
-  </emu-clause>
-  <emu-clause id="sec-json-object" number="5">
-    <h1>The JSON Object</h1>
-    <emu-clause id="sec-json-@@custommatcher" number="4">
-      <h1>JSON [ @@customMatcher ] ( _subject_, _hint_ )</h1>
-      <p>This function performs the following steps when called:</p>
-      <emu-alg>
-        1. Perform ? ValidateCustomMatcherHint(_hint_).
-        1. Let _jsonString_ be ? ToString(_subject_).
-        1. If ! Call(%JSON.canParse%, *undefined*, « _jsonString_ ») is *false*, return *false*.
-        1. If _hint_ is *"boolean"*, return *true*.
-        1. Return CreateArrayFromList(« ! Call(%JSON.parse%, *undefined*, « _jsonString_ ») »).
-      </emu-alg>
-    </emu-clause>
-    <emu-note type="editor">
-      This is not a consensus in the champion group.
-      See the <a href="https://github.com/Jack-Works/proposal-json-canParse/blob/main/README.md" target="_blank">`JSON.canParse` proposal</a>.
-      <pre><code class="javascript">
-        x is JSON({ type: 1 }); // matches string '{ "type": 1 }'
-      </code></pre>
-    </emu-note>
   </emu-clause>
 </emu-clause>
 
@@ -668,12 +635,6 @@ contributors:
           1. Return IsPromise(_subject_).
         </emu-alg>
       </emu-clause>
-      <emu-note type="editor">
-        It is possible to provide an extractor semantics to convert a Promise-like into a real Promise.
-        <pre><code class="javascript">
-          when Promise(let promise): ..., // converted with Promise.resolve(value)
-        </code></pre>
-      </emu-note>
     </emu-clause>
   </emu-clause>
 </emu-clause>
@@ -747,17 +708,24 @@ contributors:
         PatternMatchingMemberExpression[?Yield, ?Await]
 
       PatternMatchingMemberExpression[Yield, Await] :
+        `this`
+        `super` `.` IdentifierName
+        MetaProperty
         IdentifierReference[?Yield, ?Await]
-        MemberExpressionPattern[?Yield, ?Await] `.` IdentifierName
+        PatternMatchingMemberExpression[?Yield, ?Await] `.` IdentifierName
+        PatternMatchingMemberExpression[?Yield, ?Await] `?.` IdentifierName
+        PatternMatchingMemberExpression[?Yield, ?Await] `.` PrivateIdentifier
+        PatternMatchingMemberExpression[?Yield, ?Await] `?.` PrivateIdentifier
     </emu-grammar>
     <emu-note code>
       <pre><code class="javascript">
-        value is undefined;
-        value is Math.PI;
+        value is undefined; value is Math.PI;
+        value is this; value is obj.#priv;
+        value is super.foo; value is import.meta.data?.value;
       </code></pre>
     </emu-note>
     <emu-note type="editor">
-      The |MemberExpressionPattern| `.` |IdentifierName| production is removable.
+      All productions except |IdentifierReference| is removable.
       <pre><code class="javascript">
         value is Math.PI;
         // can be written as:
@@ -930,7 +898,9 @@ contributors:
         1. Let _expr_ be the |MemberExpression| that is covered by |PatternMatchingMemberExpression|.
         1. Let _ref_ be ? Evaluation of _expr_.
         1. Let _value_ be ? GetValue(_ref_).
-        1. Let _result_ be ? InvokeCustomMatcher(_value_, _subject_, ~boolean~).
+        1. If _ref_ is a Reference Record and IsPropertyReference(_ref_) is *true*, let _receiver_ be GetThisValue(_ref_).
+        1. Else, let _receiver_ be *null*.
+        1. Let _result_ be ? InvokeCustomMatcher(_value_, _subject_, ~boolean~, _receiver_).
         1. Assert: _result_ is a Boolean.
         1. Return _result_.
       </emu-alg>
@@ -998,6 +968,7 @@ contributors:
           _matcher_: an ECMAScript language value,
           _subject_: an ECMAScript language value,
           _kind_: ~boolean~ or ~list~,
+          _receiver_: an ECMAScript language value,
         ): either a normal completion containing either a Boolean or an Iterator Record, or an abrupt completion
       </ins></h1>
       <dl class="header">
@@ -1009,7 +980,7 @@ contributors:
         1. If IsCallable(_matcher_) is *false*, throw a *TypeError* exception.
         1. If _kind_ is ~boolean~, let _hint_ be *"boolean"*.
         1. Else, let _hint_ be *"list"*.
-        1. Let _result_ be ? Call(_f_, _matcher_, « _subject_, _hint_ »).
+        1. Let _result_ be ? Call(_f_, _matcher_, « _subject_, _hint_, _receiver_ »).
         1. If _result_ is *false*, return *false*.
         1. Else if _result_ is *true* and _kind_ is ~boolean~, return *true*.
         1. Else if _result_ is not an Object, throw a *TypeError* exception.
