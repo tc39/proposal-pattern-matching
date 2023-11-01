@@ -43,7 +43,7 @@ contributors:
   <p>Work in progress. Before continuing, please read the <emu-xref href="#sec-notes" title></emu-xref>.</p>
   <p>Most of the trivia (built-in matchers) is folded. Some non-trivia sections you might be interested in:</p>
   <ul>
-    <li><emu-xref title href="#sec-function-@@custommatcher"></emu-xref></li>
+    <li><emu-xref title href="#sec-function.prototype-@@custommatcher"></emu-xref></li>
     <li><emu-xref title href="#sec-initializeinstance"></emu-xref></li>
     <li><emu-xref title href="#sec-runtime-semantics-classdefinitionevaluation"></emu-xref></li>
   </ul>
@@ -120,8 +120,35 @@ contributors:
         1. <ins>Append _constructor_ to _O_.[[ConstructedBy]].</ins>
         1. Return ~unused~.
       </emu-alg>
-      <emu-note>The [[ConstructedBy]] field also contains normal functions, but it is inaccessible because this field is used with functions that have a truthy [[IsClassConstructor]] field. An implementation may omit the append of normal functions.</emu-note>
-      <emu-note type="editor">Rename this AO to <dfn>InitializeInstance</dfn>.</emu-note>
+      <emu-note type="editor">Rename this abstract operation to <dfn>InitializeInstance</dfn>.</emu-note>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-executable-code-and-execution-contexts" number="9">
+  <h1>Executable Code and Execution Contexts</h1>
+  <emu-clause id="sec-weakly-hold-targets-processing-model" oldids="sec-weakref-processing-model" number="10">
+    <h1>Processing Model of <del>WeakRef and FinalizationRegistry</del><ins>weakly hold</ins> Targets</h1>
+    <emu-clause id="sec-weakly-hold-execution" oldids="sec-weakref-execution" number="3">
+      <h1>Execution</h1>
+
+      <p>At any time, if a set of objects and/or symbols _S_ is not live, an ECMAScript implementation may perform the following steps atomically:</p>
+
+      <emu-alg>
+        1. For each element _value_ of _S_, do
+          1. For each WeakRef _ref_ such that _ref_.[[WeakRefTarget]] is _value_, do
+            1. Set _ref_.[[WeakRefTarget]] to ~empty~.
+          1. For each FinalizationRegistry _fg_ such that _fg_.[[Cells]] contains a Record _cell_ such that _cell_.[[WeakRefTarget]] is _value_, do
+            1. Set _cell_.[[WeakRefTarget]] to ~empty~.
+            1. Optionally, perform HostEnqueueFinalizationRegistryCleanupJob(_fg_).
+          1. For each WeakMap _map_ such that _map_.[[WeakMapData]] contains a Record _r_ such that _r_.[[Key]] is _value_, do
+            1. Set _r_.[[Key]] to ~empty~.
+            1. Set _r_.[[Value]] to ~empty~.
+          1. For each WeakSet _set_ such that _set_.[[WeakSetData]] contains _value_, do
+            1. Replace the element of _set_.[[WeakSetData]] whose value is _value_ with an element whose value is ~empty~.
+          1. <ins>For each Object _o_ such that _o_.[[ConstructedBy]] contains _value_, do</ins>
+            1. <ins>Remove _value_ from _o_.[[ConstructedBy]].</ins>
+      </emu-alg>
     </emu-clause>
   </emu-clause>
 </emu-clause>
@@ -415,6 +442,11 @@ contributors:
           1. If _hint_ is *"boolean"*, return *true*.
           1. Return _subject_.
         </emu-alg>
+        <emu-note code>
+          <pre><code class="javascript">
+            expr is Array(1, 2, 3, 4);
+          </code></pre>
+        </emu-note>
       </emu-clause>
     </emu-clause>
   </emu-clause>
@@ -646,16 +678,14 @@ contributors:
     <emu-clause id="sec-proxy-constructor" number="1">
       <h1>The Proxy Constructor</h1>
       <emu-clause id="sec-proxy-@@custommatcher" number="2">
-        <h1>Proxy [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <h1>Proxy [ @@customMatcher ] ( )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Throw a *TypeError* exception.
         </emu-alg>
       </emu-clause>
       <emu-note type="editor">
-        If this method does not exist,
-        <pre class="inline"><code class="javascript">x is Proxy</code></pre> actually does `x === Proxy`.
-        To avoid confusion, this method throws.
+        All built-in constructors have a @@customMatcher method. This one is for the design consistency.<br />
         This is not a consensus in the champion group.
       </emu-note>
     </emu-clause>
@@ -709,9 +739,9 @@ contributors:
 
       PatternMatchingMemberExpression[Yield, Await] :
         `this`
-        `super` `.` IdentifierName
         MetaProperty
         IdentifierReference[?Yield, ?Await]
+        `super` `.` IdentifierName
         PatternMatchingMemberExpression[?Yield, ?Await] `.` IdentifierName
         PatternMatchingMemberExpression[?Yield, ?Await] `?.` IdentifierName
         PatternMatchingMemberExpression[?Yield, ?Await] `.` PrivateIdentifier
@@ -733,8 +763,7 @@ contributors:
         value is PI;
       </code></pre>
       It is similar to the <a href="https://tc39.es/proposal-decorators/#sec-new-syntax" target="_blank">DecoratorMemberExpression</a>.<br />
-      Should we allow `MemberExpressionPattern[expr]` to match with computed property names?<br />
-      Should we cache the `[[Get]]` call as we do in the object match patterns?
+      Should we allow `MemberExpressionPattern[expr]` to match with computed property names?
     </emu-note>
     <!-- endregion -->
 
@@ -895,7 +924,7 @@ contributors:
         MemberExpressionPattern : PatternMatchingMemberExpression
       </emu-grammar>
       <emu-alg>
-        1. Let _expr_ be the |MemberExpression| that is covered by |PatternMatchingMemberExpression|.
+        1. Let _expr_ be the |LeftHandSideExpression| that is covered by |PatternMatchingMemberExpression|.
         1. Let _ref_ be ? Evaluation of _expr_.
         1. Let _value_ be ? GetValue(_ref_).
         1. If _ref_ is a Reference Record and IsPropertyReference(_ref_) is *true*, let _receiver_ be GetThisValue(_ref_).
@@ -918,7 +947,7 @@ contributors:
         UnaryAlgebraicPattern
       </emu-grammar>
       <emu-alg>
-        1. Let _expr_ be the |MemberExpression| that is covered by |UnaryAlgebraicPattern|.
+        1. Let _expr_ be the |LeftHandSideExpression| that is covered by |UnaryAlgebraicPattern|.
         1. Let _ref_ be ? Evaluation of _expr_.
         1. Let _value_ be ? GetValue(_ref_).
         1. Return SameValue(_subject_, _value_).
@@ -974,16 +1003,15 @@ contributors:
       <dl class="header">
       </dl>
       <emu-alg>
-        1. If _matcher_ is not an Object, then
-          1. Return SameValueZero(_matcher_, _subject_).
+        1. If _matcher_ is not an Object, return SameValueZero(_matcher_, _subject_).
         1. Let _f_ be ? Get(_matcher_, @@customMatcher).
-        1. If IsCallable(_matcher_) is *false*, throw a *TypeError* exception.
+        1. If _f_ is *undefined*, return SameValueNonNumber(_matcher_, _subject_).
         1. If _kind_ is ~boolean~, let _hint_ be *"boolean"*.
         1. Else, let _hint_ be *"list"*.
         1. Let _result_ be ? Call(_f_, _matcher_, « _subject_, _hint_, _receiver_ »).
         1. If _result_ is *false*, return *false*.
-        1. Else if _result_ is *true* and _kind_ is ~boolean~, return *true*.
-        1. Else if _result_ is not an Object, throw a *TypeError* exception.
+        1. If _result_ is *true* and _kind_ is ~boolean~, return *true*.
+        1. If _result_ is not an Object, throw a *TypeError* exception.
         1. Let _iterator_ be ? GetIterator(_result_, ~sync~).
         1. If _kind_ is ~boolean~, then
           1. Perform ? IteratorClose(_iterator_, a normal completion with a value of unused).
