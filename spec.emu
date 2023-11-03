@@ -823,6 +823,7 @@ contributors:
     <h2>Syntax</h2>
     <emu-grammar type="definition">
       MatchPattern[Yield, Await] :
+        `void`
         `(` MatchPattern[?Yield, ?Await] `)`
         PrimitivePattern
         RegularExpressionPattern
@@ -832,6 +833,16 @@ contributors:
         IfPattern[?Yield, ?Await]
         CombinedMatchPattern[?Yield, ?Await]
     </emu-grammar>
+
+    <emu-note type="editor">
+      The production `void` can be removed. The consensus is to add `void` for both `using` declaration and deconstruction. It might be a follow-on proposal.
+      <pre><code class="javascript">
+        expr is [void, void, 1];
+        // can be written as:
+        expr is [,, 1];
+        expr is [let _unused1, let _unused2, 1];
+      </code></pre>
+    </emu-note>
 
     <!-- #region PrimitivePattern -->
     <emu-grammar type="definition">
@@ -1129,6 +1140,12 @@ contributors:
       </h1>
       <dl class="header">
       </dl>
+      <emu-grammar>
+        MatchPattern : `void`
+      </emu-grammar>
+      <emu-alg>
+        1. Return *true*.
+      </emu-alg>
       <emu-grammar>
         MatchPattern : `(` MatchPattern `)`
       </emu-grammar>
