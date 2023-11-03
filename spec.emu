@@ -82,7 +82,7 @@ contributors:
                 <ins>`"Symbol.customMatcher"`</ins>
               </td>
               <td>
-                <ins>A method that performs custom pattern matching semantics. Called by the semantics of the pattern matching features.</ins>
+                <ins>A method that performs custom pattern matching semantics. Called by the semantics of the pattern-matching features.</ins>
               </td>
             </tr>
             </tbody>
@@ -257,7 +257,7 @@ contributors:
           <a href="https://github.com/tc39/proposal-pattern-matching/pull/293#issuecomment-1725097699" target="_blank">performance concerns</a>,
           <a href="https://github.com/tc39/proposal-pattern-matching/pull/293#issuecomment-1725097699" target="_blank">"hackable" concerns</a>, and
           <a href="https://github.com/tc39/proposal-pattern-matching/pull/293#issuecomment-1725097699" target="_blank">interaction with @@hasInstance concerns</a>.
-          Another approach is to use `instanceof` semantics.
+          Another approach is to use the `instanceof` semantics.
         </emu-note>
       </emu-clause>
     </emu-clause>
@@ -808,7 +808,7 @@ contributors:
         </emu-alg>
       </emu-clause>
       <emu-note type="editor">
-        All built-in constructors have a @@customMatcher method. This one is for the design consistency.<br />
+        All built-in constructors have a @@customMatcher method. This one is for design consistency.<br />
         This is not a consensus in the champion group.
       </emu-note>
     </emu-clause>
@@ -827,6 +827,7 @@ contributors:
         PrimitivePattern
         MemberExpressionPattern[?Yield, ?Await]
         UnaryAlgebraicPattern[?Yield, ?Await]
+        RelationalPattern[?Yield, ?Await]
         IfPattern[?Yield, ?Await]
         CombinedMatchPattern[?Yield, ?Await]
     </emu-grammar>
@@ -894,6 +895,9 @@ contributors:
     <!-- #region UnaryAlgebraicPattern -->
     <emu-grammar type="definition">
       UnaryAlgebraicPattern[Yield, Await] :
+        PatternMatchingUnaryAlgebraicExpression[?Yield, ?Await]
+
+      PatternMatchingUnaryAlgebraicExpression[Yield, Await] :
         `+` PatternMatchingMemberExpression[?Yield, ?Await]
         `-` PatternMatchingMemberExpression[?Yield, ?Await]
         `+` NumericLiteral
@@ -913,6 +917,109 @@ contributors:
         // can be written as:
         const negInf = -Infinity;
         value is negInf;
+      </code></pre>
+    </emu-note>
+    <!-- endregion -->
+
+    <!-- #region RelationalPattern -->
+    <emu-grammar type="definition">
+      RelationalPattern[Yield, Await] :
+        `<` PatternMatchingAlgebraicExpression[?Yield, ?Await]
+        `>` PatternMatchingAlgebraicExpression[?Yield, ?Await]
+        `<=` PatternMatchingAlgebraicExpression[?Yield, ?Await]
+        `>=` PatternMatchingAlgebraicExpression[?Yield, ?Await]
+        `instanceof` PatternMatchingMemberExpression[?Yield, ?Await]
+        `has` PatternMatchingStringLikeExpression[?Yield, ?Await]
+        `has` PrivateIdentifier
+        `==` PatternMatchingExpression[?Yield, ?Await]
+        `!=` PatternMatchingExpression[?Yield, ?Await]
+        `===` PatternMatchingExpression[?Yield, ?Await]
+        `!==` PatternMatchingExpression[?Yield, ?Await]
+
+      PatternMatchingAlgebraicExpression[Yield, Await] :
+        NumericLiteral
+        PatternMatchingUnaryAlgebraicExpression[?Yield, ?Await]
+
+      PatternMatchingStringLikeExpression[Yield, Await] :
+        StringLiteral
+        NoSubstitutionTemplate
+        PatternMatchingMemberExpression[?Yield, ?Await]
+
+      PatternMatchingExpression[Yield, Await] :
+        Literal
+        NoSubstitutionTemplate
+        PatternMatchingMemberExpression[?Yield, ?Await]
+        PatternMatchingUnaryAlgebraicExpression[?Yield, ?Await]
+    </emu-grammar>
+    <emu-note code>
+      <pre><code class="javascript">
+        expr is &gt; -10 and &lt; 10;
+        expr is { value: instanceof Map }; // expr.value instanceof Map
+        expr is { value: has #priv }; // #priv in expr.value
+        expr is [=== Array, === Object];
+      </code></pre>
+    </emu-note>
+    <emu-note type="editor">
+      <p>It's possible to add the following production.</p>
+      <emu-grammar>
+        RelationalPattern[Yield, Await] :
+          `typeof` `==` PatternMatchingStringLikeExpression[?Yield, ?Await]
+          `typeof` `!=` PatternMatchingStringLikeExpression[?Yield, ?Await]
+          `typeof` `===` PatternMatchingStringLikeExpression[?Yield, ?Await]
+          `typeof` `!==` PatternMatchingStringLikeExpression[?Yield, ?Await]
+      </emu-grammar>
+      <p>The recommend way to match a String is to use the <emu-xref href="#sec-string-@@custommatcher" title></emu-xref>, but it can be replaced. This production adds the ability to do the unforgable `typeof` test.</p>
+      <pre><code class="javascript">
+        value is { value: String };
+        // can be written as this if built-ins might be replaced:
+        const isString = { [Symbol.customMatcher](val) {
+          return typeof val === "string";
+        } };
+        value is { value: isString };
+      </code></pre>
+    </emu-note>
+    <emu-note type="editor">
+      <p>The `instanceof` production can be removed, but it will be harder to match by `instanceof` semantics.</p>
+      <p>This feature is not a consensus in the champion group.</p>
+      <pre class="inline"><code class="javascript">expr is Map;</code></pre>
+      <p>The class matchers match by private-field semantics, the `instanceof` match is an escape hatch to match with the `instanceof` semantics.</p>
+      <pre><code class="javascript">
+        value is instanceof Map;
+        // can be written as:
+        function isInstanceOfMap(val) { return val instanceof Map; }
+        value is isInstanceOfMap;
+      </code></pre>
+    </emu-note>
+    <emu-note type="editor">
+      <p>The `==`, `!=`, `===` and `!==` production can be removed, but it will be harder to match by `===` semantics when the |PatternMatchingExpression| is a custom matcher.</p>
+      <p>This feature is not a consensus in the champion group.</p>
+      <pre class="inline"><code class="javascript">expr is x;</code></pre>
+      <p>The code above will try to use <var>x</var> as a custom matcher when possible, then do the `===` check as a fallback. This feature is an opt-out of the custom matcher, to always do the `===` check.</p>
+      <pre><code class="javascript">
+        expr is { value: === x };
+        // can be written as:
+        function isEqToX(val) { return val === x; }
+        value is { value: x };
+      </code></pre>
+    </emu-note>
+    <emu-note type="editor">
+      <p>The `has` production can be removed, but it will be harder to match by `in` semantics.</p>
+      <p>This feature is not a consensus in the champion group.</p>
+      <pre><code class="javascript">
+        value is { value: has #priv };
+        // can be written as:
+        function hasPrivateField(val) { return #priv in val; }
+        value is { value: hasPrivateField };
+      </code></pre>
+    </emu-note>
+    <emu-note type="editor">
+      <p>The `&gt;`, `&lt;`, `&gt;=` and `&lt;=` production can be removed, but it will be harder to match numbers.</p>
+      <p>This feature is not a consensus in the champion group.</p>
+      <pre><code class="javascript">
+        value is &gt; -10 and &lt; 10;
+        // can be written as:
+        function isInRangeMinus10To10(val) { return val &gt; 10 && val &lt; 10; }
+        value is isInRangeMinus10To10;
       </code></pre>
     </emu-note>
     <!-- endregion -->
@@ -1025,6 +1132,12 @@ contributors:
         1. Return ? UnaryAlgebraicPatternMatches of |UnaryAlgebraicPattern| with arguments _subject_.
       </emu-alg>
       <emu-grammar>
+        MatchPattern : RelationalPattern
+      </emu-grammar>
+      <emu-alg>
+        1. Return ? RelationalPatternMatches of |RelationalPattern| with arguments _subject_.
+      </emu-alg>
+      <emu-grammar>
         MatchPattern : IfPattern
       </emu-grammar>
       <emu-alg>
@@ -1092,13 +1205,131 @@ contributors:
       <dl class="header">
       </dl>
       <emu-grammar>
-        UnaryAlgebraicPattern
+        UnaryAlgebraicPattern : PatternMatchingUnaryAlgebraicExpression
       </emu-grammar>
       <emu-alg>
-        1. Let _expr_ be the |LeftHandSideExpression| that is covered by |UnaryAlgebraicPattern|.
+        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingUnaryAlgebraicExpression|.
         1. Let _ref_ be ? Evaluation of _expr_.
         1. Let _value_ be ? GetValue(_ref_).
         1. Return SameValue(_subject_, _value_).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-relational-pattern-matches" type="sdo">
+      <h1>
+        Runtime Semantics: RelationalPatternMatches (
+          _subject_: an ECMAScript language value,
+        ): either a normal completion containing a Boolean or an abrupt completion
+      </h1>
+      <dl class="header">
+      </dl>
+      <emu-grammar>
+        RelationalPattern : `<` PatternMatchingAlgebraicExpression
+      </emu-grammar>
+      <emu-alg>
+        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingAlgebraicExpression|.
+        1. Let _ref_ be ? Evaluation of _expr_.
+        1. Let _value_ be ? GetValue(_ref_).
+        1. Let _r_ be ? IsLessThan(_subject_, _value_, *true*).
+        1. If _r_ is *undefined*, return *false*. Otherwise, return _r_.
+      </emu-alg>
+      <emu-grammar>
+        RelationalPattern : `>` PatternMatchingAlgebraicExpression
+      </emu-grammar>
+      <emu-alg>
+        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingAlgebraicExpression|.
+        1. Let _ref_ be ? Evaluation of _expr_.
+        1. Let _value_ be ? GetValue(_ref_).
+        1. Let _r_ be ? IsLessThan(_value_, _subject_, *false*).
+        1. If _r_ is *undefined*, return *false*. Otherwise, return _r_.
+      </emu-alg>
+      <emu-grammar>
+        RelationalPattern : `<=` PatternMatchingAlgebraicExpression
+      </emu-grammar>
+      <emu-alg>
+        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingAlgebraicExpression|.
+        1. Let _ref_ be ? Evaluation of _expr_.
+        1. Let _value_ be ? GetValue(_ref_).
+        1. Let _r_ be ? IsLessThan(_subject_, _value_, *true*).
+        1. If _r_ is either *true* or *undefined*, return *false*. Otherwise, return *true*.
+      </emu-alg>
+      <emu-grammar>
+        RelationalPattern : `>=` PatternMatchingAlgebraicExpression
+      </emu-grammar>
+      <emu-alg>
+        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingAlgebraicExpression|.
+        1. Let _ref_ be ? Evaluation of _expr_.
+        1. Let _value_ be ? GetValue(_ref_).
+        1. Let _r_ be ? IsLessThan(_value_, _subject_, *false*).
+        1. If _r_ is either *true* or *undefined*, return *false*. Otherwise, return *true*.
+      </emu-alg>
+      <emu-grammar>
+        RelationalPattern : `instanceof` PatternMatchingMemberExpression
+      </emu-grammar>
+      <emu-alg>
+        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingMemberExpression|.
+        1. Let _ref_ be ? Evaluation of _expr_.
+        1. Let _value_ be ? GetValue(_ref_).
+        1. Return ? InstanceofOperator(_subject_, _value_).
+      </emu-alg>
+      <emu-grammar>
+        RelationalPattern : `has` PatternMatchingStringLikeExpression
+      </emu-grammar>
+      <emu-alg>
+        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingStringLikeExpression|.
+        1. Let _ref_ be ? Evaluation of _expr_.
+        1. Let _value_ be ? GetValue(_ref_).
+        1. If _subject_ is not an Object, throw a *TypeError* exception.
+        1. Return ? HasProperty(_subject_, ? ToPropertyKey(_value_)).
+      </emu-alg>
+      <emu-grammar>
+        RelationalPattern : `has` PrivateIdentifier
+      </emu-grammar>
+      <emu-alg>
+        1. Let _privateIdentifier_ be the StringValue of |PrivateIdentifier|.
+        1. If _subject_ is not an Object, throw a *TypeError* exception.
+        1. Let _privateEnv_ be the running execution context's PrivateEnvironment.
+        1. Let _privateName_ be ResolvePrivateIdentifier(_privateEnv_, _privateIdentifier_).
+        1. If PrivateElementFind(_subject_, _privateName_) is not empty, return *true*.
+        1. Return *false*.
+      </emu-alg>
+      <emu-grammar>
+        RelationalPattern : `==` PatternMatchingExpression
+      </emu-grammar>
+      <emu-alg>
+        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingExpression|.
+        1. Let _ref_ be ? Evaluation of _expr_.
+        1. Let _value_ be ? GetValue(_ref_).
+        1. Return ? IsLooselyEqual(_subject_, _value_).
+      </emu-alg>
+      <emu-grammar>
+        RelationalPattern : `!=` PatternMatchingExpression
+      </emu-grammar>
+      <emu-alg>
+        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingExpression|.
+        1. Let _ref_ be ? Evaluation of _expr_.
+        1. Let _value_ be ? GetValue(_ref_).
+        1. Let _r_ be ? IsLooselyEqual(_subject_, _value_).
+        1. If _r_ is *true*, return *false*. Otherwise, return *true*.
+      </emu-alg>
+      <emu-grammar>
+        RelationalPattern : `===` PatternMatchingExpression
+      </emu-grammar>
+      <emu-alg>
+        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingExpression|.
+        1. Let _ref_ be ? Evaluation of _expr_.
+        1. Let _value_ be ? GetValue(_ref_).
+        1. Return IsStrictlyEqual(_subject_, _value_).
+      </emu-alg>
+      <emu-grammar>
+        RelationalPattern : `!==` PatternMatchingExpression
+      </emu-grammar>
+      <emu-alg>
+        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingExpression|.
+        1. Let _ref_ be ? Evaluation of _expr_.
+        1. Let _value_ be ? GetValue(_ref_).
+        1. Let _r_ be IsStrictlyEqual(_subject_, _value_).
+        1. If _r_ is *true*, return *false*. Otherwise, return *true*.
       </emu-alg>
     </emu-clause>
 
