@@ -153,6 +153,29 @@ contributors:
   </emu-clause>
 </emu-clause>
 
+<emu-clause id="sec-ecmascript-language-expressions" number="13">
+  <h1>ECMAScript Language: Expressions</h1>
+  <emu-clause id="sec-relational-operators" number="10">
+    <h1>Relational Operators</h1>
+    <h2>Syntax</h2>
+    <emu-grammar>
+      RelationalExpression[In, Yield, Await] :
+        <ins>RelationalExpression [no LineTerminator here] `is` MatchPattern</ins>
+    </emu-grammar>
+    <emu-clause id="sec-relational-operators-runtime-semantics-evaluation" number="1">
+      <h1>Runtime Semantics: Evaluation</h1>
+      <emu-grammar>
+        <ins>RelationalExpression : RelationalExpression `is` MatchPattern</ins>
+      </emu-grammar>
+      <emu-alg>
+        1. Let _lref_ be ? Evaluation of |RelationalExpression|.
+        1. Let _lval_ be ? GetValue(_lref_).
+        1. Return ? MatchPatternMatches of |MatchPattern| with argument _lval_.
+      </emu-alg>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
 <emu-clause class="fold" id="sec-ecmascript-language-functions-and-classes" number="15">
   <h1>ECMAScript Language: Functions and Classes</h1>
   <emu-clause id="sec-class-definitions" number="7">
@@ -855,7 +878,7 @@ contributors:
       </code></pre>
     </emu-note>
     <emu-note type="editor">
-      All productions except |IdentifierReference| is removable.
+      All productions except |IdentifierReference| can be removed.
       <pre><code class="javascript">
         value is Math.PI;
         // can be written as:
@@ -883,7 +906,7 @@ contributors:
       </code></pre>
     </emu-note>
     <emu-note type="editor">
-      This production is removable, but it will be harder to handle with `+0` and `-0`.
+      This production can be removed, but it will be harder to handle with `+0` and `-0`.
       <pre><code class="javascript">
         value is -Infinity;
         // can be written as:
@@ -910,26 +933,28 @@ contributors:
 
     <emu-clause id="sec-match-patterns-early-errors">
       <h1>Static Semantics: Early Errors</h1>
+
+      <!-- #region CombinedMatchPattern -->
       <emu-grammar>
         CombinedMatchPattern :
           MatchPattern `and` MatchPattern
       </emu-grammar>
       <ul>
-        <li>It is a Syntax Error if either of |MatchPattern| is a |CombinedMatchPattern| and does not match this production.</li>
+        <li>It is a Syntax Error if either of |MatchPattern| is |CombinedMatchPattern| and does not match this production.</li>
       </ul>
       <emu-grammar>
         CombinedMatchPattern :
           MatchPattern `or` MatchPattern
       </emu-grammar>
       <ul>
-        <li>It is a Syntax Error if either of |MatchPattern| is a |CombinedMatchPattern| and does not match this production.</li>
+        <li>It is a Syntax Error if either of |MatchPattern| is |CombinedMatchPattern| and does not match this production.</li>
       </ul>
       <emu-grammar>
         CombinedMatchPattern :
           `not` MatchPattern
       </emu-grammar>
       <ul>
-        <li>It is a Syntax Error if the |MatchPattern| is a |CombinedMatchPattern|.</li>
+        <li>It is a Syntax Error if the |MatchPattern| is |CombinedMatchPattern|.</li>
       </ul>
       <emu-note code><pre><code class="javascript">
         value is a and b and c; // no Syntax Error
@@ -945,6 +970,7 @@ contributors:
         value is not a or b; // Syntax Error
         value is not (a or b); // no Syntax Error
       </code></pre></emu-note>
+      <!-- endregion -->
     </emu-clause>
   </emu-clause>
   <emu-clause id="sec-match-pattern-semantics">
