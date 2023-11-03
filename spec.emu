@@ -825,6 +825,7 @@ contributors:
       MatchPattern[Yield, Await] :
         `(` MatchPattern[?Yield, ?Await] `)`
         PrimitivePattern
+        RegularExpressionPattern
         MemberExpressionPattern[?Yield, ?Await]
         UnaryAlgebraicPattern[?Yield, ?Await]
         RelationalPattern[?Yield, ?Await]
@@ -853,6 +854,27 @@ contributors:
       For example, match `"com.example:method()"` by
       <pre><code class="javascript">
         when `${isPackageName and let pkg}:${isIdentifier and let method}()`: ...,
+      </code></pre>
+    </emu-note>
+    <!-- endregion -->
+
+    <!-- #region RegularExpressionPattern -->
+    <emu-grammar type="definition">
+      RegularExpressionPattern :
+        RegularExpressionLiteral
+    </emu-grammar>
+    <emu-note code>
+      <pre><code class="javascript">
+        value is /^starts/;
+      </code></pre>
+    </emu-note>
+    <emu-note type="editor">
+      This production can be removed.
+      <pre><code class="javascript">
+        value is /^starts/;
+        // can be written as:
+        const regex = /^starts/;
+        value is regex;
       </code></pre>
     </emu-note>
     <!-- endregion -->
@@ -1120,6 +1142,12 @@ contributors:
         1. Return PrimitivePatternMatches of |PrimitivePattern| with arguments _subject_.
       </emu-alg>
       <emu-grammar>
+        MatchPattern : RegularExpressionPattern
+      </emu-grammar>
+      <emu-alg>
+        1. Return ? RegularExpressionPatternMatches of |RegularExpressionPattern| with arguments _subject_.
+      </emu-alg>
+      <emu-grammar>
         MatchPattern : MemberExpressionPattern
       </emu-grammar>
       <emu-alg>
@@ -1170,6 +1198,27 @@ contributors:
       </emu-grammar>
       <emu-alg>
         1. Return SameValueNonNumber(_subject_, ! Evaluation of |NoSubstitutionTemplate|).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-regular-expression-pattern-matches" type="sdo">
+      <h1>
+        Runtime Semantics: RegularExpressionPatternMatches (
+          _subject_: an ECMAScript language value,
+        ): either a normal completion containing a Boolean or an abrupt completion
+      </h1>
+      <dl class="header">
+      </dl>
+      <emu-grammar>
+        RegularExpressionPattern : RegularExpressionLiteral
+      </emu-grammar>
+      <emu-alg>
+        1. Let _pattern_ be CodePointsToString(BodyText of |RegularExpressionLiteral|).
+        1. Let _flags_ be CodePointsToString(FlagText of |RegularExpressionLiteral|).
+        1. Let _regexp_ be ! RegExpCreate(_pattern_, _flags_).
+        1. Let _result_ be ? InvokeCustomMatcher(_regexp_, _subject_, ~boolean~, *null*).
+        1. Assert: _result_ is a Boolean.
+        1. Return _result_.
       </emu-alg>
     </emu-clause>
 
