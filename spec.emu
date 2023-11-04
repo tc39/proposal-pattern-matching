@@ -235,7 +235,7 @@ contributors:
       </emu-alg>
 
       <emu-grammar>
-        <ins>MatchExpression : `match` `(` Expression `)` `{` MatchClauses `,`? `}`</ins>
+        <ins>MatchExpression : CoverCallExpressionAndAsyncArrowHead `{` MatchClauses `,`? `}`</ins>
       </emu-grammar>
       <emu-alg>
         1. Return HasCallInTailPosition of |MatchClauses| with argument _call_.
@@ -1537,7 +1537,7 @@ contributors:
     <h2>Syntax</h2>
     <emu-grammar type="definition">
       MatchExpression[Yield, Await] :
-        `match` [no LineTerminator here] `(` Expression[+In, ?Yield, ?Await] `)` [no LineTerminator here] `{` MatchClauses[?Yield, ?Await] `,`? `}`
+        CoverCallExpressionAndAsyncArrowHead[?Yield, ?Await] [no LineTerminator here] `{` MatchClauses[?Yield, ?Await] `,`? `}`
 
       MatchClauses[Yield, Await] :
         MatchClause[?Yield, ?Await]
@@ -1547,6 +1547,18 @@ contributors:
       MatchClause[Yield, Await] :
         MatchPattern[?Yield, ?Await] `:` AssignmentExpression[+In, ?Yield, ?Await]
     </emu-grammar>
+
+    <h2>Supplemental Syntax</h2>
+    <p>
+      When processing an instance of the production<br>
+      <emu-grammar>MatchExpression : CoverCallExpressionAndAsyncArrowHead `{` MatchClauses `,`? `}`</emu-grammar><br>
+      the interpretation of |CoverCallExpressionAndAsyncArrowHead| is refined using the following grammar:
+    </p>
+    <emu-grammar type="definition">
+      MatchHead :
+        `match` [no LineTerminator here] `(` Expression `)`
+    </emu-grammar>
+
     <emu-note code>
       <pre><code class="javascript">
         match (value) {
@@ -1566,20 +1578,38 @@ contributors:
         <li>the `default` clause is not the final clause.</li>
       </ul>
     </emu-note>
+    <emu-note type="editor">
+      Rename |CoverCallExpressionAndAsyncArrowHead| to CoverCallExpressionAndAsyncArrowHeadAndMatchHead.
+    </emu-note>
+
+    <emu-clause id="sec-match-expression-static-semantics-early-errors">
+        <h1>Static Semantics: Early Errors</h1>
+        <emu-grammar>
+          MatchExpression : CoverCallExpressionAndAsyncArrowHead `{` MatchClauses `,`? `}`
+        </emu-grammar>
+        <ul>
+            <li>
+                |CoverCallExpressionAndAsyncArrowHead| must cover an |MatchHead|.
+            </li>
+        </ul>
+    </emu-clause>
 
     <emu-clause id="sec-match-expression-runtime-semantics-evaluation">
       <h1>Runtime Semantics: Evaluation</h1>
       <emu-grammar>
-        MatchExpression : `match` `(` Expression `)` `{` MatchClauses `,`? `}`
+        MatchExpression : CoverCallExpressionAndAsyncArrowHead `{` MatchClauses `,`? `}`
       </emu-grammar>
       <emu-alg>
-        1. Let _subjectRef_ be the ? Evaluation of |Expression|.
+        1. Let _head_ be the |MatchHead| that is covered by |CoverCallExpressionAndAsyncArrowHead|.
+        1. Let _subjectParseNode_ be the |Expression| of _head_.
+        1. Let _subjectRef_ be the ? Evaluation of _subjectParseNode_.
         1. Let _subject_ be ? GetValue(_subjectRef_).
         1. Let _result_ be ? MatchClausesEvaluation of |MatchClauses| with arguments _subject_.
         1. If _result_ is ~not-matched~, throw a *TypeError* exception.
         1. Return _result_.
       </emu-alg>
     </emu-clause>
+
     <emu-clause id="sec-match-clauses-runtime-semantics-evaluation" type="sdo">
       <h1>
         Runtime Semantics: MatchClausesEvaluation (
