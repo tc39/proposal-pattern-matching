@@ -190,6 +190,15 @@ contributors:
           expr is { length: 10, 0: "a" };
         </code></pre>
       </emu-note>
+      <emu-note type="editor">
+        This production can be replaced by the <emu-xref href="#sec-match-expression" title></emu-xref>. The code example above can be written as:
+        <pre><code class="javascript">
+          (match (expr) {
+            { length: 10, 0: "a" }: true,
+            default: false
+          })
+        </code></pre>
+      </emu-note>
     </emu-clause>
   </emu-clause>
 </emu-clause>
@@ -235,42 +244,81 @@ contributors:
       </emu-alg>
 
       <emu-grammar>
-        <ins>MatchExpression : CoverCallExpressionAndAsyncArrowHead `{` MatchClauses `,`? `}`</ins>
+        <ins>MatchExpression : CoverCallExpressionAndAsyncArrowHead `{` MatchExpressionClauses `,`? `}`</ins>
       </emu-grammar>
       <emu-alg>
-        1. Return HasCallInTailPosition of |MatchClauses| with argument _call_.
+        1. Return HasCallInTailPosition of |MatchExpressionClauses| with argument _call_.
       </emu-alg>
 
       <emu-grammar>
-        <ins>MatchClauses : MatchClause</ins>
+        <ins>MatchExpressionClauses : MatchExpressionClause</ins>
       </emu-grammar>
       <emu-alg>
-        1. Return HasCallInTailPosition of |MatchClause| with argument _call_.
+        1. Return HasCallInTailPosition of |MatchExpressionClause| with argument _call_.
       </emu-alg>
 
       <emu-grammar>
-        <ins>MatchClauses : MatchClauses `,` MatchClause</ins>
+        <ins>MatchExpressionClauses : MatchExpressionClauses `,` MatchExpressionClause</ins>
       </emu-grammar>
       <emu-alg>
-        1. Let _result_ be HasCallInTailPosition of |MatchClauses| with argument _call_.
+        1. Let _result_ be HasCallInTailPosition of |MatchExpressionClauses| with argument _call_.
         1. If _result_ is *true*, return *true*.
-        1. Return HasCallInTailPosition of |MatchClause| with argument _call_.
+        1. Return HasCallInTailPosition of |MatchExpressionClause| with argument _call_.
       </emu-alg>
 
       <emu-grammar>
-        <ins>MatchClauses : MatchClauses `,` `default` `:` AssignmentExpression</ins>
+        <ins>MatchExpressionClauses : MatchExpressionClauses `,` `default` `:` AssignmentExpression</ins>
       </emu-grammar>
       <emu-alg>
-        1. Let _result_ be HasCallInTailPosition of |MatchClauses| with argument _call_.
+        1. Let _result_ be HasCallInTailPosition of |MatchExpressionClauses| with argument _call_.
         1. If _result_ is *true*, return *true*.
         1. Return HasCallInTailPosition of |AssignmentExpression| with argument _call_.
       </emu-alg>
 
       <emu-grammar>
-        <ins>MatchClause : MatchPattern `:` AssignmentExpression</ins>
+        <ins>MatchExpressionClause : MatchPattern `:` AssignmentExpression</ins>
       </emu-grammar>
       <emu-alg>
         1. Return HasCallInTailPosition of |AssignmentExpression| with argument _call_.
+      </emu-alg>
+
+      <emu-grammar>
+        <ins>MatchStatement : CoverCallExpressionAndAsyncArrowHead `{` MatchStatementClauses `}`</ins>
+      </emu-grammar>
+      <emu-alg>
+        1. Return HasCallInTailPosition of |MatchStatementClauses| with argument _call_.
+      </emu-alg>
+
+      <emu-grammar>
+        <ins>MatchStatementClauses : MatchStatementClause</ins>
+      </emu-grammar>
+      <emu-alg>
+        1. Return HasCallInTailPosition of |MatchStatementClause| with argument _call_.
+      </emu-alg>
+
+      <emu-grammar>
+        <ins>MatchStatementClauses : MatchStatementClauses `;` MatchStatementClause</ins>
+      </emu-grammar>
+      <emu-alg>
+        1. Let _result_ be HasCallInTailPosition of |MatchStatementClauses| with argument _call_.
+        1. If _result_ is *true*, return *true*.
+        1. Return HasCallInTailPosition of |MatchStatementClause| with argument _call_.
+      </emu-alg>
+
+      <emu-grammar>
+        <ins>MatchStatementClauses : MatchStatementClauses `;` `default` `:` Statement</ins>
+      </emu-grammar>
+      <emu-alg>
+        1. Let _result_ be HasCallInTailPosition of |MatchStatementClauses| with argument _call_.
+        1. If _result_ is *true*, return *true*.
+        1. Return HasCallInTailPosition of |Statement| with argument _call_.
+      </emu-alg>
+
+      <emu-grammar>
+        <ins>MatchStatementClause : MatchPattern `:` Statement</ins>
+      </emu-grammar>
+      <emu-alg>
+        1. Return HasCallInTailPosition of |Statement| with argument _call_.
       </emu-alg>
     </emu-clause>
   </emu-clause>
@@ -1537,21 +1585,21 @@ contributors:
     <h2>Syntax</h2>
     <emu-grammar type="definition">
       MatchExpression[Yield, Await] :
-        CoverCallExpressionAndAsyncArrowHead[?Yield, ?Await] [no LineTerminator here] `{` MatchClauses[?Yield, ?Await] `,`? `}`
+        CoverCallExpressionAndAsyncArrowHead[?Yield, ?Await] [no LineTerminator here] `{` MatchExpressionClauses[?Yield, ?Await] `,`? `}`
 
-      MatchClauses[Yield, Await] :
-        MatchClause[?Yield, ?Await]
-        MatchClauses[?Yield, ?Await] `,` MatchClause[?Yield, ?Await]
-        MatchClauses[?Yield, ?Await] `,` `default` `:` AssignmentExpression[+In, ?Yield, ?Await]
+      MatchExpressionClauses[Yield, Await] :
+        MatchExpressionClause[?Yield, ?Await]
+        MatchExpressionClauses[?Yield, ?Await] `,` MatchExpressionClause[?Yield, ?Await]
+        MatchExpressionClauses[?Yield, ?Await] `,` `default` `:` AssignmentExpression[+In, ?Yield, ?Await]
 
-      MatchClause[Yield, Await] :
+      MatchExpressionClause[Yield, Await] :
         MatchPattern[?Yield, ?Await] `:` AssignmentExpression[+In, ?Yield, ?Await]
     </emu-grammar>
 
     <h2>Supplemental Syntax</h2>
     <p>
       When processing an instance of the production<br>
-      <emu-grammar>MatchExpression : CoverCallExpressionAndAsyncArrowHead `{` MatchClauses `,`? `}`</emu-grammar><br>
+      <emu-grammar>MatchExpression : CoverCallExpressionAndAsyncArrowHead `{` MatchExpressionClauses `,`? `}`</emu-grammar><br>
       the interpretation of |CoverCallExpressionAndAsyncArrowHead| is refined using the following grammar:
     </p>
     <emu-grammar type="definition">
@@ -1561,12 +1609,24 @@ contributors:
 
     <emu-note code>
       <pre><code class="javascript">
-        match (value) {
-          0: "zero",
-          1: "one",
-          2: "two",
-          default: "many",
+        const result = match (value) {
+          { type: "add", let lhs, let rhs }: lhs + rhs,
+          { type: "sub", let lhs, let rhs }: lhs - rhs,
+          { type: "mul", let lhs, let rhs }: lhs * rhs,
+          { type: "div", let lhs, let rhs }: lhs / rhs,
         }
+      </code></pre>
+    </emu-note>
+    <emu-note type="editor">
+      This production can be replaced by the <emu-xref href="#sec-relational-operators">`is` expression</emu-xref>.
+      The code example above can be written as:
+      <pre><code class="javascript">
+        const result =
+          value is { type: "add", var lhs, var rhs } ? lhs + rhs :
+          value is { type: "sub", var lhs, var rhs } ? lhs - rhs :
+          value is { type: "mul", var lhs, var rhs } ? lhs * rhs :
+          value is { type: "div", var lhs, var rhs } ? lhs / rhs :
+          (() => { throw new TypeError() })
       </code></pre>
     </emu-note>
     <emu-note type="editor">
@@ -1585,76 +1645,210 @@ contributors:
     <emu-clause id="sec-match-expression-static-semantics-early-errors">
         <h1>Static Semantics: Early Errors</h1>
         <emu-grammar>
-          MatchExpression : CoverCallExpressionAndAsyncArrowHead `{` MatchClauses `,`? `}`
+          MatchExpression : CoverCallExpressionAndAsyncArrowHead `{` MatchExpressionClauses `,`? `}`
         </emu-grammar>
         <ul>
-            <li>
-                |CoverCallExpressionAndAsyncArrowHead| must cover an |MatchHead|.
-            </li>
+            <li>|CoverCallExpressionAndAsyncArrowHead| must cover an |MatchHead|.</li>
         </ul>
     </emu-clause>
 
     <emu-clause id="sec-match-expression-runtime-semantics-evaluation">
       <h1>Runtime Semantics: Evaluation</h1>
       <emu-grammar>
-        MatchExpression : CoverCallExpressionAndAsyncArrowHead `{` MatchClauses `,`? `}`
+        MatchExpression : CoverCallExpressionAndAsyncArrowHead `{` MatchExpressionClauses `,`? `}`
       </emu-grammar>
       <emu-alg>
         1. Let _head_ be the |MatchHead| that is covered by |CoverCallExpressionAndAsyncArrowHead|.
         1. Let _subjectParseNode_ be the |Expression| of _head_.
         1. Let _subjectRef_ be the ? Evaluation of _subjectParseNode_.
         1. Let _subject_ be ? GetValue(_subjectRef_).
-        1. Let _result_ be ? MatchClausesEvaluation of |MatchClauses| with arguments _subject_.
+        1. Let _result_ be ? MatchExpressionClausesEvaluation of |MatchExpressionClauses| with arguments _subject_.
         1. If _result_ is ~not-matched~, throw a *TypeError* exception.
         1. Return _result_.
       </emu-alg>
     </emu-clause>
 
-    <emu-clause id="sec-match-clauses-runtime-semantics-evaluation" type="sdo">
+    <emu-clause id="sec-match-expression-clauses-runtime-semantics-evaluation" type="sdo">
       <h1>
-        Runtime Semantics: MatchClausesEvaluation (
+        Runtime Semantics: MatchExpressionClausesEvaluation (
           _subject_: an ECMAScript language value,
         ): either a normal completion containing either an ECMAScript language value or ~not-matched~, or an abrupt completion
       </h1>
       <dl class="header">
       </dl>
       <emu-grammar>
-        MatchClauses : MatchClause
+        MatchExpressionClauses : MatchExpressionClause
       </emu-grammar>
       <emu-alg>
-        1. Return ? MatchClauseEvaluation of |MatchClause| with arguments _subject_.
+        1. Return ? MatchExpressionClauseEvaluation of |MatchExpressionClause| with arguments _subject_.
       </emu-alg>
       <emu-grammar>
-        MatchClauses : MatchClauses `,` MatchClause
+        MatchExpressionClauses : MatchExpressionClauses `,` MatchExpressionClause
       </emu-grammar>
       <emu-alg>
-        1. Let _result_ be ? MatchClausesEvaluation of |MatchClauses| with arguments _subject_.
+        1. Let _result_ be ? MatchExpressionClausesEvaluation of |MatchExpressionClauses| with arguments _subject_.
         1. If _result_ is an ECMAScript language value, return _result_.
-        1. Return ? MatchClauseEvaluation of |MatchClause| with arguments _subject_.
+        1. Return ? MatchExpressionClauseEvaluation of |MatchExpressionClause| with arguments _subject_.
       </emu-alg>
       <emu-grammar>
-        MatchClauses : MatchClauses `,` `default` `:` AssignmentExpression
+        MatchExpressionClauses : MatchExpressionClauses `,` `default` `:` AssignmentExpression
       </emu-grammar>
       <emu-alg>
-        1. Let _result_ be ? MatchClausesEvaluation of |MatchClauses| with arguments _subject_.
+        1. Let _result_ be ? MatchExpressionClausesEvaluation of |MatchExpressionClauses| with arguments _subject_.
         1. If _result_ is an ECMAScript language value, return _result_.
         1. Return ? Evaluation of |AssignmentExpression|.
       </emu-alg>
     </emu-clause>
-    <emu-clause id="sec-match-clause-runtime-semantics-evaluation" type="sdo">
+    <emu-clause id="sec-match-expression-clause-runtime-semantics-evaluation" type="sdo">
       <h1>
-        Runtime Semantics: MatchClauseEvaluation (
+        Runtime Semantics: MatchExpressionClauseEvaluation (
           _subject_: an ECMAScript language value,
         ): either a normal completion containing either an ECMAScript language value or ~not-matched~, or an abrupt completion
       </h1>
       <dl class="header">
       </dl>
       <emu-grammar>
-        MatchClause : MatchPattern `:` AssignmentExpression
+        MatchExpressionClause : MatchPattern `:` AssignmentExpression
       </emu-grammar>
       <emu-alg>
         1. Let _matches_ be ? MatchPatternMatches of |MatchPattern| with arguments _subject_.
         1. If _matches_ is *true*, return ? Evaluation of |AssignmentExpression|.
+        1. Return ~not-matched~.
+      </emu-alg>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-match-statement">
+    <h1>Match Statement</h1>
+    <h2>Syntax</h2>
+    <emu-grammar type="definition">
+      MatchStatement[Yield, Await] :
+        CoverCallExpressionAndAsyncArrowHead[?Yield, ?Await] [no LineTerminator here] `{` MatchStatementClauses[?Yield, ?Await] `}`
+
+      MatchStatementClauses[Yield, Await] :
+        MatchStatementClause[?Yield, ?Await]
+        MatchStatementClauses[?Yield, ?Await] `;` MatchStatementClause[?Yield, ?Await]
+        MatchStatementClauses[?Yield, ?Await] `;` `default` `:` Statement[?Yield, ?Await]
+
+      MatchStatementClause[Yield, Await] :
+        MatchPattern[?Yield, ?Await] `:` Statement[?Yield, ?Await]
+    </emu-grammar>
+
+    <emu-note code>
+      <pre><code class="javascript">
+        match (value) {
+          { type: "return", let value }: return value;
+          { type: "throw", let error }: throw error;
+          default: {
+            console.error("unknown value", value);
+            process.exit();
+          },
+        }
+      </code></pre>
+    </emu-note>
+
+    <emu-note type="editor">
+      <p>This feature is not a consensus in the champion group.</p>
+      <p>This production can be replaced by the <emu-xref href="#sec-relational-operators">`is` expression</emu-xref>. The code example above can be written as:</p>
+      <pre><code class="javascript">
+        if (value is { type: "return", let value }) return value;
+        else if (value is { type: "throw", let error }) throw error;
+        else {
+          console.error("unknown value", value);
+          process.exit();
+        }
+      </code></pre>
+    </emu-note>
+
+    <emu-note type="editor">
+      It is syntactically impossible to have a match statement that
+      <ul>
+        <li>has no clause.</li>
+        <li>the only clause is a `default` clause.</li>
+        <li>has multiple `default` clauses.</li>
+        <li>the `default` clause is not the final clause.</li>
+      </ul>
+    </emu-note>
+
+    <emu-clause id="sec-match-statement-static-semantics-early-errors">
+        <h1>Static Semantics: Early Errors</h1>
+        <emu-grammar>
+          MatchStatement : CoverCallExpressionAndAsyncArrowHead `{` MatchStatementClauses `}`
+        </emu-grammar>
+        <ul>
+            <li>|CoverCallExpressionAndAsyncArrowHead| must cover an |MatchHead|.</li>
+        </ul>
+        <emu-grammar>
+          MatchStatementClauses : MatchStatementClauses `;` `default` `:` Statement
+          MatchStatementClause : MatchPattern `:` Statement
+        </emu-grammar>
+        <ul>
+            <li>It is a Syntax Error if IsLabelledFunction(|Statement|) is *true*.</li>
+        </ul>
+    </emu-clause>
+
+    <emu-clause id="sec-match-statement-runtime-semantics-evaluation">
+      <h1>Runtime Semantics: Evaluation</h1>
+      <emu-grammar>
+        MatchStatement : CoverCallExpressionAndAsyncArrowHead `{` MatchStatementClauses `}`
+      </emu-grammar>
+      <emu-alg>
+        1. Let _head_ be the |MatchHead| that is covered by |CoverCallExpressionAndAsyncArrowHead|.
+        1. Let _subjectParseNode_ be the |Expression| of _head_.
+        1. Let _subjectRef_ be the ? Evaluation of _subjectParseNode_.
+        1. Let _subject_ be ? GetValue(_subjectRef_).
+        1. Let _result_ be Completion(MatchStatementClausesEvaluation of |MatchStatementClauses| with arguments _subject_).
+        1. Perform ? UpdateEmpty(_result_, *undefined*).
+        1. If _result_ is a normal completion and _result_.[[Value]] is ~not-matched~, throw a *TypeError* exception.
+        1. Return _result_.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-match-statement-clauses-runtime-semantics-evaluation" type="sdo">
+      <h1>
+        Runtime Semantics: MatchStatementClausesEvaluation (
+          _subject_: an ECMAScript language value,
+        ): either a normal completion containing either an ECMAScript language value, ~empty~ or ~not-matched~, or an abrupt completion
+      </h1>
+      <dl class="header">
+      </dl>
+      <emu-grammar>
+        MatchStatementClauses : MatchStatementClause
+      </emu-grammar>
+      <emu-alg>
+        1. Return ? MatchStatementClauseEvaluation of |MatchStatementClause| with arguments _subject_.
+      </emu-alg>
+      <emu-grammar>
+        MatchStatementClauses : MatchStatementClauses `;` MatchStatementClause
+      </emu-grammar>
+      <emu-alg>
+        1. Let _result_ be ? MatchStatementClausesEvaluation of |MatchStatementClauses| with arguments _subject_.
+        1. If _result_ is not ~not-matched~, return _result_.
+        1. Return ? MatchStatementClauseEvaluation of |MatchStatementClause| with arguments _subject_.
+      </emu-alg>
+      <emu-grammar>
+        MatchStatementClauses : MatchStatementClauses `;` `default` `:` Statement
+      </emu-grammar>
+      <emu-alg>
+        1. Let _result_ be ? MatchStatementClausesEvaluation of |MatchStatementClauses| with arguments _subject_.
+        1. If _result_ is not ~not-matched~, return _result_.
+        1. Return ? Evaluation of |Statement|.
+      </emu-alg>
+    </emu-clause>
+    <emu-clause id="sec-match-statement-clause-runtime-semantics-evaluation" type="sdo">
+      <h1>
+        Runtime Semantics: MatchStatementClauseEvaluation (
+          _subject_: an ECMAScript language value,
+        ): either a normal completion containing either an ECMAScript language value, ~empty~ or ~not-matched~, or an abrupt completion
+      </h1>
+      <dl class="header">
+      </dl>
+      <emu-grammar>
+        MatchStatementClause : MatchPattern `:` Statement
+      </emu-grammar>
+      <emu-alg>
+        1. Let _matches_ be ? MatchPatternMatches of |MatchPattern| with arguments _subject_.
+        1. If _matches_ is *true*, return ? Evaluation of |Statement|.
         1. Return ~not-matched~.
       </emu-alg>
     </emu-clause>
