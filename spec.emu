@@ -1398,6 +1398,7 @@ contributors:
         `<=` PatternMatchingOrderExpression[?Yield, ?Await]
         `>=` PatternMatchingOrderExpression[?Yield, ?Await]
         `instanceof` PatternMatchingMemberExpression[?Yield, ?Await]
+        `in` PatternMatchingMemberExpression[?Yield, ?Await]
         `has` PatternMatchingStringLikeExpression[?Yield, ?Await]
         `has` PrivateIdentifier
         `==` PatternMatchingEqualExpression[?Yield, ?Await]
@@ -1481,6 +1482,16 @@ contributors:
         // can be written as:
         function hasPrivateField(val) { return #priv in val; }
         value is { value: hasPrivateField };
+      </code></pre>
+    </emu-note>
+    <emu-note type="editor">
+      <p>The `in` production can be removed, but it will be harder to match by `in` semantics.</p>
+      <p>This feature is not a consensus in the champion group.</p>
+      <pre><code class="javascript">
+        expr is { value: in obj };
+        // can be written as:
+        function asAKeyInObj(val) { return val in obj; }
+        value is { value: asAKeyInObj };
       </code></pre>
     </emu-note>
     <emu-note type="editor">
@@ -2162,13 +2173,27 @@ contributors:
         1. Return ? InstanceofOperator(_subject_, _value_).
       </emu-alg>
       <emu-grammar>
+        RelationalPattern : `in` PatternMatchingMemberExpression
+      </emu-grammar>
+      <emu-alg>
+        1. Let _key_ be ? ToPropertyKey(_subject_).
+        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingMemberExpression|.
+        1. Let _ref_ be ? Evaluation of _expr_.
+        1. Let _value_ be ? GetValue(_ref_).
+        1. If _value_ is not an Object, return *false*.
+        1. Return ? HasProperty(_value_, _key_).
+      </emu-alg>
+      <emu-note type="editor">
+        The current proposal caches all operations on _subject_ except this. Should we cache the result of ToPropertyKey?
+      </emu-note>
+      <emu-grammar>
         RelationalPattern : `has` PatternMatchingStringLikeExpression
       </emu-grammar>
       <emu-alg>
+        1. If _subject_ is not an Object, return *false*.
         1. Let _expr_ be the |Expression| that is covered by |PatternMatchingStringLikeExpression|.
         1. Let _ref_ be ? Evaluation of _expr_.
         1. Let _value_ be ? GetValue(_ref_).
-        1. If _subject_ is not an Object, throw a *TypeError* exception.
         1. Return ? HasProperty(_subject_, ? ToPropertyKey(_value_)).
       </emu-alg>
       <emu-grammar>
@@ -2176,7 +2201,7 @@ contributors:
       </emu-grammar>
       <emu-alg>
         1. Let _privateIdentifier_ be the StringValue of |PrivateIdentifier|.
-        1. If _subject_ is not an Object, throw a *TypeError* exception.
+        1. If _subject_ is not an Object, return *false*.
         1. Let _privateEnv_ be the running execution context's PrivateEnvironment.
         1. Let _privateName_ be ResolvePrivateIdentifier(_privateEnv_, _privateIdentifier_).
         1. If PrivateElementFind(_subject_, _privateName_) is not empty, return *true*.
