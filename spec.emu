@@ -1221,20 +1221,21 @@ contributors:
     <!-- #region RelationalPattern -->
     <emu-grammar type="definition">
       RelationalPattern[Yield, Await] :
-        `<` PatternMatchingAlgebraicExpression[?Yield, ?Await]
-        `>` PatternMatchingAlgebraicExpression[?Yield, ?Await]
-        `<=` PatternMatchingAlgebraicExpression[?Yield, ?Await]
-        `>=` PatternMatchingAlgebraicExpression[?Yield, ?Await]
+        `<` PatternMatchingOrderExpression[?Yield, ?Await]
+        `>` PatternMatchingOrderExpression[?Yield, ?Await]
+        `<=` PatternMatchingOrderExpression[?Yield, ?Await]
+        `>=` PatternMatchingOrderExpression[?Yield, ?Await]
         `instanceof` PatternMatchingMemberExpression[?Yield, ?Await]
         `has` PatternMatchingStringLikeExpression[?Yield, ?Await]
         `has` PrivateIdentifier
-        `==` PatternMatchingExpression[?Yield, ?Await]
-        `!=` PatternMatchingExpression[?Yield, ?Await]
-        `===` PatternMatchingExpression[?Yield, ?Await]
-        `!==` PatternMatchingExpression[?Yield, ?Await]
+        `==` PatternMatchingEqualExpression[?Yield, ?Await]
+        `!=` PatternMatchingEqualExpression[?Yield, ?Await]
+        `===` PatternMatchingEqualExpression[?Yield, ?Await]
+        `!==` PatternMatchingEqualExpression[?Yield, ?Await]
 
-      PatternMatchingAlgebraicExpression[Yield, Await] :
+      PatternMatchingOrderExpression[Yield, Await] :
         NumericLiteral
+        PatternMatchingMemberExpression[?Yield, ?Await]
         PatternMatchingUnaryAlgebraicExpression[?Yield, ?Await]
 
       PatternMatchingStringLikeExpression[Yield, Await] :
@@ -1242,7 +1243,7 @@ contributors:
         NoSubstitutionTemplate
         PatternMatchingMemberExpression[?Yield, ?Await]
 
-      PatternMatchingExpression[Yield, Await] :
+      PatternMatchingEqualExpression[Yield, Await] :
         Literal
         NoSubstitutionTemplate
         PatternMatchingMemberExpression[?Yield, ?Await]
@@ -1288,7 +1289,7 @@ contributors:
       </code></pre>
     </emu-note>
     <emu-note type="editor">
-      <p>The `==`, `!=`, `===` and `!==` production can be removed, but it will be harder to match by `===` semantics when the |PatternMatchingExpression| is a custom matcher.</p>
+      <p>The `==`, `!=`, `===` and `!==` production can be removed, but it will be harder to match by `===` semantics when the |PatternMatchingEqualExpression| is a custom matcher.</p>
       <p>This feature is not a consensus in the champion group.</p>
       <pre class="inline"><code class="javascript">expr is x;</code></pre>
       <p>The code above will try to use <var>x</var> as a custom matcher when possible, then do the `===` check as a fallback. This feature is an opt-out of the custom matcher, to always do the `===` check.</p>
@@ -1939,40 +1940,40 @@ contributors:
       <dl class="header">
       </dl>
       <emu-grammar>
-        RelationalPattern : `<` PatternMatchingAlgebraicExpression
+        RelationalPattern : `<` PatternMatchingOrderExpression
       </emu-grammar>
       <emu-alg>
-        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingAlgebraicExpression|.
+        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingOrderExpression|.
         1. Let _ref_ be ? Evaluation of _expr_.
         1. Let _value_ be ? GetValue(_ref_).
         1. Let _r_ be ? IsLessThan(_subject_, _value_, *true*).
         1. If _r_ is *undefined*, return *false*. Otherwise, return _r_.
       </emu-alg>
       <emu-grammar>
-        RelationalPattern : `>` PatternMatchingAlgebraicExpression
+        RelationalPattern : `>` PatternMatchingOrderExpression
       </emu-grammar>
       <emu-alg>
-        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingAlgebraicExpression|.
+        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingOrderExpression|.
         1. Let _ref_ be ? Evaluation of _expr_.
         1. Let _value_ be ? GetValue(_ref_).
         1. Let _r_ be ? IsLessThan(_value_, _subject_, *false*).
         1. If _r_ is *undefined*, return *false*. Otherwise, return _r_.
       </emu-alg>
       <emu-grammar>
-        RelationalPattern : `<=` PatternMatchingAlgebraicExpression
+        RelationalPattern : `<=` PatternMatchingOrderExpression
       </emu-grammar>
       <emu-alg>
-        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingAlgebraicExpression|.
+        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingOrderExpression|.
         1. Let _ref_ be ? Evaluation of _expr_.
         1. Let _value_ be ? GetValue(_ref_).
         1. Let _r_ be ? IsLessThan(_subject_, _value_, *true*).
         1. If _r_ is either *true* or *undefined*, return *false*. Otherwise, return *true*.
       </emu-alg>
       <emu-grammar>
-        RelationalPattern : `>=` PatternMatchingAlgebraicExpression
+        RelationalPattern : `>=` PatternMatchingOrderExpression
       </emu-grammar>
       <emu-alg>
-        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingAlgebraicExpression|.
+        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingOrderExpression|.
         1. Let _ref_ be ? Evaluation of _expr_.
         1. Let _value_ be ? GetValue(_ref_).
         1. Let _r_ be ? IsLessThan(_value_, _subject_, *false*).
@@ -2009,38 +2010,38 @@ contributors:
         1. Return *false*.
       </emu-alg>
       <emu-grammar>
-        RelationalPattern : `==` PatternMatchingExpression
+        RelationalPattern : `==` PatternMatchingEqualExpression
       </emu-grammar>
       <emu-alg>
-        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingExpression|.
+        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingEqualExpression|.
         1. Let _ref_ be ? Evaluation of _expr_.
         1. Let _value_ be ? GetValue(_ref_).
         1. Return ? IsLooselyEqual(_subject_, _value_).
       </emu-alg>
       <emu-grammar>
-        RelationalPattern : `!=` PatternMatchingExpression
+        RelationalPattern : `!=` PatternMatchingEqualExpression
       </emu-grammar>
       <emu-alg>
-        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingExpression|.
+        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingEqualExpression|.
         1. Let _ref_ be ? Evaluation of _expr_.
         1. Let _value_ be ? GetValue(_ref_).
         1. Let _r_ be ? IsLooselyEqual(_subject_, _value_).
         1. If _r_ is *true*, return *false*. Otherwise, return *true*.
       </emu-alg>
       <emu-grammar>
-        RelationalPattern : `===` PatternMatchingExpression
+        RelationalPattern : `===` PatternMatchingEqualExpression
       </emu-grammar>
       <emu-alg>
-        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingExpression|.
+        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingEqualExpression|.
         1. Let _ref_ be ? Evaluation of _expr_.
         1. Let _value_ be ? GetValue(_ref_).
         1. Return IsStrictlyEqual(_subject_, _value_).
       </emu-alg>
       <emu-grammar>
-        RelationalPattern : `!==` PatternMatchingExpression
+        RelationalPattern : `!==` PatternMatchingEqualExpression
       </emu-grammar>
       <emu-alg>
-        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingExpression|.
+        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingEqualExpression|.
         1. Let _ref_ be ? Evaluation of _expr_.
         1. Let _value_ be ? GetValue(_ref_).
         1. Let _r_ be IsStrictlyEqual(_subject_, _value_).
