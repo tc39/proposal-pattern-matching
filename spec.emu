@@ -15,6 +15,9 @@ contributors:
   - Tab Atkins
 </pre>
 <style>
+  #welcome .secnum, [title="Welcome"] .secnum {
+    display: none;
+  }
   emu-note[code] > .note {
     font-size: 0;
   }
@@ -566,7 +569,7 @@ contributors:
         <emu-note code>
           <pre><code class="javascript">
             class C {}
-            c is C; // true, by private-field semantics
+            new C() is C; // true, by private-field semantics
 
             function f() {}
             class F extends f {}
@@ -604,6 +607,9 @@ contributors:
         </emu-alg>
       </emu-clause>
     </emu-clause>
+    <emu-note type="editor">
+      Another approach is to ignore boxed primitives and only matches on primitive values.
+    </emu-note>
   </emu-clause>
   <emu-clause class="fold" id="sec-symbol-objects" number="4">
     <h1>Symbol Objects</h1>
@@ -626,6 +632,9 @@ contributors:
         </emu-alg>
       </emu-clause>
     </emu-clause>
+    <emu-note type="editor">
+      Another approach is to ignore boxed primitives and only matches on primitive values.
+    </emu-note>
   </emu-clause>
   <emu-clause class="fold" id="sec-error-objects" number="5">
     <h1>Error Objects</h1>
@@ -771,6 +780,9 @@ contributors:
           1. Return CreateArrayFromList(« _subject_.[[NumberData]] »).
         </emu-alg>
       </emu-clause>
+      <emu-note type="editor">
+        Another approach is to ignore boxed primitives and only matches on primitive values.
+      </emu-note>
     </emu-clause>
   </emu-clause>
   <emu-clause id="sec-bigint-objects" number="2">
@@ -789,6 +801,9 @@ contributors:
         </emu-alg>
       </emu-clause>
     </emu-clause>
+    <emu-note type="editor">
+      Another approach is to ignore boxed primitives and only matches on primitive values.
+    </emu-note>
   </emu-clause>
   <emu-clause id="sec-date-objects" number="4">
     <h1>Date Objects</h1>
@@ -824,6 +839,9 @@ contributors:
           1. Return CreateArrayFromList(« _subject_.[[StringData]] »).
         </emu-alg>
       </emu-clause>
+      <emu-note type="editor">
+        Another approach is to ignore boxed primitives and only matches on primitive values.
+      </emu-note>
     </emu-clause>
   </emu-clause>
   <emu-clause id="sec-regexp-regular-expression-objects" number="2">
@@ -1451,12 +1469,13 @@ contributors:
         expr is { value: === x };
         // can be written as:
         function isEqToX(val) { return val === x; }
-        value is { value: x };
+        value is { value: isEqToX };
       </code></pre>
     </emu-note>
     <emu-note type="editor">
       <p>The `has` production can be removed, but it will be harder to match by `in` semantics.</p>
       <p>This feature is not a consensus in the champion group.</p>
+      <p>It's also possible to use HasOwnProperty semantics for the `has` production.</p>
       <pre><code class="javascript">
         value is { value: has #priv };
         // can be written as:
@@ -2712,42 +2731,6 @@ contributors:
   </emu-clause>
 </emu-clause>
 
-<emu-clause id="sec-notes">
-  <h1>Editor's notes</h1>
-  <emu-clause id="sec-notes-layering">
-    <h1>Layering</h1>
-    <p>The pattern-matching champion group designed this proposal with a layering approach. It does not mean the proposal is an MVP. The champion group wishes to ship the proposal as a whole when possible, but we can drop some features if there is strong pushback from the committee.</p>
-    <p>This approach allows the champion group to consider how all features combine and also how the proposal should behave if any of the features are missing.</p>
-    <p>A feature will have a note if</p>
-    <ul>
-      <li>it is a convenient feature instead of a necessary feature.</li>
-      <li>not all champion group members represent the hope to include it.</li>
-    </ul>
-  </emu-clause>
-  <emu-clause id="sec-notes-code-example">
-    <h1>Code example</h1>
-    <p>The code example in the patterns section will be in one of the forms:</p>
-    <pre><code class="javascript">
-      value is &lt;pattern&gt;;
-      when &lt;pattern&gt;: ...,
-    </code></pre>
-    <p>The first form is an expression that can be used in any expression position.</p>
-    <pre><code class="javascript">
-      const isOk = response is { ok: true, status: &gt; 100 and &lt; 400 };
-    </code></pre>
-    <p>The second form is a clause of the match expression that is only available inside a match expression.</p>
-    <pre><code class="javascript">
-      const type = match(expr) {
-        { ok: true, status: &gt; 100 and &lt; 400 }: "ok",
-        { ok: false, status: 404 }: "not found",
-        default: "unknown",
-      };
-    </code></pre>
-    <p>The "when" keyword was removed, but for the readability of code examples, "when" is kept.</p>
-    <p>This document prefers the `is` form unless the declaration pattern (`let x`) appears.</p>
-  </emu-clause>
-</emu-clause>
-
 <emu-annex id="sec-grammar-summary">
   <h1>Grammar Summary</h1>
 
@@ -2803,5 +2786,41 @@ contributors:
     <emu-prodref name="PatternMatchingOrderExpression"></emu-prodref>
     <emu-prodref name="PatternMatchingStringLikeExpression"></emu-prodref>
     <emu-prodref name="PatternMatchingEqualExpression"></emu-prodref>
+  </emu-annex>
+</emu-annex>
+
+<emu-annex id="sec-notes">
+  <h1>Editor's notes</h1>
+  <emu-annex id="sec-notes-layering">
+    <h1>Layering</h1>
+    <p>The pattern-matching champion group designed this proposal with a layering approach. It does not mean the proposal is an MVP. The champion group wishes to ship the proposal as a whole when possible, but we can drop some features if there is strong pushback from the committee.</p>
+    <p>This approach allows the champion group to consider how all features combine and also how the proposal should behave if any of the features are missing.</p>
+    <p>A feature will have a note if</p>
+    <ul>
+      <li>it is a convenient feature instead of a necessary feature.</li>
+      <li>not all champion group members represent the hope to include it.</li>
+    </ul>
+  </emu-annex>
+  <emu-annex id="sec-notes-code-example">
+    <h1>Code example</h1>
+    <p>The code example in the patterns section will be in one of the forms:</p>
+    <pre><code class="javascript">
+      value is &lt;pattern&gt;;
+      when &lt;pattern&gt;: ...,
+    </code></pre>
+    <p>The first form is an expression that can be used in any expression position.</p>
+    <pre><code class="javascript">
+      const isOk = response is { ok: true, status: &gt; 100 and &lt; 400 };
+    </code></pre>
+    <p>The second form is a clause of the match expression that is only available inside a match expression.</p>
+    <pre><code class="javascript">
+      const type = match(expr) {
+        { ok: true, status: &gt; 100 and &lt; 400 }: "ok",
+        { ok: false, status: 404 }: "not found",
+        default: "unknown",
+      };
+    </code></pre>
+    <p>The "when" keyword was removed, but for the readability of code examples, "when" is kept.</p>
+    <p>This document prefers the `is` form unless the declaration pattern (`let x`) appears.</p>
   </emu-annex>
 </emu-annex>
