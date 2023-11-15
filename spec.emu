@@ -869,13 +869,13 @@ contributors:
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_).
           1. Let _regexp_ be *this* value.
-          1. If _hint_ is *"boolean"*, return ? Call(%RegExp.prototype.test%, _regexp_, « _subject_ »).
+          1. If _hint_ is *"boolean"*, return ? Call(<emu-xref href="#sec-regexp.prototype.test">%RegExp.prototype.test%</emu-xref>, _regexp_, « _subject_ »).
           1. Let _isRegExp_ be ? IsRegExp(_regexp_).
           1. If _isRegExp_ is *true*, then
             1. Let _flags_ be ? Get(_regexp_, "flags").
             1. Perform ? RequireObjectCoercible(_flags_).
-            1. If ? ToString(_flags_) contain *"g"*, return ? Call(%RegExp.prototype[@@matchAll]%, _regexp_, « _subject_ »).
-          1. Let _result_ be ? Call(%RegExp.prototype[@@match]%, _regexp_, « _subject_ »).
+            1. If ? ToString(_flags_) contain *"g"*, return ? Call(<emu-xref href="#sec-regexp-prototype-matchall">%RegExp.prototype[@@matchAll]%</emu-xref>, _regexp_, « _subject_ »).
+          1. Let _result_ be ? Call(<emu-xref href="#sec-regexp.prototype-@@match">%RegExp.prototype[@@match]%</emu-xref>, _regexp_, « _subject_ »).
           1. Return CreateArrayFromList(« _result_ »).
         </emu-alg>
         <emu-note code>
@@ -2533,14 +2533,14 @@ contributors:
       </dl>
       <emu-alg>
         1. Assert: _cacheGroup_ is created by CreateMatchCache and used internally for pattern-matching.
-        1. If ! Call(%Map.prototype.has%, _cacheGroup_, « _subject_ ») is *true*, then
-          1. Return ! Call(%Map.prototype.get%, _cacheGroup_, « _subject_ »).
+        1. If ! Call(<emu-xref href="#sec-map.prototype.has">%Map.prototype.has%</emu-xref>, _cacheGroup_, « _subject_ ») is *true*, then
+          1. Return ! Call(<emu-xref href="#sec-map.prototype.has">%Map.prototype.get%</emu-xref>, _cacheGroup_, « _subject_ »).
         1. Let _cache_ be OrdinaryObjectCreate(*null*).
         1. Perform ! CreateDataPropertyOrThrow(_cache_, *"Has"*, ! Construct(%Map%)).
         1. Perform ! CreateDataPropertyOrThrow(_cache_, *"Get"*, ! Construct(%Map%)).
         1. Perform ! CreateDataPropertyOrThrow(_cache_, *"Iterator"*, *undefined*).
         1. Perform ! CreateDataPropertyOrThrow(_cache_, *"IteratedValues"*, ! ArrayCreate(0, *null*)).
-        1. Perform ! Call(%Map.prototype.set%, _cacheGroup_, « _subject_, _cache_ »).
+        1. Perform ! Call(<emu-xref href="#sec-map.prototype.has">%Map.prototype.set%</emu-xref>, _cacheGroup_, « _subject_, _cache_ »).
         1. Return _cache_.
       </emu-alg>
     </emu-clause>
@@ -2558,10 +2558,10 @@ contributors:
       <emu-alg>
         1. Assert: _cacheGroup_ is created by CreateMatchCache and used internally for pattern-matching.
         1. Let _cache_ be ! Get(GetMatchCache(_subject_, _cacheGroup_), *"Has"*).
-        1. Let _hasCache_ be ! Call(%Map.prototype.has%, _cache_, « _propertyName_ »).
-        1. If _hasCache_ is *true*, return ! Call(%Map.prototype.get%, _cache_, « _propertyName_ »).
+        1. Let _hasCache_ be ! Call(<emu-xref href="#sec-map.prototype.has">%Map.prototype.has%</emu-xref>, _cache_, « _propertyName_ »).
+        1. If _hasCache_ is *true*, return ! Call(<emu-xref href="#sec-map.prototype.has">%Map.prototype.get%</emu-xref>, _cache_, « _propertyName_ »).
         1. Let _result_ be ? HasProperty(_subject_, _propertyName_).
-        1. Perform ! Call(%Map.prototype.set%, _cache_, « _propertyName_, _result_ »).
+        1. Perform ! Call(<emu-xref href="#sec-map.prototype.has">%Map.prototype.set%</emu-xref>, _cache_, « _propertyName_, _result_ »).
         1. Return _result_.
       </emu-alg>
     </emu-clause>
@@ -2579,10 +2579,10 @@ contributors:
       <emu-alg>
         1. Assert: _cacheGroup_ is created by CreateMatchCache and used internally for pattern-matching.
         1. Let _cache_ be ! Get(GetMatchCache(_subject_, _cacheGroup_), *"Get"*).
-        1. Let _hasCache_ be ! Call(%Map.prototype.has%, _cache_, « _propertyName_ »).
-        1. If _hasCache_ is *true*, return ! Call(%Map.prototype.get%, _cache_, « _propertyName_ »).
+        1. Let _hasCache_ be ! Call(<emu-xref href="#sec-map.prototype.has">%Map.prototype.has%</emu-xref>, _cache_, « _propertyName_ »).
+        1. If _hasCache_ is *true*, return ! Call(<emu-xref href="#sec-map.prototype.has">%Map.prototype.get%</emu-xref>, _cache_, « _propertyName_ »).
         1. Let _result_ be ? Get(_subject_, _propertyName_).
-        1. Perform ! Call(%Map.prototype.set%, _cache_, « _propertyName_, _result_ »).
+        1. Perform ! Call(<emu-xref href="#sec-map.prototype.has">%Map.prototype.set%</emu-xref>, _cache_, « _propertyName_, _result_ »).
         1. Return _result_.
       </emu-alg>
     </emu-clause>
@@ -2606,7 +2606,7 @@ contributors:
         1. Set _iteratorRecordObject_ to OrdinaryObjectCreate(*null*, « [[CachedIterator]] »).
         1. Set _iteratorRecordObject_.[[CachedIterator]] to _iteratorRecord_.
         1. Perform ! Set(_cache_, *"Iterator"*, _iteratorRecordObject_, *true*).
-        1. Perform ! Call(%Set.prototype.add%, ! Get(_cacheGroup_, *"IteratorsToClose"*), « _iteratorRecordObject_ »).
+        1. Perform ! Call(<emu-xref href="#sec-set.prototype.add">%Set.prototype.add%</emu-xref>, ! Get(_cacheGroup_, *"IteratorsToClose"*), « _iteratorRecordObject_ »).
         1. Return _iteratorRecordObject_.[[CachedIterator]].
       </emu-alg>
       <emu-note type="editor">
@@ -2637,7 +2637,7 @@ contributors:
         1. Let _value_ be Completion(IteratorValue(_iteratorResult_)).
         1. If _value_ is an abrupt completion, set _iterator_.[[Done]] to *true*.
         1. ReturnIfAbrupt(_value_).
-        1. Perform ! Call(%Array.prototype.push%, _iteratedValues_, « _value_ »).
+        1. Perform ! Call(<emu-xref href="#sec-array.prototype.push">%Array.prototype.push%</emu-xref>, _iteratedValues_, « _value_ »).
         1. Return _value_.
       </emu-alg>
     </emu-clause>
