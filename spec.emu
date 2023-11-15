@@ -874,8 +874,8 @@ contributors:
           1. If _isRegExp_ is *true*, then
             1. Let _flags_ be ? Get(_regexp_, "flags").
             1. Perform ? RequireObjectCoercible(_flags_).
-            1. If ? ToString(_flags_) contain *"g"*, return ? Call(%String.prototype.matchAll%, _subject_, « _regexp_ »).
-          1. Let _result_ be ? Call(%String.prototype.match%, _subject_, « _regexp_ »).
+            1. If ? ToString(_flags_) contain *"g"*, return ? Call(%RegExp.prototype[@@matchAll]%, _regexp_, « _subject_ »).
+          1. Let _result_ be ? Call(%RegExp.prototype[@@match]%, _regexp_, « _subject_ »).
           1. Return CreateArrayFromList(« _result_ »).
         </emu-alg>
         <emu-note code>
@@ -888,6 +888,10 @@ contributors:
             '012-345' is regex({ groups: { id: "012" } });
             // true, match with match
           </code></pre>
+        </emu-note>
+        <emu-note type="editor">
+          The *"flags"* property in this algorithm is accessed twice, this is not ideal.
+          Another access is in <emu-xref href="#sec-regexp-prototype-matchall" title></emu-xref> or <emu-xref href="#sec-regexp.prototype-@@match" title></emu-xref> depends on if the _regexp_ has the *g* flag.
         </emu-note>
       </emu-clause>
     </emu-clause>
