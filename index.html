@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/styles/base16/solarized-light.min.css"><link rel="stylesheet" href="assets/ecmarkup.css"><link rel="stylesheet" href="./spec.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 <script src="./spec.js"></script>
-<title>Pattern Matching</title><script src="assets/ecmarkup.js?cache=ChQacQ-K" defer=""></script></head><body><div id="shortcuts-help">
+<title>Pattern Matching</title><script src="assets/ecmarkup.js?cache=QUB8b1K2" defer=""></script></head><body><div id="shortcuts-help">
 <ul>
   <li><span>Toggle shortcuts help</span><code>?</code></li>
   <li><span>Toggle "can call user code" annotations</span><code>u</code></li>
@@ -310,6 +310,16 @@
 </emu-grammar>
       <emu-alg><ol><li>Let <var>result</var> be <emu-xref aoid="HasCallInTailPosition"><a href="https://tc39.es/ecma262/#sec-static-semantics-hascallintailposition">HasCallInTailPosition</a></emu-xref> of <emu-nt id="_ref_198"><a href="#prod-MatchExpressionClauses">MatchExpressionClauses</a></emu-nt> with argument <var>call</var>.</li><li>If <var>result</var> is <emu-val>true</emu-val>, return <emu-val>true</emu-val>.</li><li>Return <emu-xref aoid="HasCallInTailPosition"><a href="https://tc39.es/ecma262/#sec-static-semantics-hascallintailposition">HasCallInTailPosition</a></emu-xref> of <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt> with argument <var>call</var>.</li></ol></emu-alg>
 
+      <emu-grammar><ins><emu-production name="MatchExpressionClauses" collapsed="">
+    <emu-nt><a href="#prod-MatchExpressionClauses">MatchExpressionClauses</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="xhzralk2" id="prod-r0FJMfp1">
+        <emu-t>default</emu-t>
+        <emu-t>:</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt>
+    </emu-rhs>
+</emu-production></ins>
+</emu-grammar>
+      <emu-alg><ol><li>Return <emu-xref aoid="HasCallInTailPosition"><a href="https://tc39.es/ecma262/#sec-static-semantics-hascallintailposition">HasCallInTailPosition</a></emu-xref> of <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt> with argument <var>call</var>.</li></ol></emu-alg>
+
       <emu-grammar><ins><emu-production name="MatchExpressionClause" collapsed="">
     <emu-nt><a href="#prod-MatchExpressionClause">MatchExpressionClause</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="pjnnj8-j" id="prod-nqVkY4Cz">
         <emu-nt id="_ref_199"><a href="#prod-MatchPattern">MatchPattern</a></emu-nt>
@@ -359,6 +369,16 @@
 </emu-production></ins>
 </emu-grammar>
       <emu-alg><ol><li>Let <var>result</var> be <emu-xref aoid="HasCallInTailPosition"><a href="https://tc39.es/ecma262/#sec-static-semantics-hascallintailposition">HasCallInTailPosition</a></emu-xref> of <emu-nt id="_ref_209"><a href="#prod-MatchStatementClauses">MatchStatementClauses</a></emu-nt> with argument <var>call</var>.</li><li>If <var>result</var> is <emu-val>true</emu-val>, return <emu-val>true</emu-val>.</li><li>Return <emu-xref aoid="HasCallInTailPosition"><a href="https://tc39.es/ecma262/#sec-static-semantics-hascallintailposition">HasCallInTailPosition</a></emu-xref> of <emu-nt><a href="https://tc39.es/ecma262/#prod-Statement">Statement</a></emu-nt> with argument <var>call</var>.</li></ol></emu-alg>
+
+      <emu-grammar><ins><emu-production name="MatchStatementClauses" collapsed="">
+    <emu-nt><a href="#prod-MatchStatementClauses">MatchStatementClauses</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="my-byrjn" id="prod-tsKDsGn5">
+        <emu-t>default</emu-t>
+        <emu-t>:</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-Statement">Statement</a></emu-nt>
+    </emu-rhs>
+</emu-production></ins>
+</emu-grammar>
+      <emu-alg><ol><li>Return <emu-xref aoid="HasCallInTailPosition"><a href="https://tc39.es/ecma262/#sec-static-semantics-hascallintailposition">HasCallInTailPosition</a></emu-xref> of <emu-nt><a href="https://tc39.es/ecma262/#prod-Statement">Statement</a></emu-nt> with argument <var>call</var>.</li></ol></emu-alg>
 
       <emu-grammar><ins><emu-production name="MatchStatementClause" collapsed="">
     <emu-nt><a href="#prod-MatchStatementClause">MatchStatementClause</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="pje5zsqx" id="prod-sTWFyDQI">
@@ -2022,6 +2042,11 @@ value is not (a or b); <span class="hljs-comment">// no Syntax Error</span></cod
         <emu-t>:</emu-t>
         <emu-nt params="+In, ?Yield, ?Await"><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a><emu-mods><emu-params>[+In, ?Yield, ?Await]</emu-params></emu-mods></emu-nt>
     </emu-rhs>
+    <emu-rhs a="vewutigw" id="prod-iGULIx-t">
+        <emu-t>default</emu-t>
+        <emu-t>:</emu-t>
+        <emu-nt params="+In, ?Yield, ?Await"><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a><emu-mods><emu-params>[+In, ?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+    </emu-rhs>
 </emu-production>
 <emu-production name="MatchExpressionClause" params="Yield, Await" id="prod-MatchExpressionClause">
     <emu-nt params="Yield, Await"><a href="#prod-MatchExpressionClause">MatchExpressionClause</a><emu-mods><emu-params>[Yield, Await]</emu-params></emu-mods></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="ll2690mf" id="prod-POLnbn8y">
@@ -2080,7 +2105,6 @@ value is not (a or b); <span class="hljs-comment">// no Syntax Error</span></cod
       It is syntactically impossible to have a match expression that
       <ul>
         <li>has no clause.</li>
-        <li>the only clause is a <code>default</code> clause.</li>
         <li>has multiple <code>default</code> clauses.</li>
         <li>the <code>default</code> clause is not the final clause.</li>
       </ul>
@@ -2149,6 +2173,15 @@ value is not (a or b); <span class="hljs-comment">// no Syntax Error</span></cod
 </emu-production>
 </emu-grammar>
       <emu-alg><ol><li>Let <var>result</var> be ?&nbsp;<emu-xref aoid="MatchExpressionClausesEvaluation" id="_ref_126"><a href="#sec-match-expression-clauses-runtime-semantics-evaluation" class="e-user-code">MatchExpressionClausesEvaluation</a></emu-xref> of <emu-nt id="_ref_433"><a href="#prod-MatchExpressionClauses">MatchExpressionClauses</a></emu-nt> with arguments <var>subject</var> and <var>cacheGroup</var>.</li><li>If <var>result</var> is an <emu-xref href="#sec-ecmascript-language-types" id="_ref_127"><a href="#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>, return <var>result</var>.</li><li>Return ?&nbsp;<emu-xref aoid="Evaluation"><a href="https://tc39.es/ecma262/#sec-evaluation" class="e-user-code">Evaluation</a></emu-xref> of <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt>.</li></ol></emu-alg>
+      <emu-grammar><emu-production name="MatchExpressionClauses" collapsed="">
+    <emu-nt><a href="#prod-MatchExpressionClauses">MatchExpressionClauses</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="xhzralk2" id="prod-QDysejGw">
+        <emu-t>default</emu-t>
+        <emu-t>:</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+      <emu-alg><ol><li>Return ?&nbsp;<emu-xref aoid="Evaluation"><a href="https://tc39.es/ecma262/#sec-evaluation" class="e-user-code">Evaluation</a></emu-xref> of <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt>.</li></ol></emu-alg>
     </emu-clause>
 
     <emu-clause id="sec-match-expression-clause-runtime-semantics-evaluation" type="sdo" aoid="MatchExpressionClauseEvaluation">
@@ -2195,6 +2228,11 @@ value is not (a or b); <span class="hljs-comment">// no Syntax Error</span></cod
         <emu-t>:</emu-t>
         <emu-nt params="?Yield, ?Await"><a href="https://tc39.es/ecma262/#prod-Statement">Statement</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
     </emu-rhs>
+    <emu-rhs a="d-vopfhb" id="prod-M8VQiquN">
+        <emu-t>default</emu-t>
+        <emu-t>:</emu-t>
+        <emu-nt params="?Yield, ?Await"><a href="https://tc39.es/ecma262/#prod-Statement">Statement</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
+    </emu-rhs>
 </emu-production>
 <emu-production name="MatchStatementClause" params="Yield, Await" id="prod-MatchStatementClause">
     <emu-nt params="Yield, Await"><a href="#prod-MatchStatementClause">MatchStatementClause</a><emu-mods><emu-params>[Yield, Await]</emu-params></emu-mods></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="vv5kxeze" id="prod-ZIlZDxI_">
@@ -2231,7 +2269,6 @@ value is not (a or b); <span class="hljs-comment">// no Syntax Error</span></cod
       It is syntactically impossible to have a match statement that
       <ul>
         <li>has no clause.</li>
-        <li>the only clause is a <code>default</code> clause.</li>
         <li>has multiple <code>default</code> clauses.</li>
         <li>the <code>default</code> clause is not the final clause.</li>
       </ul>
@@ -2256,6 +2293,13 @@ value is not (a or b); <span class="hljs-comment">// no Syntax Error</span></cod
     <emu-nt><a href="#prod-MatchStatementClauses">MatchStatementClauses</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="iskkw9mw">
         <emu-nt id="_ref_444"><a href="#prod-MatchStatementClauses">MatchStatementClauses</a></emu-nt>
         <emu-t>;</emu-t>
+        <emu-t>default</emu-t>
+        <emu-t>:</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-Statement">Statement</a></emu-nt>
+    </emu-rhs>
+</emu-production>
+<emu-production name="MatchStatementClauses" collapsed="">
+    <emu-nt><a href="#prod-MatchStatementClauses">MatchStatementClauses</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="my-byrjn">
         <emu-t>default</emu-t>
         <emu-t>:</emu-t>
         <emu-nt><a href="https://tc39.es/ecma262/#prod-Statement">Statement</a></emu-nt>
@@ -2317,6 +2361,15 @@ value is not (a or b); <span class="hljs-comment">// no Syntax Error</span></cod
 </emu-production>
 </emu-grammar>
       <emu-alg><ol><li>Let <var>result</var> be ?&nbsp;<emu-xref aoid="MatchStatementClausesEvaluation" id="_ref_139"><a href="#sec-match-statement-clauses-runtime-semantics-evaluation" class="e-user-code">MatchStatementClausesEvaluation</a></emu-xref> of <emu-nt id="_ref_456"><a href="#prod-MatchStatementClauses">MatchStatementClauses</a></emu-nt> with arguments <var>subject</var> and <var>cacheGroup</var>.</li><li>If <var>result</var> is not <emu-const>not-matched</emu-const>, return <var>result</var>.</li><li>Return ?&nbsp;<emu-xref aoid="Evaluation"><a href="https://tc39.es/ecma262/#sec-evaluation" class="e-user-code">Evaluation</a></emu-xref> of <emu-nt><a href="https://tc39.es/ecma262/#prod-Statement">Statement</a></emu-nt>.</li></ol></emu-alg>
+      <emu-grammar><emu-production name="MatchStatementClauses" collapsed="">
+    <emu-nt><a href="#prod-MatchStatementClauses">MatchStatementClauses</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="my-byrjn" id="prod-LK25Bzur">
+        <emu-t>default</emu-t>
+        <emu-t>:</emu-t>
+        <emu-nt><a href="https://tc39.es/ecma262/#prod-Statement">Statement</a></emu-nt>
+    </emu-rhs>
+</emu-production>
+</emu-grammar>
+      <emu-alg><ol><li>Return ?&nbsp;<emu-xref aoid="Evaluation"><a href="https://tc39.es/ecma262/#sec-evaluation" class="e-user-code">Evaluation</a></emu-xref> of <emu-nt><a href="https://tc39.es/ecma262/#prod-Statement">Statement</a></emu-nt>.</li></ol></emu-alg>
     </emu-clause>
     <emu-clause id="sec-match-statement-clause-runtime-semantics-evaluation" type="sdo" aoid="MatchStatementClauseEvaluation">
       <h1><span class="secnum">30.3.4</span> Runtime Semantics: MatchStatementClauseEvaluation</h1>

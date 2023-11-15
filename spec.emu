@@ -304,6 +304,13 @@ contributors:
       </emu-alg>
 
       <emu-grammar>
+        <ins>MatchExpressionClauses : `default` `:` Expression</ins>
+      </emu-grammar>
+      <emu-alg>
+        1. Return HasCallInTailPosition of |Expression| with argument _call_.
+      </emu-alg>
+
+      <emu-grammar>
         <ins>MatchExpressionClause : MatchPattern `:` Expression</ins>
       </emu-grammar>
       <emu-alg>
@@ -339,6 +346,13 @@ contributors:
       <emu-alg>
         1. Let _result_ be HasCallInTailPosition of |MatchStatementClauses| with argument _call_.
         1. If _result_ is *true*, return *true*.
+        1. Return HasCallInTailPosition of |Statement| with argument _call_.
+      </emu-alg>
+
+      <emu-grammar>
+        <ins>MatchStatementClauses : `default` `:` Statement</ins>
+      </emu-grammar>
+      <emu-alg>
         1. Return HasCallInTailPosition of |Statement| with argument _call_.
       </emu-alg>
 
@@ -2096,6 +2110,7 @@ contributors:
         MatchExpressionClause[?Yield, ?Await]
         MatchExpressionClauses[?Yield, ?Await] `;` MatchExpressionClause[?Yield, ?Await]
         MatchExpressionClauses[?Yield, ?Await] `;` `default` `:` Expression[+In, ?Yield, ?Await]
+        `default` `:` Expression[+In, ?Yield, ?Await]
 
       MatchExpressionClause[Yield, Await] :
         MatchPattern[?Yield, ?Await] `:` Expression[+In, ?Yield, ?Await]
@@ -2138,7 +2153,6 @@ contributors:
       It is syntactically impossible to have a match expression that
       <ul>
         <li>has no clause.</li>
-        <li>the only clause is a `default` clause.</li>
         <li>has multiple `default` clauses.</li>
         <li>the `default` clause is not the final clause.</li>
       </ul>
@@ -2206,6 +2220,12 @@ contributors:
         1. If _result_ is an ECMAScript language value, return _result_.
         1. Return ? Evaluation of |Expression|.
       </emu-alg>
+      <emu-grammar>
+        MatchExpressionClauses : `default` `:` Expression
+      </emu-grammar>
+      <emu-alg>
+        1. Return ? Evaluation of |Expression|.
+      </emu-alg>
     </emu-clause>
 
     <emu-clause id="sec-match-expression-clause-runtime-semantics-evaluation" type="sdo">
@@ -2239,6 +2259,7 @@ contributors:
         MatchStatementClause[?Yield, ?Await]
         MatchStatementClauses[?Yield, ?Await] `;` MatchStatementClause[?Yield, ?Await]
         MatchStatementClauses[?Yield, ?Await] `;` `default` `:` Statement[?Yield, ?Await]
+        `default` `:` Statement[?Yield, ?Await]
 
       MatchStatementClause[Yield, Await] :
         MatchPattern[?Yield, ?Await] `:` Statement[?Yield, ?Await]
@@ -2274,7 +2295,6 @@ contributors:
       It is syntactically impossible to have a match statement that
       <ul>
         <li>has no clause.</li>
-        <li>the only clause is a `default` clause.</li>
         <li>has multiple `default` clauses.</li>
         <li>the `default` clause is not the final clause.</li>
       </ul>
@@ -2290,6 +2310,7 @@ contributors:
         </ul>
         <emu-grammar>
           MatchStatementClauses : MatchStatementClauses `;` `default` `:` Statement
+          MatchStatementClauses : `default` `:` Statement
           MatchStatementClause : MatchPattern `:` Statement
         </emu-grammar>
         <ul>
@@ -2343,6 +2364,12 @@ contributors:
       <emu-alg>
         1. Let _result_ be ? MatchStatementClausesEvaluation of |MatchStatementClauses| with arguments _subject_ and _cacheGroup_.
         1. If _result_ is not ~not-matched~, return _result_.
+        1. Return ? Evaluation of |Statement|.
+      </emu-alg>
+      <emu-grammar>
+        MatchStatementClauses : `default` `:` Statement
+      </emu-grammar>
+      <emu-alg>
         1. Return ? Evaluation of |Statement|.
       </emu-alg>
     </emu-clause>
