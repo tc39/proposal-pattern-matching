@@ -681,7 +681,7 @@ contributors:
         <h1>RegExp.prototype [ @@customMatcher ] ( _subject_, _hint_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
-          1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
+          1. Perform ? ValidateCustomMatcherHint(_hint_).
           1. Let _regexp_ be *this* value.
           1. If _hint_ is *"boolean"*, return ? Call(%RegExp.prototype.test%, _regexp_, « _subject_ »).
           1. Let _isRegExp_ be ? IsRegExp(_regexp_).
