@@ -1174,6 +1174,7 @@ contributors:
         `void`
         `(` MatchPattern[?Yield, ?Await] `)`
         PrimitivePattern
+        BindingPattern[?Yield, ?Await]
         RegularExpressionPattern
         MemberExpressionPattern[?Yield, ?Await]
         ObjectPattern[?Yield, ?Await]
@@ -1215,6 +1216,26 @@ contributors:
       For example, match `"com.example:method()"` by
       <pre><code class="javascript">
         when `${isPackageName and let pkg}:${isIdentifier and let method}()`: ...,
+      </code></pre>
+    </emu-note>
+    <!-- endregion -->
+
+    <!-- #region BindingPattern -->
+    <emu-grammar type="definition">
+      BindingPattern[Yield, Await] :
+        VarOrLetOrConst BindingIdentifier[?Yield, ?Await]
+
+      VarOrLetOrConst :
+        `var`
+        LetOrConst
+    </emu-grammar>
+    <emu-note code>
+      <pre><code class="javascript">
+        when { kind: let type }: ...,
+      </code></pre>
+      <p>Outside of match expression:</p>
+      <pre><code class="javascript">
+        if (expr is [let left, let op, let right]) ...
       </code></pre>
     </emu-note>
     <!-- endregion -->
@@ -1310,6 +1331,8 @@ contributors:
       MatchProperty[Yield, Await] :
         PropertyName[?Yield, ?Await] `?`?
         PropertyName[?Yield, ?Await] `?`? `:` MatchPattern[?Yield, ?Await]
+        VarOrLetOrConst BindingIdentifier[?Yield, ?Await] `?`?
+        VarOrLetOrConst BindingIdentifier[?Yield, ?Await] `?`? `:` MatchPattern[?Yield, ?Await]
 
       MatchElement[Yield, Await] :
         MatchPattern[?Yield, ?Await] `?`?
@@ -1352,7 +1375,21 @@ contributors:
       </code></pre>
     </emu-note>
     <emu-note type="editor">
-      <emu-grammar>MatchProperty[Yield, Await] : PropertyName[?Yield, ?Await] `?`?</emu-grammar>
+      <emu-grammar>
+        MatchProperty :
+          VarOrLetOrConst BindingIdentifier `?`? `:` MatchPattern
+          VarOrLetOrConst BindingIdentifier `?`?
+      </emu-grammar>
+      <p>These productions can be removed.</p>
+      <p>This feature is not a consensus in the champion group yet.</p>
+      <pre><code class="javascript">
+        when { let y: String }: ...,
+        // can be written as
+        when { y: String and let y }: ...,
+      </code></pre>
+    </emu-note>
+    <emu-note type="editor">
+      <emu-grammar>MatchProperty : PropertyName `?`?</emu-grammar>
       <p>Computed properties can be removed from this production, but it will be harder to match computed properties.</p>
       <pre><code class="javascript">
         when { [Symbol.iterator] }: ...,
@@ -1714,6 +1751,12 @@ contributors:
         1. Return PrimitivePatternMatches of |PrimitivePattern| with arguments _subject_.
       </emu-alg>
       <emu-grammar>
+        MatchPattern : BindingPattern
+      </emu-grammar>
+      <emu-alg>
+        1. Return BindingPatternMatches of |BindingPattern| with arguments _subject_.
+      </emu-alg>
+      <emu-grammar>
         MatchPattern : RegularExpressionPattern
       </emu-grammar>
       <emu-alg>
@@ -1782,6 +1825,25 @@ contributors:
       </emu-grammar>
       <emu-alg>
         1. Return SameValueNonNumber(_subject_, ! Evaluation of |NoSubstitutionTemplate|).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-binding-pattern-matches" type="sdo">
+      <h1>
+        Runtime Semantics: BindingPatternMatches (
+          _subject_: an ECMAScript language value,
+        ): a Boolean
+      </h1>
+      <dl class="header">
+      </dl>
+      <emu-grammar>
+        BindingPattern : VarOrLetOrConst BindingIdentifier
+      </emu-grammar>
+      <emu-alg>
+        1. TODO: This section is not written in the spec language yet.
+        1. Let _name_ be the first element of BoundNames of |BindingIdentifier|.
+        1. Initialize variable _name_ with _subject_ with the semantics of `var`, `let` or `const` based on |VarOrLetOrConst|.
+        1. Return *true*.
       </emu-alg>
     </emu-clause>
 
@@ -1952,6 +2014,34 @@ contributors:
         1. Let _value_ be ? GetCached(_subject_, _cacheGroup_, _propertyName_).
         1. Let _matches_ be ? MatchPatternMatches of |MatchPattern| with arguments _value_ and _cacheGroup_.
         1. If _matches_ is *false*, return ~not-matched~.
+        1. Return « _propertyName_ ».
+      </emu-alg>
+      <emu-grammar>
+        MatchProperty : VarOrLetOrConst BindingIdentifier `?`?
+      </emu-grammar>
+      <emu-alg>
+        1. TODO: This section is not written in the spec language yet.
+        1. Let _propertyName_ be the first element of BoundNames of |BindingIdentifier|.
+        1. If ? HasPropertyCached(_subject_, _cacheGroup_, _propertyName_) is *false*, then
+          1. If `?` is present, return « ».
+          1. Return ~not-matched~.
+        1. Let _value_ be ? GetCached(_subject_, _cacheGroup_, _propertyName_).
+        1. Initialize variable _propertyName_ with _value_ with the semantics of `var`, `let` or `const` based on |VarOrLetOrConst|.
+        1. Return « _propertyName_ ».
+      </emu-alg>
+      <emu-grammar>
+        MatchProperty : VarOrLetOrConst BindingIdentifier `?`? `:` MatchPattern
+      </emu-grammar>
+      <emu-alg>
+        1. TODO: This section is not written in the spec language yet.
+        1. Let _propertyName_ be the first element of BoundNames of |BindingIdentifier|.
+        1. If ? HasPropertyCached(_subject_, _cacheGroup_, _propertyName_) is *false*, then
+          1. If `?` is present, return « ».
+          1. Return ~not-matched~.
+        1. Let _value_ be ? GetCached(_subject_, _cacheGroup_, _propertyName_).
+        1. Let _matches_ be ? MatchPatternMatches of |MatchPattern| with arguments _value_ and _cacheGroup_.
+        1. If _matches_ is *false*, return ~not-matched~.
+        1. Initialize variable _propertyName_ with _value_ with the semantics of `var`, `let` or `const` based on |VarOrLetOrConst|.
         1. Return « _propertyName_ ».
       </emu-alg>
     </emu-clause>
@@ -2783,6 +2873,8 @@ contributors:
     <h1>Patterns</h1>
     <emu-prodref name="MatchPattern"></emu-prodref>
     <emu-prodref name="PrimitivePattern"></emu-prodref>
+    <emu-prodref name="BindingPattern"></emu-prodref>
+    <emu-prodref name="VarOrLetOrConst"></emu-prodref>
     <emu-prodref name="RegularExpressionPattern"></emu-prodref>
     <emu-prodref name="MemberExpressionPattern"></emu-prodref>
     <emu-prodref name="ObjectPattern"></emu-prodref>
