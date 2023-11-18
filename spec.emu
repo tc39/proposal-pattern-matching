@@ -1642,9 +1642,9 @@ contributors:
     <emu-grammar type="definition">
       ObjectPattern[Yield, Await] :
         `{` `}`
-        `{` MatchRestProperty[?Yield, ?Await] `,`? `}`
+        `{` MatchRestProperty[?Yield, ?Await] `}`
         `{` MatchPropertyList[?Yield, ?Await] `,`? `}`
-        `{` MatchPropertyList[?Yield, ?Await] `,` MatchRestProperty[?Yield, ?Await] `,`? `}`
+        `{` MatchPropertyList[?Yield, ?Await] `,` MatchRestProperty[?Yield, ?Await] `}`
 
       ArrayPattern[Yield, Await] :
         `[` MatchList[?Yield, ?Await]? `]`
@@ -2403,7 +2403,7 @@ contributors:
         1. Return *false*.
       </emu-alg>
       <emu-grammar>
-        ObjectPattern : `{` MatchRestProperty `,`? `}`
+        ObjectPattern : `{` MatchRestProperty `}`
       </emu-grammar>
       <emu-alg>
         1. If _subject_ is not an Object, return *false*.
@@ -2421,7 +2421,7 @@ contributors:
         1. Return *true*.
       </emu-alg>
       <emu-grammar>
-        ObjectPattern : `{` MatchPropertyList `,` MatchRestProperty `,`? `}`
+        ObjectPattern : `{` MatchPropertyList `,` MatchRestProperty `}`
       </emu-grammar>
       <emu-alg>
         1. If _subject_ is not an Object, return *false*.

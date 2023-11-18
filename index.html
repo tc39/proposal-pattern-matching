@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/styles/base16/solarized-light.min.css"><link rel="stylesheet" href="assets/ecmarkup.css"><link rel="stylesheet" href="./spec.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
 <script src="./spec.js"></script>
-<title>Pattern Matching</title><script src="assets/ecmarkup.js?cache=L2Z23SSO" defer=""></script></head><body><div id="shortcuts-help">
+<title>Pattern Matching</title><script src="assets/ecmarkup.js?cache=rYv4KfK0" defer=""></script></head><body><div id="shortcuts-help">
 <ul>
   <li><span>Toggle shortcuts help</span><code>?</code></li>
   <li><span>Toggle "can call user code" annotations</span><code>u</code></li>
@@ -1499,10 +1499,9 @@ value is <span class="hljs-variable constant_">PI</span>;</code></pre>
         <emu-t>{</emu-t>
         <emu-t>}</emu-t>
     </emu-rhs>
-    <emu-rhs a="zed0hf8x" id="prod-NsOhS4ic">
+    <emu-rhs a="rqbh5emu" id="prod-EWVgVnxN">
         <emu-t>{</emu-t>
         <emu-nt params="?Yield, ?Await" id="_ref_323"><a href="#prod-MatchRestProperty">MatchRestProperty</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
-        <emu-t optional="">,<emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-t>
         <emu-t>}</emu-t>
     </emu-rhs>
     <emu-rhs a="criubbam" id="prod-UnQjidH-">
@@ -1511,12 +1510,11 @@ value is <span class="hljs-variable constant_">PI</span>;</code></pre>
         <emu-t optional="">,<emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-t>
         <emu-t>}</emu-t>
     </emu-rhs>
-    <emu-rhs a="isgse-xt" id="prod--gVCj1Jx">
+    <emu-rhs a="9huzo627" id="prod-xpU3Tqeh">
         <emu-t>{</emu-t>
         <emu-nt params="?Yield, ?Await" id="_ref_325"><a href="#prod-MatchPropertyList">MatchPropertyList</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
         <emu-t>,</emu-t>
         <emu-nt params="?Yield, ?Await" id="_ref_326"><a href="#prod-MatchRestProperty">MatchRestProperty</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
-        <emu-t optional="">,<emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-t>
         <emu-t>}</emu-t>
     </emu-rhs>
 </emu-production>
@@ -2388,10 +2386,9 @@ value is not (a or b); <span class="hljs-comment">// no Syntax Error</span></cod
 </emu-grammar>
       <emu-alg><ol><li>If <var>subject</var> <emu-xref href="#sec-object-type"><a href="https://tc39.es/ecma262/#sec-object-type">is an Object</a></emu-xref>, return <emu-val>true</emu-val>.</li><li>Return <emu-val>false</emu-val>.</li></ol></emu-alg>
       <emu-grammar><emu-production name="ObjectPattern" collapsed="">
-    <emu-nt><a href="#prod-ObjectPattern">ObjectPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="kaiwz1rl" id="prod-D1Wi_rzE">
+    <emu-nt><a href="#prod-ObjectPattern">ObjectPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="o1dsndx3" id="prod-rsN4rFAw">
         <emu-t>{</emu-t>
         <emu-nt id="_ref_458"><a href="#prod-MatchRestProperty">MatchRestProperty</a></emu-nt>
-        <emu-t optional="">,<emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-t>
         <emu-t>}</emu-t>
     </emu-rhs>
 </emu-production>
@@ -2408,12 +2405,11 @@ value is not (a or b); <span class="hljs-comment">// no Syntax Error</span></cod
 </emu-grammar>
       <emu-alg><ol><li>If <var>subject</var> <emu-xref href="#sec-object-type"><a href="https://tc39.es/ecma262/#sec-object-type">is not an Object</a></emu-xref>, return <emu-val>false</emu-val>.</li><li>Let <var>matches</var> be ?&nbsp;<emu-xref aoid="ObjectPatternInnerMatches" id="_ref_118"><a href="#sec-object-pattern-inner-matches" class="e-user-code">ObjectPatternInnerMatches</a></emu-xref> of <emu-nt id="_ref_461"><a href="#prod-MatchPropertyList">MatchPropertyList</a></emu-nt> with arguments <var>subject</var>, <var>cacheGroup</var> and a new empty <emu-xref href="#sec-list-and-record-specification-type"><a href="https://tc39.es/ecma262/#sec-list-and-record-specification-type">List</a></emu-xref>.</li><li>If <var>matches</var> is <emu-const>not-matched</emu-const>, return <emu-val>false</emu-val>.</li><li>Return <emu-val>true</emu-val>.</li></ol></emu-alg>
       <emu-grammar><emu-production name="ObjectPattern" collapsed="">
-    <emu-nt><a href="#prod-ObjectPattern">ObjectPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="m0rp2t1d" id="prod-57If1nV3">
+    <emu-nt><a href="#prod-ObjectPattern">ObjectPattern</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="vxmanhfb" id="prod-yj96DPDb">
         <emu-t>{</emu-t>
         <emu-nt id="_ref_462"><a href="#prod-MatchPropertyList">MatchPropertyList</a></emu-nt>
         <emu-t>,</emu-t>
         <emu-nt id="_ref_463"><a href="#prod-MatchRestProperty">MatchRestProperty</a></emu-nt>
-        <emu-t optional="">,<emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-t>
         <emu-t>}</emu-t>
     </emu-rhs>
 </emu-production>
@@ -3424,10 +3420,9 @@ value is not (a or b); <span class="hljs-comment">// no Syntax Error</span></cod
         <emu-t>{</emu-t>
         <emu-t>}</emu-t>
     </emu-rhs>
-    <emu-rhs a="zed0hf8x" id="prod-NsOhS4ic">
+    <emu-rhs a="rqbh5emu" id="prod-EWVgVnxN">
         <emu-t>{</emu-t>
         <emu-nt params="?Yield, ?Await"><a href="#prod-MatchRestProperty">MatchRestProperty</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
-        <emu-t optional="">,<emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-t>
         <emu-t>}</emu-t>
     </emu-rhs>
     <emu-rhs a="criubbam" id="prod-UnQjidH-">
@@ -3436,12 +3431,11 @@ value is not (a or b); <span class="hljs-comment">// no Syntax Error</span></cod
         <emu-t optional="">,<emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-t>
         <emu-t>}</emu-t>
     </emu-rhs>
-    <emu-rhs a="isgse-xt" id="prod--gVCj1Jx">
+    <emu-rhs a="9huzo627" id="prod-xpU3Tqeh">
         <emu-t>{</emu-t>
         <emu-nt params="?Yield, ?Await"><a href="#prod-MatchPropertyList">MatchPropertyList</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
         <emu-t>,</emu-t>
         <emu-nt params="?Yield, ?Await"><a href="#prod-MatchRestProperty">MatchRestProperty</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
-        <emu-t optional="">,<emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-t>
         <emu-t>}</emu-t>
     </emu-rhs>
 </emu-production>
@@ -3539,10 +3533,9 @@ value is not (a or b); <span class="hljs-comment">// no Syntax Error</span></cod
         <emu-t>{</emu-t>
         <emu-t>}</emu-t>
     </emu-rhs>
-    <emu-rhs a="zed0hf8x" id="prod-NsOhS4ic">
+    <emu-rhs a="rqbh5emu" id="prod-EWVgVnxN">
         <emu-t>{</emu-t>
         <emu-nt params="?Yield, ?Await"><a href="#prod-MatchRestProperty">MatchRestProperty</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
-        <emu-t optional="">,<emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-t>
         <emu-t>}</emu-t>
     </emu-rhs>
     <emu-rhs a="criubbam" id="prod-UnQjidH-">
@@ -3551,12 +3544,11 @@ value is not (a or b); <span class="hljs-comment">// no Syntax Error</span></cod
         <emu-t optional="">,<emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-t>
         <emu-t>}</emu-t>
     </emu-rhs>
-    <emu-rhs a="isgse-xt" id="prod--gVCj1Jx">
+    <emu-rhs a="9huzo627" id="prod-xpU3Tqeh">
         <emu-t>{</emu-t>
         <emu-nt params="?Yield, ?Await"><a href="#prod-MatchPropertyList">MatchPropertyList</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
         <emu-t>,</emu-t>
         <emu-nt params="?Yield, ?Await"><a href="#prod-MatchRestProperty">MatchRestProperty</a><emu-mods><emu-params>[?Yield, ?Await]</emu-params></emu-mods></emu-nt>
-        <emu-t optional="">,<emu-mods><emu-opt>opt</emu-opt></emu-mods></emu-t>
         <emu-t>}</emu-t>
     </emu-rhs>
 </emu-production>
