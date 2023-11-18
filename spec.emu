@@ -36,7 +36,7 @@ contributors:
     font-style: italic;
     text-decoration: underline;
   }
-  body.folded .fold {
+  body.folded .fold, body.folded .todo {
     display: none;
   }
   .show-ao-annotations a.e-user-code::before, .show-ao-annotations span.e-user-code::before {
@@ -50,6 +50,15 @@ contributors:
   <p>Most of built-in matchers are folded.</p>
   <p><button id="expand">Click to expand the hidden sections.</button></p>
   <script defer async src="./assets/expand.js"></script>
+</emu-clause>
+
+<emu-clause class="fold" id="sec-overview" number="4">
+  <h1>Overview</h1>
+
+  <emu-clause id="sec-organization-of-this-specification" number="5">
+    <h1>Organization of This Specification</h1>
+    <p><ins>Clause <emu-xref href="#sec-pattern-matching"></emu-xref> describes the pattern-matching feature.</ins></p>
+  </emu-clause>
 </emu-clause>
 
 <emu-clause class="fold" id="sec-ecmascript-data-types-and-values" aoid="Type" number="6">
@@ -126,6 +135,145 @@ contributors:
   </emu-clause>
 </emu-clause>
 
+<emu-clause class="todo" id="sec-syntax-directed-operations">
+  <h1>Syntax-Directed Operations</h1>
+
+  <emu-clause id="sec-syntax-directed-operations-scope-analysis" number="2">
+    <h1>Scope Analysis</h1>
+
+    <emu-clause id="sec-static-semantics-boundnames" type="sdo" number="1">
+      <h1>Static Semantics: BoundNames ( ): a List of Strings</h1>
+      <dl class="header">
+      </dl>
+      <emu-note type="editor">
+        TODO: Scope Analysis.
+      </emu-note>
+    </emu-clause>
+
+    <emu-clause id="sec-static-semantics-declarationpart" type="sdo" number="2">
+      <h1>Static Semantics: DeclarationPart ( ): a Parse Node</h1>
+      <dl class="header">
+      </dl>
+      <emu-note type="editor">
+        TODO: Scope Analysis.
+      </emu-note>
+    </emu-clause>
+
+    <emu-clause id="sec-static-semantics-isconstantdeclaration" type="sdo" number="3">
+      <h1>Static Semantics: IsConstantDeclaration ( ): a Boolean</h1>
+      <dl class="header">
+      </dl>
+      <emu-note type="editor">
+        TODO: Scope Analysis.
+      </emu-note>
+    </emu-clause>
+
+    <emu-clause id="sec-static-semantics-lexicallydeclarednames" type="sdo" number="4">
+      <h1>Static Semantics: LexicallyDeclaredNames ( ): a List of Strings</h1>
+      <dl class="header">
+      </dl>
+      <emu-note type="editor">
+        TODO: Scope Analysis.
+      </emu-note>
+    </emu-clause>
+
+    <emu-clause id="sec-static-semantics-lexicallyscopeddeclarations" type="sdo" number="5">
+      <h1>Static Semantics: LexicallyScopedDeclarations ( ): a List of Parse Nodes</h1>
+      <dl class="header">
+      </dl>
+      <emu-note type="editor">
+        TODO: Scope Analysis.
+      </emu-note>
+    </emu-clause>
+
+    <emu-clause id="sec-static-semantics-vardeclarednames" type="sdo" number="6">
+      <h1>Static Semantics: VarDeclaredNames ( ): a List of Strings</h1>
+      <dl class="header">
+      </dl>
+      <emu-note type="editor">
+        TODO: Scope Analysis.
+      </emu-note>
+    </emu-clause>
+
+    <emu-clause id="sec-static-semantics-varscopeddeclarations" type="sdo" number="7">
+      <h1>Static Semantics: VarScopedDeclarations ( ): a List of Parse Nodes</h1>
+      <dl class="header">
+      </dl>
+      <emu-note type="editor">
+        TODO: Scope Analysis.
+      </emu-note>
+    </emu-clause>
+
+    <emu-clause id="sec-static-semantics-toplevellexicallydeclarednames" type="sdo" number="8">
+      <h1>Static Semantics: TopLevelLexicallyDeclaredNames ( ): a List of Strings</h1>
+      <dl class="header">
+      </dl>
+      <emu-note type="editor">
+        TODO: Scope Analysis.
+      </emu-note>
+    </emu-clause>
+
+    <emu-clause id="sec-static-semantics-toplevellexicallyscopeddeclarations" type="sdo" number="9">
+      <h1>Static Semantics: TopLevelLexicallyScopedDeclarations ( ): a List of Parse Nodes</h1>
+      <dl class="header">
+      </dl>
+      <emu-note type="editor">
+        TODO: Scope Analysis.
+      </emu-note>
+    </emu-clause>
+
+    <emu-clause id="sec-static-semantics-toplevelvardeclarednames" type="sdo" number="10">
+      <h1>Static Semantics: TopLevelVarDeclaredNames ( ): a List of Strings</h1>
+      <dl class="header">
+      </dl>
+      <emu-note type="editor">
+        TODO: Scope Analysis.
+      </emu-note>
+    </emu-clause>
+
+    <emu-clause id="sec-static-semantics-toplevelvarscopeddeclarations" type="sdo" number="11">
+      <h1>Static Semantics: TopLevelVarScopedDeclarations ( ): a List of Parse Nodes</h1>
+      <dl class="header">
+      </dl>
+      <emu-note type="editor">
+        TODO: Scope Analysis.
+      </emu-note>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-syntax-directed-operations-miscellaneous" number="6">
+    <h1>Miscellaneous</h1>
+
+    <emu-clause id="sec-runtime-semantics-bindinginitialization" type="sdo" number="2">
+      <h1>
+        Runtime Semantics: BindingInitialization (
+          _value_: an ECMAScript language value,
+          _environment_: an Environment Record or *undefined*,
+        ): either a normal completion containing ~unused~ or an abrupt completion
+      </h1>
+      <dl class="header">
+      </dl>
+      <emu-note type="editor">
+        TODO: Scope Analysis.
+      </emu-note>
+    </emu-clause>
+
+    <emu-clause id="sec-runtime-semantics-iteratorbindinginitialization" type="sdo" number="3">
+      <h1>
+        Runtime Semantics: IteratorBindingInitialization (
+          _iteratorRecord_: an Iterator Record,
+          _environment_: an Environment Record or *undefined*,
+        ): either a normal completion containing ~unused~ or an abrupt completion
+      </h1>
+      <dl class="header">
+      </dl>
+      <emu-note type="editor">
+        TODO: Scope Analysis.
+      </emu-note>
+    </emu-clause>
+  </emu-clause>
+</emu-clause>
+
 <emu-clause class="fold" id="sec-executable-code-and-execution-contexts" number="9">
   <h1>Executable Code and Execution Contexts</h1>
   <emu-clause id="sec-weakly-hold-targets-processing-model" oldids="sec-weakref-processing-model" number="10">
@@ -176,6 +324,20 @@ contributors:
             `match` [no LineTerminator here] `(` Expression `)`
         </emu-grammar>
       </emu-note>
+    </emu-clause>
+
+    <emu-clause id="sec-interesting-cases-of-automatic-semicolon-insertion" number="3">
+      <h1>Interesting Cases of Automatic Semicolon Insertion</h1>
+      <emu-clause id="sec-asi-cases-with-no-lineterminator-here" number="2">
+        <h1>Cases of Automatic Semicolon Insertion and “[no |LineTerminator| here]”</h1>
+        <emu-clause id="sec-no-lineterminator-here-automatic-semicolon-insertion-list" number="1">
+          <h1>List of Grammar Productions with Optional Operands and “[no |LineTerminator| here]”</h1>
+          <ul>
+            <li><ins>|MatchExpression|.</ins></li>
+            <li><ins>|MatchStatement|.</ins></li>
+          </ul>
+        </emu-clause>
+      </emu-clause>
     </emu-clause>
   </emu-clause>
 </emu-clause>
@@ -277,13 +439,53 @@ contributors:
   </emu-clause>
 </emu-clause>
 
-<emu-clause id="sec-ecmascript-language-statements-and-declarations">
+<emu-clause id="sec-ecmascript-language-statements-and-declarations" number="14">
   <h1>ECMAScript Language: Statements and Declarations</h1>
   <h2>Syntax</h2>
   <emu-grammar>
     Statement[Yield, Await, Return] :
       <ins>MatchStatement[?Yield, ?Await, ?Return]</ins>
   </emu-grammar>
+
+  <emu-clause id="sec-iteration-statements" number="7">
+    <h1>Iteration Statements</h1>
+
+    <emu-clause id="sec-for-in-and-for-of-statements">
+      <h1>The `for`-`in`, `for`-`of`, and `for`-`await`-`of` Statements</h1>
+      <emu-note type="editor">
+        It's possible to add pattern-matching to the `for` iteration statements. It might looks like this:
+        <pre><code class="javascript">
+          for (const item of items) {
+            if (item is { kind: "foo", let data }) {
+              // ...
+            }
+          }
+          // can be written as
+          for (const item is { kind: "foo", let data } of items) {
+            // ...
+          }
+          // or
+          for (const item of items matches { kind: "foo", let data }) {
+            // ...
+          }
+        </code></pre>
+      </emu-note>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-try-statement" number="14">
+    <h1>The `try` Statement</h1>
+    <emu-note type="editor">
+      It's possible to add pattern-matching to the `try` statement. It might looks like this:
+      <pre><code class="javascript">
+        try { }
+        catch (e is { message: /network/ }) {
+          // ...
+        }
+        catch (e) {}
+      </code></pre>
+    </emu-note>
+  </emu-clause>
 
   <emu-clause id="sec-the-match-statement" number="17">
     <h1>The `match` Statement</h1>
@@ -816,6 +1018,18 @@ contributors:
       <emu-note type="editor">
         <p>For simplicity, |Identifier| intead of |BindingIdentifier| is used. It's also possible to add [Yield, Await] to |Pattern|.</p>
       </emu-note>
+
+      <emu-clause id="sec-patterns-static-semantics-early-errors" number="1">
+        <h1>Static Semantics: Early Errors</h1>
+        <emu-grammar>
+          <ins>GroupName : `&lt;` VarOrLetOrConst Identifier `&gt;`</ins>
+        </emu-grammar>
+        <ul>
+          <li>
+            It is a Syntax Error if |VarOrLetOrConst| is |LetOrConst| and the StringValue of Identifier is *"let"*.
+          </li>
+        </ul>
+      </emu-clause>
 
       <emu-clause id="sec-static-semantics-capturinggroupname" type="sdo" number="9">
         <h1>Static Semantics: CapturingGroupName ( ): a String</h1>
@@ -1486,6 +1700,15 @@ contributors:
       </code></pre>
     </emu-note>
     <emu-note type="editor">
+      It's possible to add |Initializer| to object property matcher and array element matcher.
+      <pre><code class="javascript">
+        when { let key = Symbol.for("missing") }: reportKey(key),
+        // can be written as
+        when { let key }: reportKey(key)
+        when { }: reportKey(Symbol.for("missing"))
+      </code></pre>
+    </emu-note>
+    <emu-note type="editor">
       <p>The `?` in the production |MatchProperty| or |MatchElement| can be removed.</p>
       <p>The feature is not a consensus in the champion group yet.</p>
       <pre><code class="javascript">
@@ -1652,6 +1875,12 @@ contributors:
       </code></pre>
     </emu-note>
     <emu-note type="editor">
+      <p>The `has` production can be a proposal on it's own, to be the `in` operator reversed.</p>
+      <pre><code class="javascript">
+        if (object has key) { ... }
+      </code></pre>
+    </emu-note>
+    <emu-note type="editor">
       <p>The `in` production can be removed, but it will be harder to match by `in` semantics.</p>
       <p>This feature is not a consensus in the champion group.</p>
       <pre><code class="javascript">
@@ -1712,6 +1941,15 @@ contributors:
       </emu-grammar>
       <ul>
         <li>It is a Syntax Error |NoSubstitutionTemplate| Contains |NotEscapeSequence|.</li>
+      </ul>
+      <!-- #endregion -->
+
+      <!-- #region BindingPattern -->
+      <emu-grammar>
+        BindingPattern : VarOrLetOrConst BindingIdentifier
+      </emu-grammar>
+      <ul>
+        <li>It is a Syntax Error if |VarOrLetOrConst| is |LetOrConst| and the StringValue of |BindingIdentifier| is *"let"*.</li>
       </ul>
       <!-- #endregion -->
 
@@ -1989,7 +2227,7 @@ contributors:
       </emu-grammar>
       <emu-alg>
         1. TODO: This section is not written in the spec language yet.
-        1. Let _name_ be the first element of BoundNames of |BindingIdentifier|.
+        1. Let _name_ be StringValue of |BindingIdentifier|.
         1. Initialize variable _name_ with _subject_ with the semantics of `var`, `let` or `const` based on |VarOrLetOrConst|.
         1. Return *true*.
       </emu-alg>
@@ -2261,7 +2499,7 @@ contributors:
       </emu-grammar>
       <emu-alg>
         1. TODO: This section is not written in the spec language yet.
-        1. Let _propertyName_ be the first element of BoundNames of |BindingIdentifier|.
+        1. Let _propertyName_ be StringValue of |BindingIdentifier|.
         1. If ? HasPropertyCached(_subject_, _cacheGroup_, _propertyName_) is *false*, then
           1. If `?` is present, return « ».
           1. Return ~not-matched~.
@@ -2274,7 +2512,7 @@ contributors:
       </emu-grammar>
       <emu-alg>
         1. TODO: This section is not written in the spec language yet.
-        1. Let _propertyName_ be the first element of BoundNames of |BindingIdentifier|.
+        1. Let _propertyName_ be StringValue of |BindingIdentifier|.
         1. If ? HasPropertyCached(_subject_, _cacheGroup_, _propertyName_) is *false*, then
           1. If `?` is present, return « ».
           1. Return ~not-matched~.
@@ -3295,8 +3533,51 @@ contributors:
   </emu-annex>
 </emu-annex>
 
+<emu-annex id="sec-additional-ecmascript-features-for-web-browsers" namespace="annexB" normative>
+  <h1>Additional ECMAScript Features for Web Browsers</h1>
+
+  <emu-annex id="sec-additional-syntax" number="1">
+    <h1>Additional Syntax</h1>
+
+    <emu-annex id="sec-regular-expressions-patterns" number="2">
+      <h1>Regular Expressions Patterns</h1>
+
+      <emu-annex id="sec-parsepattern-annexb" number="9">
+        <h1>Static Semantics: ParsePattern ( _patternText_, _u_, _v_<ins>, _canCreateBinding_</ins> )</h1>
+        <p><ins>Add support of *NamedCaptureGroupsBindings* parameter like <emu-xref href="#sec-parsepattern"></emu-xref>.</ins></p>
+      </emu-annex>
+    </emu-annex>
+  </emu-annex>
+
+  <emu-annex id="sec-additional-built-in-properties" number="2">
+    <h1>Additional Built-in Properties</h1>
+
+    <emu-annex id="sec-additional-properties-of-the-regexp.prototype-object" number="4">
+      <h1>Additional Properties of the RegExp.prototype Object</h1>
+
+      <emu-annex id="sec-regexp.prototype.compile" number="1">
+        <h1>RegExp.prototype.compile ( _pattern_, _flags_ )</h1>
+        <p>This method performs the following steps when called:</p>
+        <emu-alg>
+          1. Let _O_ be the *this* value.
+          1. Perform ? RequireInternalSlot(_O_, [[RegExpMatcher]]).
+          1. If _pattern_ is an Object and _pattern_ has a [[RegExpMatcher]] internal slot, then
+            1. If _flags_ is not *undefined*, throw a *TypeError* exception.
+            1. Let _P_ be _pattern_.[[OriginalSource]].
+            1. Let _F_ be _pattern_.[[OriginalFlags]].
+          1. Else,
+            1. Let _P_ be _pattern_.
+            1. Let _F_ be _flags_.
+          1. Return ? RegExpInitialize(_O_, _P_, _F_<ins>, *false*</ins>).
+        </emu-alg>
+      </emu-annex>
+    </emu-annex>
+  </emu-annex>
+</emu-annex>
+
 <emu-annex id="sec-notes">
   <h1>Editor's notes</h1>
+
   <emu-annex id="sec-notes-layering">
     <h1>Layering</h1>
     <p>The pattern-matching champion group designed this proposal with a layering approach. It does not mean the proposal is an MVP. The champion group wishes to ship the proposal as a whole when possible, but we can drop some features if there is strong pushback from the committee.</p>
@@ -3307,6 +3588,7 @@ contributors:
       <li>not all champion group members represent the hope to include it.</li>
     </ul>
   </emu-annex>
+
   <emu-annex id="sec-notes-code-example">
     <h1>Code example</h1>
     <p>The code example in the patterns section will be in one of the forms:</p>
@@ -3328,5 +3610,20 @@ contributors:
     </code></pre>
     <p>The "when" keyword was removed, but for the readability of code examples, "when" is kept.</p>
     <p>This document prefers the `is` form unless the declaration pattern (`let x`) appears.</p>
+  </emu-annex>
+
+  <emu-annex id="sec-notes-todos">
+    <h1>Other TODOs:</h1>
+    <p>TODOs that not in the specification.</p>
+    <ul>
+      <li>
+        Scope and bindings
+        <ul>
+          <li>Basic case.</li>
+          <li>Work with `for` loop (CreatePerIterationEnvironment).</li>
+          <li>Work with function parameter.</li>
+        </ul>
+      </li>
+    </ul>
   </emu-annex>
 </emu-annex>
