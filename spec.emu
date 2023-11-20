@@ -497,7 +497,7 @@ contributors:
       </code></pre>
     </emu-note>
     <emu-note type="editor">
-      This feature can be replaced by the <emu-xref href="#sec-match-expression" title></emu-xref>.
+      This feature can be replaced by <emu-xref href="#sec-match-expression" title></emu-xref>.
       The code example above can be written as:
       <pre><code class="javascript">
         const isOk = match (response) {
@@ -1694,7 +1694,7 @@ contributors:
     </emu-grammar>
     <emu-note type="editor">
       The production `void` can be removed.
-      The consensus is to add `void` for both `using` declaration and deconstruction.
+      The consensus is to add `void` for both `using` declaration and destructuring.
       It might be a follow-on proposal.
       <pre><code class="javascript">
         if (expr is [let x, void, void]) {}
@@ -2009,14 +2009,14 @@ contributors:
         but it can be replaced. This production adds the ability to do the unforgeable `typeof` test.
       </p>
       <pre><code class="javascript">
-        if (expr is { value: String }) {}
+        if (expr is { version: 2 or 3, value: String }) {}
         // can be written as this if built-ins might be replaced:
         const isString = {
           [Symbol.customMatcher](val) {
             return typeof val === "string";
           }
         };
-        if (expr is { value: isString }) {}
+        if (expr is { version: 2 or 3, value: isString }) {}
       </code></pre>
     </emu-note>
     <emu-note type="editor">
@@ -2047,7 +2047,7 @@ contributors:
         This feature is an opt-out of the custom matcher, to always do the `===` check.
       </p>
       <pre><code class="javascript">
-        if (expr is { type: "create", initializers: [createX] }) {}
+        if (expr is { type: "create", initializers: [=== createX] }) {}
         // can be written as:
         function isCreateX(val) { return val === createX; }
         if (expr is { type: "create", initializers: [isCreateX] }) {}
