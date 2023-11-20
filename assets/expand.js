@@ -18,13 +18,14 @@ const state = {
 };
 state.folded = state.folded;
 
-function resetHash() {
-  location.hash = "#welcome";
-}
-
-document.querySelector("#expand").addEventListener("click", () => {
+const button = document.querySelector("#expand");
+button.addEventListener("click", () => {
   state.folded = !state.folded;
-  resetHash();
+  if (state.folded) {
+    const old = scrollY;
+    location.hash = "";
+    scrollTo(0, old);
+  }
 });
 
 function onHashChange(event) {
