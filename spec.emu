@@ -1758,7 +1758,7 @@ contributors:
       if (value is /^starts/) {}
     </code></pre></emu-note>
     <emu-note type="editor">
-      This production can be removed. The code example above can be written as:
+      This feature can be removed. The code example above can be written as:
       <pre><code class="javascript">
         const regex = /^starts/;
         if (value is regex) {}
@@ -1945,7 +1945,7 @@ contributors:
       </code></pre>
     </emu-note>
     <emu-note type="editor">
-      This production can be removed, but it will be harder to handle with `+0` and `-0`.
+      This feature can be removed, but it will be harder to handle with `+0` and `-0`.
       The code example above can be written as:
       <pre><code class="javascript">
         const negPi = -Math.PI;
@@ -1964,8 +1964,6 @@ contributors:
         `>=` PatternMatchingOrderExpression[?Yield, ?Await]
         `instanceof` PatternMatchingMemberExpression[?Yield, ?Await]
         `in` PatternMatchingMemberExpression[?Yield, ?Await]
-        `has` PatternMatchingStringLikeExpression[?Yield, ?Await]
-        `has` PrivateIdentifier
         `==` PatternMatchingEqualExpression[?Yield, ?Await]
         `!=` PatternMatchingEqualExpression[?Yield, ?Await]
         `===` PatternMatchingEqualExpression[?Yield, ?Await]
@@ -1975,11 +1973,6 @@ contributors:
         NumericLiteral
         PatternMatchingMemberExpression[?Yield, ?Await]
         PatternMatchingUnaryAlgebraicExpression[?Yield, ?Await]
-
-      PatternMatchingStringLikeExpression[Yield, Await] :
-        StringLiteral
-        NoSubstitutionTemplate
-        PatternMatchingMemberExpression[?Yield, ?Await]
 
       PatternMatchingEqualExpression[Yield, Await] :
         Literal
@@ -1997,12 +1990,17 @@ contributors:
     </emu-note>
     <emu-note type="editor">
       <p>It is possible to add the following production.</p>
-      <emu-grammar>
+      <emu-grammar type="definition">
         RelationalPattern[Yield, Await] :
           `typeof` `==` PatternMatchingStringLikeExpression[?Yield, ?Await]
           `typeof` `!=` PatternMatchingStringLikeExpression[?Yield, ?Await]
           `typeof` `===` PatternMatchingStringLikeExpression[?Yield, ?Await]
           `typeof` `!==` PatternMatchingStringLikeExpression[?Yield, ?Await]
+
+        PatternMatchingStringLikeExpression[Yield, Await] :
+          StringLiteral
+          NoSubstitutionTemplate
+          PatternMatchingMemberExpression[?Yield, ?Await]
       </emu-grammar>
       <p>
         The recommended way to match a String is to use the <emu-xref href="#sec-string-@@custommatcher" title></emu-xref>,
@@ -2017,6 +2015,25 @@ contributors:
           }
         };
         if (expr is { version: 2 or 3, value: isString }) {}
+      </code></pre>
+    </emu-note>
+    <emu-note type="editor">
+      <p>It is possible to add the following production.</p>
+      <emu-grammar type="definition">
+        RelationalPattern[Yield, Await] :
+          `has` PatternMatchingStringLikeExpression[?Yield, ?Await]
+          `has` PrivateIdentifier
+      </emu-grammar>
+      <pre><code class="javascript">
+        if (expr is { type: "object", value: has #field }) {}
+        // can be written as:
+        function hasPrivateField(val) { return #field in val; }
+        if (expr is { type: "object", value: hasPrivateField }) {}
+      </code></pre>
+      <p>This feature can be a proposal on its own, to be the `in` operator reversed.</p>
+      <pre><code class="javascript">
+        if (expr has #field) { }
+        if (expr hasOwn "prototype") { }
       </code></pre>
     </emu-note>
     <emu-note type="editor">
@@ -2054,21 +2071,6 @@ contributors:
       </code></pre>
     </emu-note>
     <emu-note type="editor">
-      <p>The `has` production can be removed, but it will be harder to match by `in` semantics.</p>
-      <p>This feature is not a consensus in the champion group.</p>
-      <pre><code class="javascript">
-        if (expr is { type: "object", value: has #field }) {}
-        // can be written as:
-        function hasPrivateField(val) { return #field in val; }
-        if (expr is { type: "object", value: hasPrivateField }) {}
-      </code></pre>
-      <p>It is also possible to use HasOwnProperty semantics for the `has` production.</p>
-      <p>The `has` production can be a proposal on its own, to be the `in` operator reversed.</p>
-      <pre><code class="javascript">
-        if (expr has #field) { }
-      </code></pre>
-    </emu-note>
-    <emu-note type="editor">
       <p>The `in` production can be removed, but it will be harder to match by `in` semantics.</p>
       <p>This feature is not a consensus in the champion group.</p>
       <pre><code class="javascript">
@@ -2103,7 +2105,7 @@ contributors:
       </code></pre>
     </emu-note>
     <emu-note type="editor">
-      This production can be removed, but this is designed as an escape hatch.
+      This feature can be removed, but this is designed as an escape hatch.
       No alternative is available for this feature.
     </emu-note>
     <!-- endregion -->
@@ -2952,27 +2954,6 @@ contributors:
         The current proposal caches all operations on the _subject_ except this. Should we cache the result of ToPropertyKey?
       </emu-note>
       <emu-grammar>
-        RelationalPattern : `has` PatternMatchingStringLikeExpression
-      </emu-grammar>
-      <emu-alg>
-        1. If _subject_ is not an Object, return *false*.
-        1. Let _expr_ be the |Expression| that is covered by |PatternMatchingStringLikeExpression|.
-        1. Let _ref_ be ? Evaluation of _expr_.
-        1. Let _value_ be ? GetValue(_ref_).
-        1. Return ? HasProperty(_subject_, ? ToPropertyKey(_value_)).
-      </emu-alg>
-      <emu-grammar>
-        RelationalPattern : `has` PrivateIdentifier
-      </emu-grammar>
-      <emu-alg>
-        1. Let _privateIdentifier_ be the StringValue of |PrivateIdentifier|.
-        1. If _subject_ is not an Object, return *false*.
-        1. Let _privateEnv_ be the running execution context's PrivateEnvironment.
-        1. Let _privateName_ be ResolvePrivateIdentifier(_privateEnv_, _privateIdentifier_).
-        1. If PrivateElementFind(_subject_, _privateName_) is not empty, return *true*.
-        1. Return *false*.
-      </emu-alg>
-      <emu-grammar>
         RelationalPattern : `==` PatternMatchingEqualExpression
       </emu-grammar>
       <emu-alg>
@@ -3094,7 +3075,7 @@ contributors:
     <emu-note type="editor">
       <p>This feature is not a consensus in the champion group.</p>
       <p>
-        This production can be replaced by the <emu-xref href="#sec-relational-operators">`is` expression</emu-xref>.
+        This feature can be replaced by the <emu-xref href="#sec-relational-operators">`is` expression</emu-xref>.
         The code example above can be written as:
       </p>
       <pre><code class="javascript">
@@ -3246,7 +3227,7 @@ contributors:
       </code></pre>
     </emu-note>
     <emu-note type="editor">
-      This production can be replaced by the <emu-xref href="#sec-relational-operators">`is` expression</emu-xref>.
+      This feature can be replaced by the <emu-xref href="#sec-relational-operators">`is` expression</emu-xref>.
       The code example above can be written as:
       <pre><code class="javascript">
         const result =
@@ -3729,7 +3710,6 @@ contributors:
     <emu-prodref name="PatternMatchingMemberExpression"></emu-prodref>
     <emu-prodref name="PatternMatchingUnaryAlgebraicExpression"></emu-prodref>
     <emu-prodref name="PatternMatchingOrderExpression"></emu-prodref>
-    <emu-prodref name="PatternMatchingStringLikeExpression"></emu-prodref>
     <emu-prodref name="PatternMatchingEqualExpression"></emu-prodref>
   </emu-annex>
 </emu-annex>
