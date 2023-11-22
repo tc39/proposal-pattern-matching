@@ -1777,19 +1777,24 @@ contributors:
         IdentifierReference[?Yield, ?Await]
         `super` `.` IdentifierName
         PatternMatchingMemberExpression[?Yield, ?Await] `.` IdentifierName
-        PatternMatchingMemberExpression[?Yield, ?Await] `?.` IdentifierName
         PatternMatchingMemberExpression[?Yield, ?Await] `.` PrivateIdentifier
-        PatternMatchingMemberExpression[?Yield, ?Await] `?.` PrivateIdentifier
+        PatternMatchingMemberExpression[?Yield, ?Await] `[` Expression[+In, ?Yield, ?Await] `]`
     </emu-grammar>
     <emu-note code><pre><code class="javascript">
       if (expr is { x: undefined, y: undefined }) {}
       if (expr is { angle: Math.PI, let length }) {}
       if (expr is { ok: true, value: this.#lastValue }) {}
-      if (expr is { data: import.meta?.hot?.data }) {}
+      if (expr === import.meta?.hot?.data && expr is { let previousData }) {}
       if (expr is WeakRef(let object)) {}
     </code></pre></emu-note>
     <emu-note type="editor">
-      All productions except |IdentifierReference| in |PatternMatchingMemberExpression| can be removed.
+      This is the minimal requirement.
+      All other productions can be removed.
+      <emu-grammar>
+        PatternMatchingMemberExpression :
+          IdentifierReference
+          PatternMatchingMemberExpression `.` IdentifierName
+      </emu-grammar>
       <pre><code class="javascript">
         if (value is Math.PI) {};
         // can be written as:
@@ -1800,6 +1805,15 @@ contributors:
         It is similar to the <a href="https://tc39.es/proposal-decorators/#sec-new-syntax" target="_blank">DecoratorMemberExpression</a>.
       </p>
       <p>Should we allow `MemberExpressionPattern[expr]` to match with computed property names?</p>
+    </emu-note>
+    <emu-note type="editor">
+      It is possible to add the following productions:
+      <emu-grammar>
+        PatternMatchingMemberExpression :
+          PatternMatchingMemberExpression `?.` IdentifierName
+          PatternMatchingMemberExpression `?.` PrivateIdentifier
+      </emu-grammar>
+      <p>It does not clear if this should match *undefined* or fail the match if the |PatternMatchingMemberExpression| is *undefined*.</p>
     </emu-note>
     <!-- endregion -->
     <!-- #region ObjectPattern and ArrayPattern -->
