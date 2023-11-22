@@ -1796,10 +1796,10 @@ contributors:
           PatternMatchingMemberExpression `.` IdentifierName
       </emu-grammar>
       <pre><code class="javascript">
-        if (value is Math.PI) {};
+        if (value is { version: 2, data: this.#data }) {};
         // can be written as:
-        const { PI } = Math;
-        if (expr is PI) {}
+        const data = this.#data;
+        if (expr is { version: 2, data: data }) {}
       </code></pre>
       <p>
         It is similar to the <a href="https://tc39.es/proposal-decorators/#sec-new-syntax" target="_blank">DecoratorMemberExpression</a>.
@@ -1998,7 +1998,7 @@ contributors:
       <pre><code class="javascript">
         if (expr is &gt; -10 and &lt; 10) {}
         if (expr is { value: instanceof Error and { let message } }) {}
-        if (expr is { type: "object", value: has #field }) {}
+        if (expr is { version: 2 or 3, data: has #field }) {}
         if (expr is [=== Array, === Object]) {}
       </code></pre>
     </emu-note>
@@ -2039,10 +2039,10 @@ contributors:
           `has` PrivateIdentifier
       </emu-grammar>
       <pre><code class="javascript">
-        if (expr is { type: "object", value: has #field }) {}
-        // can be written as:
         function hasPrivateField(val) { return #field in val; }
-        if (expr is { type: "object", value: hasPrivateField }) {}
+        if (expr is { version: 2 or 3, data: hasPrivateField }) {}
+        // can be written as:
+        if (expr is { version: 2 or 3, data: has #field }) {}
       </code></pre>
       <p>This feature can be a proposal on its own, to be the `in` operator reversed.</p>
       <pre><code class="javascript">
@@ -2058,10 +2058,10 @@ contributors:
         the `instanceof` match is an escape hatch to match with the `instanceof` semantics.
       </p>
       <pre><code class="javascript">
-        if (expr is { type: "array", elements: [instanceof Map] }) {}
+        if (expr is { elements: [instanceof Map, instanceof Map] }) {}
         // can be written as:
         function isInstanceOfMap(val) { return val instanceof Map; }
-        if (expr is { type: "array", elements: [isInstanceOfMap] }) {}
+        if (expr is { elements: [isInstanceOfMap, isInstanceOfMap] }) {}
       </code></pre>
     </emu-note>
     <emu-note type="editor">
@@ -2088,10 +2088,10 @@ contributors:
       <p>The `in` production can be removed, but it will be harder to match by `in` semantics.</p>
       <p>This feature is not a consensus in the champion group.</p>
       <pre><code class="javascript">
-        if (expr is { type: "key", key: in object }) {}
+        if (expr is { let key: in object } and inCache) {}
         // can be written as:
         function isInObj(key) { return key in object; }
-        if (expr is { type: "key", key: isInObj }) {}
+        if (expr is { let key: isInObj } and inCache) {}
       </code></pre>
     </emu-note>
     <emu-note type="editor">
@@ -3233,10 +3233,10 @@ contributors:
     <emu-note code>
       <pre><code class="javascript">
         const result = match (value) {
-          { type: "add", let lhs, let rhs }: lhs + rhs,
-          { type: "sub", let lhs, let rhs }: lhs - rhs,
-          { type: "mul", let lhs, let rhs }: lhs * rhs,
-          { type: "div", let lhs, let rhs }: lhs / rhs,
+          { op: "add", let lhs, let rhs }: lhs + rhs,
+          { op: "sub", let lhs, let rhs }: lhs - rhs,
+          { op: "mul", let lhs, let rhs }: lhs * rhs,
+          { op: "div", let lhs, let rhs }: lhs / rhs,
         }
       </code></pre>
     </emu-note>
@@ -3245,10 +3245,10 @@ contributors:
       The code example above can be written as:
       <pre><code class="javascript">
         const result =
-          value is { type: "add", var lhs, var rhs } ? lhs + rhs :
-          value is { type: "sub", var lhs, var rhs } ? lhs - rhs :
-          value is { type: "mul", var lhs, var rhs } ? lhs * rhs :
-          value is { type: "div", var lhs, var rhs } ? lhs / rhs :
+          value is { op: "add", var lhs, var rhs } ? lhs + rhs :
+          value is { op: "sub", var lhs, var rhs } ? lhs - rhs :
+          value is { op: "mul", var lhs, var rhs } ? lhs * rhs :
+          value is { op: "div", var lhs, var rhs } ? lhs / rhs :
           (() => { throw new TypeError() })
       </code></pre>
     </emu-note>
