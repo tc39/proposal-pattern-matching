@@ -2342,13 +2342,13 @@ contributors:
         MatchPattern : PrimitivePattern
       </emu-grammar>
       <emu-alg>
-        1. Return PrimitivePatternMatches of |PrimitivePattern| with arguments _subject_.
+        1. Return PrimitivePatternMatches of |PrimitivePattern| with argument _subject_.
       </emu-alg>
       <emu-grammar>
         MatchPattern : BindingPattern
       </emu-grammar>
       <emu-alg>
-        1. Return BindingPatternMatches of |BindingPattern| with arguments _subject_.
+        1. Return BindingPatternMatches of |BindingPattern| with argument _subject_.
       </emu-alg>
       <emu-grammar>
         MatchPattern : RegularExpressionPattern
@@ -2378,13 +2378,13 @@ contributors:
         MatchPattern : UnaryAlgebraicPattern
       </emu-grammar>
       <emu-alg>
-        1. Return ? UnaryAlgebraicPatternMatches of |UnaryAlgebraicPattern| with arguments _subject_.
+        1. Return ? UnaryAlgebraicPatternMatches of |UnaryAlgebraicPattern| with argument _subject_.
       </emu-alg>
       <emu-grammar>
         MatchPattern : RelationalPattern
       </emu-grammar>
       <emu-alg>
-        1. Return ? RelationalPatternMatches of |RelationalPattern| with arguments _subject_.
+        1. Return ? RelationalPatternMatches of |RelationalPattern| with arguments _subject_ and _cacheGroup_.
       </emu-alg>
       <emu-grammar>
         MatchPattern : IfPattern
@@ -2899,6 +2899,7 @@ contributors:
       <h1>
         Runtime Semantics: RelationalPatternMatches (
           _subject_: an ECMAScript language value,
+          _cacheGroup_: a %Map%,
         ): either a normal completion containing a Boolean or an abrupt completion
       </h1>
       <dl class="header">
@@ -2956,16 +2957,13 @@ contributors:
         RelationalPattern : `in` PatternMatchingMemberExpression
       </emu-grammar>
       <emu-alg>
-        1. Let _key_ be ? ToPropertyKey(_subject_).
+        1. Let _key_ be ? ToPropertyKeyCached(_subject_, _cacheGroup_).
         1. Let _expr_ be the |Expression| that is covered by |PatternMatchingMemberExpression|.
         1. Let _ref_ be ? Evaluation of _expr_.
         1. Let _value_ be ? GetValue(_ref_).
         1. If _value_ is not an Object, return *false*.
         1. Return ? HasProperty(_value_, _key_).
       </emu-alg>
-      <emu-note type="editor">
-        The current proposal caches all operations on the _subject_ except this. Should we cache the result of ToPropertyKey?
-      </emu-note>
       <emu-grammar>
         RelationalPattern : `==` PatternMatchingEqualExpression
       </emu-grammar>
@@ -3439,6 +3437,7 @@ contributors:
         1. Perform ! CreateDataPropertyOrThrow(_cache_, *"Get"*, ! Construct(%Map%)).
         1. Perform ! CreateDataPropertyOrThrow(_cache_, *"Iterator"*, *undefined*).
         1. Perform ! CreateDataPropertyOrThrow(_cache_, *"IteratedValues"*, ! ArrayCreate(0, *null*)).
+        1. Perform ! CreateDataPropertyOrThrow(_cache_, *"ToPropertyKey"*, *undefined*).
         1. Perform ! Call(<emu-xref href="#sec-map.prototype.has">%Map.prototype.set%</emu-xref>, _cacheGroup_, « _subject_, _cache_ »).
         1. Return _cache_.
       </emu-alg>
@@ -3483,6 +3482,25 @@ contributors:
         1. Let _result_ be ? Get(_subject_, _propertyName_).
         1. Perform ! Call(<emu-xref href="#sec-map.prototype.has">%Map.prototype.set%</emu-xref>, _cache_, « _propertyName_, _result_ »).
         1. Return _result_.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-to-property-key-cached" type="abstract operation">
+      <h1>
+        ToPropertyKeyCached (
+          _subject_: an ECMAScript language value,
+          _cacheGroup_: a %Map%,
+        ): either a normal completion containing a property key or an abrupt completion
+      </h1>
+      <dl class="header">
+      </dl>
+      <emu-alg>
+        1. Assert: _cacheGroup_ is created by CreateMatchCache and used internally for pattern-matching.
+        1. Let _cache_ be GetMatchCache(_subject_, _cacheGroup_).
+        1. If ! Get(_cache_, *"ToPropertyKey"*) is not *undefined*, return ! Get(_cache_, *"ToPropertyKey"*).
+        1. Let _key_ be ? ToPropertyKey(_subject_).
+        1. Perform ? Set(_cache_, *"ToPropertyKey"*, _key_, *true*).
+        1. Return _key_.
       </emu-alg>
     </emu-clause>
 
