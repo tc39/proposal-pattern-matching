@@ -764,11 +764,11 @@ contributors:
         </emu-alg>
         <emu-note code><pre><code class="javascript">
           // For non-class functions.
-          expr is Array.isArray; // true, by Array.isArray(expr)
+          [] is Array.isArray; // true, by Array.isArray(expr)
 
           // For objects created by `new`, it uses private-field-like semantics.
           class MyError extends Error {}
-          const myError = new C();
+          const myError = new MyError();
           myError is MyError; // true
           myError is Error; // true
           Object.create(MyError.prototype) is MyError; // false
@@ -1998,7 +1998,6 @@ contributors:
       <pre><code class="javascript">
         if (expr is &gt; -10 and &lt; 10) {}
         if (expr is { value: instanceof Error and { let message } }) {}
-        if (expr is { version: 2 or 3, data: has #field }) {}
         if (expr is [=== Array, === Object]) {}
       </code></pre>
     </emu-note>
@@ -2145,7 +2144,7 @@ contributors:
         PrimitivePattern : NoSubstitutionTemplate
       </emu-grammar>
       <ul>
-        <li>It is a Syntax Error |NoSubstitutionTemplate| Contains |NotEscapeSequence|.</li>
+        <li>It is a Syntax Error if |NoSubstitutionTemplate| Contains |NotEscapeSequence|.</li>
       </ul>
       <!-- #endregion -->
       <!-- #region BindingPattern -->
@@ -2163,7 +2162,7 @@ contributors:
           PropertyName `?`? `:` MatchPattern
       </emu-grammar>
       <ul>
-        <li>It is a Syntax Error if |PropertyName| is a |LiteralPropertyName| and PropName of |LiteralPropertyName| is *"__proto__"*.</li>
+        <li>It is a Syntax Error if |PropertyName| is a |LiteralPropertyName| and PropName of |PropertyName| is *"__proto__"*.</li>
       </ul>
       <emu-note code><pre><code class="javascript">
         if (expr is { __proto__: null, property?: void }) {} // Syntax Error
@@ -3402,6 +3401,7 @@ contributors:
             1. If _kind_ is not present, return ~unused~.
             1. If _hint_ is *"boolean"* and _kind_ is ~list~, throw a *TypeError* exception.
             1. If _hint_ is *"list"* and _kind_ is ~boolean~, throw a *TypeError* exception.
+            1. Return ~unused~.
         </emu-alg>
     </emu-clause>
     <emu-note type="editor" id="sec-pattern-match-cache-note">
