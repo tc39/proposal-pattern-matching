@@ -81,7 +81,7 @@ contributors:
             <li><emu-xref href="#sec-pattern-match-cache-note">Cache semantics</emu-xref></li>
           </ul>
         </li>
-        <li><emu-xref href="#sec-relational-operators" title>The `in` expression</emu-xref></li>
+        <li><emu-xref href="#sec-relational-operators" title>The `is` expression</emu-xref></li>
         <li><emu-xref href="#sec-match-expression" title></emu-xref></li>
         <li><emu-xref href="#sec-match-statement" title></emu-xref></li>
         <li>
