@@ -1909,6 +1909,9 @@ contributors:
       </code></pre>
     </emu-note>
     <emu-note type="editor">
+      <p>Only literal `+0` or `-0` will be matched with SameValue, `+`_x_ and `-`_x_ where _x_ is 0 will be matched with SameValueZero.</p>
+    </emu-note>
+    <emu-note type="editor">
       This feature can be removed, but it will be harder to handle with `+0` and `-0`.
       The code example above can be written as:
       <pre><code class="javascript">
@@ -2830,8 +2833,12 @@ contributors:
         1. Let _expr_ be the |Expression| that is covered by |PatternMatchingUnaryAlgebraicExpression|.
         1. Let _ref_ be ? Evaluation of _expr_.
         1. Let _value_ be ? GetValue(_ref_).
-        1. Return SameValue(_subject_, _value_).
+        1. If |PatternMatchingUnaryAlgebraicExpression| is `+` |NumericLiteral| or `-` |NumericLiteral|, return SameValue(_subject_, _value_).
+        1. Return SameValueZero(_subject_, _value_).
       </emu-alg>
+      <emu-note type="editor">
+        <p>Only literal `+0` or `-0` will be matched with SameValue, `+`_x_ and `-`_x_ where _x_ is 0 will be matched with SameValueZero.</p>
+      </emu-note>
     </emu-clause>
 
     <emu-clause id="sec-relational-pattern-matches" type="sdo">
@@ -3182,7 +3189,7 @@ contributors:
         1. Else, let _hint_ be *"list"*.
         1. Let _result_ be ? Call(_f_, _matcher_, « _subject_, _hint_, _receiver_ »).
         1. If _result_ is *false*, return *false*.
-        1. If _result_ is *true* and _kind_ is ~boolean~, return *true*.
+        1. [id="step-invoke-custom-matcher"] If _kind_ is ~boolean~, return ToBoolean(_result_).
         1. If _result_ is not an Object, throw a *TypeError* exception.
         1. Perform ? GetIteratorCached(_result_, _cacheGroup_).
         1. If _kind_ is ~boolean~, return *true*.
@@ -3192,6 +3199,16 @@ contributors:
         The _hint_ parameter is not a consensus in the champion group yet. This design is to solve <a href="https://github.com/tc39/proposal-pattern-matching/issues/253" target="_blank">runtime performance concerns about custom matchers</a>. The <a href="https://github.com/tc39/proposal-extractors" target="_blank">extractor proposal</a> may add a new hint ~object~ for the following syntax.
         <pre><code class="javascript">
           const Point{ x, y } = expr;
+        </code></pre>
+      </emu-note>
+      <emu-note type="editor">
+        The ToBoolean in step <emu-xref href="#step-invoke-custom-matcher"></emu-xref> cause a strange behaviour around <a href="#sec-IsHTMLDDA-internal-slot-to-boolean" target="_blank">[[IsHTMLDDA]]</a>.
+        <pre><code class="javascript">
+          function f() { return document.all; }
+          if (null is f) {}
+          // not match, by ToBoolean
+          if (null is f(let html)) {}
+          // match, because document.all is an object and has [Symbol.iterator].
         </code></pre>
       </emu-note>
     </emu-clause>
