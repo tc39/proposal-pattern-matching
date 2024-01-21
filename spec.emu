@@ -1925,10 +1925,10 @@ contributors:
     <!-- #region RelationalPattern -->
     <emu-grammar type="definition">
       RelationalPattern[Yield, Await] :
-        `<` PatternMatchingRelationalExpression[?Yield, ?Await]
-        `>` PatternMatchingRelationalExpression[?Yield, ?Await]
-        `<=` PatternMatchingRelationalExpression[?Yield, ?Await]
-        `>=` PatternMatchingRelationalExpression[?Yield, ?Await]
+        `&lt;` PatternMatchingRelationalExpression[?Yield, ?Await]
+        `&gt;` PatternMatchingRelationalExpression[?Yield, ?Await]
+        `&lt;=` PatternMatchingRelationalExpression[?Yield, ?Await]
+        `&gt;=` PatternMatchingRelationalExpression[?Yield, ?Await]
         `instanceof` PatternMatchingMemberExpression[?Yield, ?Await]
         `in` PatternMatchingMemberExpression[?Yield, ?Await]
         `==` PatternMatchingRelationalExpression[?Yield, ?Await]
@@ -2850,7 +2850,7 @@ contributors:
       <dl class="header">
       </dl>
       <emu-grammar>
-        RelationalPattern : `<` PatternMatchingRelationalExpression
+        RelationalPattern : `&lt;` PatternMatchingRelationalExpression
       </emu-grammar>
       <emu-alg>
         1. If _subject_is not a String, a Number or a BigInt, return *false*.
@@ -2861,7 +2861,7 @@ contributors:
         1. If _r_ is *undefined*, return *false*. Otherwise, return _r_.
       </emu-alg>
       <emu-grammar>
-        RelationalPattern : `>` PatternMatchingRelationalExpression
+        RelationalPattern : `&gt;` PatternMatchingRelationalExpression
       </emu-grammar>
       <emu-alg>
         1. If _subject_is not a String, a Number or a BigInt, return *false*.
@@ -2872,7 +2872,7 @@ contributors:
         1. If _r_ is *undefined*, return *false*. Otherwise, return _r_.
       </emu-alg>
       <emu-grammar>
-        RelationalPattern : `<=` PatternMatchingRelationalExpression
+        RelationalPattern : `&lt;=` PatternMatchingRelationalExpression
       </emu-grammar>
       <emu-alg>
         1. If _subject_is not a String, a Number or a BigInt, return *false*.
@@ -2883,7 +2883,7 @@ contributors:
         1. If _r_ is either *true* or *undefined*, return *false*. Otherwise, return *true*.
       </emu-alg>
       <emu-grammar>
-        RelationalPattern : `>=` PatternMatchingRelationalExpression
+        RelationalPattern : `&gt;=` PatternMatchingRelationalExpression
       </emu-grammar>
       <emu-alg>
         1. If _subject_is not a String, a Number or a BigInt, return *false*.
