@@ -1637,14 +1637,12 @@ contributors:
         CombinedMatchPattern[?Yield, ?Await]
     </emu-grammar>
     <emu-note type="editor">
-      It is possible to add the following production:
       <emu-grammar>
         MatchPattern :
           `void`
       </emu-grammar>
       <p>
-        This feature can be a proposal on its own.
-        The consensus is to add `void` for both `using` declaration and destructuring.
+        This production will be added by <a target="_blank" href="https://github.com/rbuckton/proposal-void-binding">discard bindings proposal</a>.
       </p>
       <pre><code class="javascript">
         if (expr is [let x, void, void]) {}
