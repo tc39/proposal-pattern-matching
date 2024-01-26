@@ -3190,13 +3190,19 @@ contributors:
         1. [id="step-invoke-custom-matcher"] If _kind_ is ~boolean~, return ToBoolean(_result_).
         1. If _result_ is not an Object, throw a *TypeError* exception.
         1. Perform ? GetIteratorCached(_result_, _cacheGroup_).
-        1. If _kind_ is ~boolean~, return *true*.
         1. Return _result_.
       </emu-alg>
       <emu-note type="editor">
-        The _hint_ parameter is not a consensus in the champion group yet. This design is to solve <a href="https://github.com/tc39/proposal-pattern-matching/issues/253" target="_blank">runtime performance concerns about custom matchers</a>. The <a href="https://github.com/tc39/proposal-extractors" target="_blank">extractor proposal</a> may add a new hint ~object~ for the following syntax.
+        The _hint_ parameter is not a consensus in the champion group yet. This design is to solve <a href="https://github.com/tc39/proposal-pattern-matching/issues/253" target="_blank">runtime performance concerns about custom matchers</a>.
+      </emu-note>
+      <emu-note type="editor">
+        The _receiver_ parameter is not a consensus in the champion group yet. This design is to keep the `this` value when calling the custom matchers. Not everyone in the champion group agrees we need to keep the `this` value.
         <pre><code class="javascript">
-          const Point{ x, y } = expr;
+          const zero = new BigNumber(0);
+          match (expr) {
+            zero.equal: console.log('zero point matched.');
+            BigNumber: console.log(expr.toString() + ' left.');
+          }
         </code></pre>
       </emu-note>
       <emu-note type="editor">
@@ -3205,7 +3211,7 @@ contributors:
           function f() { return document.all; }
           if (null is f) {}
           // not match, by ToBoolean
-          if (null is f(let html)) {}
+          if (null is f(let html, ...)) {}
           // match, because document.all is an object and has [Symbol.iterator].
         </code></pre>
       </emu-note>
