@@ -1642,7 +1642,7 @@ contributors:
           `void`
       </emu-grammar>
       <p>
-        This production will be added by <a target="_blank" href="https://github.com/rbuckton/proposal-void-binding">discard bindings proposal</a>.
+        This production will be added by <a target="_blank" href="https://github.com/tc39/proposal-discard-binding">discard bindings proposal</a>.
       </p>
       <pre><code class="javascript">
         if (expr is [let x, void, void]) {}
