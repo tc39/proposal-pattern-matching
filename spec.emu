@@ -2737,6 +2737,9 @@ contributors:
           1. Return ? FinishListMatch(_subject_, _cacheGroup_, _matches_).
         1. Return ? FinishListMatch(_subject_, _cacheGroup_, _visitedCount_).
       </emu-alg>
+      <emu-note>
+        It is possible to use array-like object or IsArray semantics rather than iterator protocol if there is performance issue reported from the engine.
+      </emu-note>
     </emu-clause>
 
     <emu-clause id="sec-list-pattern-inner-matches" type="sdo">
