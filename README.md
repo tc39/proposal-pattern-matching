@@ -827,26 +827,86 @@ A dotted-ident followed by a parenthesized "argument list"
 containing the same syntax as an [array matcher](#array-matcher).
 Represents a combination of a [custom matcher pattern](#custom-matcher-pattern)
 and an [array pattern](#array-patterns):
-the custom matcher pattern is matched against the subject,
-and if that succeeds,
-the array pattern is matched against the custom matcher's return value.
 
-For this purpose, a `true` return value
-is treated as an empty iterator.
-(It will match `foo()` or `foo(...)`,
-but will fail `foo(a)`.)
+1. The dotted-ident is resolved against the visible bindings.
+    If that results in an object with a `Symbol.customMatcher` property,
+    and the value of that property is a function,
+    then continue;
+    otherwise, this throws an XXX error.
 
-Given an extractor pattern `<name>(<arglist>)`,
-the execution order is as follows:
+2. The custom matcher function is invoked with the subject as its first argument,
+    and an object with the key `"matchType"` set to `"extractor"`
+    as its second argument.
+    Let <var>result</var> be the return value.
 
-1. Match `<name>` against subject as a [custom matcher pattern](#custom-matchers),
-    but allow any truthy value to represent success
-    (not just `true`).
-    If it failed to match, return failure.
-2. Match `[<arglist>]` against the return value from the previous step;
-    that is, pretend `<arglist>` was the contents of an [array matcher](#array-matchers).
-    If the match succeeds, return success;
-    otherwise, return failure.
+3. Match <var>result</var> against the [arglist pattern](#arglist-patterns).
+
+#### Arglist Patterns
+
+An arglist pattern is a sub-pattern of an Extractor Pattern,
+and is mostly identical to an [Array Pattern](#array-patterns).
+It has identical syntax,
+except it's bounded by parentheses (`()`)
+rather than square brackets (`[]`).
+It behaves slightly differently with a few subjects, as well:
+
+* a `false` subject always fails to match
+* a `true` subject matches as if it were an empty Array
+* a ["strict array-like"](#strict-array-likes) is matched per-index,
+    rather than invoking the iterator protocol.
+
+An object is a <dfn id=strict-array-likes>strict array-like</dfn>
+if it has a `"length"` property on its prototype chain,
+and the value of that property is a finite, non-negative integer.
+
+Issue: We're allowing a little more flexibility here,
+but if the committee prefers,
+we can just make this check for Literally An Array.
+
+If the subject is a strict array-like,
+then it's matched as follows:
+
+1. If the arglist pattern doesn't end in a rest pattern,
+    then the subject's `"length"` property must exactly equal
+    the length of the pattern,
+    or it fails to match.
+
+2. If the arglist pattern *does* end in a rest pattern,
+    then the subject's `"length"` property must be equal or greater
+    than the length of the pattern - 1,
+    or it fails to match.
+
+3. For each non-rest sub-pattern of the arglist pattern,
+    the corresponding integer-valued property of the subject is fetched,
+    and matched against the corresponding sub-pattern.
+
+4. If the final sub-pattern is a `...<pattern>`,
+    collect the remaining integer-valued properties of the subject,
+    up to but not including its "length" value,
+    into a fresh Array,
+    and match against that pattern.
+
+5. If any of the matches failed,
+    the entire arglist pattern fails to match.
+    Otherwise, it succeeds.
+
+Other than the above exceptions,
+arglist patterns are matched
+exactly the same as array patterns.
+
+Issue: Do we cache arglists the same way we cache array patterns?
+
+Note: The "strict array-like" behavior here
+is for performance, based on implementor feedback.
+Invoking the iterator protocol is expensive,
+and we don't want to discourage use of custom matchers
+when the *by far* expected usage pattern
+is to just return an Array,
+rather than some more complex iterable.
+We're (currently) still sticking with iterator protocol for array matchers,
+to match destructuring,
+but could potentially change that.
+
 
 
 #### Examples
@@ -876,8 +936,8 @@ let val = Option.Some(5);
 match(val) {
   when Object.Some(String and let a): console.log(`Got a string "${a}".`);
   when Object.Some(Number and let a): console.log(`Got a number ${a}.`);
-  when Object.Some(void): console.log(`Got something unexpected.`);
-  // Or `Object.Some` or `Object.Some(...)`, either works.
+  when Object.Some(...): console.log(`Got something unexpected.`);
+  // Or `Object.Some`, either works.
   // `Object.Some()` will never match, as the return value
   // is a 1-item array, which doesn't match `[]`
   when Object.None(): console.log(`Operation failed.`);
