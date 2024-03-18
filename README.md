@@ -38,7 +38,7 @@
 3. [Specification](#specification)
 4. [Matcher Patterns](#matcher-patterns)
     1. [Value Matchers](#value-matchers)
-        1. [Primitive Pattern](#primitive-pattern)
+        1. [Primitive Patterns](#primitive-patterns)
         2. [Variable Patterns](#variable-patterns)
         3. [Custom Matchers](#custom-matchers)
         4. [Regex Patterns](#regex-patterns)
@@ -239,9 +239,9 @@ Matcher patterns can be divided into three general varieties:
 
 There are several types of value patterns, performing different types of tests.
 
-### Primitive Pattern
+### Primitive Patterns
 
-All primitive values can be used directly as matcher patterns,
+All primitive values and variable names can be used directly as matcher patterns,
 representing a test that the subject matches the specified value,
 using [`SameValue`](https://tc39.es/ecma262/#sec-samevalue) semantics
 (except when otherwise noted).
@@ -250,21 +250,20 @@ For example, `1` tests that the subject is `SameValue` to `1`,
 `"foo"` tests that it's `SameValue` to `"foo"`,
 etc.
 
-Specifically, boolean literals, numeric literals, string literals, and the null literal
+Specifically,
+boolean literals,
+numeric literals,
+string literals,
+untagged template literals,
+and the null literal
 can all be used.
 
-Additionally, several "near-literal" expressions can be used,
-which represent expressions that function as literals to authors:
-
-* `undefined`, matching the undefined value
-* numeric literals preceded by a unary `+` or `-`, like `-1`
-* `NaN`
-* `Infinity` (with `+` or `-` prefixes as well)
-* untagged template literals with no interpolation placeholders.
-    (Tagged literals, like `` foo`bar` ``,
-    and literals with interpolation, like `` `foo ${bar}` ``,
-    are both invalid syntax at this level.
-    We may make them valid in the future.)
+* Numeric literals can additionally be prefixed with a `+` or `-` unary operator:
+    `+` is a no-op (but see the note about `0`, below),
+    but `-` negates the value,
+    as you'd expect.
+* Within the interpolation expressions of template literals,
+    see [Bindings](#bindings) for details on what bindings are visible.
 
 The one exception to `SameValue` matching semantics
 is that the pattern `0` is matched using `SameValueZero` semantics.
@@ -280,23 +279,6 @@ correctly matching NaN values against NaN patterns;
 it does not do any implicit type coercion,
 so a `1` value will not match a `"1"` pattern.)
 
-Issue: `Infinity`, `NaN`, and `undefined` are, technically,
-variables that just have default values set globally.
-You can override their bindings locally
-(tho this is done approximately *never*).
-In theory we *could* just treat these as [variable patterns](#variable-patterns).
-Currently this proposal treats them specially,
-ignoring any potential local rebindings;
-this makes them consistent with `null`,
-and also means we can do `-Infinity`
-without having to expand unary-minus
-to be usable on all variable patterns.
-If this is a significant committee issue, however,
-we should indeed just allow unary-plus and unary-minus
-on variable patterns,
-and then remove the special-casing of these three values.
-
-
 #### Examples
 
 ```js
@@ -306,11 +288,12 @@ and then remove the special-casing of these three values.
 ### Variable Patterns
 
 A variable pattern is a "dotted ident": `foo`, `foo.bar`, etc.,
-excluding those that are already primitives like `null`.
-The syntax is meant to align with Decorators,
-which does not allow `[]` access or other syntax by default.
+excluding those that are already primitives like `null`,
+and optionally prefixed by a `+` or `-` unary operator.
 
-Issue: Decorators allow `@(...)` to let you run arbitrary expressions
+Issue: The syntax is meant to align with Decorators,
+which does not allow `[]` access or other syntax by default.
+But Decorators allow `@(...)` to let you run arbitrary expressions
 to obtain a decorator.
 I think we do need to either define a similar escape hatch,
 or expand our grammar a little bit further.
@@ -324,19 +307,28 @@ If you put the string in a variable beforehand you can just write
 `val[weirdPropertyName]`
 
 A variable pattern resolves the identifier against the visible bindings
-(see [Bindings](#bindings) for details).
+(see [Bindings](#bindings) for details),
+and if it has a `+` or `-` prefix,
+converts it to a number (via `toValue`)
+and possibly negates it.
 If the result is an object with a `Symbol.customMatcher` property,
 or is a function,
 then it represents a custom matcher test.
 See [custom matchers](#custom-matchers) for details.
-
-Otherwise, it represents a test that the subject is `SameValue` with the result.
+Otherwise, it represents a test that the subject is `SameValue` with the result,
+similar to a [Primitive Pattern](#primitive-patterns).
 
 Note: This implies that, for example,
 a variable holding an array will only match that exact array,
 via object equivalence;
 it is not equivalent to an [array pattern](#array-patterns)
 doing a structural match.
+
+Note that several values which are often *thought of* as literals,
+like `Infinity` or `undefined`,
+are in fact bindings.
+Since Primitive Patterns and Variable Patterns are treated largely identically,
+the distinction can fortunately remain academic here.
 
 
 #### Examples
