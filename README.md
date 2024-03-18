@@ -293,24 +293,9 @@ even if it would stringify to a matching string.
 
 ### Variable Patterns
 
-A variable pattern is a "dotted ident": `foo`, `foo.bar`, etc.,
+A variable pattern is a "ident expression": `foo`, `foo.bar`, `foo[bar]` etc.,
 excluding those that are already primitives like `null`,
 and optionally prefixed by a `+` or `-` unary operator.
-
-Issue: The syntax is meant to align with Decorators,
-which does not allow `[]` access or other syntax by default.
-But Decorators allow `@(...)` to let you run arbitrary expressions
-to obtain a decorator.
-I think we do need to either define a similar escape hatch,
-or expand our grammar a little bit further.
-Right now you can't, say, match against `val[someSymbol]`,
-which means we're implicitly encouraging string-based property designs.
-Previously, we had `${expression here}` to allow for this.
-But maybe just "idents, dots, and brackets" are sufficient.
-And string literals in those brackets too,
-to allow `val["weird property name"]`?
-If you put the string in a variable beforehand you can just write
-`val[weirdPropertyName]`
 
 A variable pattern resolves the identifier against the visible bindings
 (see [Bindings](#bindings) for details),
