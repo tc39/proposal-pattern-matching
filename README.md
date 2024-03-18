@@ -852,27 +852,19 @@ It behaves slightly differently with a few subjects, as well:
 
 * a `false` subject always fails to match
 * a `true` subject matches as if it were an empty Array
-* a ["strict array-like"](#strict-array-likes) is matched per-index,
+* an `Array` subject is matched per-index,
     rather than invoking the iterator protocol.
 
-An object is a <dfn id=strict-array-likes>strict array-like</dfn>
-if it has a `"length"` property on its prototype chain,
-and the value of that property is a finite, non-negative integer.
-
-Issue: We're allowing a little more flexibility here,
-but if the committee prefers,
-we can just make this check for Literally An Array.
-
-If the subject is a strict array-like,
+If the subject is an `Array`,
 then it's matched as follows:
 
 1. If the arglist pattern doesn't end in a rest pattern,
-    then the subject's `"length"` property must exactly equal
+    then the subject's `length` property must exactly equal
     the length of the pattern,
     or it fails to match.
 
 2. If the arglist pattern *does* end in a rest pattern,
-    then the subject's `"length"` property must be equal or greater
+    then the subject's `length` property must be equal or greater
     than the length of the pattern - 1,
     or it fails to match.
 
@@ -882,7 +874,7 @@ then it's matched as follows:
 
 4. If the final sub-pattern is a `...<pattern>`,
     collect the remaining integer-valued properties of the subject,
-    up to but not including its "length" value,
+    up to but not including its `length` value,
     into a fresh Array,
     and match against that pattern.
 
@@ -896,12 +888,12 @@ exactly the same as array patterns.
 
 Issue: Do we cache arglists the same way we cache array patterns?
 
-Note: The "strict array-like" behavior here
+Note: The `Array` behavior here
 is for performance, based on implementor feedback.
 Invoking the iterator protocol is expensive,
 and we don't want to discourage use of custom matchers
 when the *by far* expected usage pattern
-is to just return an Array,
+is to just return an `Array`,
 rather than some more complex iterable.
 We're (currently) still sticking with iterator protocol for array matchers,
 to match destructuring,
