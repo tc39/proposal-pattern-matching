@@ -345,30 +345,21 @@ then it is a "custom matcher".
 
 To determine whether the pattern matches or not,
 the custom matcher function is invoked
-with the subject as its sole argument.
-If it returns `true`,
-or an object that is iterable,
+with the subject as its first argument,
+and an object with the key `"matchType"` set to `"boolean"`
+as its second argument.
+
+If it returns a truthy value
+(one which becomes `true` when `!!` is used on it)
 the match is successful;
-if it returns `false`,
-the match fails;
-if it returns anything else,
-it throws an XXXError;
-if it throws,
+otherwise,
+the match fails.
+If it throws,
 it passes the error up.
 
 Note: [Extractor patterns](#extractor-patterns) use the identical machinery,
 but allow further matching against the returned value,
 rather than being limited to just returning true/false.
-
-Issue: I'm being strict here about possible return values
-to allow for safer future extension.
-Is this the right way forward?
-Or should I just do truthy/falsey,
-so predicates that return useful non-boolean values can be used?
-Or false for failure and everything else for success
-(so something can successfully return undefined/null)?
-I'm open to any of these options.
-
 
 #### Examples
 
