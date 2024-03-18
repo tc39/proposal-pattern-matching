@@ -409,32 +409,40 @@ Function.prototype[Symbol.customMatcher] = function(subject) {
 }
 ```
 
-This way, predicate functions
-(that return `true` or `false`)
-can be used directly as matchers,
+This way, predicate functions can be used directly as matchers,
 like `x is upperAlpha`,
 and classes can also be used directly as matchers
 to test if objects are of that class,
 like `x is Option.Some`.
-
-Issue: Or should we just do an `instanceof` check for the class check?
-That's more easily spoofable,
-and the language already does brand checks in a bunch of places now.
-If an author *wants* to make their class spoofable,
-they can define the custom matcher themselves.
 
 `RegExp.prototype` has a custom matcher
 that executes the regexp on the subject,
 and matches if the match was successful:
 
 ```js
-RegExp.prototype[Symbol.customMatcher] = function(subject) {
+RegExp.prototype[Symbol.customMatcher] = function(subject, {matchType}) {
     const result = this.exec(subject);
-    return !!result;
-    /* tho actually the return value is more complex;
-       see Regex Extractor Patterns, below */
+    if(matchType == "boolean") return result;
+    if(matchType == "extractor") return [result, ...result.slice(1)];
 }
 ```
+
+Note: We have two conflicting desires here:
+(1) allow predicate functions to be used as custom matchers in a trivial way, and
+(2) allow classes to be used as matchers in a trivial way.
+The only way to do (1) is to put a custom matcher on `Function.prototype`
+that invokes the function for you,
+but this is *also* the only *normal* way to do (2),
+since `Function.prototype` is the nearest common prototype to all classes
+(save those that explicitly null out their prototype, of course).
+The solution we hit on here --
+having the `class{}` syntax install a default matcher if there's not one present --
+mirrors the behavior of constructor methods,
+and lets us have both behaviors cleanly.
+However, if this is deemed unacceptable,
+we could pursue other approaches,
+like having a prefix keyword to indicate a "boolean predicate pattern"
+so we can tell it apart from a custom matcher pattern.
 
 
 ### Regex Patterns
