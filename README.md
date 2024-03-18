@@ -569,29 +569,6 @@ and successfully bind `x` to 1,
 as the existing binding was initialized in a failed sub-pattern.
 
 
-### Void Patterns
-
-The keyword `void` is a pattern
-that always matches,
-and does nothing else.
-It's useful in structure patterns,
-when you want to test for the existence of a property
-without caring what its value is.
-
-Issue: This pattern isn't approved by the full champions group,
-but has been discussed.
-Most pattern-matching languages have something for this;
-without it, you have to use a binding pattern and just ignore the result,
-or create a no-op always-succeeds custom matcher object.
-
-Issue: We should *probably* sync this with destructuring too:
-`const [void, void, a] = ...;` to only bind the third value from the array.
-
-#### Examples
-
-```js
-```
-
 
 ## Structure Patterns
 
@@ -1320,6 +1297,20 @@ Concise conditional logic in JSX (via
 
 
 # Possible future enhancements
+
+## Void Patterns
+
+The keyword `void` is a pattern
+that always matches,
+and does nothing else.
+It's useful in structure patterns,
+when you want to test for the existence of a property
+without caring what its value is.
+
+This is the most likely proposal to move back into the main proposal;
+it's pulled out solely because we want to make sure
+that it stays consistent
+with [Void Bindings](https://github.com/tc39/proposal-discard-binding).
 
 ## `async match`
 
