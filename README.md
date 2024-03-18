@@ -455,7 +455,7 @@ that is, `x is /foo/;` and `let re = /foo/; x is re;`
 are identical in behavior wrt built-in fiddling.)
 
 A regex pattern can be followed by a parenthesized pattern list,
-identical to [custom matchers](#custom-matchers).
+identical to [extractor patterns](#extractor-patterns).
 See that section for details on how this works.
 
 #### Examples
@@ -481,6 +481,9 @@ the bindings introduced by binding patterns
 are established in the nearest block scope
 (for `let`/`const`)
 or the nearest function scope (for `var`).
+
+Issue: Or in the obvious scope, when used in a for/while header or a function arglist.
+Don't know the right term for this off the top of my head.
 
 Bindings are established according to their *presence* in a pattern;
 whether or not the binding pattern itself is ever executed is irrelevant.
