@@ -841,6 +841,12 @@ and an [array pattern](#array-patterns):
 
 3. Match <var>result</var> against the [arglist pattern](#arglist-patterns).
 
+Note: While [custom matchers](#custom-matchers) only require the return value be *truthy* or *falsey*,
+extractor patterns are stricter about types:
+the value must be *exactly* `true` or `false`,
+or an `Array`,
+or an iterable.
+
 #### Arglist Patterns
 
 An arglist pattern is a sub-pattern of an Extractor Pattern,
