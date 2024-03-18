@@ -1296,6 +1296,47 @@ Below are selected situations where we expect pattern matching will be widely
 used. As such, we want to optimize the ergonomics of such cases to the best of
 our ability.
 
+------
+
+Validating JSON structure.
+
+Here's the simple destructuring version of the code,
+which does zero checks on the data ahead of time,
+just pulls it apart and hopes everything is correct:
+
+```js
+var json = {
+  'user': ['Lily', 13]
+};
+var {user: [name, age]} = json;
+print(`User ${name} is ${age} years old.`);
+```
+
+Destructuring with checks that everything is correct and of the expected shape:
+
+```js
+if ( json.user !== undefined ) {
+  var user = json.user;
+  if (Array.isArray(user) &&
+      user.length == 2 &&
+      typeof user[0] == "string" &&
+      typeof user[1] == "number") {
+    var [name, age] = user;
+    print(`User ${name} is ${age} years old.`);
+  }
+}
+```
+
+Exactly the same checks, but using pattern-matching:
+
+```js
+if( json is {user: [String and let name, Number and let age]} ) {
+  print(`User ${name} is ${age} years old.`);
+}
+```
+
+------
+
 Matching `fetch()` responses:
 
 ```jsx
