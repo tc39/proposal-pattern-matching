@@ -749,6 +749,16 @@ are collected into a fresh object,
 which is then matched against the rest pattern.
 (This matches the behavior of object destructuring.)
 
+Issue: Do we want a `key?: pattern` pattern clause as well?
+Makes it an optional test -
+*if* the subject has this property,
+verify that it matches the pattern.
+If the pattern is skipped because the property doesn't exist,
+treat any bindings coming from the pattern
+the same as ones coming from skipped `or` patterns.
+
+Issue: Ban `__proto__`? Do something funky?
+
 Object pattern execution order is as follows:
 
 1. For each non-rest object pattern clause `key: sub-pattern`, in source order:
