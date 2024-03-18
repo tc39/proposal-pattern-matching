@@ -960,13 +960,16 @@ That's a silly amount of work for correctness.
 
 ### Regex Extractor Patterns
 
-[Regex patterns](#regex-patterns) can similarly be written with an "argument list",
-like an [extractor pattern](#extractor-patterns),
-and are interpreted the same way.
+Similar to how [regex patterns](#regex-patterns)
+allowed you to use a regex literal as a pattern,
+but simply invoked the normal [custom matcher](#custom-matchers) machinery,
+a regex literal can also be followed by an [arglist pattern](#arglist-patterns),
+invoking the normal [extractor pattern](#extractor-patterns) machinery.
+
 For this purpose,
 on a successful match
-the "return value" (what's matched against the array pattern)
-is an iterator whose items are the regex result object,
+the "return value" (what's matched against the arglist pattern)
+is an Array whose items are the regex result object,
 followed by each of the positive numbered groups in the regex result
 (that is, skipping the "0" group that represents the entire match).
 
@@ -994,20 +997,12 @@ match (arithmeticStr) {
   when /(?<left>\d+) \+ (?<right>\d+)/({groups:{let left, let right}}):
     // Using named capture groups
     processAddition(left, right);
-  when /(\d+) \* (\d+)/(void, let left, let right):
+  when /(\d+) \* (\d+)/({}, let left, let right):
     // Using positional capture groups
     processMultiplication(left, right);
   default: ...
 }
 ```
-
-Issue: In a previous version of this proposal,
-named capture groups automatically established bindings.
-Now that we have other ways to extract the groups (and other parts),
-we've removed that to simplify the proposal.
-Doing so means we don't have to decide what type of binding they establish,
-which is nice,
-but it is a little more verbose as you're repeating the capture group name.
 
 
 ## Combinator Patterns
