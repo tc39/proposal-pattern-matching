@@ -279,6 +279,12 @@ correctly matching NaN values against NaN patterns;
 it does not do any implicit type coercion,
 so a `1` value will not match a `"1"` pattern.)
 
+Note: No coercion takes place in these matches:
+if you match against a string literal, for example,
+your subject must already be a string
+or else it'll automatically fail the match,
+even if it would stringify to a matching string.
+
 #### Examples
 
 ```js
@@ -329,6 +335,13 @@ like `Infinity` or `undefined`,
 are in fact bindings.
 Since Primitive Patterns and Variable Patterns are treated largely identically,
 the distinction can fortunately remain academic here.
+
+Note: Just like with Primitive Patterns,
+no coercion is performed on the subjects
+(or on the pattern value,
+except for the effect of `+`/`-`,
+which is explicitly asking for a numeric coercion),
+so the type has to already match.
 
 
 #### Examples
