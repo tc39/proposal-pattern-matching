@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.code === 'Escape') {
         sdoBox.deactivate();
       }
-    })
+    }),
   );
 });
 
@@ -94,11 +94,11 @@ function Search(menu) {
 
   this.$searchBox.addEventListener(
     'keydown',
-    debounce(this.searchBoxKeydown.bind(this), { stopPropagation: true })
+    debounce(this.searchBoxKeydown.bind(this), { stopPropagation: true }),
   );
   this.$searchBox.addEventListener(
     'keyup',
-    debounce(this.searchBoxKeyup.bind(this), { stopPropagation: true })
+    debounce(this.searchBoxKeyup.bind(this), { stopPropagation: true }),
   );
 
   // Perform an initial search if the box is not empty.
@@ -298,7 +298,6 @@ Search.prototype.displayResults = function (results) {
       }
 
       if (text) {
-        // prettier-ignore
         html += `<li class=menu-search-result-${cssClass}><a href="${makeLinkToId(id)}">${text}</a></li>`;
       }
     });
@@ -350,6 +349,14 @@ function Menu() {
   this._pinnedIds = {};
   this.loadPinEntries();
 
+  // unpin all button
+  document
+    .querySelector('#menu-pins .unpin-all')
+    .addEventListener('click', this.unpinAll.bind(this));
+
+  // individual unpinning buttons
+  this.$pinList.addEventListener('click', this.pinListClick.bind(this));
+
   // toggle menu
   this.$toggle.addEventListener('click', this.toggle.bind(this));
 
@@ -399,8 +406,8 @@ Menu.prototype.documentKeydown = function (e) {
   e.stopPropagation();
   if (e.keyCode === 80) {
     this.togglePinEntry();
-  } else if (e.keyCode > 48 && e.keyCode < 58) {
-    this.selectPin(e.keyCode - 49);
+  } else if (e.keyCode >= 48 && e.keyCode < 58) {
+    this.selectPin((e.keyCode - 9) % 10);
   }
 };
 
@@ -472,7 +479,7 @@ function findActiveClause(root, path) {
     let marginTop = Math.max(
       0,
       parseInt(clauseStyles['margin-top']),
-      parseInt(getComputedStyle($header)['margin-top'])
+      parseInt(getComputedStyle($header)['margin-top']),
     );
     let marginBottom = Math.max(0, parseInt(clauseStyles['margin-bottom']));
     let crossesMidpoint =
@@ -562,6 +569,7 @@ Menu.prototype.addPinEntry = function (id) {
     return;
   }
 
+  let text;
   if (entry.type === 'clause') {
     let prefix;
     if (entry.number) {
@@ -569,11 +577,13 @@ Menu.prototype.addPinEntry = function (id) {
     } else {
       prefix = '';
     }
-    // prettier-ignore
-    this.$pinList.innerHTML += `<li><a href="${makeLinkToId(entry.id)}">${prefix}${entry.titleHTML}</a></li>`;
+    text = `${prefix}${entry.titleHTML}`;
   } else {
-    this.$pinList.innerHTML += `<li><a href="${makeLinkToId(entry.id)}">${getKey(entry)}</a></li>`;
+    text = getKey(entry);
   }
+
+  let link = `<a href="${makeLinkToId(entry.id)}">${text}</a>`;
+  this.$pinList.innerHTML += `<li data-section-id="${id}">${link}<button class="unpin">\u{2716}</button></li>`;
 
   if (Object.keys(this._pinnedIds).length === 0) {
     this.showPins();
@@ -583,7 +593,7 @@ Menu.prototype.addPinEntry = function (id) {
 };
 
 Menu.prototype.removePinEntry = function (id) {
-  let item = this.$pinList.querySelector(`a[href="${makeLinkToId(id)}"]`).parentNode;
+  let item = this.$pinList.querySelector(`li[data-section-id="${id}"]`);
   this.$pinList.removeChild(item);
   delete this._pinnedIds[id];
   if (Object.keys(this._pinnedIds).length === 0) {
@@ -591,6 +601,21 @@ Menu.prototype.removePinEntry = function (id) {
   }
 
   this.persistPinEntries();
+};
+
+Menu.prototype.unpinAll = function () {
+  for (let id of Object.keys(this._pinnedIds)) {
+    this.removePinEntry(id);
+  }
+};
+
+Menu.prototype.pinListClick = function (event) {
+  if (event?.target?.classList.contains('unpin')) {
+    let id = event.target.parentNode.dataset.sectionId;
+    if (id) {
+      this.removePinEntry(id);
+    }
+  }
 };
 
 Menu.prototype.persistPinEntries = function () {
@@ -898,7 +923,6 @@ let referencePane = {
       e.parentNode.replaceChild(document.createTextNode(e.textContent), e);
     });
 
-    // prettier-ignore
     this.$headerText.innerHTML = `Syntax-Directed Operations for<br><a href="${makeLinkToId(alternativeId)}" class="menu-pane-header-production"><emu-nt>${parentName}</emu-nt> ${colons.outerHTML} </a>`;
     this.$headerText.querySelector('a').append(rhs);
     this.showSDOsBody(sdos, alternativeId);
@@ -1171,7 +1195,7 @@ function init() {
     'mouseover',
     debounce(e => {
       Toolbox.activateIfMouseOver(e);
-    })
+    }),
   );
   document.addEventListener(
     'keydown',
@@ -1182,7 +1206,7 @@ function init() {
         }
         document.getElementById('shortcuts-help').classList.remove('active');
       }
-    })
+    }),
   );
 }
 
@@ -1337,7 +1361,7 @@ window.addEventListener('beforeunload', () => {
 // https://w3c.github.io/csswg-drafts/css-counter-styles/
 
 const lowerLetters = Array.from({ length: 26 }, (_, i) =>
-  String.fromCharCode('a'.charCodeAt(0) + i)
+  String.fromCharCode('a'.charCodeAt(0) + i),
 );
 // Implement the lower-alpha 'alphabetic' algorithm,
 // adjusting for indexing from 0 rather than 1.
@@ -1408,7 +1432,7 @@ const counterByDepth = [];
 function addStepNumberText(
   ol,
   depth = 0,
-  special = [...ol.classList].some(c => c.startsWith('nested-'))
+  special = [...ol.classList].some(c => c.startsWith('nested-')),
 ) {
   let counter = !special && counterByDepth[depth];
   if (!counter) {
