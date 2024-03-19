@@ -99,9 +99,7 @@ body {
   word-wrap: break-word;
   font-size: 18px;
   line-height: 1.5;
-  font-family:
-    IBM Plex Serif,
-    serif;
+  font-family: IBM Plex Serif, serif;
   font-variant-numeric: slashed-zero;
   padding: 0;
   margin: 0;
@@ -110,8 +108,6 @@ body {
 
 #spec-container {
   padding: 0 20px;
-  max-width: 80rem;
-  margin: 0 auto;
   flex-grow: 1;
   flex-basis: 66%;
   box-sizing: border-box;
@@ -157,9 +153,7 @@ span.e-user-code::before {
   line-height: normal;
   vertical-align: middle;
   text-transform: uppercase;
-  font-family:
-    IBM Plex Sans,
-    sans-serif;
+  font-family: IBM Plex Sans, sans-serif;
   font-weight: 900;
   font-size: x-small;
 }
@@ -182,10 +176,7 @@ span.e-user-code::before {
 
 code {
   font-weight: bold;
-  font-family:
-    Comic Code,
-    IBM Plex Mono,
-    monospace;
+  font-family: Comic Code, IBM Plex Mono, monospace;
   white-space: pre;
 }
 
@@ -250,9 +241,7 @@ var.referenced6 {
 }
 
 emu-const {
-  font-family:
-    IBM Plex Sans,
-    sans-serif;
+  font-family: IBM Plex Sans, sans-serif;
   font-variant: small-caps;
   text-transform: uppercase;
 }
@@ -321,7 +310,6 @@ emu-note {
   border-left: 5px solid #52e052;
   background: #e9fbe9;
   padding: 10px 10px 10px 0;
-  overflow-x: auto;
 }
 
 emu-note > span.note {
@@ -452,9 +440,7 @@ emu-rhs emu-nt {
 
 emu-t {
   display: inline-block;
-  font-family:
-    IBM Plex Mono,
-    monospace;
+  font-family: IBM Plex Mono, monospace;
   font-weight: bold;
   white-space: nowrap;
   text-indent: 0;
@@ -489,9 +475,7 @@ emu-mods {
 emu-params,
 emu-opt {
   margin-right: 1ex;
-  font-family:
-    IBM Plex Mono,
-    monospace;
+  font-family: IBM Plex Mono, monospace;
 }
 
 emu-params,
@@ -505,9 +489,7 @@ emu-opt {
 
 emu-gprose {
   font-size: 0.9em;
-  font-family:
-    IBM Plex Sans,
-    sans-serif;
+  font-family: IBM Plex Sans, sans-serif;
 }
 
 emu-production emu-gprose {
@@ -731,8 +713,7 @@ emu-annex emu-annex emu-annex emu-annex emu-annex emu-annex {
 /* Figures and tables */
 figure {
   display: block;
-  overflow-x: auto;
-  margin: 1.5em 0;
+  margin: 1em 0 3em 0;
 }
 figure object {
   display: block;
@@ -795,7 +776,7 @@ table.lightweight-table th {
     background-color: rgba(249, 241, 172, 1);
   }
   100% {
-    background-color: rgba(249, 241, 172, 0);
+    background-color: rgba(249, 241, 172, 0)
   }
 }
 #spec-container :target:not(emu-annex, emu-clause, emu-intro, emu-note, body) {
@@ -913,68 +894,26 @@ tr.del > td {
   display: block;
 }
 
-#menu-pins .unpin-all {
-  border: none;
-  background: #ccc;
-  border-radius: 4px;
-  height: 18px;
-  font-size: 12px;
-  margin: 0 5px 0 10px;
-  font-family: IBM Plex Sans;
-}
-#menu-pins .unpin-all:hover {
-  background: #ddd;
-}
-
 #menu-pins-list {
   margin: 0;
   padding: 0;
   counter-reset: pins-counter;
 }
 
-#menu-pins-list > li {
-  display: flex;
-  align-items: stretch;
-  gap: 4px;
-  margin: 3px 1px;
-  border-radius: 4px;
-}
-
-#menu-pins-list > li > a {
-  flex-grow: 1;
-  align-self: center;
-}
-
-#menu-pins-list > li:before,
-#menu-pins-list > li > .unpin {
-  flex-shrink: 0;
-  flex-grow: 0;
-  text-align: center;
-  padding: 1px 3px;
-  border-radius: 4px;
-  background: none;
-  border: none;
-}
-#menu-pins-list > li:before,
-#menu-pins-list > li > .unpin:hover {
-  background: #ccc;
-}
-
-#menu-pins-list > li > .unpin,
-#menu-pins .unpin-all {
-  cursor: pointer;
-}
-#menu-pins-list > li > .unpin:hover,
-#menu-pins .unpin-all:hover {
-  color: #bb1212;
-}
-
 #menu-pins-list > li:before {
   content: counter(pins-counter);
   counter-increment: pins-counter;
-  font-size: 16px;
+  display: inline-block;
+  width: 25px;
+  text-align: center;
+  border: 1px solid #bbb;
+  padding: 2px;
+  margin: 4px;
+  box-sizing: border-box;
+  line-height: 1em;
+  background-color: #ccc;
+  border-radius: 4px;
 }
-
 #menu-toc > ol {
   padding: 0;
   flex-grow: 1;
@@ -1071,6 +1010,7 @@ tr.del > td {
   flex-grow: 0;
   flex-shrink: 0;
   font-size: 80%;
+  cursor: row-resize;
   user-select: none;
 }
 
@@ -1345,16 +1285,12 @@ li.menu-search-result-term:before {
   flex-direction: column;
 }
 
-#references-pane > .menu-pane-header {
-  cursor: row-resize;
-}
-
 #references-pane-container.active {
   display: flex;
 }
 
 #references-pane-close:after {
-  content: '\2716';
+  content: '✖';
   float: right;
   cursor: pointer;
 }
