@@ -2428,7 +2428,8 @@ contributors:
         1. Let _resultArray_ be CreateArrayFromList(_result_).
         1. NOTE: "The following steps will not trigger any user code" ends here.
         1. If |RegularExpressionPattern| is <emu-grammar>RegularExpressionPattern : RegularExpressionLiteral `(` MatchList `)`</emu-grammar>, then
-          1. Return ? ListPatternMatches of |MatchList| with arguments _resultArray_ and _cacheGroup_.
+          1. Let _iterator_ be ? GetIteratorCached(_resultArray_, _cacheGroup_).
+          1. Return ? ListPatternMatches of |MatchList| with arguments _iterator_ and _cacheGroup_.
         1. Return *true*.
       </emu-alg>
       <emu-note type="editor" class="show-ao-annotations">
@@ -2526,11 +2527,12 @@ contributors:
         1. Let _value_ be ? GetValue(_ref_).
         1. If _ref_ is a Reference Record and IsPropertyReference(_ref_) is *true*, let _receiver_ be GetThisValue(_ref_).
         1. Else, let _receiver_ be *null*.
-        1. Let _listSubject_ be ? InvokeCustomMatcher(_value_, _subject_, _cacheGroup_, ~list~, _receiver_).
-        1. Assert: _listSubject_ is an Object.
+        1. Let _listMatchResult_ be ? InvokeCustomMatcher(_value_, _subject_, _cacheGroup_, ~list~, _receiver_).
+        1. If _listMatchResult_ is *false*, return *false*.
+        1. Assert: _listMatchResult_ is an Iterator Record.
         1. If |MatchList| is not present, then
-          1. Return ? FinishListMatch(_listSubject_, _cacheGroup_, 0).
-        1. Return ? ListPatternMatches of |MatchList| with arguments _listSubject_ and _cacheGroup_.
+          1. Return ? FinishListMatch(_listMatchResult_, _cacheGroup_, 0).
+        1. Return ? ListPatternMatches of |MatchList| with arguments _listMatchResult_ and _cacheGroup_.
       </emu-alg>
     </emu-clause>
 
@@ -2696,7 +2698,7 @@ contributors:
     <emu-clause id="sec-list-pattern-matches" type="sdo">
       <h1>
         Runtime Semantics: ListPatternMatches (
-          _subject_: an Iterator Record,
+          _iterator_: an Iterator Record,
           _cacheGroup_: a %Map%,
         ): either a normal completion containing a Boolean or an abrupt completion
       </h1>
@@ -2708,34 +2710,34 @@ contributors:
       <emu-alg>
         1. Let _visitedCount_ be 0.
         1. If |Elision| is present, then
-          1. If ? GetIteratorNthValueCached(_subject_, _cacheGroup_, 0) is ~not-matched~, return *false*.
+          1. If ? GetIteratorNthValueCached(_iterator_, _cacheGroup_, 0) is ~not-matched~, return *false*.
           1. Set _visitedCount_ to 1.
         1. If |MatchRestElement| is present, then
-          1. Let _matches_ be ? ListPatternInnerMatches of |MatchRestElement| with arguments _subject_, _cacheGroup_ and _visitedCount_.
-          1. Return ? FinishListMatch(_subject_, _cacheGroup_, _matches_).
-        1. Return ? FinishListMatch(_subject_, _cacheGroup_, _visitedCount_).
+          1. Let _matches_ be ? ListPatternInnerMatches of |MatchRestElement| with arguments _iterator_, _cacheGroup_ and _visitedCount_.
+          1. Return ? FinishListMatch(_iterator_, _cacheGroup_, _matches_).
+        1. Return ? FinishListMatch(_iterator_, _cacheGroup_, _visitedCount_).
       </emu-alg>
       <emu-grammar>
         MatchList : MatchElementList
       </emu-grammar>
       <emu-alg>
-        1. Let _matches_ be ? ListPatternInnerMatches of |MatchElementList| with arguments _subject_, _cacheGroup_ and 0.
-        1. Return ? FinishListMatch(_subject_, _cacheGroup_, _matches_).
+        1. Let _matches_ be ? ListPatternInnerMatches of |MatchElementList| with arguments _iterator_, _cacheGroup_ and 0.
+        1. Return ? FinishListMatch(_iterator_, _cacheGroup_, _matches_).
       </emu-alg>
       <emu-grammar>
         MatchList : MatchElementList `,` Elision? MatchRestElement?
       </emu-grammar>
       <emu-alg>
-        1. Let _visitedCount_ be ? ListPatternInnerMatches of |MatchElementList| with arguments _subject_, _cacheGroup_ and 0.
+        1. Let _visitedCount_ be ? ListPatternInnerMatches of |MatchElementList| with arguments _iterator_, _cacheGroup_ and 0.
         1. If _visitedCount_ is ~not-matched~, return *false*.
         1. Assert: _visitedCount_ is a non-negative integer.
         1. If |Elision| is present, then
-          1. If ? GetIteratorNthValueCached(_subject_, _cacheGroup_, _visitedCount_) is ~not-matched~, return *false*.
+          1. If ? GetIteratorNthValueCached(_iterator_, _cacheGroup_, _visitedCount_) is ~not-matched~, return *false*.
           1. Set _visitedCount_ to _visitedCount_ + 1.
         1. If |MatchRestElement| is present, then
-          1. Let _matches_ be ? ListPatternInnerMatches of |MatchRestElement| with arguments _subject_, _cacheGroup_ and _visitedCount_.
-          1. Return ? FinishListMatch(_subject_, _cacheGroup_, _matches_).
-        1. Return ? FinishListMatch(_subject_, _cacheGroup_, _visitedCount_).
+          1. Let _matches_ be ? ListPatternInnerMatches of |MatchRestElement| with arguments _iterator_, _cacheGroup_ and _visitedCount_.
+          1. Return ? FinishListMatch(_iterator_, _cacheGroup_, _matches_).
+        1. Return ? FinishListMatch(_iterator_, _cacheGroup_, _visitedCount_).
       </emu-alg>
       <emu-note>
         It is possible to use array-like object or IsArray semantics rather than iterator protocol if there is performance issue reported from the engine.
@@ -2745,7 +2747,7 @@ contributors:
     <emu-clause id="sec-list-pattern-inner-matches" type="sdo">
       <h1>
         Runtime Semantics: ListPatternInnerMatches (
-          _subject_: an Iterator Record,
+          _iterator_: an Iterator Record,
           _cacheGroup_: a %Map%,
           _startIndex_: a non-negative integer,
         ): either a normal completion containing either a non-negative integer, ~unlimited~ or ~not-matched~, or an abrupt completion
@@ -2756,16 +2758,16 @@ contributors:
          MatchElementList : MatchElisionElement
       </emu-grammar>
       <emu-alg>
-        1. Return ? ListPatternInnerMatches of |MatchElisionElement| with arguments _subject_, _cacheGroup_ and _startIndex_.
+        1. Return ? ListPatternInnerMatches of |MatchElisionElement| with arguments _iterator_, _cacheGroup_ and _startIndex_.
       </emu-alg>
       <emu-grammar>
          MatchElementList : MatchElementList `,` MatchElisionElement
       </emu-grammar>
       <emu-alg>
-        1. Let _visitedCount_ be ? ListPatternInnerMatches of |MatchElementList| with arguments _subject_, _cacheGroup_ and _startIndex_.
+        1. Let _visitedCount_ be ? ListPatternInnerMatches of |MatchElementList| with arguments _iterator_, _cacheGroup_ and _startIndex_.
         1. If _visitedCount_ is ~not-matched~, return ~not-matched~.
         1. Assert: _visitedCount_ is a non-negative integer.
-        1. Let _matches_ be ? ListPatternInnerMatches of |MatchElisionElement| with arguments _subject_, _cacheGroup_ and _startIndex_ + _visitedCount_.
+        1. Let _matches_ be ? ListPatternInnerMatches of |MatchElisionElement| with arguments _iterator_, _cacheGroup_ and _startIndex_ + _visitedCount_.
         1. If _matches_ is ~not-matched~, return ~not-matched~.
         1. Assert: _matches_ is a non-negative integer.
         1. Return _visitedCount_ + _matches_.
@@ -2776,9 +2778,9 @@ contributors:
       <emu-alg>
         1. Let _visitedCount_ be 0.
         1. If |Elision| is present, then
-          1. If ? GetIteratorNthValueCached(_subject_, _cacheGroup_, _startIndex_) is ~not-matched~, return ~not-matched~.
+          1. If ? GetIteratorNthValueCached(_iterator_, _cacheGroup_, _startIndex_) is ~not-matched~, return ~not-matched~.
           1. Set _visitedCount_ to _visitedCount_ + 1.
-        1. Let _matches_ be ? ListPatternInnerMatches of |MatchElement| with arguments _subject_, _cacheGroup_ and _startIndex_ + _visitedCount_.
+        1. Let _matches_ be ? ListPatternInnerMatches of |MatchElement| with arguments _iterator_, _cacheGroup_ and _startIndex_ + _visitedCount_.
         1. If _matches_ is ~not-matched~, return ~not-matched~.
         1. Assert: _matches_ is a non-negative integer.
         1. Return _visitedCount_ + _matches_.
@@ -2787,7 +2789,7 @@ contributors:
          MatchElement : MatchPattern `?`?
       </emu-grammar>
       <emu-alg>
-        1. Let _value_ be ? GetIteratorNthValueCached(_subject_, _cacheGroup_, _startIndex_).
+        1. Let _value_ be ? GetIteratorNthValueCached(_iterator_, _cacheGroup_, _startIndex_).
         1. If _value_ is ~not-matched~, then
           1. If `?` is present, return 1.
           1. Return ~not-matched~.
@@ -2809,7 +2811,7 @@ contributors:
         1. Let _i_ be _startIndex_.
         1. Let _next_ be ~unused~.
         1. Repeat, while _next_ is not ~not-matched~,
-          1. Set _next_ to ? GetIteratorNthValueCached(_subject_, _cacheGroup_, _i_).
+          1. Set _next_ to ? GetIteratorNthValueCached(_iterator_, _cacheGroup_, _i_).
           1. If _next_ is not ~not-matched~, append _next_ to _elements_.
           1. Set _i_ to _i_ + 1.
         1. Let _rest_ be CreateArrayFromList(_elements_).
@@ -3183,9 +3185,13 @@ contributors:
       <dl class="header">
       </dl>
       <emu-alg>
-        1. If _matcher_ is not an Object, return SameValueZero(_matcher_, _subject_).
+        1. If _matcher_ is not an Object, then
+          1. If _kind_ is ~boolean~, return SameValueZero(_matcher_, _subject_).
+          1. Throw a *TypeError* exception.
         1. Let _f_ be ? Get(_matcher_, @@customMatcher).
-        1. If _f_ is *undefined*, return SameValueNonNumber(_matcher_, _subject_).
+        1. If _f_ is *undefined*, then
+          1. If _kind_ is ~boolean~, return SameValueNonNumber(_matcher_, _subject_).
+          1. Throw a *TypeError* exception.
         1. If _kind_ is ~boolean~, let _hint_ be *"boolean"*.
         1. Else, let _hint_ be *"list"*.
         1. Let _result_ be ? Call(_f_, _matcher_, « _subject_, _hint_, _receiver_ »).
@@ -3407,7 +3413,7 @@ contributors:
     <emu-clause id="sec-finish-list-match" type="abstract operation">
       <h1>
         FinishListMatch (
-          _subject_: an ECMAScript language value,
+          _iterator_: an Iterator Record,
           _cacheGroup_: a %Map%,
           _expectedLength_: either a non-negative integer, ~not-matched~ or ~unlimited~,
         ): either a normal completion containing a Boolean or an abrupt completion
@@ -3417,7 +3423,6 @@ contributors:
       <emu-alg>
         1. If _expectedLength_ is ~not-matched~, return *false*.
         1. If _expectedLength_ is ~unlimited~, return *true*.
-        1. Let _iterator_ be ? GetIteratorCached(_subject_, _cacheGroup_).
         1. Let _cache_ be GetMatchCache(_iterator_, _cacheGroup_).
         1. Let _cachedLength_ be ! LengthOfArrayLike(! Get(_cache_, *"IteratedValues"*)).
         1. If _cachedLength_ &gt; _expectedLength_, return *false*.
