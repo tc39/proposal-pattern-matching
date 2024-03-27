@@ -2230,7 +2230,7 @@ contributors:
 
     <emu-clause id="sec-is-optional-pattern" type="sdo">
       <h1>
-        Static Semantics: IsOptionalPattern (): a Boolean.
+        Static Semantics: IsOptionalPattern (): a Boolean
       </h1>
       <dl class="header">
       </dl>
@@ -3180,7 +3180,7 @@ contributors:
           _cacheGroup_: a %Map%,
           _kind_: ~boolean~ or ~list~,
           _receiver_: an ECMAScript language value,
-        ): either a normal completion containing either a Boolean or an Object, or an abrupt completion
+        ): either a normal completion containing either a Boolean or an Iterator Record, or an abrupt completion
       </h1>
       <dl class="header">
       </dl>
