@@ -7,11 +7,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
-    - run: npm install
+    - uses: actions/checkout@v4
+    - uses: ljharb/actions/node/install@main
     - run: npm run build
     - name: commit changes
       uses: elstudio/actions-js-build/commit@v3
