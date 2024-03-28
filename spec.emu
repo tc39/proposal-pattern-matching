@@ -3473,7 +3473,7 @@ contributors:
         1. If _matchCompletion_ is an abrupt completion, append _matchCompletion_.[[Value]] to _errors_.
         1. For each element _iterator_ of _iterators_, do
           1. If _iterator_.[[Done]] is *false*, then
-            1. Let _closeResult_ be Completion(IteratorClose(_iterator_, Completion(*undefined*))).
+            1. Let _closeResult_ be Completion(IteratorClose(_iterator_, NormalCompletion(*undefined*))).
             1. If _closeResult_ is an abrupt completion, append _closeResult_.[[Value]] to _errors_.
         1. If _errors_ is not empty, then
           1. If length of _errors_ is 1, return ThrowCompletion(_errors_[0]).
