@@ -134,6 +134,7 @@ This proposal draws from, and partially overlaps with, corresponding features in
 [F#](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/pattern-matching),
 [Scala](http://www.scala-lang.org/files/archive/spec/2.11/08-pattern-matching.html),
 [Elixir/Erlang](https://elixir-lang.org/getting-started/pattern-matching.html),
+[Gleam](https://tour.gleam.run/flow-control/case-expressions),
 and [C++](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p1371r2.pdf).
 
 ### Userland matching
