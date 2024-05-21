@@ -885,14 +885,14 @@ class Option {
 
 let val = Option.Some(5);
 match(val) {
-  when Object.Some(String and let a): console.log(`Got a string "${a}".`);
-  when Object.Some(Number and let a): console.log(`Got a number ${a}.`);
-  when Object.Some(...): console.log(`Got something unexpected.`);
-  // Or `Object.Some`, either works.
-  // `Object.Some()` will never match, as the return value
+  when Option.Some(String and let a): console.log(`Got a string "${a}".`);
+  when Option.Some(Number and let a): console.log(`Got a number ${a}.`);
+  when Option.Some(...): console.log(`Got something unexpected.`);
+  // Or `Option.Some`, either works.
+  // `Option.Some()` will never match, as the return value
   // is a 1-item array, which doesn't match `[]`
-  when Object.None(): console.log(`Operation failed.`);
-  // or `Object.None`, either works
+  when Option.None(): console.log(`Operation failed.`);
+  // or `Option.None`, either works
   default: console.log(`Didn't get an Option at all.`)
 }
 ```
