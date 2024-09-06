@@ -183,7 +183,7 @@ There are several types of value patterns, performing different types of tests.
 
 ### Primitive Patterns
 
-All primitive values and variable names can be used directly as matcher patterns,
+All primitive values can be used directly as matcher patterns,
 representing a test that the subject matches the specified value,
 using [`SameValue`](https://tc39.es/ecma262/#sec-samevalue) semantics
 (except when otherwise noted).
@@ -366,23 +366,6 @@ RegExp.prototype[Symbol.customMatcher] = function(subject, {matchType}) {
     if(matchType == "extractor") return [result, ...result.slice(1)];
 }
 ```
-
-Note: We have two conflicting desires here:
-(1) allow predicate functions to be used as custom matchers in a trivial way, and
-(2) allow classes to be used as matchers in a trivial way.
-The only way to do (1) is to put a custom matcher on `Function.prototype`
-that invokes the function for you,
-but this is *also* the only *normal* way to do (2),
-since `Function.prototype` is the nearest common prototype to all classes
-(save those that explicitly null out their prototype, of course).
-The solution we hit on here --
-having the `class{}` syntax install a default matcher if there's not one present --
-mirrors the behavior of constructor methods,
-and lets us have both behaviors cleanly.
-However, if this is deemed unacceptable,
-we could pursue other approaches,
-like having a prefix keyword to indicate a "boolean predicate pattern"
-so we can tell it apart from a custom matcher pattern.
 
 
 ### Regex Patterns
