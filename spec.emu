@@ -83,10 +83,10 @@ contributors:
         <li><emu-xref href="#sec-relational-operators" title>The `is` expression</emu-xref></li>
         <li><emu-xref href="#sec-match-expression" title></emu-xref></li>
         <li>
-          Non-trivial Built-in @@customMatcher methods:
+          Non-trivial Built-in %Symbol.customMatcher% methods:
           <ul>
-            <li><emu-xref href="#sec-function.prototype-@@custommatcher" title></emu-xref></li>
-            <li><emu-xref href="#sec-regexp.prototype-@@custommatcher" title></emu-xref></li>
+            <li><emu-xref href="#sec-function.prototype-%symbol.custommatcher%" title></emu-xref></li>
+            <li><emu-xref href="#sec-regexp.prototype-%symbol.custommatcher%" title></emu-xref></li>
           </ul>
         </li>
         <li>(TODO) Scope analysis changes: <emu-xref href="#sec-syntax-directed-operations" title></emu-xref></li>
@@ -161,7 +161,7 @@ contributors:
             </tr>
             <tr>
               <td>
-                <ins><dfn>@@customMatcher</dfn></ins>
+                <ins><dfn>%Symbol.customMatcher%</dfn></ins>
               </td>
               <td>
                 <ins>`"Symbol.customMatcher"`</ins>
@@ -665,8 +665,8 @@ contributors:
     <emu-clause id="sec-properties-of-the-object-constructor" number="2">
       <h1>Properties of the Object Constructor</h1>
 
-      <emu-clause id="sec-object-@@custommatcher" number="24">
-        <h1>Object [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <emu-clause id="sec-object-%symbol.custommatcher%" number="24">
+        <h1>Object [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
@@ -683,8 +683,8 @@ contributors:
     <emu-clause id="sec-properties-of-the-function-constructor" number="2">
       <h1>Properties of the Function Constructor</h1>
 
-      <emu-clause id="sec-function-@@custommatcher" number="2">
-        <h1>Function [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <emu-clause id="sec-function-%symbol.custommatcher%" number="2">
+        <h1>Function [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
@@ -696,8 +696,8 @@ contributors:
     <emu-clause id="sec-properties-of-the-function-prototype-object" number="3">
       <h1>Properties of the Function Prototype Object</h1>
 
-      <emu-clause id="sec-function.prototype-@@custommatcher" number="7">
-        <h1>Function.prototype [ @@customMatcher ] ( _subject_, _hint_, _receiver_ )</h1>
+      <emu-clause id="sec-function.prototype-%symbol.custommatcher%" number="7">
+        <h1>Function.prototype [ %Symbol.customMatcher% ] ( _subject_, _hint_, _receiver_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_).
@@ -741,7 +741,8 @@ contributors:
             There are
             <a href="https://github.com/tc39/proposal-pattern-matching/pull/293#issuecomment-1725097699" target="_blank">performance concerns</a>,
             <a href="https://github.com/tc39/proposal-pattern-matching/pull/293#issuecomment-1725097699" target="_blank">"hackable" concerns</a>, and
-            <a href="https://github.com/tc39/proposal-pattern-matching/pull/293#issuecomment-1725097699" target="_blank">interaction with @@hasInstance concerns</a>.
+            <a href="https://github.com/tc39/proposal-pattern-matching/pull/293#issuecomment-1725097699" target="_blank">interaction
+              with %Symbol.hasInstance% concerns</a>.
           </p>
           <p>Another approach is to use the `instanceof` semantics.</p>
         </emu-note>
@@ -755,8 +756,8 @@ contributors:
     <emu-clause id="sec-properties-of-the-boolean-constructor" number="2">
       <h1>Properties of the Boolean Constructor</h1>
 
-      <emu-clause id="sec-boolean-@@custommatcher" number="2">
-        <h1>Boolean [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <emu-clause id="sec-boolean-%symbol.custommatcher%" number="2">
+        <h1>Boolean [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_).
@@ -780,12 +781,13 @@ contributors:
 
       <emu-clause id="sec-symbol.custommatcher" number="17">
         <h1>Symbol.customMatcher</h1>
-        <p>The initial value of `Symbol.customMatcher` is the well-known symbol @@customMatcher (<emu-xref href="#table-well-known-symbols"></emu-xref>).</p>
+        <p>The initial value of `Symbol.customMatcher` is the well-known symbol %Symbol.customMatcher% (<emu-xref
+            href="#table-well-known-symbols"></emu-xref>).</p>
         <p>This property has the attributes { [[Writable]]: *false*, [[Enumerable]]: *false*, [[Configurable]]: *false* }.</p>
       </emu-clause>
 
-      <emu-clause id="sec-symbol-@@custommatcher">
-        <h1>Symbol [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <emu-clause id="sec-symbol-%symbol.custommatcher%">
+        <h1>Symbol [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_).
@@ -826,8 +828,8 @@ contributors:
     <emu-clause id="sec-properties-of-the-error-constructors" number="2">
       <h1>Properties of the Error Constructor</h1>
 
-      <emu-clause id="sec-error-@@custommatcher" number="2">
-          <h1>Error [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <emu-clause id="sec-error-%symbol.custommatcher%" number="2">
+        <h1>Error [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
           <p>This function performs the following steps when called:</p>
           <emu-alg>
             1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
@@ -845,7 +847,10 @@ contributors:
 
     <emu-clause id="sec-properties-of-error-instances" number="4">
       <h1>Properties of Error Instances</h1>
-      <p>Error instances are ordinary objects that inherit properties from the Error prototype object and have an [[ErrorData]] internal slot whose value is <del>*undefined*</del> <ins>a String</ins>. The only specified uses of [[ErrorData]] is to identify Error, AggregateError, and _NativeError_ instances as Error objects within `Object.prototype.toString` <ins>and their @@customMatcher methods</ins>.</p>
+      <p>Error instances are ordinary objects that inherit properties from the Error prototype object and have an
+        [[ErrorData]] internal slot whose value is <del>*undefined*</del> <ins>a String</ins>. The only specified uses of
+        [[ErrorData]] is to identify Error, AggregateError, and _NativeError_ instances as Error objects within
+        `Object.prototype.toString` <ins>and their %Symbol.customMatcher% methods</ins>.</p>
       <emu-note type="editor">
         Rename this internal slot to [[ErrorKind]].
       </emu-note>
@@ -876,8 +881,8 @@ contributors:
       <emu-clause id="sec-properties-of-the-nativeerror-constructors" number="2">
         <h1>Properties of the _NativeError_ Constructors</h1>
 
-        <emu-clause id="sec-nativeerror-@@custommatcher" number="2">
-          <h1>_NativeError_ [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <emu-clause id="sec-nativeerror-%symbol.custommatcher%" number="2">
+          <h1>_NativeError_ [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
           <emu-alg>
             1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
             1. If _subject_ does not have a [[ErrorData]] internal slot or _subject_.[[ErrorData]] is not _NativeError_, return *false*.
@@ -888,7 +893,11 @@ contributors:
 
       <emu-clause id="sec-properties-of-nativeerror-instances" number="4">
         <h1>Properties of _NativeError_ Instances</h1>
-        <p>_NativeError_ instances are ordinary objects that inherit properties from their _NativeError_ prototype object and have an [[ErrorData]] internal slot whose value is <del>*undefined*</del> <ins>a String</ins>. The only specified use of [[ErrorData]] is by `Object.prototype.toString` (<emu-xref href="#sec-object.prototype.tostring"></emu-xref>) <ins>and their @@customMatcher methods</ins> to identify Error, AggregateError, or _NativeError_ instances.</p>
+        <p>_NativeError_ instances are ordinary objects that inherit properties from their _NativeError_ prototype object and
+          have an [[ErrorData]] internal slot whose value is <del>*undefined*</del> <ins>a String</ins>. The only specified use
+          of [[ErrorData]] is by `Object.prototype.toString` (<emu-xref href="#sec-object.prototype.tostring"></emu-xref>)
+          <ins>and their %Symbol.customMatcher% methods</ins> to identify Error, AggregateError, or _NativeError_ instances.
+        </p>
       </emu-clause>
     </emu-clause>
 
@@ -919,8 +928,8 @@ contributors:
       <emu-clause id="sec-properties-of-the-aggregate-error-constructors" number="2">
         <h1>Properties of the AggregateError Constructor</h1>
 
-        <emu-clause id="sec-aggregate-error-@@custommatcher" number="2">
-          <h1>AggregateError [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+        <emu-clause id="sec-aggregate-error-%symbol.custommatcher%" number="2">
+          <h1>AggregateError [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
           <emu-alg>
             1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
             1. If _subject_ does not have a [[ErrorData]] internal slot or _subject_.[[ErrorData]] is not *"AggregateError"*, return *false*.
@@ -931,7 +940,11 @@ contributors:
 
       <emu-clause id="sec-properties-of-aggregate-error-instances" number="4">
         <h1>Properties of AggregateError Instances</h1>
-        <p>AggregateError instances are ordinary objects that inherit properties from their AggregateError prototype object and have an [[ErrorData]] internal slot whose value is <del>*undefined*</del> <ins>a String</ins>. The only specified use of [[ErrorData]] is by `Object.prototype.toString` (<emu-xref href="#sec-object.prototype.tostring"></emu-xref>) <ins>and their @@customMatcher methods</ins> to identify Error, AggregateError, or _NativeError_ instances.</p>
+        <p>AggregateError instances are ordinary objects that inherit properties from their AggregateError prototype object and
+          have an [[ErrorData]] internal slot whose value is <del>*undefined*</del> <ins>a String</ins>. The only specified use
+          of [[ErrorData]] is by `Object.prototype.toString` (<emu-xref href="#sec-object.prototype.tostring"></emu-xref>)
+          <ins>and their %Symbol.customMatcher% methods</ins> to identify Error, AggregateError, or _NativeError_ instances.
+        </p>
       </emu-clause>
     </emu-clause>
   </emu-clause>
@@ -946,8 +959,8 @@ contributors:
     <emu-clause id="sec-properties-of-the-number-constructor" number="2">
       <h1>Properties of the Number Constructor</h1>
 
-      <emu-clause id="sec-number-@@custommatcher" number="16">
-        <h1>Number [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <emu-clause id="sec-number-%symbol.custommatcher%" number="16">
+        <h1>Number [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_).
@@ -969,8 +982,8 @@ contributors:
     <emu-clause id="sec-properties-of-the-bigint-constructor" number="2">
       <h1>Properties of the BigInt Constructor</h1>
 
-      <emu-clause id="sec-bigint-@@custommatcher" number="4">
-        <h1>BigInt [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <emu-clause id="sec-bigint-%symbol.custommatcher%" number="4">
+        <h1>BigInt [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_).
@@ -992,8 +1005,8 @@ contributors:
     <emu-clause id="sec-properties-of-the-date-constructor" number="3">
       <h1>Properties of the Date Constructor</h1>
 
-      <emu-clause id="sec-date-@@custommatcher" number="5">
-        <h1>Date [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <emu-clause id="sec-date-%symbol.custommatcher%" number="5">
+        <h1>Date [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
@@ -1014,8 +1027,8 @@ contributors:
     <emu-clause id="sec-properties-of-the-string-constructor" number="2">
       <h1>Properties of the String Constructor</h1>
 
-      <emu-clause id="sec-string-@@custommatcher" number="5">
-        <h1>String [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <emu-clause id="sec-string-%symbol.custommatcher%" number="5">
+        <h1>String [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_).
@@ -1258,8 +1271,8 @@ contributors:
     <emu-clause id="sec-properties-of-the-regexp-constructor" number="5">
       <h1>Properties of the RegExp Constructor</h1>
 
-      <emu-clause id="sec-regexp-@@custommatcher" number="3">
-        <h1>RegExp [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <emu-clause id="sec-regexp-%symbol.custommatcher%" number="3">
+        <h1>RegExp [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
@@ -1267,7 +1280,7 @@ contributors:
           1. Return *true*.
         </emu-alg>
         <emu-note>
-          IsRegExp returns *true* for objects that have a truthy @@match property. Do we want this?
+          IsRegExp returns *true* for objects that have a truthy %Symbol.match% property. Do we want this?
         </emu-note>
       </emu-clause>
     </emu-clause>
@@ -1275,8 +1288,8 @@ contributors:
     <emu-clause id="sec-properties-of-the-regexp-prototype-object" number="6">
       <h1>Properties of the RegExp Prototype Object</h1>
 
-      <emu-clause id="sec-regexp.prototype-@@custommatcher" number="20">
-        <h1>RegExp.prototype [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <emu-clause id="sec-regexp.prototype-%symbol.custommatcher%" number="20">
+        <h1>RegExp.prototype [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_).
@@ -1287,11 +1300,11 @@ contributors:
             1. Let _flags_ be ? Get(_regexp_, "flags").
             1. Perform ? RequireObjectCoercible(_flags_).
             1. If ? ToString(_flags_) contains *g*, then
-              1. Let _iterator_ be ? Call(? Get(_regexp_, @@matchAll), _regexp_, « _subject_ »).
+              1. Let _iterator_ be ? Call(? Get(_regexp_, %Symbol.matchAll%), _regexp_, « _subject_ »).
               1. Let _array_ be ? Call(<emu-xref href="#sec-array.from">%Array.from%</emu-xref>, %Array%, « _iterator_ »).
               1. If ! LengthOfArrayLike(_array_) is 0, return *false*.
               1. Return _array_.
-          1. Let _result_ be ? Call(? Get(_regexp_, @@match), _regexp_, « _subject_ »).
+          1. Let _result_ be ? Call(? Get(_regexp_, %Symbol.match%), _regexp_, « _subject_ »).
           1. If _result_ is *null*, return *false*.
           1. Return CreateArrayFromList(« _result_ »).
         </emu-alg>
@@ -1299,18 +1312,18 @@ contributors:
           <pre><code class="javascript">
             let regex = /(?&lt;id&gt;\d+)-?/g
             '012-345' is regex(["012-", "012"], { groups: { id: "345" } });
-            // true, match with @@matchAll
+            // true, match with %Symbol.matchAll%
 
             let regex2 = /(?&lt;id&gt;\d+)-?/
             '012-345' is regex({ groups: { id: "012" } });
-            // true, match with @@match
+            // true, match with %Symbol.match%
           </code></pre>
         </emu-note>
         <emu-note type="editor">
           The *"flags"* property in this algorithm is accessed twice, this is not ideal.
           Another access is
-          in <emu-xref href="#sec-regexp-prototype-matchall" title></emu-xref>
-          or <emu-xref href="#sec-regexp.prototype-@@match" title></emu-xref>
+          in <emu-xref href="#sec-regexp-prototype-%symbol.matchall%" title></emu-xref>
+          or <emu-xref href="#sec-regexp.prototype-%symbol.match%" title></emu-xref>
           depends on if the _regexp_ has the *g* flag.
         </emu-note>
         <emu-note type="editor">
@@ -1333,8 +1346,8 @@ contributors:
     <emu-clause id="sec-properties-of-the-array-constructor" number="2">
       <h1>Properties of the Array Constructor</h1>
 
-      <emu-clause id="sec-array-@@custommatcher" number="6">
-        <h1>Array [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <emu-clause id="sec-array-%symbol.custommatcher%" number="6">
+        <h1>Array [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_).
@@ -1355,8 +1368,8 @@ contributors:
     <emu-clause id="sec-properties-of-the-typedarray-constructors" number="6">
       <h1>Properties of the _TypedArray_ Constructors</h1>
 
-      <emu-clause id="sec-_typedarray_-@@custommatcher" number="3">
-        <h1>_TypedArray_ [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <emu-clause id="sec-_typedarray_-%symbol.custommatcher%" number="3">
+        <h1>_TypedArray_ [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_).
@@ -1384,8 +1397,8 @@ contributors:
     <emu-clause id="sec-properties-of-the-map-constructor" number="2">
       <h1>Properties of the Map Constructor</h1>
 
-      <emu-clause id="sec-map-@@custommatcher" number="3">
-        <h1>Map [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <emu-clause id="sec-map-%symbol.custommatcher%" number="3">
+        <h1>Map [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_).
@@ -1411,8 +1424,8 @@ contributors:
     <emu-clause id="sec-properties-of-the-set-constructor" number="2">
       <h1>Properties of the Set Constructor</h1>
 
-      <emu-clause id="sec-set-@@custommatcher" number="3">
-        <h1>Set [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <emu-clause id="sec-set-%symbol.custommatcher%" number="3">
+        <h1>Set [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_).
@@ -1438,8 +1451,8 @@ contributors:
     <emu-clause id="sec-properties-of-the-weakmap-constructor" number="2">
       <h1>Properties of the WeakMap Constructor</h1>
 
-      <emu-clause id="sec-weakmap-@@custommatcher" number="2">
-        <h1>WeakMap [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <emu-clause id="sec-weakmap-%symbol.custommatcher%" number="2">
+        <h1>WeakMap [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
@@ -1456,8 +1469,8 @@ contributors:
     <emu-clause id="sec-properties-of-the-weakset-constructor" number="2">
       <h1>Properties of the WeakSet Constructor</h1>
 
-      <emu-clause id="sec-weakset-@@custommatcher" number="2">
-        <h1>WeakSet [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <emu-clause id="sec-weakset-%symbol.custommatcher%" number="2">
+        <h1>WeakSet [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
@@ -1478,8 +1491,8 @@ contributors:
     <emu-clause id="sec-properties-of-the-arraybuffer-constructor" number="5">
       <h1>Properties of the ArrayBuffer Constructor</h1>
 
-      <emu-clause id="sec-arraybuffer-@@custommatcher" number="4">
-        <h1>ArrayBuffer [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <emu-clause id="sec-arraybuffer-%symbol.custommatcher%" number="4">
+        <h1>ArrayBuffer [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
@@ -1496,8 +1509,8 @@ contributors:
     <emu-clause id="sec-properties-of-the-sharedarraybuffer-constructor" number="4">
       <h1>Properties of the SharedArrayBuffer Constructor</h1>
 
-      <emu-clause id="sec-sharedarraybuffer-@@custommatcher" number="3">
-        <h1>SharedArrayBuffer [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <emu-clause id="sec-sharedarraybuffer-%symbol.custommatcher%" number="3">
+        <h1>SharedArrayBuffer [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
@@ -1514,8 +1527,8 @@ contributors:
     <emu-clause id="sec-properties-of-the-dataview-constructor" number="3">
       <h1>Properties of the DataView Constructor</h1>
 
-      <emu-clause id="sec-dataview-@@custommatcher" number="2">
-        <h1>DataView [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <emu-clause id="sec-dataview-%symbol.custommatcher%" number="2">
+        <h1>DataView [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
@@ -1536,8 +1549,8 @@ contributors:
     <emu-clause id="sec-properties-of-the-weak-ref-constructor" number="2">
       <h1>Properties of the WeakRef Constructor</h1>
 
-      <emu-clause id="sec-weakref-@@custommatcher" number="2">
-        <h1>WeakRef [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <emu-clause id="sec-weakref-%symbol.custommatcher%" number="2">
+        <h1>WeakRef [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_).
@@ -1558,8 +1571,8 @@ contributors:
     <emu-clause id="sec-properties-of-the-finalization-registry-constructor" number="2">
       <h1>Properties of the FinalizationRegistry Constructor</h1>
 
-      <emu-clause id="sec-finalizationregistry-@@custommatcher" number="2">
-        <h1>FinalizationRegistry [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <emu-clause id="sec-finalizationregistry-%symbol.custommatcher%" number="2">
+        <h1>FinalizationRegistry [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
@@ -1580,8 +1593,8 @@ contributors:
     <emu-clause id="sec-properties-of-the-promise-constructor" number="4">
       <h1>Properties of the Promise Constructor</h1>
 
-      <emu-clause id="sec-promise-@@custommatcher" number="9">
-        <h1>Promise [ @@customMatcher ] ( _subject_, _hint_ )</h1>
+      <emu-clause id="sec-promise-%symbol.custommatcher%" number="9">
+        <h1>Promise [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
@@ -1601,15 +1614,15 @@ contributors:
     <emu-clause id="sec-proxy-constructor" number="1">
       <h1>The Proxy Constructor</h1>
 
-      <emu-clause id="sec-proxy-@@custommatcher" number="2">
-        <h1>Proxy [ @@customMatcher ] ( )</h1>
+      <emu-clause id="sec-proxy-%symbol.custommatcher%" number="2">
+        <h1>Proxy [ %Symbol.customMatcher% ] ( )</h1>
         <p>This function performs the following steps when called:</p>
         <emu-alg>
           1. Throw a *TypeError* exception.
         </emu-alg>
       </emu-clause>
       <emu-note type="editor">
-        <p>All built-in constructors have a @@customMatcher method. This one is for design consistency.</p>
+        <p>All built-in constructors have a %Symbol.customMatcher% method. This one is for design consistency.</p>
         <p>This is not a consensus in the champion group.</p>
       </emu-note>
     </emu-clause>
@@ -1962,7 +1975,8 @@ contributors:
           PatternMatchingMemberExpression[?Yield, ?Await]
       </emu-grammar>
       <p>
-        The recommended way to match a String is to use the <emu-xref href="#sec-string-@@custommatcher" title></emu-xref>,
+        The recommended way to match a String is to use the <emu-xref href="#sec-string-%symbol.custommatcher%"
+          title></emu-xref>,
         but it can be replaced. This production adds the ability to do the unforgeable `typeof` test.
       </p>
       <pre><code class="javascript">
@@ -2433,11 +2447,14 @@ contributors:
         1. Return *true*.
       </emu-alg>
       <emu-note type="editor" class="show-ao-annotations">
-        <p>In order to create binding without triggering user code, we're not calling <emu-xref href="#sec-regexp.prototype-@@custommatcher" title></emu-xref> and making the behaviour unforgeable.</p>
-        <p>Contrast to call <emu-xref href="#sec-regexp.prototype-@@custommatcher" title></emu-xref> directly, this syntax-directed operation skipped the following user code:</p>
+        <p>In order to create binding without triggering user code, we're not calling <emu-xref
+            href="#sec-regexp.prototype-%symbol.custommatcher%" title></emu-xref> and making the behaviour unforgeable.</p>
+        <p>Contrast to call <emu-xref href="#sec-regexp.prototype-%symbol.custommatcher%" title></emu-xref> directly, this
+          syntax-directed operation skipped the following user code:</p>
         <ul>
           <li>
-            <span class="e-user-code">get and call <emu-xref href="#sec-regexp.prototype-@@custommatcher" title></emu-xref></span>
+            <span class="e-user-code">get and call <emu-xref href="#sec-regexp.prototype-%symbol.custommatcher%"
+                title></emu-xref></span>
             <ul>
               <li>
                 <span class="e-user-code">get and call <emu-xref href="#sec-regexp.prototype.test" title></emu-xref></span>
@@ -2451,7 +2468,7 @@ contributors:
                 </ul>
               </li>
               <li>
-                <span class="e-user-code">get and call <emu-xref href="#sec-regexp.prototype-@@match" title></emu-xref></span>
+                <span class="e-user-code">get and call <emu-xref href="#sec-regexp.prototype-%symbol.match%" title></emu-xref></span>
                 <ul>
                   <li><span class="e-user-code">get <emu-xref href="#sec-get-regexp.prototype.flags" title></emu-xref></span></li>
                   <li>
@@ -2463,13 +2480,13 @@ contributors:
                 </ul>
               </li>
               <li>
-                <span class="e-user-code">get and call <emu-xref href="#sec-regexp-prototype-matchall" title></emu-xref></span>
+                <span class="e-user-code">get and call <emu-xref href="#sec-regexp-prototype-%symbol.matchall%" title></emu-xref></span>
                 <ul>
                   <li>
                     SpeciesConstructor
                     <ul>
                       <li><span class="e-user-code">get <emu-xref href="#sec-regexp.prototype.constructor" title></emu-xref></span></li>
-                      <li><span class="e-user-code">get <emu-xref href="#sec-get-regexp-@@species" title></emu-xref></span></li>
+                      <li><span class="e-user-code">get <emu-xref href="#sec-get-regexp-%symbol.species%" title></emu-xref></span></li>
                     </ul>
                   </li>
                   <li><span class="e-user-code">get <emu-xref href="#sec-get-regexp.prototype.flags" title></emu-xref></span></li>
@@ -2478,7 +2495,7 @@ contributors:
                     <ul>
                       <li>IsRegExp</li>
                       <ul>
-                        <li><span class="e-user-code">get <emu-xref href="#sec-regexp.prototype-@@match" title></emu-xref></span></li>
+                        <li><span class="e-user-code">get <emu-xref href="#sec-regexp.prototype-%symbol.match%" title></emu-xref></span></li>
                       </ul>
                     </ul>
                   </li>
@@ -2687,7 +2704,7 @@ contributors:
         ArrayPattern : `[` MatchList? `]`
       </emu-grammar>
       <emu-alg>
-        1. If IsCallable(? GetCached(_subject_, _cacheGroup_, @@iterator)) is *false*, return *false*.
+        1. If IsCallable(? GetCached(_subject_, _cacheGroup_, %Symbol.iterator%)) is *false*, return *false*.
         1. Let _iteratorRecord_ be ? GetIteratorCached(_subject_, _cacheGroup_).
         1. If |MatchList| is not present, then
           1. Return ? FinishListMatch(_subject_, _cacheGroup_, 0).
@@ -2909,7 +2926,7 @@ contributors:
         RelationalPattern : `in` PatternMatchingMemberExpression
       </emu-grammar>
       <emu-alg>
-        1. If IsPropertyKey(_subject_) is *false*, return *false*.
+        1. If _subject_ is not a property key, return *false*.
         1. Let _expr_ be the |Expression| that is covered by |PatternMatchingMemberExpression|.
         1. Let _ref_ be ? Evaluation of _expr_.
         1. Let _value_ be ? GetValue(_ref_).
@@ -3188,7 +3205,7 @@ contributors:
         1. If _matcher_ is not an Object, then
           1. If _kind_ is ~boolean~, return SameValueZero(_matcher_, _subject_).
           1. Throw a *TypeError* exception.
-        1. Let _f_ be ? Get(_matcher_, @@customMatcher).
+        1. Let _f_ be ? Get(_matcher_, %Symbol.customMatcher%).
         1. If _f_ is *undefined*, then
           1. If _kind_ is ~boolean~, return SameValueNonNumber(_matcher_, _subject_).
           1. Throw a *TypeError* exception.
@@ -3339,7 +3356,7 @@ contributors:
         1. Let _cache_ be GetMatchCache(_subject_, _cacheGroup_).
         1. Let _iteratorRecordObject_ be ! Get(_cache_, *"Iterator"*).
         1. If _iteratorRecordObject_ is not *undefined*, return _iteratorRecordObject_.[[CachedIterator]].
-        1. Let _f_ be ? GetCached(_subject_, _cacheGroup_, @@iterator).
+        1. Let _f_ be ? GetCached(_subject_, _cacheGroup_, %Symbol.iterator%).
         1. Let _iteratorRecord_ be ? GetIteratorFromMethod(_subject_, _f_).
         1. Set _iteratorRecordObject_ to OrdinaryObjectCreate(*null*, « [[CachedIterator]] »).
         1. Set _iteratorRecordObject_.[[CachedIterator]] to _iteratorRecord_.
