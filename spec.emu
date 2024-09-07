@@ -96,11 +96,6 @@ contributors:
           <emu-xref href="#sec-runtime-semantics-classdefinitionevaluation"></emu-xref>
         </li>
         <li>
-          Regular Expression changes:
-          <emu-xref href="#sec-patterns"></emu-xref> and
-          <emu-xref href="#sec-regular-expression-pattern-matches"></emu-xref>
-        </li>
-        <li>
           Possible extensions:
           <emu-xref href="#sec-for-in-and-for-of-statements" title></emu-xref> and
           <emu-xref href="#sec-try-statement" title></emu-xref>
@@ -432,45 +427,6 @@ contributors:
         RegularExpressionLiteral
         <ins>MatchExpression[?Yield, ?Await]</ins>
     </emu-grammar>
-
-    <emu-clause id="sec-primary-expression-regular-expression-literals" number="7">
-      <h1>Regular Expression Literals</h1>
-
-      <emu-clause id="sec-primary-expression-regular-expression-literals-static-semantics-early-errors" number="1">
-        <h1>Static Semantics: Early Errors</h1>
-        <emu-grammar>PrimaryExpression : RegularExpressionLiteral</emu-grammar>
-        <ul>
-          <li>
-            It is a Syntax Error if IsValidRegularExpressionLiteral(|RegularExpressionLiteral|<ins>, *false*</ins>) is *false*.
-          </li>
-        </ul>
-      </emu-clause>
-
-      <emu-clause id="sec-isvalidregularexpressionliteral" type="abstract operation" number="2">
-        <h1>
-          Static Semantics: IsValidRegularExpressionLiteral (
-            _literal_: a |RegularExpressionLiteral| Parse Node,
-            <ins>_canCreateBinding_: a Boolean,</ins>
-          ): a Boolean
-        </h1>
-        <dl class="header">
-          <dt>description</dt>
-          <dd>It determines if its argument is a valid regular expression literal.</dd>
-        </dl>
-        <emu-alg>
-          1. Let _flags_ be FlagText of _literal_.
-          1. If _flags_ contains any code points other than `d`, `g`, `i`, `m`, `s`, `u`, `v`, or `y`, or if _flags_ contains any code point more than once, return *false*.
-          1. If _flags_ contains `u`, let _u_ be *true*; else let _u_ be *false*.
-          1. If _flags_ contains `v`, let _v_ be *true*; else let _v_ be *false*.
-          1. Let _patternText_ be BodyText of _literal_.
-          1. If _u_ is *false* and _v_ is *false*, then
-            1. Let _stringValue_ be CodePointsToString(_patternText_).
-            1. Set _patternText_ to the sequence of code points resulting from interpreting each of the 16-bit elements of _stringValue_ as a Unicode BMP code point. UTF-16 decoding is not applied to the elements.
-          1. Let _parseResult_ be ParsePattern(_patternText_, _u_, _v_<ins>, _canCreateBinding_</ins>).
-          1. If _parseResult_ is a Parse Node, return *true*; else return *false*.
-        </emu-alg>
-      </emu-clause>
-    </emu-clause>
 
     <emu-clause id="sec-primary-expression-match-expression" number="10">
       <h1>Match Expression</h1>
@@ -1047,227 +1003,6 @@ contributors:
   <emu-clause id="sec-regexp-regular-expression-objects" number="2">
     <h1>RegExp (Regular Expression) Objects</h1>
 
-    <emu-clause id="sec-patterns" number="1">
-      <h1>Patterns</h1>
-      <h2>Syntax</h2>
-      <emu-grammar type="definition">
-        Pattern[UnicodeMode, UnicodeSetsMode, NamedCaptureGroups, NamedCaptureGroupsBindings] ::
-          Disjunction[?UnicodeMode, ?UnicodeSetsMode, ?NamedCaptureGroups, ?NamedCaptureGroupsBindings]
-
-        Disjunction[UnicodeMode, UnicodeSetsMode, NamedCaptureGroups, NamedCaptureGroupsBindings] ::
-          Alternative[?UnicodeMode, ?UnicodeSetsMode, ?NamedCaptureGroups, ?NamedCaptureGroupsBindings]
-          Alternative[?UnicodeMode, ?UnicodeSetsMode, ?NamedCaptureGroups, ?NamedCaptureGroupsBindings] `|` Disjunction[?UnicodeMode, ?UnicodeSetsMode, ?NamedCaptureGroups, ?NamedCaptureGroupsBindings]
-
-        Alternative[UnicodeMode, UnicodeSetsMode, NamedCaptureGroups, NamedCaptureGroupsBindings, NamedCaptureGroupsBindings] ::
-          [empty]
-          Alternative[?UnicodeMode, ?UnicodeSetsMode, ?NamedCaptureGroups, ?NamedCaptureGroupsBindings] Term[?UnicodeMode, ?UnicodeSetsMode, ?NamedCaptureGroups, ?NamedCaptureGroupsBindings]
-
-        Term[UnicodeMode, UnicodeSetsMode, NamedCaptureGroups, NamedCaptureGroupsBindings] ::
-          Assertion[?UnicodeMode, ?UnicodeSetsMode, ?NamedCaptureGroups, ?NamedCaptureGroupsBindings]
-          Atom[?UnicodeMode, ?UnicodeSetsMode, ?NamedCaptureGroups, ?NamedCaptureGroupsBindings]
-          Atom[?UnicodeMode, ?UnicodeSetsMode, ?NamedCaptureGroups, ?NamedCaptureGroupsBindings] Quantifier
-
-        Assertion[UnicodeMode, UnicodeSetsMode, NamedCaptureGroups, NamedCaptureGroupsBindings] ::
-          `^`
-          `$`
-          `\b`
-          `\B`
-          `(?=` Disjunction[?UnicodeMode, ?UnicodeSetsMode, ?NamedCaptureGroups, ?NamedCaptureGroupsBindings] `)`
-          `(?!` Disjunction[?UnicodeMode, ?UnicodeSetsMode, ?NamedCaptureGroups, ?NamedCaptureGroupsBindings] `)`
-          `(?&lt;=` Disjunction[?UnicodeMode, ?UnicodeSetsMode, ?NamedCaptureGroups, ?NamedCaptureGroupsBindings] `)`
-          `(?&lt;!` Disjunction[?UnicodeMode, ?UnicodeSetsMode, ?NamedCaptureGroups, ?NamedCaptureGroupsBindings] `)`
-
-        Atom[UnicodeMode, UnicodeSetsMode, NamedCaptureGroups, NamedCaptureGroupsBindings] ::
-          PatternCharacter
-          `.`
-          `\` AtomEscape[?UnicodeMode, ?NamedCaptureGroups]
-          CharacterClass[?UnicodeMode, ?UnicodeSetsMode]
-          `(` GroupSpecifier[?UnicodeMode, ?NamedCaptureGroupsBindings]? Disjunction[?UnicodeMode, ?UnicodeSetsMode, ?NamedCaptureGroups, ?NamedCaptureGroupsBindings] `)`
-          `(?:` Disjunction[?UnicodeMode, ?UnicodeSetsMode, ?NamedCaptureGroups, ?NamedCaptureGroupsBindings] `)`
-
-        AtomEscape[UnicodeMode, NamedCaptureGroups] ::
-          DecimalEscape
-          CharacterClassEscape[?UnicodeMode]
-          CharacterEscape[?UnicodeMode]
-          [+NamedCaptureGroups] `k` GroupName[?UnicodeMode, ~NamedCaptureGroupsBindings]
-
-        GroupSpecifier[UnicodeMode, NamedCaptureGroupsBindings] ::
-          `?` GroupName[?UnicodeMode, ?NamedCaptureGroupsBindings]
-
-        GroupName[UnicodeMode, NamedCaptureGroupsBindings] ::
-          `&lt;` RegExpIdentifierName[?UnicodeMode] `&gt;`
-          <ins>[+NamedCaptureGroupsBindings] `&lt;` VarOrLetOrConst Identifier `&gt;`</ins>
-      </emu-grammar>
-      <emu-note type="editor">
-        <p>A new syntax parameter *NamedCaptureGroupsBindings* has been added to the Regular Expression.</p>
-        <p>This feature can be removed.</p>
-        <pre><code class="javascript">
-          if (expr is /(?&lt;let first&gt;\d\d\d)-(?&lt;let second&gt;\d\d\d)/) {}
-          // can be written as
-          if (expr is /(?&lt;first&gt;\d\d\d)-(?&lt;second&gt;\d\d\d)/({ groups: { let first, let second } })) {}
-        </code></pre>
-      </emu-note>
-      <emu-note type="editor">
-        <p>For simplicity, |Identifier| instead of |BindingIdentifier| is used. It is also possible to add [Yield, Await] to |Pattern|.</p>
-      </emu-note>
-
-      <emu-clause id="sec-patterns-static-semantics-early-errors" number="1">
-        <h1>Static Semantics: Early Errors</h1>
-        <emu-grammar>
-          <ins>GroupName : `&lt;` VarOrLetOrConst Identifier `&gt;`</ins>
-        </emu-grammar>
-        <ul>
-          <li>
-            It is a Syntax Error if |VarOrLetOrConst| is |LetOrConst| and the StringValue of Identifier is *"let"*.
-          </li>
-        </ul>
-      </emu-clause>
-
-      <emu-clause id="sec-static-semantics-capturinggroupname" type="sdo" number="9">
-        <h1>Static Semantics: CapturingGroupName ( ): a String</h1>
-        <dl class="header">
-        </dl>
-        <emu-grammar>
-          GroupName :: `&lt;` RegExpIdentifierName `&gt;`
-        </emu-grammar>
-        <emu-alg>
-          1. Let _idTextUnescaped_ be RegExpIdentifierCodePoints of |RegExpIdentifierName|.
-          1. Return CodePointsToString(_idTextUnescaped_).
-        </emu-alg>
-        <emu-grammar>
-          <ins>GroupName :: `&lt;` VarOrLetOrConst Identifier `&gt;`</ins>
-        </emu-grammar>
-        <emu-alg>
-          1. Let _idTextUnescaped_ be the first element of BoundNames of |Identifier|.
-          1. Return CodePointsToString(_idTextUnescaped_).
-        </emu-alg>
-      </emu-clause>
-    </emu-clause>
-
-    <emu-clause id="sec-abstract-operations-for-regexp-creation" number="3">
-      <h1>Abstract Operations for RegExp Creation</h1>
-
-      <emu-clause id="sec-regexpcreate" type="abstract operation" number="1">
-        <h1>
-          RegExpCreate (
-            _P_: an ECMAScript language value,
-            _F_: a String or *undefined*,
-          ): either a normal completion containing an Object or a throw completion
-        </h1>
-        <dl class="header">
-        </dl>
-        <emu-alg>
-          1. Let _obj_ be ! RegExpAlloc(%RegExp%).
-          1. Return ? RegExpInitialize(_obj_, _P_, _F_<ins>, *false*</ins>).
-        </emu-alg>
-      </emu-clause>
-
-      <emu-clause id="sec-regexpinitialize" type="abstract operation" number="3">
-        <h1>
-          RegExpInitialize (
-            _obj_: an Object,
-            _pattern_: an ECMAScript language value,
-            _flags_: an ECMAScript language value,
-            <ins>_canCreateBinding_: a Boolean</ins>
-          ): either a normal completion containing an Object or a throw completion
-        </h1>
-        <dl class="header">
-        </dl>
-        <emu-alg>
-          1. If _pattern_ is *undefined*, let _P_ be the empty String.
-          1. Else, let _P_ be ? ToString(_pattern_).
-          1. If _flags_ is *undefined*, let _F_ be the empty String.
-          1. Else, let _F_ be ? ToString(_flags_).
-          1. If _F_ contains any code unit other than *"d"*, *"g"*, *"i"*, *"m"*, *"s"*, *"u"*, *"v"*, or *"y"*, or if _F_ contains any code unit more than once, throw a *SyntaxError* exception.
-          1. If _F_ contains *"i"*, let _i_ be *true*; else let _i_ be *false*.
-          1. If _F_ contains *"m"*, let _m_ be *true*; else let _m_ be *false*.
-          1. If _F_ contains *"s"*, let _s_ be *true*; else let _s_ be *false*.
-          1. If _F_ contains *"u"*, let _u_ be *true*; else let _u_ be *false*.
-          1. If _F_ contains *"v"*, let _v_ be *true*; else let _v_ be *false*.
-          1. If _u_ is *true* or _v_ is *true*, then
-            1. Let _patternText_ be StringToCodePoints(_P_).
-          1. Else,
-            1. Let _patternText_ be the result of interpreting each of _P_'s 16-bit elements as a Unicode BMP code point. UTF-16 decoding is not applied to the elements.
-          1. Let _parseResult_ be ParsePattern(_patternText_, _u_, _v_<ins>, _canCreateBinding_</ins>).
-          1. If _parseResult_ is a non-empty List of *SyntaxError* objects, throw a *SyntaxError* exception.
-          1. Assert: _parseResult_ is a |Pattern| Parse Node.
-          1. Set _obj_.[[OriginalSource]] to _P_.
-          1. Set _obj_.[[OriginalFlags]] to _F_.
-          1. Let _capturingGroupsCount_ be CountLeftCapturingParensWithin(_parseResult_).
-          1. Let _rer_ be the RegExp Record { [[IgnoreCase]]: _i_, [[Multiline]]: _m_, [[DotAll]]: _s_, [[Unicode]]: _u_, [[UnicodeSets]]: _v_, [[CapturingGroupsCount]]: _capturingGroupsCount_ }.
-          1. Set _obj_.[[RegExpRecord]] to _rer_.
-          1. Set _obj_.[[RegExpMatcher]] to CompilePattern of _parseResult_ with argument _rer_.
-          1. Perform ? Set(_obj_, *"lastIndex"*, *+0*<sub>𝔽</sub>, *true*).
-          1. Return _obj_.
-        </emu-alg>
-      </emu-clause>
-
-      <emu-clause id="sec-parsepattern" type="abstract operation" number="4">
-        <h1>
-          Static Semantics: ParsePattern (
-            _patternText_: a sequence of Unicode code points,
-            _u_: a Boolean,
-            _v_: a Boolean,
-            <ins>_canCreateBinding_: a Boolean</ins>
-          ): a Parse Node or a non-empty List of *SyntaxError* objects
-        </h1>
-        <dl class="header">
-        </dl>
-        <emu-alg>
-          1. If _v_ is *true* and _u_ is *true*, then
-            1. Let _parseResult_ be a List containing one or more *SyntaxError* objects.
-          1. Else if _v_ is *true*, then
-            1. <ins>If _canCreateBinding_ is *true*, let _parseResult_ be ParseText(_patternText_, |Pattern[+UnicodeMode, +UnicodeSetsMode, +NamedCaptureGroups, +NamedCaptureGroupsBindings]|).</ins>
-            1. <ins>Else, </ins> Let _parseResult_ be ParseText(_patternText_, |Pattern[+UnicodeMode, +UnicodeSetsMode, +NamedCaptureGroups, ~NamedCaptureGroupsBindings]|).
-          1. Else if _u_ is *true*, then
-            1. <ins>If _canCreateBinding_ is *true*, let _parseResult_ be ParseText(_patternText_, |Pattern[+UnicodeMode, ~UnicodeSetsMode, +NamedCaptureGroups, +NamedCaptureGroupsBindings]|).</ins>
-            1. <ins>Else, </ins> Let _parseResult_ be ParseText(_patternText_, |Pattern[+UnicodeMode, ~UnicodeSetsMode, +NamedCaptureGroups, ~NamedCaptureGroupsBindings]|).
-          1. Else,
-            1. <ins>If _canCreateBinding_ is *true*, let _parseResult_ be ParseText(_patternText_, |Pattern[~UnicodeMode, ~UnicodeSetsMode, +NamedCaptureGroups, +NamedCaptureGroupsBindings]|).</ins>
-            1. <ins>Else, </ins> Let _parseResult_ be ParseText(_patternText_, |Pattern[~UnicodeMode, ~UnicodeSetsMode, +NamedCaptureGroups, ~NamedCaptureGroupsBindings]|).
-          1. Return _parseResult_.
-        </emu-alg>
-      </emu-clause>
-    </emu-clause>
-    <emu-alg style="display: none;">
-      1. NOTE: Ignore ecmarkup warning: every call site of RegExpCreate asserts the return value is a normal completion; it should be refactored to not return a completion record at all.
-      1. Return ? RegExpCreate(*""*, *""*).
-    </emu-alg>
-
-    <emu-clause id="sec-regexp-constructor">
-      <h1>The RegExp Constructor</h1>
-
-      <emu-clause id="sec-regexp-pattern-flags">
-        <h1>RegExp ( _pattern_, _flags_ )</h1>
-        <p>This function performs the following steps when called:</p>
-        <emu-alg>
-          1. Let _patternIsRegExp_ be ? IsRegExp(_pattern_).
-          1. If NewTarget is *undefined*, then
-            1. Let _newTarget_ be the active function object.
-            1. If _patternIsRegExp_ is *true* and _flags_ is *undefined*, then
-              1. Let _patternConstructor_ be ? Get(_pattern_, *"constructor"*).
-              1. If SameValue(_newTarget_, _patternConstructor_) is *true*, return _pattern_.
-          1. Else,
-            1. Let _newTarget_ be NewTarget.
-          1. If _pattern_ is an Object and _pattern_ has a [[RegExpMatcher]] internal slot, then
-            1. Let _P_ be _pattern_.[[OriginalSource]].
-            1. If _flags_ is *undefined*, let _F_ be _pattern_.[[OriginalFlags]].
-            1. Else, let _F_ be _flags_.
-          1. Else if _patternIsRegExp_ is *true*, then
-            1. Let _P_ be ? Get(_pattern_, *"source"*).
-            1. If _flags_ is *undefined*, then
-              1. Let _F_ be ? Get(_pattern_, *"flags"*).
-            1. Else,
-              1. Let _F_ be _flags_.
-          1. Else,
-            1. Let _P_ be _pattern_.
-            1. Let _F_ be _flags_.
-          1. Let _O_ be ? RegExpAlloc(_newTarget_).
-          1. Return ? RegExpInitialize(_O_, _P_, _F_<ins>, *false*</ins>).
-        </emu-alg>
-      </emu-clause>
-    </emu-clause>
-
     <emu-clause id="sec-properties-of-the-regexp-constructor" number="5">
       <h1>Properties of the RegExp Constructor</h1>
 
@@ -1640,7 +1375,6 @@ contributors:
         `(` MatchPattern[?Yield, ?Await] `)`
         PrimitivePattern
         BindingPattern[?Yield, ?Await]
-        RegularExpressionPattern[?Yield, ?Await]
         MemberExpressionPattern[?Yield, ?Await]
         ObjectPattern[?Yield, ?Await]
         ArrayPattern[?Yield, ?Await]
@@ -1708,23 +1442,6 @@ contributors:
         [let left, let op, let right]: evaluate(op, left, right);
       };
     </code></pre></emu-note>
-    <!-- endregion -->
-    <!-- #region RegularExpressionPattern -->
-    <emu-grammar type="definition">
-      RegularExpressionPattern[Yield, Await] :
-        RegularExpressionLiteral
-        RegularExpressionLiteral `(` MatchList[?Yield, ?Await] `)`
-    </emu-grammar>
-    <emu-note code><pre><code class="javascript">
-      if (value is /^starts/) {}
-    </code></pre></emu-note>
-    <emu-note type="editor">
-      This feature can be removed. The code example above can be written as:
-      <pre><code class="javascript">
-        const regex = /^starts/;
-        if (value is regex) {}
-      </code></pre>
-    </emu-note>
     <!-- endregion -->
     <!-- #region MemberExpressionPattern -->
     <emu-grammar type="definition">
@@ -2185,24 +1902,6 @@ contributors:
         value is [1, 2?, ...]; // no Syntax Error
       </code></pre></emu-note>
       <!-- endregion -->
-      <!-- #region RegularExpressionPattern -->
-      <emu-grammar>
-        RegularExpressionPattern :
-          RegularExpressionLiteral
-          RegularExpressionLiteral `(` MatchList `)`
-      </emu-grammar>
-      <ul>
-        <li>It is a Syntax Error if IsValidRegularExpressionLiteral(|RegularExpressionLiteral|, *true*) is *false*.</li>
-        <li>It is a Syntax Error if FlagText of |RegularExpressionLiteral| does not contain *"g"*.</li>
-        <li>
-          This early error should be added after
-          <a href="https://github.com/tc39/ecma262/pull/2721">Normative: allow duplicate named capture groups</a>
-          lands:
-          <br />
-          It is a Syntax Error if, for any name _x_, some of the |GroupSpecifier|s are using the production that has |VarOrLetOrConst| and some of the |GroupSpecifier|s don't.
-        </li>
-      </ul>
-      <!-- #endregion -->
       <!-- #region CombinedMatchPattern -->
       <emu-grammar>
         CombinedMatchPattern :
@@ -2305,12 +2004,6 @@ contributors:
         1. Return BindingPatternMatches of |BindingPattern| with argument _subject_.
       </emu-alg>
       <emu-grammar>
-        MatchPattern : RegularExpressionPattern
-      </emu-grammar>
-      <emu-alg>
-        1. Return ? RegularExpressionPatternMatches of |RegularExpressionPattern| with arguments _subject_ and _cacheGroup_.
-      </emu-alg>
-      <emu-grammar>
         MatchPattern : MemberExpressionPattern
       </emu-grammar>
       <emu-alg>
@@ -2393,124 +2086,6 @@ contributors:
         1. Initialize variable _name_ with _subject_ with the semantics of `var`, `let` or `const` based on |VarOrLetOrConst|.
         1. Return *true*.
       </emu-alg>
-    </emu-clause>
-
-    <emu-clause id="sec-regular-expression-pattern-matches" type="sdo">
-      <h1>
-        Runtime Semantics: RegularExpressionPatternMatches (
-          _subject_: an ECMAScript language value,
-          _cacheGroup_: a %Map%,
-        ): either a normal completion containing a Boolean or an abrupt completion
-      </h1>
-      <dl class="header">
-      </dl>
-      <emu-grammar>
-        RegularExpressionPattern :
-          RegularExpressionLiteral
-          RegularExpressionLiteral `(` MatchList? `)`
-      </emu-grammar>
-      <emu-alg>
-        1. Assert: The following steps will not trigger any user code.
-        1. If _subject_ is not a String, return *false*.
-        1. Let _pattern_ be CodePointsToString(BodyText of |RegularExpressionLiteral|).
-        1. Let _flags_ be CodePointsToString(FlagText of |RegularExpressionLiteral|).
-        1. Let _regexp_ be ! RegExpAlloc(%RegExp%).
-        1. Perform ! RegExpInitialize(_regexp_, _pattern_, _flags_, *true*).
-        1. Perform ! CreateDataPropertyOrThrow(_regexp_, *"exec"*, <emu-xref href="#sec-regexp.prototype.exec">%RegExp.prototype.exec%</emu-xref>).
-        1. NOTE: This is to prevent the *"exec"* method on the prototype to be replaced. RegExpExec will call it.
-        1. Let _match_ be ! RegExpExec(_regexp_, _subject_).
-        1. If _match_ is *null*, return *false*.
-        1. Let _result_ be an empty List of ECMAScript language values.
-        1. If _flags_ contains *"u"* or _flags_ contains *"v"*, let _fullUnicode_ be *true*.
-        1. Else, let _fullUnicode_ be *false*.
-        1. Repeat, until _match_ is *null*,
-          1. Let _matchStr_ be ! ToString(! Get(_match_, *"0"*)).
-          1. If _matchStr_ is the empty String, then
-            1. Let _thisIndex_ be ℝ(! ToLength(! Get(_regexp_, *"lastIndex"*))).
-            1. Let _nextIndex_ be AdvanceStringIndex(_subject_, _thisIndex_, _fullUnicode_).
-            1. Perform ! Set(_regexp_, *"lastIndex"*, 𝔽(_nextIndex_), *true*).
-          1. Append _match_ to _result_.
-          1. TODO: This section is not written in the spec language yet.
-          1. Let _groups_ be ! Get(_match_, *"groups"*).
-          1. Let _namedGroups_ be ! GetOwnPropertyKeys(_groups_, ~string~).
-          1. For each String _s_ of _namedGroups_, do
-            1. Let _parseNode_ be the Parse Node within the |RegularExpressionLiteral| that CapturingGroupName of this Parse Node is _s_.
-            1. Assert: _parseNode_ is present and is a |GroupSpecifier|.
-            1. If |GroupName| of |GroupSpecifier| is <emu-grammar>GroupName : &lt; VarOrLetOrConst Identifier &gt;</emu-grammar>, then
-              1. Initialize variable _s_ with subject with the semantics of `var`, `let` or `const` based on |VarOrLetOrConst|.
-          1. Set _match_ to ! RegExpExec(_regexp_, _subject_).
-        1. Let _resultArray_ be CreateArrayFromList(_result_).
-        1. NOTE: "The following steps will not trigger any user code" ends here.
-        1. If |RegularExpressionPattern| is <emu-grammar>RegularExpressionPattern : RegularExpressionLiteral `(` MatchList `)`</emu-grammar>, then
-          1. Let _iterator_ be ? GetIteratorCached(_resultArray_, _cacheGroup_).
-          1. Return ? ListPatternMatches of |MatchList| with arguments _iterator_ and _cacheGroup_.
-        1. Return *true*.
-      </emu-alg>
-      <emu-note type="editor" class="show-ao-annotations">
-        <p>In order to create binding without triggering user code, we're not calling <emu-xref
-            href="#sec-regexp.prototype-%symbol.custommatcher%" title></emu-xref> and making the behaviour unforgeable.</p>
-        <p>Contrast to call <emu-xref href="#sec-regexp.prototype-%symbol.custommatcher%" title></emu-xref> directly, this
-          syntax-directed operation skipped the following user code:</p>
-        <ul>
-          <li>
-            <span class="e-user-code">get and call <emu-xref href="#sec-regexp.prototype-%symbol.custommatcher%"
-                title></emu-xref></span>
-            <ul>
-              <li>
-                <span class="e-user-code">get and call <emu-xref href="#sec-regexp.prototype.test" title></emu-xref></span>
-                <ul>
-                  <li>
-                    RegExpExec
-                    <ul>
-                      <li><span class="e-user-code">get <emu-xref href="#sec-regexp.prototype.exec" title></emu-xref></span></li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <span class="e-user-code">get and call <emu-xref href="#sec-regexp.prototype-%symbol.match%" title></emu-xref></span>
-                <ul>
-                  <li><span class="e-user-code">get <emu-xref href="#sec-get-regexp.prototype.flags" title></emu-xref></span></li>
-                  <li>
-                    RegExpExec
-                    <ul>
-                      <li><span class="e-user-code">get <emu-xref href="#sec-regexp.prototype.exec" title></emu-xref></span></li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <span class="e-user-code">get and call <emu-xref href="#sec-regexp-prototype-%symbol.matchall%" title></emu-xref></span>
-                <ul>
-                  <li>
-                    SpeciesConstructor
-                    <ul>
-                      <li><span class="e-user-code">get <emu-xref href="#sec-regexp.prototype.constructor" title></emu-xref></span></li>
-                      <li><span class="e-user-code">get <emu-xref href="#sec-get-regexp-%symbol.species%" title></emu-xref></span></li>
-                    </ul>
-                  </li>
-                  <li><span class="e-user-code">get <emu-xref href="#sec-get-regexp.prototype.flags" title></emu-xref></span></li>
-                  <li>
-                    Call <emu-xref href="#sec-regexp-constructor" title></emu-xref>
-                    <ul>
-                      <li>IsRegExp</li>
-                      <ul>
-                        <li><span class="e-user-code">get <emu-xref href="#sec-regexp.prototype-%symbol.match%" title></emu-xref></span></li>
-                      </ul>
-                    </ul>
-                  </li>
-                  <li>
-                    RegExpExec
-                    <ul>
-                      <li><span class="e-user-code">get <emu-xref href="#sec-regexp.prototype.exec" title></emu-xref></span></li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </emu-note>
     </emu-clause>
 
     <emu-clause id="sec-member-expression-pattern-matches" type="sdo">
@@ -3542,7 +3117,6 @@ contributors:
     <emu-prodref name="PrimitivePattern"></emu-prodref>
     <emu-prodref name="BindingPattern"></emu-prodref>
     <emu-prodref name="VarOrLetOrConst"></emu-prodref>
-    <emu-prodref name="RegularExpressionPattern"></emu-prodref>
     <emu-prodref name="MemberExpressionPattern"></emu-prodref>
     <emu-prodref name="ObjectPattern"></emu-prodref>
     <emu-prodref name="ArrayPattern"></emu-prodref>
@@ -3572,47 +3146,5 @@ contributors:
     <emu-prodref name="PatternMatchingMemberExpression"></emu-prodref>
     <emu-prodref name="PatternMatchingUnaryAlgebraicExpression"></emu-prodref>
     <emu-prodref name="PatternMatchingRelationalExpression"></emu-prodref>
-  </emu-annex>
-</emu-annex>
-
-<emu-annex id="sec-additional-ecmascript-features-for-web-browsers" namespace="annexB" normative>
-  <h1>Additional ECMAScript Features for Web Browsers</h1>
-
-  <emu-annex id="sec-additional-syntax" number="1">
-    <h1>Additional Syntax</h1>
-
-    <emu-annex id="sec-regular-expressions-patterns" number="2">
-      <h1>Regular Expressions Patterns</h1>
-
-      <emu-annex id="sec-parsepattern-annexb" number="9">
-        <h1>Static Semantics: ParsePattern ( _patternText_, _u_, _v_<ins>, _canCreateBinding_</ins> )</h1>
-        <p><ins>Add support of *NamedCaptureGroupsBindings* parameter like <emu-xref href="#sec-parsepattern"></emu-xref>.</ins></p>
-      </emu-annex>
-    </emu-annex>
-  </emu-annex>
-
-  <emu-annex id="sec-additional-built-in-properties" number="2">
-    <h1>Additional Built-in Properties</h1>
-
-    <emu-annex id="sec-additional-properties-of-the-regexp.prototype-object" number="4">
-      <h1>Additional Properties of the RegExp.prototype Object</h1>
-
-      <emu-annex id="sec-regexp.prototype.compile" number="1">
-        <h1>RegExp.prototype.compile ( _pattern_, _flags_ )</h1>
-        <p>This method performs the following steps when called:</p>
-        <emu-alg>
-          1. Let _O_ be the *this* value.
-          1. Perform ? RequireInternalSlot(_O_, [[RegExpMatcher]]).
-          1. If _pattern_ is an Object and _pattern_ has a [[RegExpMatcher]] internal slot, then
-            1. If _flags_ is not *undefined*, throw a *TypeError* exception.
-            1. Let _P_ be _pattern_.[[OriginalSource]].
-            1. Let _F_ be _pattern_.[[OriginalFlags]].
-          1. Else,
-            1. Let _P_ be _pattern_.
-            1. Let _F_ be _flags_.
-          1. Return ? RegExpInitialize(_O_, _P_, _F_<ins>, *false*</ins>).
-        </emu-alg>
-      </emu-annex>
-    </emu-annex>
   </emu-annex>
 </emu-annex>
