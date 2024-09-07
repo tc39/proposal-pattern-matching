@@ -456,6 +456,11 @@ contributors:
         };
       </code></pre>
     </emu-note>
+    <emu-note type="editor">
+      We may need to use a non-contextual keyword like `~=` instead of a contextual keyword like `is`. See <a
+        href="https://github.com/waldemarhorwat/syntax/blob/main/contextual-keywords.md?rgh-link-date=2024-09-06T16%3A43%3A25Z">waldemarhorwat/syntax@main/contextual-keywords.md</a>
+      and <a href="https://github.com/tc39/proposal-pattern-matching/issues/323">Syntax effects on rest of the language</a>.
+    </emu-note>
 
     <emu-clause id="sec-relational-operators-runtime-semantics-evaluation" number="1">
       <h1>Runtime Semantics: Evaluation</h1>
@@ -1390,6 +1395,9 @@ contributors:
       </emu-grammar>
       <p>
         This production will be added by <a target="_blank" href="https://github.com/tc39/proposal-discard-binding">discard bindings proposal</a>.
+      </p>
+      <p>
+        Some of the committe members prefer `_` as the discard binding identifier.
       </p>
       <pre><code class="javascript">
         if (expr is [let x, void, void]) {}
@@ -2723,6 +2731,7 @@ contributors:
       <emu-alg>
         1. Let _result_ be ? MatchExpressionClausesEvaluation of |MatchExpressionClauses| with arguments _subject_ and _cacheGroup_.
         1. If _result_ is an ECMAScript language value, return _result_.
+        1. Assert: _result_ is ~not-matched~.
         1. Return ? MatchExpressionClauseEvaluation of |MatchExpressionClause| with arguments _subject_ and _cacheGroup_.
       </emu-alg>
       <emu-grammar>
@@ -2731,6 +2740,7 @@ contributors:
       <emu-alg>
         1. Let _result_ be ? MatchExpressionClausesEvaluation of |MatchExpressionClauses| with arguments _subject_ and _cacheGroup_.
         1. If _result_ is an ECMAScript language value, return _result_.
+        1. Assert: _result_ is ~not-matched~.
         1. Return ? Evaluation of |Expression|.
       </emu-alg>
       <emu-grammar>

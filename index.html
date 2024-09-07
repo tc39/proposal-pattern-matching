@@ -478,6 +478,10 @@
   <span class="hljs-attr">default</span>: <span class="hljs-literal">false</span>
 };</code></pre>
     </div></emu-note>
+    <emu-note type="editor"><span class="note">Editor's Note</span><div class="note-contents">
+      We may need to use a non-<emu-xref href="#sec-keywords-and-reserved-words"><a href="https://tc39.es/ecma262/#sec-keywords-and-reserved-words">contextual keyword</a></emu-xref> like <code>~=</code> instead of a <emu-xref href="#sec-keywords-and-reserved-words"><a href="https://tc39.es/ecma262/#sec-keywords-and-reserved-words">contextual keyword</a></emu-xref> like <code>is</code>. See <a href="https://github.com/waldemarhorwat/syntax/blob/main/contextual-keywords.md?rgh-link-date=2024-09-06T16%3A43%3A25Z" data-print-href="">waldemarhorwat/syntax@main/contextual-keywords.md</a>
+      and <a href="https://github.com/tc39/proposal-pattern-matching/issues/323" data-print-href="">Syntax effects on rest of the language</a>.
+    </div></emu-note>
 
     <emu-clause id="sec-relational-operators-runtime-semantics-evaluation" number="1">
       <h1><span class="secnum">13.10.1</span> Runtime Semantics: Evaluation</h1>
@@ -1249,6 +1253,9 @@ error is <span class="hljs-title class_">Error</span>; <span class="hljs-comment
 </emu-grammar>
       <p>
         This production will be added by <a target="_blank" href="https://github.com/tc39/proposal-discard-binding" data-print-href="">discard bindings proposal</a>.
+      </p>
+      <p>
+        Some of the committe members prefer <code>_</code> as the discard binding identifier.
       </p>
       <pre><code class="javascript hljs"><span class="hljs-keyword">if</span> (expr is [<span class="hljs-keyword">let</span> x, <span class="hljs-keyword">void</span>, <span class="hljs-keyword">void</span>]) {}
 <span class="hljs-comment">// can be written as:</span>
@@ -2674,7 +2681,7 @@ value is not (a or b); <span class="hljs-comment">// no Syntax Error</span></cod
     </emu-rhs>
 </emu-production>
 </emu-grammar>
-      <emu-alg><ol><li>Let <var>result</var> be ?&nbsp;<emu-xref aoid="MatchExpressionClausesEvaluation" id="_ref_153"><a href="#sec-match-expression-clauses-runtime-semantics-evaluation" class="e-user-code">MatchExpressionClausesEvaluation</a></emu-xref> of <emu-nt id="_ref_464"><a href="#prod-MatchExpressionClauses">MatchExpressionClauses</a></emu-nt> with arguments <var>subject</var> and <var>cacheGroup</var>.</li><li>If <var>result</var> is an <emu-xref href="#sec-ecmascript-language-types" id="_ref_154"><a href="#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>, return <var>result</var>.</li><li>Return ?&nbsp;<emu-xref aoid="MatchExpressionClauseEvaluation" id="_ref_155"><a href="#sec-match-expression-clause-runtime-semantics-evaluation" class="e-user-code">MatchExpressionClauseEvaluation</a></emu-xref> of <emu-nt id="_ref_465"><a href="#prod-MatchExpressionClause">MatchExpressionClause</a></emu-nt> with arguments <var>subject</var> and <var>cacheGroup</var>.</li></ol></emu-alg>
+      <emu-alg><ol><li>Let <var>result</var> be ?&nbsp;<emu-xref aoid="MatchExpressionClausesEvaluation" id="_ref_153"><a href="#sec-match-expression-clauses-runtime-semantics-evaluation" class="e-user-code">MatchExpressionClausesEvaluation</a></emu-xref> of <emu-nt id="_ref_464"><a href="#prod-MatchExpressionClauses">MatchExpressionClauses</a></emu-nt> with arguments <var>subject</var> and <var>cacheGroup</var>.</li><li>If <var>result</var> is an <emu-xref href="#sec-ecmascript-language-types" id="_ref_154"><a href="#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>, return <var>result</var>.</li><li><emu-xref href="#assert"><a href="https://tc39.es/ecma262/#assert">Assert</a></emu-xref>: <var>result</var> is <emu-const>not-matched</emu-const>.</li><li>Return ?&nbsp;<emu-xref aoid="MatchExpressionClauseEvaluation" id="_ref_155"><a href="#sec-match-expression-clause-runtime-semantics-evaluation" class="e-user-code">MatchExpressionClauseEvaluation</a></emu-xref> of <emu-nt id="_ref_465"><a href="#prod-MatchExpressionClause">MatchExpressionClause</a></emu-nt> with arguments <var>subject</var> and <var>cacheGroup</var>.</li></ol></emu-alg>
       <emu-grammar><emu-production name="MatchExpressionClauses" collapsed="">
     <emu-nt><a href="#prod-MatchExpressionClauses">MatchExpressionClauses</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="g1pmaudo" id="prod--Nw1hDs1">
         <emu-nt id="_ref_466"><a href="#prod-MatchExpressionClauses">MatchExpressionClauses</a></emu-nt>
@@ -2685,7 +2692,7 @@ value is not (a or b); <span class="hljs-comment">// no Syntax Error</span></cod
     </emu-rhs>
 </emu-production>
 </emu-grammar>
-      <emu-alg><ol><li>Let <var>result</var> be ?&nbsp;<emu-xref aoid="MatchExpressionClausesEvaluation" id="_ref_156"><a href="#sec-match-expression-clauses-runtime-semantics-evaluation" class="e-user-code">MatchExpressionClausesEvaluation</a></emu-xref> of <emu-nt id="_ref_467"><a href="#prod-MatchExpressionClauses">MatchExpressionClauses</a></emu-nt> with arguments <var>subject</var> and <var>cacheGroup</var>.</li><li>If <var>result</var> is an <emu-xref href="#sec-ecmascript-language-types" id="_ref_157"><a href="#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>, return <var>result</var>.</li><li>Return ?&nbsp;<emu-xref aoid="Evaluation"><a href="https://tc39.es/ecma262/#sec-evaluation" class="e-user-code">Evaluation</a></emu-xref> of <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt>.</li></ol></emu-alg>
+      <emu-alg><ol><li>Let <var>result</var> be ?&nbsp;<emu-xref aoid="MatchExpressionClausesEvaluation" id="_ref_156"><a href="#sec-match-expression-clauses-runtime-semantics-evaluation" class="e-user-code">MatchExpressionClausesEvaluation</a></emu-xref> of <emu-nt id="_ref_467"><a href="#prod-MatchExpressionClauses">MatchExpressionClauses</a></emu-nt> with arguments <var>subject</var> and <var>cacheGroup</var>.</li><li>If <var>result</var> is an <emu-xref href="#sec-ecmascript-language-types" id="_ref_157"><a href="#sec-ecmascript-language-types">ECMAScript language value</a></emu-xref>, return <var>result</var>.</li><li><emu-xref href="#assert"><a href="https://tc39.es/ecma262/#assert">Assert</a></emu-xref>: <var>result</var> is <emu-const>not-matched</emu-const>.</li><li>Return ?&nbsp;<emu-xref aoid="Evaluation"><a href="https://tc39.es/ecma262/#sec-evaluation" class="e-user-code">Evaluation</a></emu-xref> of <emu-nt><a href="https://tc39.es/ecma262/#prod-Expression">Expression</a></emu-nt>.</li></ol></emu-alg>
       <emu-grammar><emu-production name="MatchExpressionClauses" collapsed="">
     <emu-nt><a href="#prod-MatchExpressionClauses">MatchExpressionClauses</a></emu-nt> <emu-geq>:</emu-geq> <emu-rhs a="xhzralk2" id="prod-QDysejGw">
         <emu-t>default</emu-t>
