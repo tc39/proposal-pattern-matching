@@ -368,21 +368,6 @@ RegExp.prototype[Symbol.customMatcher] = function(subject, {matchType}) {
 ```
 
 
-### Regex Patterns
-
-A regex pattern is a regex literal,
-representing a test that the subject,
-when stringified,
-successfully matches the regex.
-
-(Technically, this just invokes the `RegExp.prototype[Symbol.customMatcher]` method;
-that is, `x is /foo/;` and `let re = /foo/; x is re;`
-are identical in behavior wrt built-in fiddling.)
-
-A regex pattern can be followed by a parenthesized pattern list,
-identical to [extractor patterns](#extractor-patterns).
-See that section for details on how this works.
-
 #### Examples
 
 ```js
@@ -890,53 +875,6 @@ save it to a local variable,
 and define a new custom matcher that invokes the original one
 and returns the `[subject.value]` on success.
 That's a silly amount of work for correctness.
-
-
-### Regex Extractor Patterns
-
-Similar to how [regex patterns](#regex-patterns)
-allowed you to use a regex literal as a pattern,
-but simply invoked the normal [custom matcher](#custom-matchers) machinery,
-a regex literal can also be followed by an [arglist pattern](#arglist-patterns),
-invoking the normal [extractor pattern](#extractor-patterns) machinery.
-
-For this purpose,
-on a successful match
-the "return value" (what's matched against the arglist pattern)
-is an Array whose items are the regex result object,
-followed by each of the positive numbered groups in the regex result
-(that is, skipping the "0" group that represents the entire match).
-
-Execution order is identical to [extractor patterns](#extractor-patterns),
-except the first part is matched as a [regex pattern](#regex-patterns),
-and the second part's subject is as defined above.
-
-The full definition of the `RegExp.prototype` custom matcher is thus:
-
-```js
-RegExp.prototype[Symbol.customMatcher] = function(subject) {
-    const result = this.exec(subject);
-    if(result) {
-        return [result, ...result.slice(1)];
-    } else {
-        return false;
-    }
-}
-```
-
-#### Examples
-
-```js
-match (arithmeticStr) {
-  when /(?<left>\d+) \+ (?<right>\d+)/({groups:{let left, let right}}):
-    // Using named capture groups
-    processAddition(left, right);
-  when /(\d+) \* (\d+)/({}, let left, let right):
-    // Using positional capture groups
-    processMultiplication(left, right);
-  default: ...
-}
-```
 
 
 ## Combinator Patterns
