@@ -1379,7 +1379,7 @@ contributors:
       MatchPattern[Yield, Await] :
         `(` MatchPattern[?Yield, ?Await] `)`
         PrimitivePattern
-        BindingPattern[?Yield, ?Await]
+        VariableDeclarationPattern[?Yield, ?Await]
         MemberExpressionPattern[?Yield, ?Await]
         ObjectPattern[?Yield, ?Await]
         ArrayPattern[?Yield, ?Await]
@@ -1435,9 +1435,9 @@ contributors:
       </code></pre>
     </emu-note>
     <!-- endregion -->
-    <!-- #region BindingPattern -->
+    <!-- #region VariableDeclarationPattern -->
     <emu-grammar type="definition">
-      BindingPattern[Yield, Await] :
+      VariableDeclarationPattern[Yield, Await] :
         VarOrLetOrConst BindingIdentifier[?Yield, ?Await]
 
       VarOrLetOrConst :
@@ -1687,13 +1687,14 @@ contributors:
     </emu-note>
     <emu-note type="editor">
       <p>It is possible to add the following production.</p>
-      <emu-grammar type="definition">
+      <emu-grammar>
         RelationalPattern[Yield, Await] :
           `typeof` `==` PatternMatchingStringLikeExpression[?Yield, ?Await]
           `typeof` `!=` PatternMatchingStringLikeExpression[?Yield, ?Await]
           `typeof` `===` PatternMatchingStringLikeExpression[?Yield, ?Await]
           `typeof` `!==` PatternMatchingStringLikeExpression[?Yield, ?Await]
-
+      </emu-grammar>
+      <emu-grammar type="definition">
         PatternMatchingStringLikeExpression[Yield, Await] :
           StringLiteral
           NoSubstitutionTemplate
@@ -1702,7 +1703,7 @@ contributors:
       <p>
         The recommended way to match a String is to use the <emu-xref href="#sec-string-%symbol.custommatcher%"
           title></emu-xref>,
-        but it can be replaced. This production adds the ability to do the unforgeable `typeof` test.
+        but it can be replaced by a custom implementation. This production adds the ability to do the unforgeable `typeof` test.
       </p>
       <pre><code class="javascript">
         if (expr is { version: 2 or 3, value: String }) {}
@@ -1832,9 +1833,9 @@ contributors:
         <li>It is a Syntax Error if |NoSubstitutionTemplate| Contains |NotEscapeSequence|.</li>
       </ul>
       <!-- #endregion -->
-      <!-- #region BindingPattern -->
+      <!-- #region VariableDeclarationPattern -->
       <emu-grammar>
-        BindingPattern : VarOrLetOrConst BindingIdentifier
+        VariableDeclarationPattern : VarOrLetOrConst BindingIdentifier
       </emu-grammar>
       <ul>
         <li>It is a Syntax Error if |VarOrLetOrConst| is |LetOrConst| and the StringValue of |BindingIdentifier| is *"let"*.</li>
@@ -2006,10 +2007,10 @@ contributors:
         1. Return PrimitivePatternMatches of |PrimitivePattern| with argument _subject_.
       </emu-alg>
       <emu-grammar>
-        MatchPattern : BindingPattern
+        MatchPattern : VariableDeclarationPattern
       </emu-grammar>
       <emu-alg>
-        1. Return BindingPatternMatches of |BindingPattern| with argument _subject_.
+        1. Return VariableDeclarationPatternMatches of |VariableDeclarationPattern| with argument _subject_.
       </emu-alg>
       <emu-grammar>
         MatchPattern : MemberExpressionPattern
@@ -2077,16 +2078,16 @@ contributors:
       </emu-alg>
     </emu-clause>
 
-    <emu-clause id="sec-binding-pattern-matches" type="sdo">
+    <emu-clause id="sec-variable-declaration-pattern-matches" type="sdo">
       <h1>
-        Runtime Semantics: BindingPatternMatches (
+        Runtime Semantics: VariableDeclarationPatternMatches (
           _subject_: an ECMAScript language value,
         ): a Boolean
       </h1>
       <dl class="header">
       </dl>
       <emu-grammar>
-        BindingPattern : VarOrLetOrConst BindingIdentifier
+        VariableDeclarationPattern : VarOrLetOrConst BindingIdentifier
       </emu-grammar>
       <emu-alg>
         1. TODO: This section is not written in the spec language yet.
@@ -3125,7 +3126,7 @@ contributors:
     <h1>Patterns</h1>
     <emu-prodref name="MatchPattern"></emu-prodref>
     <emu-prodref name="PrimitivePattern"></emu-prodref>
-    <emu-prodref name="BindingPattern"></emu-prodref>
+    <emu-prodref name="VariableDeclarationPattern"></emu-prodref>
     <emu-prodref name="VarOrLetOrConst"></emu-prodref>
     <emu-prodref name="MemberExpressionPattern"></emu-prodref>
     <emu-prodref name="ObjectPattern"></emu-prodref>
