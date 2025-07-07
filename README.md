@@ -135,6 +135,8 @@ This proposal draws from, and partially overlaps with, corresponding features in
 [Scala](http://www.scala-lang.org/files/archive/spec/2.11/08-pattern-matching.html),
 [Elixir/Erlang](https://elixir-lang.org/getting-started/pattern-matching.html),
 and [C++](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p1371r2.pdf).
+More recently, [Flow](https://flow.org/en/docs/match/patterns/) has gained a feature
+closely matching and clearly inspired by the syntax proposed here.
 
 ### Userland matching
 
