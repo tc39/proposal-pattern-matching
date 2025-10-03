@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <meta charset="utf8">
 <pre class="metadata">
 title: Pattern Matching
@@ -70,42 +70,41 @@ contributors:
   </emu-intro>
 
   <emu-intro id="sec-nav">
-      <h1>Introduction</h1>
-      <p>This specification consists of the following parts:</p>
-      <ul>
-        <li><emu-xref href="#sec-pattern-matching">Patterns in pattern matching</emu-xref></li>
-        <li>Interesting AOs:
-          <ul>
-            <li><emu-xref href="#sec-invoke-custom-matcher" title></emu-xref></li>
-            <li><emu-xref href="#sec-pattern-match-cache-note">Cache semantics</emu-xref></li>
-          </ul>
-        </li>
-        <li><emu-xref href="#sec-relational-operators" title>The `is` expression</emu-xref></li>
-        <li><emu-xref href="#sec-match-expression" title></emu-xref></li>
-        <li>
-          Non-trivial Built-in %Symbol.customMatcher% methods:
-          <ul>
-            <li><emu-xref href="#sec-function.prototype-%symbol.custommatcher%" title></emu-xref></li>
-            <li><emu-xref href="#sec-regexp.prototype-%symbol.custommatcher%" title></emu-xref></li>
-          </ul>
-        </li>
-        <li>(TODO) Scope analysis changes: <emu-xref href="#sec-syntax-directed-operations" title></emu-xref></li>
-        <li>`new` semantics changes:
-          <emu-xref href="#sec-initializeinstance"></emu-xref>,
-          <emu-xref href="#sec-weakly-hold-targets-processing-model"></emu-xref>, and
-          <emu-xref href="#sec-runtime-semantics-classdefinitionevaluation"></emu-xref>
-        </li>
-        <li>
-          Possible extensions:
-          <emu-xref href="#sec-for-in-and-for-of-statements" title></emu-xref> and
-          <emu-xref href="#sec-try-statement" title></emu-xref>
-        </li>
-      </ul>
-      <p>
-        Trivia built-in matchers are folded.
-        <a role="button" id="expand">Click to <span class="fold">not</span> show the trivia sections.</a>
-      </p>
-      <script defer async src="./assets/expand.js"></script>
+    <h1>Introduction</h1>
+    <p>This specification consists of the following parts:</p>
+    <ul>
+      <li><emu-xref href="#sec-pattern-matching">Patterns in pattern matching</emu-xref></li>
+      <li>Interesting AOs:
+        <ul>
+          <li><emu-xref href="#sec-invoke-custom-matcher" title></emu-xref></li>
+          <li><emu-xref href="#sec-pattern-match-cache-note">Cache semantics</emu-xref></li>
+        </ul>
+      </li>
+      <li><emu-xref href="#sec-relational-operators" title>The `is` expression</emu-xref></li>
+      <li><emu-xref href="#sec-match-expression" title></emu-xref></li>
+      <li>
+        Non-trivial Built-in %Symbol.customMatcher% methods:
+        <ul>
+          <li><emu-xref href="#sec-function.prototype-%symbol.custommatcher%" title></emu-xref></li>
+          <li><emu-xref href="#sec-regexp.prototype-%symbol.custommatcher%" title></emu-xref></li>
+        </ul>
+      </li>
+      <li>(TODO) Scope analysis changes: <emu-xref href="#sec-syntax-directed-operations" title></emu-xref></li>
+      <li>`new` semantics changes:
+        <emu-xref href="#sec-initializeinstance"></emu-xref>,
+        <emu-xref href="#sec-weakly-hold-targets-processing-model"></emu-xref>, and
+        <emu-xref href="#sec-runtime-semantics-classdefinitionevaluation"></emu-xref></li>
+      <li>
+        Possible extensions:
+        <emu-xref href="#sec-for-in-and-for-of-statements" title></emu-xref> and
+        <emu-xref href="#sec-try-statement" title></emu-xref>
+      </li>
+    </ul>
+    <p>
+      Trivia built-in matchers are folded.
+      <a role="button" id="expand">Click to <span class="fold">not</span> show the trivia sections.</a>
+    </p>
+    <script defer async src="./assets/expand.js"></script>
   </emu-intro>
 
   <emu-intro id="sec-notes-layering">
@@ -142,7 +141,6 @@ contributors:
         <h1>Well-Known Symbols</h1>
         <emu-table id="table-1" caption="Well-known Symbols">
           <table>
-            <tbody>
             <tr>
               <th>
                 Specification Name
@@ -165,7 +163,6 @@ contributors:
                 <ins>A method that performs custom pattern matching semantics. Called by the semantics of the pattern-matching features.</ins>
               </td>
             </tr>
-            </tbody>
           </table>
         </emu-table>
       </emu-clause>
@@ -173,8 +170,10 @@ contributors:
 
     <emu-clause id="sec-object-internal-methods-and-internal-slots" number="7">
       <h1>Object Internal Methods and Internal Slots</h1>
-      <p><ins>All objects have an internal slot named [[ConstructedBy]], which is a List of ECMAScript language values.
-        This List represents the origin of the object. Initially, it is an empty List.</ins></p>
+      <p>
+        <ins>All objects have an internal slot named [[ConstructedBy]], which is a List of ECMAScript language values.
+          This List represents the origin of the object. Initially, it is an empty List.</ins>
+      </p>
     </emu-clause>
   </emu-clause>
 </emu-clause>
@@ -457,8 +456,7 @@ contributors:
       </code></pre>
     </emu-note>
     <emu-note type="editor">
-      We may need to use a non-contextual keyword like `~=` instead of a contextual keyword like `is`. See <a
-        href="https://github.com/waldemarhorwat/syntax/blob/main/contextual-keywords.md?rgh-link-date=2024-09-06T16%3A43%3A25Z">waldemarhorwat/syntax@main/contextual-keywords.md</a>
+      We may need to use a non-contextual keyword like `~=` instead of a contextual keyword like `is`. See <a href="https://github.com/waldemarhorwat/syntax/blob/main/contextual-keywords.md?rgh-link-date=2024-09-06T16%3A43%3A25Z">waldemarhorwat/syntax@main/contextual-keywords.md</a>
       and <a href="https://github.com/tc39/proposal-pattern-matching/issues/323">Syntax effects on rest of the language</a>.
     </emu-note>
 
@@ -668,7 +666,8 @@ contributors:
           1. If _func_ does not have a [[IsClassConstructor]] internal slot or _func_.[[IsClassConstructor]] is *false*, return ? Call(_func_, _receiver_, « _subject_, _hint_ »).
           1. Return *false*.
         </emu-alg>
-        <emu-note code><pre><code class="javascript">
+        <emu-note code>
+          <pre><code class="javascript">
           // For non-class functions.
           [] is Array.isArray; // true, by Array.isArray(expr)
 
@@ -683,7 +682,8 @@ contributors:
           function ES5StyleClass() {}
           new ES5StyleClass() is ES5StyleClass; // true
           Object.create(ES5StyleClass.prototype) is ES5StyleClass; // false
-        </code></pre></emu-note>
+        </code></pre>
+        </emu-note>
         <emu-note type="editor">
           <p>This does not work with ES5 style class inherit.</p>
           <pre><code class="javascript">
@@ -742,8 +742,7 @@ contributors:
 
       <emu-clause id="sec-symbol.custommatcher" number="17">
         <h1>Symbol.customMatcher</h1>
-        <p>The initial value of `Symbol.customMatcher` is the well-known symbol %Symbol.customMatcher% (<emu-xref
-            href="#table-well-known-symbols"></emu-xref>).</p>
+        <p>The initial value of `Symbol.customMatcher` is the well-known symbol %Symbol.customMatcher% (<emu-xref href="#table-well-known-symbols"></emu-xref>).</p>
         <p>This property has the attributes { [[Writable]]: *false*, [[Enumerable]]: *false*, [[Configurable]]: *false* }.</p>
       </emu-clause>
 
@@ -791,12 +790,12 @@ contributors:
 
       <emu-clause id="sec-error-%symbol.custommatcher%" number="2">
         <h1>Error [ %Symbol.customMatcher% ] ( _subject_, _hint_ )</h1>
-          <p>This function performs the following steps when called:</p>
-          <emu-alg>
-            1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
-            1. If _subject_ does not have a [[ErrorData]] internal slot, return *false*.
-            1. Return *true*.
-          </emu-alg>
+        <p>This function performs the following steps when called:</p>
+        <emu-alg>
+          1. Perform ? ValidateCustomMatcherHint(_hint_, ~boolean~).
+          1. If _subject_ does not have a [[ErrorData]] internal slot, return *false*.
+          1. Return *true*.
+        </emu-alg>
       </emu-clause>
       <emu-note type="editor">
         It is possible to provide extractor semantics for Error matchers.
@@ -808,10 +807,12 @@ contributors:
 
     <emu-clause id="sec-properties-of-error-instances" number="4">
       <h1>Properties of Error Instances</h1>
-      <p>Error instances are ordinary objects that inherit properties from the Error prototype object and have an
+      <p>
+        Error instances are ordinary objects that inherit properties from the Error prototype object and have an
         [[ErrorData]] internal slot whose value is <del>*undefined*</del> <ins>a String</ins>. The only specified uses of
         [[ErrorData]] is to identify Error, AggregateError, and _NativeError_ instances as Error objects within
-        `Object.prototype.toString` <ins>and their %Symbol.customMatcher% methods</ins>.</p>
+        `Object.prototype.toString` <ins>and their %Symbol.customMatcher% methods</ins>.
+      </p>
       <emu-note type="editor">
         Rename this internal slot to [[ErrorKind]].
       </emu-note>
@@ -854,7 +855,8 @@ contributors:
 
       <emu-clause id="sec-properties-of-nativeerror-instances" number="4">
         <h1>Properties of _NativeError_ Instances</h1>
-        <p>_NativeError_ instances are ordinary objects that inherit properties from their _NativeError_ prototype object and
+        <p>
+          _NativeError_ instances are ordinary objects that inherit properties from their _NativeError_ prototype object and
           have an [[ErrorData]] internal slot whose value is <del>*undefined*</del> <ins>a String</ins>. The only specified use
           of [[ErrorData]] is by `Object.prototype.toString` (<emu-xref href="#sec-object.prototype.tostring"></emu-xref>)
           <ins>and their %Symbol.customMatcher% methods</ins> to identify Error, AggregateError, or _NativeError_ instances.
@@ -901,7 +903,8 @@ contributors:
 
       <emu-clause id="sec-properties-of-aggregate-error-instances" number="4">
         <h1>Properties of AggregateError Instances</h1>
-        <p>AggregateError instances are ordinary objects that inherit properties from their AggregateError prototype object and
+        <p>
+          AggregateError instances are ordinary objects that inherit properties from their AggregateError prototype object and
           have an [[ErrorData]] internal slot whose value is <del>*undefined*</del> <ins>a String</ins>. The only specified use
           of [[ErrorData]] is by `Object.prototype.toString` (<emu-xref href="#sec-object.prototype.tostring"></emu-xref>)
           <ins>and their %Symbol.customMatcher% methods</ins> to identify Error, AggregateError, or _NativeError_ instances.
@@ -1095,9 +1098,11 @@ contributors:
           1. If _hint_ is *"boolean"*, return *true*.
           1. Return _subject_.
         </emu-alg>
-        <emu-note code><pre><code class="javascript">
+        <emu-note code>
+          <pre><code class="javascript">
           if (expr is Array(1, 2, 3, 4)) {}
-        </code></pre></emu-note>
+        </code></pre>
+        </emu-note>
       </emu-clause>
     </emu-clause>
   </emu-clause>
@@ -1117,12 +1122,14 @@ contributors:
           1. If _hint_ is *"boolean"*, return *true*.
           1. Return _subject_.
         </emu-alg>
-        <emu-note code><pre><code class="javascript">
+        <emu-note code>
+          <pre><code class="javascript">
           const isPNG = binary is Uint8Array(
             0x89, 0x50, 0x4E, 0x47,
             0x0D, 0x0A, 0x1A, 0x0A, ...
           ); // the ... is necessary otherwise it will only match a length-8 binary.
-        </code></pre></emu-note>
+        </code></pre>
+        </emu-note>
       </emu-clause>
     </emu-clause>
   </emu-clause>
@@ -1146,11 +1153,13 @@ contributors:
           1. If _hint_ is *"boolean"*, return *true*.
           1. Return CreateArrayFromList(« _subject_ »).
         </emu-alg>
-        <emu-note code><pre><code class="javascript">
+        <emu-note code>
+          <pre><code class="javascript">
           expr is Map([[1, 2], [3, 4]]);
           // matches new Map([[1, 2], [3, 4]])
           // but not new Map([[3, 4], [1, 2]])
-        </code></pre></emu-note>
+        </code></pre>
+        </emu-note>
         <emu-note type="editor">
           A Map can be iterated, but is it meaningful to do so in pattern matching?
         </emu-note>
@@ -1173,11 +1182,13 @@ contributors:
           1. If _hint_ is *"boolean"*, return *true*.
           1. Return CreateArrayFromList(« _subject_ »).
         </emu-alg>
-        <emu-note code><pre><code class="javascript">
+        <emu-note code>
+          <pre><code class="javascript">
           expr is Set([1, 2, 3]);
           // matches new Set([1, 2, 3])
           // but not new Set([3, 2, 1])
-        </code></pre></emu-note>
+        </code></pre>
+        </emu-note>
         <emu-note type="editor">
           A Set can be iterated, but is it meaningful to do so in pattern matching?
         </emu-note>
@@ -1298,9 +1309,11 @@ contributors:
           1. If _hint_ is *"boolean"*, return *true*.
           1. Return CreateArrayFromList(« WeakRefDeref(_subject_) »).
         </emu-alg>
-        <emu-note code><pre><code class="javascript">
+        <emu-note code>
+          <pre><code class="javascript">
           if (expr is WeakRef(let object)) {}
-        </code></pre></emu-note>
+        </code></pre>
+        </emu-note>
       </emu-clause>
     </emu-clause>
   </emu-clause>
@@ -1393,12 +1406,8 @@ contributors:
         MatchPattern :
           `void`
       </emu-grammar>
-      <p>
-        This production will be added by <a target="_blank" href="https://github.com/tc39/proposal-discard-binding">discard bindings proposal</a>.
-      </p>
-      <p>
-        Some of the committe members prefer `_` as the discard binding identifier.
-      </p>
+      <p>This production will be added by <a target="_blank" href="https://github.com/tc39/proposal-discard-binding">discard bindings proposal</a>.</p>
+      <p>Some of the committe members prefer `_` as the discard binding identifier.</p>
       <pre><code class="javascript">
         if (expr is [let x, void, void]) {}
         // can be written as:
@@ -1444,12 +1453,14 @@ contributors:
         `var`
         LetOrConst
     </emu-grammar>
-    <emu-note code><pre><code class="javascript">
+    <emu-note code>
+      <pre><code class="javascript">
       if (expr is { kind: let kind }) {}
       return match (expr) {
         [let left, let op, let right]: evaluate(op, left, right);
       };
-    </code></pre></emu-note>
+    </code></pre>
+    </emu-note>
     <!-- endregion -->
     <!-- #region MemberExpressionPattern -->
     <emu-grammar type="definition">
@@ -1466,13 +1477,15 @@ contributors:
         PatternMatchingMemberExpression[?Yield, ?Await] `.` PrivateIdentifier
         PatternMatchingMemberExpression[?Yield, ?Await] `[` Expression[+In, ?Yield, ?Await] `]`
     </emu-grammar>
-    <emu-note code><pre><code class="javascript">
+    <emu-note code>
+      <pre><code class="javascript">
       if (expr is { x: undefined, y: undefined }) {}
       if (expr is { angle: Math.PI, let length }) {}
       if (expr is { ok: true, value: this.#lastValue }) {}
       if (expr === import.meta?.hot?.data && expr is { let previousData }) {}
       if (expr is WeakRef(let object)) {}
-    </code></pre></emu-note>
+    </code></pre>
+    </emu-note>
     <emu-note type="editor">
       This is the minimal requirement.
       All other productions can be removed.
@@ -1487,9 +1500,7 @@ contributors:
         const data = this.#data;
         if (expr is { version: 2, data: data }) {}
       </code></pre>
-      <p>
-        It is similar to the <a href="https://tc39.es/proposal-decorators/#sec-new-syntax" target="_blank">DecoratorMemberExpression</a>.
-      </p>
+      <p>It is similar to the <a href="https://tc39.es/proposal-decorators/#sec-new-syntax" target="_blank">DecoratorMemberExpression</a>.</p>
       <p>Should we allow `MemberExpressionPattern[expr]` to match with computed property names?</p>
     </emu-note>
     <emu-note type="editor">
@@ -1701,8 +1712,7 @@ contributors:
           PatternMatchingMemberExpression[?Yield, ?Await]
       </emu-grammar>
       <p>
-        The recommended way to match a String is to use the <emu-xref href="#sec-string-%symbol.custommatcher%"
-          title></emu-xref>,
+        The recommended way to match a String is to use the <emu-xref href="#sec-string-%symbol.custommatcher%" title></emu-xref>,
         but it can be replaced by a custom implementation. This production adds the ability to do the unforgeable `typeof` test.
       </p>
       <pre><code class="javascript">
@@ -1780,7 +1790,7 @@ contributors:
       </code></pre>
     </emu-note>
     <emu-note type="editor">
-      <p>The `&gt;`, `&lt;`, `&gt;=` and `&lt;=` production can be removed, but it will be harder to match numbers.</p>
+      <p>The `>`, `&lt;`, `>=` and `&lt;=` production can be removed, but it will be harder to match numbers.</p>
       <p>This feature is not a consensus in the champion group.</p>
       <pre><code class="javascript">
         if (expr is [&gt; -Math.PI and &lt; Math.PI, &gt; 0]) {}
@@ -1850,27 +1860,29 @@ contributors:
       <ul>
         <li>It is a Syntax Error if |PropertyName| is a |LiteralPropertyName| and PropName of |PropertyName| is *"__proto__"*.</li>
       </ul>
-      <emu-note code><pre><code class="javascript">
+      <emu-note code>
+        <pre><code class="javascript">
         if (expr is { __proto__: null, property?: void }) {} // Syntax Error
         if (expr is { "__proto__": null, property?: void }) {} // Syntax Error
         if (expr is { ["__proto__"]: null, property?: void }) {} // no Syntax Error
-      </code></pre></emu-note>
+      </code></pre>
+      </emu-note>
       <emu-grammar>
         MatchRestElement :
           `...` MatchPattern
-
-        MatchRestElement :
           `...` MatchPattern
       </emu-grammar>
       <ul>
         <li>It is a Syntax Error if |MatchPattern| is |MemberExpressionPattern|.</li>
         <li>This is not a consensus in the champion group.</li>
       </ul>
-      <emu-note code><pre><code class="javascript">
+      <emu-note code>
+        <pre><code class="javascript">
         if (expr is { x: 0, y: 0, ...rest }) {} // Syntax Error
         if (expr is { x: 0, y: 0, ...let rest }) {} // no Syntax Error, bind rest properties to _rest_
         if (expr is { x: 0, y: 0, ...(isEmpty) }) {} // no Syntax Error, call isEmpty with the rest object
-      </code></pre></emu-note>
+      </code></pre>
+      </emu-note>
       <emu-grammar>
         MatchProperty :
           PropertyName[?Yield, ?Await] `?`?
@@ -1880,13 +1892,15 @@ contributors:
         <li>It is a Syntax Error if |PropertyName| can be covered by |BindingIdentifier|.</li>
         <li>This is not a consensus in the champion group.</li>
       </ul>
-      <emu-note code><pre><code class="javascript">
+      <emu-note code>
+        <pre><code class="javascript">
         if (expr is { x, y, z }) {} // Syntax Error
         if (expr is { x: void, y: void, z: void }) {} // no Syntax Error
         if (expr is { let x, let y, let z }) {} // no Syntax Error
 
         if (expr is { if }) {} // no Syntax Error
-      </code></pre></emu-note>
+      </code></pre>
+      </emu-note>
       <emu-grammar>
         MatchList :
           MatchElementList `,` Elision? MatchRestElement?
@@ -1901,7 +1915,8 @@ contributors:
       <ul>
         <li>It is a Syntax Error if IsOptionalPattern of |MatchElementList| is *true* and IsOptionalPattern of |MatchElisionElement| is *false*.</li>
       </ul>
-      <emu-note code><pre><code class="javascript">
+      <emu-note code>
+        <pre><code class="javascript">
         value is [1, 2?, 3]; // Syntax Error
         value is [1, 2?, 3?]; // no Syntax Error
 
@@ -1909,7 +1924,8 @@ contributors:
         value is [1, 2?, void?, ]; // no Syntax Error
 
         value is [1, 2?, ...]; // no Syntax Error
-      </code></pre></emu-note>
+      </code></pre>
+      </emu-note>
       <!-- endregion -->
       <!-- #region CombinedMatchPattern -->
       <emu-grammar>
@@ -1933,7 +1949,8 @@ contributors:
       <ul>
         <li>It is a Syntax Error if the |MatchPattern| is |CombinedMatchPattern|.</li>
       </ul>
-      <emu-note code><pre><code class="javascript">
+      <emu-note code>
+        <pre><code class="javascript">
         value is a and b and c; // no Syntax Error
         value is a or b or c; // no Syntax Error
 
@@ -1946,14 +1963,13 @@ contributors:
 
         value is not a or b; // Syntax Error
         value is not (a or b); // no Syntax Error
-      </code></pre></emu-note>
+      </code></pre>
+      </emu-note>
       <!-- endregion -->
     </emu-clause>
 
     <emu-clause id="sec-is-optional-pattern" type="sdo">
-      <h1>
-        Static Semantics: IsOptionalPattern (): a Boolean
-      </h1>
+      <h1>Static Semantics: IsOptionalPattern ( ): a Boolean</h1>
       <dl class="header">
       </dl>
       <emu-grammar>
@@ -2356,13 +2372,13 @@ contributors:
       <dl class="header">
       </dl>
       <emu-grammar>
-         MatchElementList : MatchElisionElement
+        MatchElementList : MatchElisionElement
       </emu-grammar>
       <emu-alg>
         1. Return ? ListPatternInnerMatches of |MatchElisionElement| with arguments _iterator_, _cacheGroup_ and _startIndex_.
       </emu-alg>
       <emu-grammar>
-         MatchElementList : MatchElementList `,` MatchElisionElement
+        MatchElementList : MatchElementList `,` MatchElisionElement
       </emu-grammar>
       <emu-alg>
         1. Let _visitedCount_ be ? ListPatternInnerMatches of |MatchElementList| with arguments _iterator_, _cacheGroup_ and _startIndex_.
@@ -2374,7 +2390,7 @@ contributors:
         1. Return _visitedCount_ + _matches_.
       </emu-alg>
       <emu-grammar>
-         MatchElisionElement : Elision? MatchElement
+        MatchElisionElement : Elision? MatchElement
       </emu-grammar>
       <emu-alg>
         1. Let _visitedCount_ be 0.
@@ -2387,7 +2403,7 @@ contributors:
         1. Return _visitedCount_ + _matches_.
       </emu-alg>
       <emu-grammar>
-         MatchElement : MatchPattern `?`?
+        MatchElement : MatchPattern `?`?
       </emu-grammar>
       <emu-alg>
         1. Let _value_ be ? GetIteratorNthValueCached(_iterator_, _cacheGroup_, _startIndex_).
@@ -2558,9 +2574,7 @@ contributors:
     </emu-clause>
 
     <emu-clause id="sec-if-pattern-matches" type="sdo">
-      <h1>
-        Runtime Semantics: IfPatternMatches ( ): either a normal completion containing a Boolean or an abrupt completion
-      </h1>
+      <h1>Runtime Semantics: IfPatternMatches ( ): either a normal completion containing a Boolean or an abrupt completion</h1>
       <dl class="header">
       </dl>
       <emu-grammar>
@@ -2684,13 +2698,13 @@ contributors:
     </emu-note>
 
     <emu-clause id="sec-match-expression-static-semantics-early-errors">
-        <h1>Static Semantics: Early Errors</h1>
-        <emu-grammar>
-          MatchExpression : CoverCallExpressionAndAsyncArrowHead `{` MatchExpressionClauses `;` `}`
-        </emu-grammar>
-        <ul>
-            <li>|CoverCallExpressionAndAsyncArrowHead| must cover an |MatchHead|.</li>
-        </ul>
+      <h1>Static Semantics: Early Errors</h1>
+      <emu-grammar>
+        MatchExpression : CoverCallExpressionAndAsyncArrowHead `{` MatchExpressionClauses `;` `}`
+      </emu-grammar>
+      <ul>
+        <li>|CoverCallExpressionAndAsyncArrowHead| must cover an |MatchHead|.</li>
+      </ul>
     </emu-clause>
 
     <emu-clause id="sec-match-expression-runtime-semantics-evaluation">
@@ -2830,21 +2844,21 @@ contributors:
     </emu-clause>
 
     <emu-clause id="sec-validatecustommatcherhint" type="abstract operation">
-        <h1>
-            ValidateCustomMatcherHint (
-                _hint_: an ECMAScript language value,
-                optional _kind_: ~boolean~ or ~list~,
-            ): either a normal completion containing ~unused~ or a throw completion
-        </h1>
-        <dl class="header">
-        </dl>
-        <emu-alg>
-            1. If _hint_ is not *"boolean"* or *"list"*, throw a *TypeError* exception.
-            1. If _kind_ is not present, return ~unused~.
-            1. If _hint_ is *"boolean"* and _kind_ is ~list~, throw a *TypeError* exception.
-            1. If _hint_ is *"list"* and _kind_ is ~boolean~, throw a *TypeError* exception.
-            1. Return ~unused~.
-        </emu-alg>
+      <h1>
+        ValidateCustomMatcherHint (
+          _hint_: an ECMAScript language value,
+          optional _kind_: ~boolean~ or ~list~,
+        ): either a normal completion containing ~unused~ or a throw completion
+      </h1>
+      <dl class="header">
+      </dl>
+      <emu-alg>
+        1. If _hint_ is not *"boolean"* or *"list"*, throw a *TypeError* exception.
+        1. If _kind_ is not present, return ~unused~.
+        1. If _hint_ is *"boolean"* and _kind_ is ~list~, throw a *TypeError* exception.
+        1. If _hint_ is *"list"* and _kind_ is ~boolean~, throw a *TypeError* exception.
+        1. Return ~unused~.
+      </emu-alg>
     </emu-clause>
     <emu-note type="editor" id="sec-pattern-match-cache-note">
       The following sections describe how pattern matching matches the _subject_ with a cache. Those sections use %Map%, %Set% and %Array% internally. This is for the convenience. Implementations don't have to actually create those data structures behind the scenes.
@@ -2852,15 +2866,15 @@ contributors:
     </emu-note>
 
     <emu-clause id="sec-creatematchcache" type="abstract operation">
-        <h1>CreateMatchCache ( ): a %Map%</h1>
-        <dl class="header">
-        </dl>
-        <emu-alg>
-          1. Let _map_ be ! Construct(%Map%).
-          1. Let _iteratorsToClose_ be ! Construct(%Set%).
-          1. Perform ! CreateDataPropertyOrThrow(_map_, *"IteratorsToClose"*, _iteratorsToClose_).
-          1. Return _map_.
-        </emu-alg>
+      <h1>CreateMatchCache ( ): a %Map%</h1>
+      <dl class="header">
+      </dl>
+      <emu-alg>
+        1. Let _map_ be ! Construct(%Map%).
+        1. Let _iteratorsToClose_ be ! Construct(%Set%).
+        1. Perform ! CreateDataPropertyOrThrow(_map_, *"IteratorsToClose"*, _iteratorsToClose_).
+        1. Return _map_.
+      </emu-alg>
     </emu-clause>
 
     <emu-clause id="sec-get-match-cache" type="abstract operation">
@@ -3004,7 +3018,7 @@ contributors:
       </emu-alg>
       <emu-note type="editor">
         This abstract operation gets the n<sup>th</sup> (start from 0) value of the _iterator_, and runs IteratorStepCached if it is not cached in the _cacheGroup_.
-        For all _n_ &gt; 1, this abstract operation expects these invariants:
+        For all _n_ > 1, this abstract operation expects these invariants:
         <ul>
           <li>The evaluation of |MatchList| always evaluates the _n_-1<sup>th</sup> value before evaluating the _n_<sup>th</sup>.</li>
           <li>If the _n_<sup>th</sup> value is exists ([[GetOwnProperty]](_n_) returns a Property Descriptor), the _n_-1<sup>th</sup> value also exists.</li>
@@ -3028,7 +3042,7 @@ contributors:
         1. If _expectedLength_ is ~unlimited~, return *true*.
         1. Let _cache_ be GetMatchCache(_iterator_, _cacheGroup_).
         1. Let _cachedLength_ be ! LengthOfArrayLike(! Get(_cache_, *"IteratedValues"*)).
-        1. If _cachedLength_ &gt; _expectedLength_, return *false*.
+        1. If _cachedLength_ > _expectedLength_, return *false*.
         1. Assert: _cachedLength_ is _expectedLength_.
         1. If _iterator_.[[Done]] is *true*, return *true*.
         1. Let _iteratorResult_ be ? GetIteratorNthValueCached(_iterator_, _cacheGroup_, _expectedLength_).
@@ -3135,25 +3149,19 @@ contributors:
     <emu-prodref name="RelationalPattern"></emu-prodref>
     <emu-prodref name="IfPattern"></emu-prodref>
     <emu-prodref name="CombinedMatchPattern"></emu-prodref>
-    <p>
-      Object in pattern-matching:
-    </p>
+    <p>Object in pattern-matching:</p>
     <emu-prodref name="ObjectPattern"></emu-prodref>
     <emu-prodref name="MatchRestProperty"></emu-prodref>
     <emu-prodref name="MatchPropertyList"></emu-prodref>
     <emu-prodref name="MatchProperty"></emu-prodref>
-    <p>
-      Array in pattern-matching:
-    </p>
+    <p>Array in pattern-matching:</p>
     <emu-prodref name="ArrayPattern"></emu-prodref>
     <emu-prodref name="MatchList"></emu-prodref>
     <emu-prodref name="MatchRestElement"></emu-prodref>
     <emu-prodref name="MatchElementList"></emu-prodref>
     <emu-prodref name="MatchElisionElement"></emu-prodref>
     <emu-prodref name="MatchElement"></emu-prodref>
-    <p>
-      Limited |Expression|s which is evaluated as an |Expression| in pattern-matching:
-    </p>
+    <p>Limited |Expression|s which is evaluated as an |Expression| in pattern-matching:</p>
     <emu-prodref name="PatternMatchingMemberExpression"></emu-prodref>
     <emu-prodref name="PatternMatchingUnaryAlgebraicExpression"></emu-prodref>
     <emu-prodref name="PatternMatchingRelationalExpression"></emu-prodref>
